@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "papr": "file:../../build/papr.tgz",
+    "mongodb": "3.6.5"
+  },
+  "volta": {
+    "node": "14.16.0",
+    "yarn": "1.22.10"
+  }
+}

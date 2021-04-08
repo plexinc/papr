@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "ESNext",
+    "noEmit": false,
+    "outDir": "./esm",
+    "target": "ESNext"
+  },
+  "extends": "./tsconfig.json",
+  "include": ["./src"],
+  "exclude": ["./src/__tests__"]
+}

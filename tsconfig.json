@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["ES2020"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictFunctionTypes": false,
+    "target": "ESNext",
+    "types": ["node", "jest"]
+  },
+  "include": ["./example", "./src"]
+}

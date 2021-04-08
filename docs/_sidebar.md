@@ -1,0 +1,9 @@
+- [About Papr](/)
+- [Getting Started](getting-started.md)
+- [Schema](schema.md)
+- API
+  - [Papr](api/papr.md)
+  - [Schema](api/schema.md)
+  - [Types](api/types.md)
+  - [Model](api/model.md)
+- [Changelog](CHANGELOG.md)
