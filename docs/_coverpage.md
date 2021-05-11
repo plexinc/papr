@@ -1,3 +1,5 @@
+![](logo.webp)
+
 # Papr
 
 > Type-safe models for MongoDB

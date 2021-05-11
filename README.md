@@ -1,4 +1,17 @@
-# papr
+# Papr
+
+<div align="center">
+	<img alt="Papr" height="125" src="docs/logo.webp" width="98" />
+</div>
+
+---
+
+- TypeScript-safe schemas
+- JSON Schema MongoDB validation
+- :tada: Lightweight library
+- :rocket: Blazing fast
+
+---
 
 ![](https://github.com/plexinc/papr/actions/workflows/ci.yaml/badge.svg)
 
