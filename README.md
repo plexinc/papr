@@ -12,7 +12,7 @@
 
 <!-- prettier-ignore -->
 ```ts
-import { schema, types } from 'papr';
+import Papr, { schema, types } from 'papr';
 
 const papr = new Papr();
 
