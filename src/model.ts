@@ -522,7 +522,6 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       id: string | ObjectId,
       options?: Omit<FindOneOptions<TSchema>, 'projection'> & { projection?: Projection }
     ): Promise<ProjectionType<TSchema, Projection> | null> {
-      // @ts-expect-error We are changing the result type for this method to take into consideration the projection
       return model.collection.findOne(
         { _id: new mongodb.ObjectId(id) } as FilterQuery<TSchema>,
         {
@@ -563,7 +562,6 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       filter: FilterQuery<TSchema>,
       options?: Omit<FindOneOptions<TSchema>, 'projection'> & { projection?: Projection }
     ): Promise<ProjectionType<TSchema, Projection> | null> {
-      // @ts-expect-error We are changing the result type for this method to take into consideration the projection
       return model.collection.findOne(filter, options as WithoutProjection<FindOneOptions<TSchema>>);
     }
   );
@@ -684,7 +682,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       });
 
       const result = await model.collection.insertMany(
-        (documents as unknown) as OptionalId<TSchema>[],
+        documents as unknown as OptionalId<TSchema>[],
         {
           ...model.defaultOptions,
           ...options,
@@ -736,7 +734,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
       // Casting to unknown first because TS complains here
       const result = await model.collection.insertOne(
-        (data as unknown) as OptionalId<TSchema>,
+        data as unknown as OptionalId<TSchema>,
         {
           ...model.defaultOptions,
           ...options,

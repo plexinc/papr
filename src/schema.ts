@@ -10,12 +10,10 @@ interface SchemaOptions<TProperties, TDefaults extends Partial<TProperties>> {
 
 type TimestampsOptions = Required<Pick<SchemaOptions<unknown, any>, 'timestamps'>>;
 
-export type SchemaType<
-  TProperties,
-  TOptions extends SchemaOptions<unknown, any>
-> = TOptions extends TimestampsOptions
-  ? ObjectType<BaseSchema & TProperties & TimestampSchema>
-  : ObjectType<BaseSchema & TProperties>;
+export type SchemaType<TProperties, TOptions extends SchemaOptions<unknown, any>> =
+  TOptions extends TimestampsOptions
+    ? ObjectType<BaseSchema & TProperties & TimestampSchema>
+    : ObjectType<BaseSchema & TProperties>;
 
 // This removes the artificial `$required` attributes added in the object schemas
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -119,5 +117,5 @@ export default function schema<
   // @ts-expect-error We're defining this option now and removing it later in `updateSchema()`
   value.$validationLevel = validationLevel;
 
-  return (value as unknown) as [SchemaType<TProperties, TOptions>, TDefaults];
+  return value as unknown as [SchemaType<TProperties, TOptions>, TDefaults];
 }
