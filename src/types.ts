@@ -95,7 +95,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
   const { required, ...otherOptions } = options || {};
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     // bsonType uses `bool` instead of the native JSON schema `boolean` type
     bsonType: [
@@ -111,7 +111,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
     ],
     ...otherOptions,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as unknown) as any;
+  } as unknown as any;
 }
 
 function array<Item, Options extends ArrayOptions>(
@@ -120,32 +120,32 @@ function array<Item, Options extends ArrayOptions>(
 ): GetType<Item[], Options> {
   const { required, ...otherOptions } = options || {};
 
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     items,
     type: 'array',
     ...otherOptions,
-  } as unknown) as GetType<Item[], Options>;
+  } as unknown as GetType<Item[], Options>;
 }
 
 function enumType<Enum, Options extends GenericOptions>(
   values: Enum[],
   options?: Options
 ): GetType<Enum, Options> {
-  return ({
+  return {
     ...(options && 'required' in options ? { $required: true } : {}),
     enum: values,
-  } as unknown) as GetType<Enum, Options>;
+  } as unknown as GetType<Enum, Options>;
 }
 
 function number<Options extends NumberOptions>(options?: Options): GetType<number, Options> {
   const { required, ...otherOptions } = options || {};
 
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     type: 'number',
     ...otherOptions,
-  } as unknown) as GetType<number, Options>;
+  } as unknown as GetType<number, Options>;
 }
 
 export function object<
@@ -160,14 +160,14 @@ export function object<
     .filter(([_property, propertyOptions]) => propertyOptions.$required)
     .map(([property]) => property);
 
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     additionalProperties: false,
     properties,
     type: 'object',
     ...(requiredKeys.length ? { required: requiredKeys } : {}),
     ...otherOptions,
-  } as unknown) as GetType<ObjectType<Properties>, Options>;
+  } as unknown as GetType<ObjectType<Properties>, Options>;
 }
 
 export function objectGeneric<Property, Options extends ObjectOptions>(
@@ -177,7 +177,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
 ): GetType<ObjectType<{ [key: string]: Property }>, Options> {
   const { required, ...otherOptions } = options || {};
 
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     additionalProperties: false,
     patternProperties: {
@@ -185,28 +185,28 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
     },
     type: 'object',
     ...otherOptions,
-  } as unknown) as GetType<ObjectType<{ [key: string]: Property }>, Options>;
+  } as unknown as GetType<ObjectType<{ [key: string]: Property }>, Options>;
 }
 
 function createSimpleType<Type>(type: BSONType) {
   return <Options extends GenericOptions>(options?: Options) => {
-    return ({
+    return {
       ...(options && 'required' in options ? { $required: true } : {}),
       ...(type === 'date' || type === 'objectId' || type === 'binData'
         ? { bsonType: type }
         : { type }),
-    } as unknown) as GetType<Type, Options>;
+    } as unknown as GetType<Type, Options>;
   };
 }
 
 function string<Options extends StringOptions>(options?: Options): GetType<string, Options> {
   const { required, ...otherOptions } = options || {};
 
-  return ({
+  return {
     ...(required ? { $required: true } : {}),
     type: 'string',
     ...otherOptions,
-  } as unknown) as GetType<string, Options>;
+  } as unknown as GetType<string, Options>;
 }
 
 export default {
