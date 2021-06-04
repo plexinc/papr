@@ -636,7 +636,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
         ...(options?.upsert && Object.keys($setOnInsert).length > 0 && { $setOnInsert }),
       },
       {
-        returnOriginal: false,
+        returnDocument: 'after',
         ...model.defaultOptions,
         ...options,
       } as FindOneAndUpdateOption<TSchema>

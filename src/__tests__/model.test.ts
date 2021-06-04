@@ -617,7 +617,7 @@ describe('model', () => {
         },
         {
           ignoreUndefined: true,
-          returnOriginal: false,
+          returnDocument: 'after',
         }
       );
 
@@ -653,7 +653,7 @@ describe('model', () => {
         },
         {
           ignoreUndefined: true,
-          returnOriginal: false,
+          returnDocument: 'after',
         }
       );
 
@@ -679,7 +679,7 @@ describe('model', () => {
         {},
         {
           ignoreUndefined: true,
-          returnOriginal: false,
+          returnDocument: 'after',
         }
       );
 
@@ -711,7 +711,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -733,7 +733,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -755,7 +755,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -777,7 +777,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -810,7 +810,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -848,7 +848,7 @@ describe('model', () => {
           },
           {
             ignoreUndefined: true,
-            returnOriginal: false,
+            returnDocument: 'after',
             upsert: true,
           }
         );
@@ -1385,7 +1385,7 @@ describe('model', () => {
         },
         {
           ignoreUndefined: true,
-          returnOriginal: false,
+          returnDocument: 'after',
           upsert: true,
         }
       );
