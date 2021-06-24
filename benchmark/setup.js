@@ -1,9 +1,15 @@
 import mongodb from 'mongodb';
 import mongoose from 'mongoose';
 import Papr from '../esm/index.js';
+import arg from 'arg';
+
+const args = arg({
+  '--url': String,
+  '-u': '--url'
+});
 
 const DATABASE = 'benchmark';
-const URL = 'mongodb://localhost:27017';
+const URL = Object.prototype.hasOwnProperty.call(args, '--url') && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
 
 export const COLLECTIONS = ['mongodb', 'mongoose', 'papr'];
 
