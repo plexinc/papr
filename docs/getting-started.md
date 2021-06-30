@@ -26,19 +26,20 @@ Next, we need to connect to mongodb first and initialize the library instance wi
 import mongodb, { MongoClient } from 'mongodb';
 import Papr from 'papr';
 
-let connection: MongoClient;
+export let client: MongoClient;
+
 const papr = new Papr();
 
 export async function connect() {
-  connection = await mongodb.MongoClient.connect('mongodb://localhost:27017', {
+  client = await mongodb.MongoClient.connect('mongodb://localhost:27017', {
     useUnifiedTopology: true,
   });
 
-  papr.initialize(connection.db('test'));
+  papr.initialize(client.db('test'));
 }
 
 export async function disconnect() {
-  await connection.close();
+  await client.close();
 }
 
 export default papr;
