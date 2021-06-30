@@ -2,8 +2,8 @@
 // that the output of the build process works under native Node.js ESM syntax
 // At this moment Jest does not support ESM syntax without transpiling
 const assert = require('assert');
-const { MongoMemoryServer } = require('mongodb-memory-server-global-4.4');
 const mongodb = require('mongodb');
+const { MongoMemoryServer } = require('mongodb-memory-server-global-4.4');
 const paprExport = require('papr');
 
 const { default: Papr, schema, types } = paprExport;
