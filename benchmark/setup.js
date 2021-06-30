@@ -9,7 +9,7 @@ const args = arg({
 });
 
 const DATABASE = 'benchmark';
-const URL = Object.prototype.hasOwnProperty.call(args, '--url') && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
+const URL = args['--url'] && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
 
 export const COLLECTIONS = ['mongodb', 'mongoose', 'papr'];
 
