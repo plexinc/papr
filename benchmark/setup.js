@@ -1,7 +1,7 @@
+import arg from 'arg';
 import mongodb from 'mongodb';
 import mongoose from 'mongoose';
 import Papr from '../esm/index.js';
-import arg from 'arg';
 
 const args = arg({
   '--url': String,
