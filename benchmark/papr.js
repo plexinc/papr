@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { schema, types } from '../esm/index.js';
 import { papr, COLLECTIONS } from './setup.js';
 

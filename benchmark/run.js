@@ -1,7 +1,7 @@
 import mongodbLib from 'mongodb';
-import setup, { db } from './setup.js';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
+import setup, { db } from './setup.js';
 
 const INSERT_COUNT = 10000;
 const FIND_COUNT = 10000;

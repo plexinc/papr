@@ -5,6 +5,7 @@ import { COLLECTIONS } from './setup.js';
 function isValidUrl(value) {
   try {
     // native url package will throw a TypeError on invalid urls
+    // eslint-disable-next-line no-new
     new URL(value);
     return true;
   } catch (err) {
@@ -18,17 +19,17 @@ const sampleSchema = new mongoose.Schema(
     binary: Buffer,
     city: String,
     firstName: {
-      type: String,
       required: true,
+      type: String,
     },
     lastName: {
-      type: String,
       required: true,
+      type: String,
     },
     localization: Object,
     reference: {
-      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     reviews: [
       {
@@ -39,16 +40,16 @@ const sampleSchema = new mongoose.Schema(
     scores: [Number],
     source: {
       default: 'mongoose',
-      type: String,
       enum: COLLECTIONS,
       required: true,
+      type: String,
     },
     url: {
-      type: String,
       required: true,
+      type: String,
       validate: {
-        validator: isValidUrl,
         message: '{VALUE} is not valid!',
+        validator: isValidUrl,
       },
     },
     zip: Number,

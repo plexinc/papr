@@ -1,8 +1,8 @@
 import { Collection, Db } from 'mongodb';
-import * as model from '../model';
-import types from '../types';
-import schema from '../schema';
 import Papr from '../index';
+import * as model from '../model';
+import schema from '../schema';
+import types from '../types';
 import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
 
 describe('index', () => {

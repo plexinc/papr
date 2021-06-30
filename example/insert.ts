@@ -1,5 +1,5 @@
-import { connect, disconnect } from './papr';
 import User from './User';
+import { connect, disconnect } from './papr';
 
 await connect();
 
