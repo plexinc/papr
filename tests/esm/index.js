@@ -4,6 +4,7 @@
 import assert from 'assert';
 import mongodb from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4';
+// eslint-disable-next-line
 import Papr, { schema, types } from 'papr';
 
 const COLLECTION = 'samples';
