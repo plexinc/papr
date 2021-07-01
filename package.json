@@ -70,7 +70,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-promise": "5.1.0",
-    "husky": "6.0.0",
+    "husky": "7.0.0",
     "jest": "27.0.4",
     "jsdoc-api": "7.0.1",
     "jsdoc-parse": "6.0.0",
