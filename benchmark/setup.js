@@ -1,10 +1,16 @@
+import arg from 'arg';
 import mongodb from 'mongodb';
 import mongoose from 'mongoose';
 // eslint-disable-next-line
 import Papr from '../esm/index.js';
 
+const args = arg({
+  '--url': String,
+  '-u': '--url'
+});
+
 const DATABASE = 'benchmark';
-const URL = 'mongodb://localhost:27017';
+const URL = args['--url'] && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
 
 export const COLLECTIONS = ['mongodb', 'mongoose', 'papr'];
 
