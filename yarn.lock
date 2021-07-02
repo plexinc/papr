@@ -2075,6 +2075,13 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
+async-mutex@^0.3.0:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/async-mutex/-/async-mutex-0.3.1.tgz#7033af665f1c7cebed8b878267a43ba9e77c5f67"
+  integrity sha512-vRfQwcqBnJTLzVQo72Sf7KIUbcSUP5hNchx6udI1U6LuPQpfePgdjJzlCe76yFZ8pxlLjn9lwcl/Ya0TSOv0Tw==
+  dependencies:
+    tslib "^2.1.0"
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -2356,7 +2363,7 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
-camelcase@^6.0.0, camelcase@^6.2.0:
+camelcase@^6.1.0, camelcase@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.2.0.tgz#924af881c9d525ac9d87f40d964e5cea982a1809"
   integrity sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==
@@ -3626,11 +3633,6 @@ find-cache-dir@^3.3.1:
     commondir "^1.0.1"
     make-dir "^3.0.2"
     pkg-dir "^4.1.0"
-
-find-package-json@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/find-package-json/-/find-package-json-1.2.0.tgz#4057d1b943f82d8445fe52dc9cf456f6b8b58083"
-  integrity sha512-+SOGcLGYDJHtyqHd87ysBhmaeQ95oWspDKnMXBrnQ9Eq4OkLNqejgoaD8xVWu6GPa0B6roa6KinCMEMcVeqONw==
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -5179,13 +5181,6 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lockfile@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/lockfile/-/lockfile-1.0.4.tgz#07f819d25ae48f87e538e6578b6964a4981a5609"
-  integrity sha512-cvbTwETRfsFh4nHsL1eGWapU1XFi5Ot9E85sWAwia7Y7EgB7vfqcZhTKZ+l7hCGxSPoushMv5GKhT5PdLv03WA==
-  dependencies:
-    signal-exit "^3.0.2"
-
 lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
@@ -5470,44 +5465,36 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
-mongodb-memory-server-core@6.9.6:
-  version "6.9.6"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-6.9.6.tgz#90ef0562bea675ef68bd687533792da02bcc81f3"
-  integrity sha512-ZcXHTI2TccH3L5N9JyAMGm8bbAsfLn8SUWOeYGHx/vDx7vu4qshyaNXTIxeHjpUQA29N+Z1LtTXA6vXjl1eg6w==
+mongodb-memory-server-core@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-core/-/mongodb-memory-server-core-7.1.0.tgz#1b147ab12b18bb3b9426a2ac38782aeb8e9566e1"
+  integrity sha512-tSnffPiC1HrHMW+OA9b6g14MFPq/fXfnHOQPPlPtcjK+dM7tAWhzw1eOSKz0aye4xMiS3+ko37xdmpC/B7R4cA==
   dependencies:
     "@types/tmp" "^0.2.0"
-    camelcase "^6.0.0"
-    cross-spawn "^7.0.3"
+    async-mutex "^0.3.0"
+    camelcase "^6.1.0"
     debug "^4.2.0"
     find-cache-dir "^3.3.1"
-    find-package-json "^1.2.0"
     get-port "^5.1.1"
     https-proxy-agent "^5.0.0"
-    lockfile "^1.0.4"
     md5-file "^5.0.0"
     mkdirp "^1.0.4"
-    semver "^7.3.2"
+    mongodb "^3.6.9"
+    new-find-package-json "^1.1.0"
+    semver "^7.3.5"
     tar-stream "^2.1.4"
     tmp "^0.2.1"
-    uuid "^8.3.0"
+    tslib "^2.3.0"
+    uuid "^8.3.1"
     yauzl "^2.10.0"
-  optionalDependencies:
-    mongodb "^3.6.2"
 
-mongodb-memory-server-global-4.4@6.9.6:
-  version "6.9.6"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server-global-4.4/-/mongodb-memory-server-global-4.4-6.9.6.tgz#56ab27f1df1dc7265e8a38e9f2272120adda10f1"
-  integrity sha512-l5NObGDSZmXy58b6Sr5yQLNzq/A/O+GXq4KkzNsSmF8HDsudMAx2pAjn52aD4ZfFIGoP8NyOklBVHmum3+c3gQ==
+mongodb-memory-server-global-4.4@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/mongodb-memory-server-global-4.4/-/mongodb-memory-server-global-4.4-7.1.0.tgz#674ffc9febc71c7b9e1fe1c0412c5bb41fb6fd0e"
+  integrity sha512-dv5+MAMiiMRykH0BouxjCeVi/dhUFjMZlqMzESIGYrL+7Cw115HP1k21Z2wwOhW7WV2sc3mPGsFNLgGqFojuXw==
   dependencies:
-    mongodb-memory-server "6.9.6"
-    os "^0.1.1"
-
-mongodb-memory-server@6.9.6:
-  version "6.9.6"
-  resolved "https://registry.yarnpkg.com/mongodb-memory-server/-/mongodb-memory-server-6.9.6.tgz#ced1a100f58363317a562efaf8821726c433cfd2"
-  integrity sha512-BjGPPh5f61lMueG7px9DneBIrRR/GoWUHDvLWVAXhQhKVcwMMXxgeEba6zdDolZHfYAu6aYGPzhOuYKIKPgpBQ==
-  dependencies:
-    mongodb-memory-server-core "6.9.6"
+    mongodb-memory-server-core "7.1.0"
+    tslib "^2.3.0"
 
 mongodb@3.6.8:
   version "3.6.8"
@@ -5522,7 +5509,7 @@ mongodb@3.6.8:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongodb@3.6.9:
+mongodb@3.6.9, mongodb@^3.6.9:
   version "3.6.9"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.9.tgz#4889cf529724267d393a18275d6cf19d71905b1d"
   integrity sha512-1nSCKgSunzn/CXwgOWgbPHUWOO5OfERcuOWISmqd610jn0s8BU9K4879iJVabqgpPPbA6hO7rG48eq+fGED3Mg==
@@ -5531,19 +5518,6 @@ mongodb@3.6.9:
     bson "^1.1.4"
     denque "^1.4.1"
     optional-require "^1.0.3"
-    safe-buffer "^5.1.2"
-  optionalDependencies:
-    saslprep "^1.0.0"
-
-mongodb@^3.6.2:
-  version "3.6.6"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.6.tgz#92e3658f45424c34add3003e3046c1535c534449"
-  integrity sha512-WlirMiuV1UPbej5JeCMqE93JRfZ/ZzqE7nJTwP85XzjAF4rRSeq2bGCb1cjfoHLOF06+HxADaPGqT0g3SbVT1w==
-  dependencies:
-    bl "^2.2.1"
-    bson "^1.1.4"
-    denque "^1.4.1"
-    optional-require "^1.0.2"
     safe-buffer "^5.1.2"
   optionalDependencies:
     saslprep "^1.0.0"
@@ -5621,6 +5595,14 @@ nested-error-stacks@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
+
+new-find-package-json@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/new-find-package-json/-/new-find-package-json-1.1.0.tgz#053e006b17f409b9a816d5bcf0ee2b90a50326a3"
+  integrity sha512-KOH3BNZcTKPzEkaJgG2iSUaurxKmefqRKmCOYH+8xqJytNIgjqU4J88BHfK+gy/UlEzlhccLyuJDJAcCgexSwA==
+  dependencies:
+    debug "^4.3.2"
+    tslib "^2.3.0"
 
 node-fetch@^2.6.0:
   version "2.6.1"
@@ -5761,7 +5743,7 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
   integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
 
-optional-require@^1.0.2, optional-require@^1.0.3:
+optional-require@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/optional-require/-/optional-require-1.0.3.tgz#275b8e9df1dc6a17ad155369c2422a440f89cb07"
   integrity sha512-RV2Zp2MY2aeYK5G+B/Sps8lW5NHAzE5QClbFP15j+PWmP+T9PxlJXBOOLoSAdgwFvS4t0aMR4vpedMkbHfh0nA==
@@ -5794,11 +5776,6 @@ optionator@^0.9.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/opts/-/opts-2.0.2.tgz#a17e189fbbfee171da559edd8a42423bc5993ce1"
   integrity sha512-k41FwbcLnlgnFh69f4qdUfvDQ+5vaSDnVPFI/y5XuhKRq97EnVVneO9F1ESVCdiVu4fCS2L8usX3mU331hB7pg==
-
-os@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/os/-/os-0.1.1.tgz#208845e89e193ad4d971474b93947736a56d13f3"
-  integrity sha1-IIhF6J4ZOtTZcUdLk5R3NqVtE/M=
 
 p-cancelable@^1.0.0:
   version "1.1.0"
@@ -7197,6 +7174,11 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
+tslib@^2.1.0, tslib@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
+  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
+
 tsutils@^3.21.0:
   version "3.21.0"
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.21.0.tgz#b48717d394cea6c1e096983eed58e9d61715b623"
@@ -7393,7 +7375,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^8.3.0:
+uuid@^8.3.1:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
