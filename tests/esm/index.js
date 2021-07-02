@@ -8,24 +8,24 @@ import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4';
 import Papr, { schema, types } from 'papr';
 
 const COLLECTION = 'samples';
+const DB = 'esm';
 
 let connection;
 let papr;
 let mongoServer;
 
 async function setup() {
-  mongoServer = new MongoMemoryServer();
+  mongoServer = await MongoMemoryServer.create();
 
-  const uri = await mongoServer.getUri();
-  const dbName = await mongoServer.getDbName();
+  const uri = mongoServer.getUri();
 
-  console.log(`Testing with ${uri}${dbName}`);
+  console.log(`Testing with ${uri}${DB}`);
 
   connection = await mongodb.MongoClient.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  const db = connection.db(dbName);
+  const db = connection.db(DB);
 
   await db.collection(COLLECTION).deleteMany({});
 
