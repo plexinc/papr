@@ -15,6 +15,7 @@ const papr = new Papr();
 
 connection = await mongodb.MongoClient.connect('mongodb://localhost:27017', { useUnifiedTopology: true });
 papr.initialize(connection.db('test'));
+await papr.updateSchemas();
 
 const User = papr.model('users', schema({
   age: types.number(),

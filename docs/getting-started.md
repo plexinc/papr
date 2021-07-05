@@ -36,6 +36,8 @@ export async function connect() {
   });
 
   papr.initialize(client.db('test'));
+
+  await papr.updateSchemas();
 }
 
 export async function disconnect() {
