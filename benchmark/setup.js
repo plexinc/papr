@@ -5,11 +5,13 @@ import mongoose from 'mongoose';
 import Papr from '../esm/index.js';
 
 const args = arg({
+  '--db': String,
+  '-d': '--db',
   '--url': String,
-  '-u': '--url'
+  '-u': '--url',
 });
 
-const DATABASE = 'benchmark';
+const DATABASE = args['--db'] && args['--db'] ? args['--db'] : `benchmark${Date.now()}`;
 const URL = args['--url'] && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
 
 export const COLLECTIONS = ['mongodb', 'mongoose', 'papr'];

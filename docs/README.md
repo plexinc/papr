@@ -69,7 +69,12 @@ papr.updateOne ~ 826.21 ops/sec
 mongoose.updateOne ~ 766.84 ops/sec
 ```
 
-This benchmark can be run locally with `yarn benchmark`, by default the benchmark tool will use `mongodb://localhost:27017`; however you can pass your own url by using the argument `--url` or `-u`.
+This benchmark can be run locally with `yarn benchmark`. See below for available arguments.
+
+| Parameter  | Accepted Type  | Default  | Description  |
+|---|---|---|---|
+| `--db` `-d`  | *string*  | `benchmark${UNIXTIME}`  | Name of the database  |
+| `--url` `-u`  | *string*  | `mongodb://localhost:27017`  | Mongo instance URL  |
 
 ---
 
