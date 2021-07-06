@@ -4,14 +4,33 @@ import mongoose from 'mongoose';
 // eslint-disable-next-line
 import Papr from '../esm/index.js';
 
+const help = `
+  USAGE
+
+    yarn benchmark --option arg
+
+  OPTIONS
+
+    --help | -h   Shows this help message
+    --db   | -d   Name of the database used for benchmarking
+    --url  | -u   Mongo instance used for benchmarking
+`;
+
 const args = arg({
   '--db': String,
-  '-d': '--db',
+  '--help': Boolean,
   '--url': String,
+  '-d': '--db',
+  '-h': '--help',
   '-u': '--url',
 });
 
-const DATABASE = args['--db'] && args['--db'] ? args['--db'] : `benchmark${Date.now()}`;
+if (args['--help']) {
+  console.error(help);
+  process.exit(0);
+}
+
+const DATABASE = args['--db'] && args['--db'] ? args['--db'] : `benchmark-${Date.now()}`;
 const URL = args['--url'] && args['--url'].length > 0 ? args['--url'] : 'mongodb://localhost:27017';
 
 export const COLLECTIONS = ['mongodb', 'mongoose', 'papr'];
