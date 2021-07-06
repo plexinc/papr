@@ -26,7 +26,7 @@ const args = arg({
 });
 
 if (args['--help']) {
-  console.error(help);
+  console.log(help);
   process.exit(0);
 }
 
