@@ -1,5 +1,5 @@
-import mongodb from 'mongodb';
-import type { BulkWriteOperation, ObjectId, OptionalId, UpdateQuery } from 'mongodb';
+import { ObjectId } from 'mongodb';
+import type { AnyBulkWriteOperation, OptionalId, UpdateFilter } from 'mongodb';
 import { Hooks } from './hooks';
 
 export enum VALIDATION_ACTIONS {
@@ -39,8 +39,6 @@ export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Ext
       Partial<TimestampSchema>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
 
-export type FlattenIfArray<T> = T extends readonly (infer R)[] ? R : T;
-
 export type ProjectionType<
   TSchema,
   Projection extends Partial<Record<keyof TSchema, number>> | undefined
@@ -50,13 +48,15 @@ export type ProjectionType<
     BaseSchema & Pick<TSchema, keyof Projection>;
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
-  return [...ids].map((id) => new mongodb.ObjectId(id));
+  return [...ids].map((id) => new ObjectId(id));
 }
 
 /**
  * Creates new update object so the original doesn't get mutated
  */
-export function timestampUpdateQuery<TSchema>(update: UpdateQuery<TSchema>): UpdateQuery<TSchema> {
+export function timestampUpdateFilter<TSchema>(
+  update: UpdateFilter<TSchema>
+): UpdateFilter<TSchema> {
   const $currentDate = {
     ...update.$currentDate,
     ...(!update.$set?.updatedAt &&
@@ -76,8 +76,8 @@ export function timestampUpdateQuery<TSchema>(update: UpdateQuery<TSchema>): Upd
  * Creates new operation objects so the original operations don't get mutated
  */
 export function timestampBulkWriteOperation<TSchema>(
-  operation: BulkWriteOperation<TSchema>
-): BulkWriteOperation<TSchema> {
+  operation: AnyBulkWriteOperation<TSchema>
+): AnyBulkWriteOperation<TSchema> {
   if ('insertOne' in operation) {
     return {
       insertOne: {
@@ -92,6 +92,11 @@ export function timestampBulkWriteOperation<TSchema>(
 
   if ('updateOne' in operation) {
     const { update } = operation.updateOne;
+
+    // Skip aggregation pipeline updates
+    if (Array.isArray(update)) {
+      return operation;
+    }
 
     const $currentDate = {
       ...update.$currentDate,
@@ -123,6 +128,11 @@ export function timestampBulkWriteOperation<TSchema>(
 
   if ('updateMany' in operation) {
     const { update } = operation.updateMany;
+
+    // Skip aggregation pipeline updates
+    if (Array.isArray(update)) {
+      return operation;
+    }
 
     const $currentDate = {
       ...update.$currentDate,

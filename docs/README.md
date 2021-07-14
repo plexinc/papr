@@ -13,7 +13,7 @@ import { schema, types } from 'papr';
 
 const papr = new Papr();
 
-connection = await mongodb.MongoClient.connect('mongodb://localhost:27017', { useUnifiedTopology: true });
+connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
 papr.initialize(connection.db('test'));
 await papr.updateSchemas();
 
@@ -75,8 +75,11 @@ The benchmark above are from a benchmark with:
 - Node.js 14.16.0.
 - MongoDB server v4.4.6
 - `mongodb` v3.6.10
+- `papr` v1.0.1
 
 This benchmark can be run locally with `yarn benchmark`. Run `yarn benchmark --help` for more information on available arguments.
+
+Note: Until `mongoose` will add support for using `mongodb` v4+, the benchmark will not produce accurate numbers.
 
 ---
 

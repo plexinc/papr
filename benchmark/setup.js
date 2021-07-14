@@ -41,8 +41,7 @@ export let db;
 
 export default async function setup() {
   const connection = await mongodb.MongoClient.connect(URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    directConnection: true
   });
   db = connection.db(DATABASE);
 
@@ -59,6 +58,7 @@ export default async function setup() {
   papr.updateSchemas();
 
   mongoose.connect(`${URL}/${DATABASE}`, {
+    directConnection: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

@@ -1,4 +1,4 @@
-import mongodbLib from 'mongodb';
+import { ObjectId } from 'mongodb';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
 import setup, { db } from './setup.js';
@@ -40,7 +40,7 @@ function randomDocument(source) {
     localization: {
       foo: 'bar',
     },
-    reference: new mongodbLib.ObjectId(),
+    reference: new ObjectId(),
     reviews: [
       { score: random(10) },
       { score: random(10) },

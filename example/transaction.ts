@@ -24,7 +24,7 @@ try {
     console.log(user1, user2);
   });
 } finally {
-  session.endSession();
+  await session.endSession();
 }
 
 await disconnect();

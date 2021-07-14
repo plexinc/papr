@@ -6,7 +6,7 @@ const papr = new Papr();
 
 export async function connect(): Promise<void> {
   client = await mongodb.MongoClient.connect('mongodb://localhost:27017', {
-    useUnifiedTopology: true,
+    directConnection: true,
   });
 
   papr.initialize(client.db('test'));

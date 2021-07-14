@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { ProjectionType } from '../utils';
+import { ProjectionType, getIds } from '../utils';
 
 describe('utils', () => {
   type Schema = {
@@ -75,5 +75,22 @@ describe('utils', () => {
     expectType<string>(testFull.foo);
     expectType<number>(testFull.bar);
     expectType<Date | undefined>(testFull.ham);
+  });
+
+  test.each([
+    ['strings', ['123456789012345678900001', '123456789012345678900002']],
+    [
+      'objectIds',
+      [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
+    ],
+    ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
+  ])('getIds %s', (_name, input) => {
+    const result = getIds(input);
+
+    expect(result).toHaveLength(2);
+    expect(result[0] instanceof ObjectId).toBeTruthy();
+    expect(result[0].toHexString()).toBe('123456789012345678900001');
+    expect(result[1] instanceof ObjectId).toBeTruthy();
+    expect(result[1].toHexString()).toBe('123456789012345678900002');
   });
 });
