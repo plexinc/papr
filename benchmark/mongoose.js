@@ -39,7 +39,7 @@ const sampleSchema = new mongoose.Schema(
     ],
     scores: [Number],
     source: {
-      default: 'mongoose',
+      default: 'mongoosetests',
       enum: COLLECTIONS,
       required: true,
       type: String,
@@ -59,4 +59,4 @@ const sampleSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model('mongoose', sampleSchema);
+export default mongoose.model('mongoosetests', sampleSchema);
