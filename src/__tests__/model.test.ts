@@ -1,4 +1,4 @@
-import { BulkWriteOperation, Collection, MongoError, ObjectId } from 'mongodb';
+import { AnyBulkWriteOperation, Collection, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
 import { abstract, build, Model } from '../model';
@@ -74,20 +74,13 @@ describe('model', () => {
         value: doc,
       }),
       insertMany: jest.fn().mockResolvedValue({
+        acknowledged: true,
         insertedCount: 2,
-        ops: [true, true],
-        result: {
-          n: 2,
-          ok: 1,
-        },
+        insertedIds: [new ObjectId(), new ObjectId()],
       }),
       insertOne: jest.fn().mockResolvedValue({
-        insertedCount: 1,
-        ops: [true],
-        result: {
-          n: 1,
-          ok: 1,
-        },
+        acknowledged: true,
+        insertedId: new ObjectId(),
       }),
       updateMany: jest.fn().mockResolvedValue({
         modifiedCount: 1,
@@ -107,10 +100,12 @@ describe('model', () => {
 
     // @ts-expect-error Ignore abstract assignment
     simpleModel = abstract(simpleSchema);
+    // @ts-expect-error Ignore schema types
     build(simpleSchema, simpleModel, collection);
 
     // @ts-expect-error Ignore abstract assignment
     timestampsModel = abstract(timestampsSchema);
+    // @ts-expect-error Ignore schema types
     build(timestampsSchema, timestampsModel, collection);
   });
 
@@ -144,7 +139,7 @@ describe('model', () => {
 
   describe('bulkWrite', () => {
     test('simple schema', async () => {
-      const operations: BulkWriteOperation<SimpleDocument>[] = [
+      const operations: AnyBulkWriteOperation<SimpleDocument>[] = [
         {
           insertOne: {
             document: {
@@ -199,7 +194,7 @@ describe('model', () => {
     });
 
     test('schema with defaults', async () => {
-      const operations: BulkWriteOperation<SimpleDocument>[] = [
+      const operations: AnyBulkWriteOperation<SimpleDocument>[] = [
         {
           insertOne: {
             document: {
@@ -873,6 +868,7 @@ describe('model', () => {
 
       // @ts-expect-error Ignore abstract assignment
       hooksModel = abstract(simpleSchema);
+      // @ts-expect-error Ignore schema types
       build(simpleSchema, hooksModel, collection, { hooks });
     });
 
@@ -1163,6 +1159,7 @@ describe('model', () => {
     beforeEach(() => {
       // @ts-expect-error Ignore abstract assignment
       maxTimeModel = abstract(simpleSchema);
+      // @ts-expect-error Ignore schema types
       build(simpleSchema, maxTimeModel, collection, { maxTime: 1000 });
     });
 

@@ -31,9 +31,7 @@ export let client: MongoClient;
 const papr = new Papr();
 
 export async function connect() {
-  client = await mongodb.MongoClient.connect('mongodb://localhost:27017', {
-    useUnifiedTopology: true,
-  });
+  client = await mongodb.MongoClient.connect('mongodb://localhost:27017');
 
   papr.initialize(client.db('test'));
 

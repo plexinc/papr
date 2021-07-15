@@ -58,7 +58,6 @@
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "12.1.4",
     "@types/jest": "26.0.23",
-    "@types/mongodb": "3.6.17",
     "@typescript-eslint/eslint-plugin": "4.28.0",
     "@typescript-eslint/parser": "4.28.0",
     "arg": "5.0.0",
@@ -75,7 +74,7 @@
     "jsdoc-api": "7.0.1",
     "jsdoc-parse": "6.0.0",
     "lint-staged": "11.0.0",
-    "mongodb": "3.6.10",
+    "mongodb": "4.0.0",
     "mongodb-memory-server-global-4.4": "7.2.0",
     "mongoose": "5.12.12",
     "prettier": "2.3.0",
@@ -85,10 +84,7 @@
     "typescript": "4.3.2"
   },
   "peerDependencies": {
-    "mongodb": "3.x"
-  },
-  "resolutions": {
-    "mongodb": "3.6.10"
+    "mongodb": "4.x"
   },
   "commitlint": {
     "extends": [

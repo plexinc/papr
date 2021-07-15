@@ -25,7 +25,7 @@ Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/
 | Name | Type | Attribute |
 | --- | --- | --- |
 | `pipeline` | `Array<Record<string, unknown>>` | required |
-| `options` | `CollectionAggregationOptions` | optional |
+| `options` | `AggregateOptions` | optional |
 
 **Returns:**
 
@@ -49,12 +49,12 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `operations` | `Array<BulkWriteOperation<TSchema>>` | required |
-| `options` | `CollectionBulkWriteOptions` | optional |
+| `operations` | `Array<AnyBulkWriteOperation<TSchema>>` | required |
+| `options` | `BulkWriteOptions` | optional |
 
 **Returns:**
 
-[`Promise<BulkWriteOpResultObject>`](https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~BulkWriteOpResult)
+[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~BulkWriteOpResult)
 
 **Example:**
 
@@ -88,8 +88,8 @@ Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-na
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `options` | `MongoCountPreferences` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `CountDocumentsOptions` | optional |
 
 **Returns:**
 
@@ -111,12 +111,12 @@ Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `options` | `CommonOptions` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `DeleteOptions` | optional |
 
 **Returns:**
 
-[`Promise<DeleteWriteOpResultObject>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
 
 **Example:**
 
@@ -133,12 +133,12 @@ Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `options` | `CommonOptions` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `DeleteOptions` | optional |
 
 **Returns:**
 
-[`Promise<DeleteWriteOpResultObject>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
 
 **Example:**
 
@@ -156,8 +156,8 @@ Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/3
 | Name | Type | Attribute |
 | --- | --- | --- |
 | `key` | `keyof TSchema` | required |
-| `filter` | `FilterQuery<TSchema>` | optional |
-| `options` | `MongoDistinctPreferences` | optional |
+| `filter` | `Filter<TSchema>` | optional |
+| `options` | `DistinctOptions` | optional |
 
 **Returns:**
 
@@ -180,8 +180,8 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `options` | `FindOneOptions<TSchema>` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `FindOptions<TSchema>` | optional |
 
 **Returns:**
 
@@ -214,7 +214,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 | Name | Type | Attribute |
 | --- | --- | --- |
 | `id` | `string \| ObjectId` | required |
-| `options` | `FindOneOptions<TSchema>` | optional |
+| `options` | `FindOptions<TSchema>` | optional |
 
 **Returns:**
 
@@ -246,8 +246,8 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `options` | `FindOneOptions<TSchema>` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `FindOptions<TSchema>` | optional |
 
 **Returns:**
 
@@ -279,9 +279,9 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `update` | `UpdateQuery<TSchema>` | required |
-| `options` | `FindOneAndUpdateOption<TSchema>` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `update` | `UpdateFilter<TSchema>` | required |
+| `options` | `FindOneAndUpdateOptions` | optional |
 
 **Returns:**
 
@@ -316,7 +316,7 @@ Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native
 | Name | Type | Attribute |
 | --- | --- | --- |
 | `documents` | `Array<TSchema>` | required |
-| `options` | `CollectionInsertManyOptions` | optional |
+| `options` | `BulkWriteOptions` | optional |
 
 **Returns:**
 
@@ -341,7 +341,7 @@ Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/
 | Name | Type | Attribute |
 | --- | --- | --- |
 | `document` | `TSchema` | required |
-| `options` | `CollectionInsertOneOptions` | optional |
+| `options` | `InsertOneOptions` | optional |
 
 **Returns:**
 
@@ -365,13 +365,13 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `update` | `UpdateQuery<TSchema>` | required |
-| `options` | `UpdateManyOptions` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `update` | `UpdateFilter<TSchema>` | required |
+| `options` | `UpdateOptions` | optional |
 
 **Returns:**
 
-[`Promise<UpdateWriteOpResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
 
 **Example:**
 
@@ -391,13 +391,13 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `update` | `UpdateQuery<TSchema>` | required |
-| `options` | `UpdateOneOptions` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `update` | `UpdateFilter<TSchema>` | required |
+| `options` | `UpdateOptions` | optional |
 
 **Returns:**
 
-[`Promise<UpdateWriteOpResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
 
 **Example:**
 
@@ -417,9 +417,8 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 | Name | Type | Attribute |
 | --- | --- | --- |
-| `filter` | `FilterQuery<TSchema>` | required |
-| `update` | `UpdateQuery<TSchema>` | required |
-| `options` | `UpdateOneOptions` | optional |
+| `filter` | `Filter<TSchema>` | required |
+| `update` | `UpdateFilter<TSchema>` | required |
 
 **Returns:**
 

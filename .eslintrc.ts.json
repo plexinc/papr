@@ -111,6 +111,7 @@
         "allowTemplateLiterals": true
       }
     ],
+    "@typescript-eslint/require-await": "off",
     "@typescript-eslint/semi": "error",
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/unified-signatures": "error",

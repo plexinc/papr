@@ -21,10 +21,7 @@ async function setup() {
 
   console.log(`Testing with ${uri}${DB}`);
 
-  connection = await mongodb.MongoClient.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  connection = await mongodb.MongoClient.connect(uri);
   const db = connection.db(DB);
 
   await db.collection(COLLECTION).deleteMany({});
