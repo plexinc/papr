@@ -30,11 +30,11 @@ const sampleSchema = schema(
     zip: types.number(),
   },
   {
-    defaults: { source: 'papr' },
+    defaults: { source: 'paprtests' },
     timestamps: true,
   }
 );
 
-const SamplePapr = papr.model('papr', sampleSchema);
+const SamplePapr = papr.model('paprtests', sampleSchema);
 
 export default SamplePapr;

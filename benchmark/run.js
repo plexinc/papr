@@ -5,7 +5,7 @@ import setup, { db } from './setup.js';
 
 const INSERT_COUNT = 10000;
 const FIND_COUNT = 10000;
-const UPDATE_COUNT = 5000;
+const UPDATE_COUNT = 10000;
 const IDS = {
   mongodb: [],
   mongoose: [],
@@ -85,7 +85,7 @@ async function test(name, operations, action) {
 }
 
 async function run() {
-  const mongodb = await db.collection('mongodb');
+  const mongodb = await db.collection('mongodbtests');
 
   await test('mongodb.insertOne', INSERT_COUNT, async () => {
     const result = await mongodb.insertOne(randomDocument('mongodb'));
@@ -115,7 +115,7 @@ async function run() {
   console.log('---');
 
   await test('mongodb.updateOne', UPDATE_COUNT, async () => {
-    await mongodb.updateOne(randomQueryID('papr'), { $set: { age: random(100) }, });
+    await mongodb.updateOne(randomQueryID('mongodb'), { $set: { age: random(100) }, });
   });
   await test('papr.updateOne', UPDATE_COUNT, async () => {
     await SamplePapr.updateOne(randomQueryID('papr'), { $set: { age: random(100) }, });
