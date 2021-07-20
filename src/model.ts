@@ -332,6 +332,24 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
               },
             },
           };
+        } else if (
+          'updateOne' in op &&
+          op.updateOne.upsert &&
+          !Array.isArray(op.updateOne.update)
+        ) {
+          operation = {
+            updateOne: {
+              ...op.updateOne,
+              update: {
+                ...op.updateOne.update,
+                // @ts-expect-error Type of the values is not recognized here
+                $setOnInsert: {
+                  ...model.defaults,
+                  ...op.updateOne.update.$setOnInsert,
+                },
+              },
+            },
+          };
         }
         return model.hasTimestamps ? timestampBulkWriteOperation(operation) : operation;
       });

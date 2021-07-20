@@ -216,6 +216,50 @@ describe('model', () => {
             },
           },
         },
+        {
+          updateOne: {
+            filter: {},
+            update: {
+              $set: {
+                bar: 123,
+                foo: 'foo',
+              },
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: {},
+            update: {
+              $set: {
+                foo: 'foo',
+              },
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: {},
+            update: {
+              $set: {
+                bar: 123,
+                foo: 'foo',
+              },
+            },
+            upsert: true,
+          },
+        },
+        {
+          updateOne: {
+            filter: {},
+            update: {
+              $set: {
+                foo: 'foo',
+              },
+            },
+            upsert: true,
+          },
+        },
       ];
 
       await simpleModel.bulkWrite(operations);
@@ -236,6 +280,56 @@ describe('model', () => {
                 bar: 123456,
                 foo: 'foo',
               },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+                $setOnInsert: {
+                  bar: 123456,
+                },
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+                $setOnInsert: {
+                  bar: 123456,
+                },
+              },
+              upsert: true,
             },
           },
         ],
