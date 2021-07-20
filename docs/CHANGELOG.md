@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/plexinc/papr/compare/v2.0.0...v2.0.1) (2021-07-20)
+
+
+### Bug Fixes
+
+* Apply defaults in bulkWrite updateOne operations ([#41](https://github.com/plexinc/papr/issues/41)) ([ee84388](https://github.com/plexinc/papr/commit/ee8438888cc3e57a90efe7fb00cfe82d441edd0e))
+
 ## [2.0.0](https://github.com/plexinc/papr/compare/v1.0.1...v2.0.0) (2021-07-15)
 
 
