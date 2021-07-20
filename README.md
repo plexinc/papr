@@ -13,7 +13,9 @@
 
 ---
 
-![](https://github.com/plexinc/papr/actions/workflows/ci.yaml/badge.svg)
+[![Github Actions](https://github.com/plexinc/papr/actions/workflows/ci.yaml/badge.svg)](https://github.com/plexinc/papr/actions)
+[![NPM version](https://img.shields.io/npm/v/papr.svg?style=flat)](https://www.npmjs.com/package/papr)
+[![Install size](https://packagephobia.now.sh/badge?p=papr)](https://packagephobia.now.sh/result?p=papr)
 
 `papr` is a lightweight library built around the MongoDB NodeJS driver, written in TypeScript.
 
