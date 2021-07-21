@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/plexinc/papr/compare/v1.0.2...v1.0.3) (2021-07-21)
+
+
+### Bug Fixes
+
+* Filter defaults in bulkWrite to avoid conflicts ([#42](https://github.com/plexinc/papr/issues/42)) ([4b62493](https://github.com/plexinc/papr/commit/4b62493f64e19015bfcf37b3df235905f1d44379))
+
 ### [1.0.2](https://github.com/plexinc/papr/compare/v1.0.1...v1.0.2) (2021-07-20)
 
 
