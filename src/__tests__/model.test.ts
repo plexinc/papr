@@ -253,6 +253,20 @@ describe('model', () => {
           updateOne: {
             filter: {},
             update: {
+              $inc: {
+                bar: 123,
+              },
+              $set: {
+                foo: 'foo',
+              },
+            },
+            upsert: true,
+          },
+        },
+        {
+          updateOne: {
+            filter: {},
+            update: {
               $set: {
                 foo: 'foo',
               },
@@ -311,9 +325,22 @@ describe('model', () => {
                   bar: 123,
                   foo: 'foo',
                 },
-                $setOnInsert: {
-                  bar: 123456,
+                $setOnInsert: {},
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $inc: {
+                  bar: 123,
                 },
+                $set: {
+                  foo: 'foo',
+                },
+                $setOnInsert: {},
               },
               upsert: true,
             },

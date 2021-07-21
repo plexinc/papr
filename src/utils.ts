@@ -167,3 +167,22 @@ export function timestampBulkWriteOperation<TSchema>(
 
   return operation;
 }
+
+// Clean defaults if properties are present in $set, $push, $inc or $unset
+export function cleanSetOnInsert<TSchema>(
+  $setOnInsert: NonNullable<UpdateQuery<TSchema>['$setOnInsert']>,
+  update: UpdateQuery<TSchema>
+): NonNullable<UpdateQuery<TSchema>['$setOnInsert']> {
+  for (const key of Object.keys($setOnInsert)) {
+    if (
+      key in (update.$set || {}) ||
+      key in (update.$push || {}) ||
+      key in (update.$inc || {}) ||
+      key in (update.$unset || {})
+    ) {
+      // @ts-expect-error This is typed as read-only in `@types/mongodb`, but we can mutate it here
+      delete $setOnInsert[key];
+    }
+  }
+  return $setOnInsert;
+}

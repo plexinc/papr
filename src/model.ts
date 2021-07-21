@@ -27,6 +27,7 @@ import type {
 import { serializeArguments } from './hooks';
 import {
   BaseSchema,
+  cleanSetOnInsert,
   DocumentForInsert,
   FlattenIfArray,
   ModelOptions,
@@ -337,16 +338,20 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
           op.updateOne.upsert &&
           !Array.isArray(op.updateOne.update)
         ) {
+          const { update } = op.updateOne;
           operation = {
             updateOne: {
               ...op.updateOne,
               update: {
-                ...op.updateOne.update,
-                // @ts-expect-error Type of the values is not recognized here
-                $setOnInsert: {
-                  ...model.defaults,
-                  ...op.updateOne.update.$setOnInsert,
-                },
+                ...update,
+                $setOnInsert: cleanSetOnInsert(
+                  // @ts-expect-error Type of the values is not recognized here
+                  {
+                    ...model.defaults,
+                    ...update.$setOnInsert,
+                  },
+                  update
+                ),
               },
             },
           };
@@ -627,25 +632,11 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       created.createdAt = new Date();
     }
 
-    const $setOnInsert = {
+    const $setOnInsert = cleanSetOnInsert({
       ...(model.defaults || {}),
       ...finalUpdate.$setOnInsert,
       ...created,
-    };
-
-    // Do not attempt to set defaults if properties are present in $set, $push, $inc or $unset
-    for (const key of Object.keys($setOnInsert)) {
-      if (
-        Object.prototype.hasOwnProperty.call(finalUpdate.$set || {}, key) ||
-        Object.prototype.hasOwnProperty.call(finalUpdate.$push || {}, key) ||
-        Object.prototype.hasOwnProperty.call(finalUpdate.$inc || {}, key) ||
-        Object.prototype.hasOwnProperty.call(finalUpdate.$unset || {}, key)
-      ) {
-        // @ts-expect-error This is typed as read-only in `@types/mongodb`, but we can mutate it here
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete $setOnInsert[key];
-      }
-    }
+    }, finalUpdate);
 
     const result = await model.collection.findOneAndUpdate(
       filter,
