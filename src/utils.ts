@@ -182,7 +182,7 @@ export function timestampBulkWriteOperation<TSchema>(
 export function cleanSetOnInsert<TSchema>(
   $setOnInsert: NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
   update: UpdateFilter<TSchema>
-) {
+): NonNullable<UpdateFilter<TSchema>['$setOnInsert']> {
   for (const key of Object.keys($setOnInsert)) {
     if (
       key in (update.$set || {}) ||
