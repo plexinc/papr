@@ -73,7 +73,7 @@
     "jest": "27.0.4",
     "jsdoc-api": "7.0.1",
     "jsdoc-parse": "6.0.0",
-    "lint-staged": "11.0.0",
+    "lint-staged": "11.1.0",
     "mongodb": "4.0.0",
     "mongodb-memory-server-global-4.4": "7.3.0",
     "mongoose": "5.12.12",
