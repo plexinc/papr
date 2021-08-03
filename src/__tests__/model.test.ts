@@ -1122,6 +1122,36 @@ describe('model', () => {
       expectType<Date>(result.updatedAt);
     });
 
+    test('timestamps schema with custom dates', async () => {
+      const date = new Date('2020-01-01T12:00:00');
+
+      const result = await timestampsModel.insertOne({
+        bar: 123,
+        createdAt: date,
+        foo: 'foo',
+        updatedAt: date,
+      });
+
+      expect(collection.insertOne).toHaveBeenCalledWith(
+        {
+          bar: 123,
+          createdAt: date,
+          foo: 'foo',
+          updatedAt: date,
+        },
+        { ignoreUndefined: true }
+      );
+
+      expectType<TimestampsDocument>(result);
+
+      expectType<ObjectId>(result._id);
+      expectType<string>(result.foo);
+      expectType<number>(result.bar);
+      expectType<Date | undefined>(result.ham);
+      expectType<Date>(result.createdAt);
+      expectType<Date>(result.updatedAt);
+    });
+
     test('throws error on failure', async () => {
       (collection.insertOne as jest.Mock).mockResolvedValue({ result: { ok: 0 } });
 
@@ -1219,6 +1249,13 @@ describe('model', () => {
     });
 
     test('timestamps schema', async () => {
+      (collection.insertMany as jest.Mock).mockResolvedValue({
+        acknowledged: true,
+        insertedCount: 3,
+        insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
+      });
+
+      const date = new Date('2020-01-01T12:00:00');
       const result = await timestampsModel.insertMany([
         {
           bar: 123,
@@ -1226,7 +1263,14 @@ describe('model', () => {
         },
         {
           bar: 456,
+          createdAt: date,
           foo: 'bar',
+        },
+        {
+          bar: 789,
+          createdAt: date,
+          foo: 'ham',
+          updatedAt: date,
         },
       ]);
 
@@ -1240,9 +1284,15 @@ describe('model', () => {
           },
           {
             bar: 456,
-            createdAt: expect.any(Date),
+            createdAt: date,
             foo: 'bar',
             updatedAt: expect.any(Date),
+          },
+          {
+            bar: 789,
+            createdAt: date,
+            foo: 'ham',
+            updatedAt: date,
           },
         ],
         { ignoreUndefined: true }

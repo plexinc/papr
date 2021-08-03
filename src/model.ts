@@ -670,12 +670,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
     ): Promise<TSchema[]> {
       const documents = docs.map((doc) => {
         return {
-          ...(model.defaults || {}),
-          ...doc,
           ...(model.hasTimestamps && {
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
+          ...(model.defaults || {}),
+          ...doc,
         };
       });
 
@@ -720,12 +720,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       options?: InsertOneOptions
     ): Promise<TSchema> {
       const data = {
-        ...(model.defaults || {}),
-        ...doc,
         ...(model.hasTimestamps && {
           createdAt: new Date(),
           updatedAt: new Date(),
         }),
+        ...(model.defaults || {}),
+        ...doc,
       };
 
       // Casting to unknown first because TS complains here
