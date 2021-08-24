@@ -17,6 +17,7 @@ updates:
       prefix: 'fix'
       prefix-development: 'test'
     ignore:
+      - dependency-name: 'mongoose'
       # Ignore patch updates for all dependencies
       - dependency-name: '*'
         update-types: ['version-update:semver-patch']
