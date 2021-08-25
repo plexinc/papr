@@ -74,7 +74,7 @@
     "jsdoc-api": "7.0.1",
     "jsdoc-parse": "6.0.0",
     "lint-staged": "11.1.0",
-    "mongodb": "4.0.0",
+    "mongodb": "4.1.1",
     "mongodb-memory-server-global-4.4": "7.3.0",
     "mongoose": "5.12.12",
     "prettier": "2.3.0",
@@ -84,7 +84,7 @@
     "typescript": "4.3.2"
   },
   "peerDependencies": {
-    "mongodb": "4.x"
+    "mongodb": ">=4.1.1"
   },
   "commitlint": {
     "extends": [
