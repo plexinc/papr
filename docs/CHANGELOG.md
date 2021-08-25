@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/plexinc/papr/compare/v2.0.2...v2.0.3) (2021-08-25)
+
+
+### Bug Fixes
+
+* Require mongodb >=v4.1.1 ([125d928](https://github.com/plexinc/papr/commit/125d928a2bf9175134a6ba672bdd98fb74854fea))
+* Support custom dates in insert operations ([afe201a](https://github.com/plexinc/papr/commit/afe201ac9705f0acc46077dbeb73191b151766a6))
+
 ### [2.0.2](https://github.com/plexinc/papr/compare/v2.0.1...v2.0.2) (2021-07-21)
 
 
