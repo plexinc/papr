@@ -158,15 +158,17 @@ function wrap<A, R>(
         await hook(collectionName, method.name, args, context);
       }
     } catch (err) {
-      // MaxTimeMSExpired error
-      if (err instanceof MongoError && err.code === 50) {
-        err.message = `Query exceeded maxTime: ${collectionName}.${
-          method.name
-        }(${serializeArguments(args, false)})`;
-      }
+      if (err instanceof Error) {
+        // MaxTimeMSExpired error
+        if (err instanceof MongoError && err.code === 50) {
+          err.message = `Query exceeded maxTime: ${collectionName}.${
+            method.name
+          }(${serializeArguments(args, false)})`;
+        }
 
-      for (const hook of after) {
-        await hook(collectionName, method.name, args, context, err);
+        for (const hook of after) {
+          await hook(collectionName, method.name, args, context, err);
+        }
       }
 
       throw err;
