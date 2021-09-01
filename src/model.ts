@@ -243,7 +243,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   /**
    * @description
    *
-   * Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#aggregate) method.
+   * Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#aggregate) method.
    *
    * @param pipeline {Array<Record<string, unknown>>}
    * @param [options] {AggregateOptions}
@@ -278,12 +278,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   /**
    * @description
    *
-   * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#bulkWrite) method.
+   * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#bulkWrite) method.
    *
    * @param operations {Array<AnyBulkWriteOperation<TSchema>>}
    * @param [options] {BulkWriteOptions}
    *
-   * @returns {Promise<BulkWriteResult>} https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~BulkWriteOpResult
+   * @returns {Promise<BulkWriteResult>} https://mongodb.github.io/node-mongodb-native/4.1/classes/BulkWriteResult.html
    *
    * @example
    * const results = await User.bulkWrite([
@@ -359,7 +359,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#countDocuments) method.
+   * Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#countDocuments) method.
    *
    * @param filter {Filter<TSchema>}
    * @param [options] {CountDocumentsOptions}
@@ -385,12 +385,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#deleteMany) method.
+   * Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteMany) method.
    *
    * @param filter {Filter<TSchema>}
    * @param [options] {DeleteOptions}
    *
-   * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult
+   * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html
    *
    * @example
    * await User.deleteMany({ lastName: 'Wick' });
@@ -410,12 +410,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#deleteOne) method.
+   * Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteOne) method.
    *
    * @param filter {Filter<TSchema>}
    * @param [options] {DeleteOptions}
    *
-   * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult
+   * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html
    *
    * @example
    * await User.deleteOne({ lastName: 'Wick' });
@@ -435,7 +435,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#distinct) method.
+   * Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#distinct) method.
    *
    * @param key {"keyof TSchema"}
    * @param [filter] {Filter<TSchema>}
@@ -465,7 +465,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find) method.
+   * Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
    *
@@ -505,7 +505,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOne) method.
+   * Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
    *
@@ -545,7 +545,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOne) method.
+   * Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
    *
@@ -582,7 +582,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOneAndUpdate) method.
+   * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method.
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
    *
@@ -651,7 +651,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertMany) method.
+   * Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
    *
    * @param documents {Array<TSchema>}
    * @param [options] {BulkWriteOptions}
@@ -702,7 +702,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertOne) method.
+   * Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertOne) method.
    *
    * @param document {TSchema}
    * @param [options] {InsertOneOptions}
@@ -752,13 +752,13 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#updateMany) method.
+   * Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateMany) method.
    *
    * @param filter {Filter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
-   * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult
+   * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html
    *
    * @example
    * const result = await User.updateMany(
@@ -784,13 +784,13 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#updateOne) method.
+   * Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateOne) method.
    *
    * @param filter {Filter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
-   * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult
+   * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html
    *
    * @example
    * const result = await User.updateOne(
@@ -818,7 +818,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
   /**
    * @description
-   * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
+   * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
    *
    * @param filter {Filter<TSchema>}
    * @param update {UpdateFilter<TSchema>}

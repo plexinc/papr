@@ -18,7 +18,7 @@ const User = papr.model('users', userSchema);
 
 ## `aggregate`
 
-Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#aggregate) method.
+Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#aggregate) method.
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ const results = await User.aggregate([
 
 ## `bulkWrite`
 
-Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#bulkWrite) method.
+Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#bulkWrite) method.
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#~BulkWriteOpResult)
+[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/classes/BulkWriteResult.html)
 
 **Example:**
 
@@ -82,7 +82,7 @@ const results = await User.bulkWrite([
 
 ## `countDocuments`
 
-Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#countDocuments) method.
+Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#countDocuments) method.
 
 **Parameters:**
 
@@ -105,7 +105,7 @@ const countWicks = await User.countDocuments({ lastName: 'Wick' });
 
 ## `deleteMany`
 
-Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#deleteMany) method.
+Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteMany) method.
 
 **Parameters:**
 
@@ -116,7 +116,7 @@ Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Returns:**
 
-[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html)
 
 **Example:**
 
@@ -127,7 +127,7 @@ await User.deleteMany({ lastName: 'Wick' });
 
 ## `deleteOne`
 
-Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#deleteOne) method.
+Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteOne) method.
 
 **Parameters:**
 
@@ -138,7 +138,7 @@ Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~deleteWriteOpResult)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html)
 
 **Example:**
 
@@ -149,7 +149,7 @@ await User.deleteOne({ lastName: 'Wick' });
 
 ## `distinct`
 
-Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#distinct) method.
+Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#distinct) method.
 
 **Parameters:**
 
@@ -172,7 +172,7 @@ const ages = await User.distinct('age');
 
 ## `find`
 
-Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find) method.
+Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
 
@@ -205,7 +205,7 @@ usersProjected[0]?.lastName; // valid
 
 ## `findById`
 
-Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOne) method.
+Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
 
@@ -238,7 +238,7 @@ userProjected.lastName; // valid
 
 ## `findOne`
 
-Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOne) method.
+Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
 
@@ -271,7 +271,7 @@ userProjected.lastName; // valid
 
 ## `findOneAndUpdate`
 
-Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOneAndUpdate) method.
+Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
 
@@ -309,7 +309,7 @@ userProjected.lastName; // valid
 
 ## `insertMany`
 
-Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertMany) method.
+Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
 
 **Parameters:**
 
@@ -334,7 +334,7 @@ const users = await User.insertMany([
 
 ## `insertOne`
 
-Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#insertOne) method.
+Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertOne) method.
 
 **Parameters:**
 
@@ -359,7 +359,7 @@ const users = await User.insertOne([
 
 ## `updateMany`
 
-Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#updateMany) method.
+Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateMany) method.
 
 **Parameters:**
 
@@ -371,7 +371,7 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Returns:**
 
-[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html)
 
 **Example:**
 
@@ -385,7 +385,7 @@ const result = await User.updateMany(
 
 ## `updateOne`
 
-Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#updateOne) method.
+Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateOne) method.
 
 **Parameters:**
 
@@ -397,7 +397,7 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#~updateWriteOpResult)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html)
 
 **Example:**
 
@@ -411,7 +411,7 @@ const result = await User.updateOne(
 
 ## `upsert`
 
-Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
+Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
 
 **Parameters:**
 
