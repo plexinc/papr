@@ -9,11 +9,11 @@
 <!-- prettier-ignore -->
 ```ts
 import mongodb from 'mongodb';
-import { schema, types } from 'papr';
+import Papr, { schema, types } from 'papr';
 
 const papr = new Papr();
 
-connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
+const connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
 papr.initialize(connection.db('test'));
 await papr.updateSchemas();
 
