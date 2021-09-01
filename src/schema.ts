@@ -1,5 +1,6 @@
+import { WithId } from 'mongodb';
 import types, { ObjectType } from './types';
-import { BaseSchema, TimestampSchema, VALIDATION_ACTIONS, VALIDATION_LEVEL } from './utils';
+import { TimestampSchema, VALIDATION_ACTIONS, VALIDATION_LEVEL } from './utils';
 
 interface SchemaOptions<TProperties, TDefaults extends Partial<TProperties>> {
   defaults?: TDefaults;
@@ -10,10 +11,12 @@ interface SchemaOptions<TProperties, TDefaults extends Partial<TProperties>> {
 
 type TimestampsOptions = Required<Pick<SchemaOptions<unknown, any>, 'timestamps'>>;
 
-export type SchemaType<TProperties, TOptions extends SchemaOptions<unknown, any>> =
-  TOptions extends TimestampsOptions
-    ? ObjectType<BaseSchema & TProperties & TimestampSchema>
-    : ObjectType<BaseSchema & TProperties>;
+export type SchemaType<
+  TProperties extends Record<string, unknown>,
+  TOptions extends SchemaOptions<unknown, any>
+> = TOptions extends TimestampsOptions
+  ? ObjectType<WithId<TProperties> & TimestampSchema>
+  : ObjectType<WithId<TProperties>>;
 
 // This removes the artificial `$required` attributes added in the object schemas
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,6 +52,8 @@ function sanitize(value: any): void {
  * Under the hood it is just a wrapper around the [`object`](api/types.md#object) type with some default properties
  * (e.g. `_id` and timestamps properties).
  *
+ * While the default `_id` property is added with an `ObjectId` type, its type can be customized into a `string` or a `number`
+ *
  * @name schema
  *
  * @param properties {Record<string, unknown>}
@@ -71,8 +76,9 @@ function sanitize(value: any): void {
  * });
  *
  * const orderSchema = schema({
- *   user: types.objectId(),
- *   product: types.string()
+ *   _id: types.number({ required: true }),
+ *   user: types.objectId({ required: true }),
+ *   product: types.string({ required: true })
  * }, {
  *   defaults: { product: 'test' },
  *   timestamps: true,
