@@ -27,9 +27,11 @@ export interface ModelOptions {
   maxTime?: number;
 }
 
-export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<TSchema>> =
-  // @ts-expect-error: This works, but TS complains that we can't use `keyof TDefaults` to index `TSchema`
-  Omit<OptionalId<TSchema>, keyof TDefaults> & Partial<Pick<TSchema, keyof TDefaults>>;
+export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<TSchema>> = Omit<
+  OptionalId<TSchema>,
+  keyof TDefaults
+> &
+  Partial<Pick<TSchema, keyof TDefaults & keyof TSchema>>;
 
 export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Extract<
   keyof TSchema,
@@ -44,8 +46,7 @@ export type ProjectionType<
   Projection extends Partial<Record<keyof TSchema, number>> | undefined
 > = undefined extends Projection
   ? TSchema
-  : // @ts-expect-error: This works, but TS complains that we can't use `keyof Projection` to index `TSchema`
-    BaseSchema & Pick<TSchema, keyof Projection>;
+  : BaseSchema & Pick<TSchema, keyof Projection & keyof TSchema>;
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
