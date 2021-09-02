@@ -186,6 +186,100 @@ describe('schema', () => {
     });
   });
 
+  test('with string IDs', () => {
+    const value = schema({
+      _id: types.string({ required: true }),
+      foo: types.number({ required: true }),
+    });
+
+    expect(value).toEqual({
+      $validationAction: 'error',
+      $validationLevel: 'strict',
+      additionalProperties: false,
+      properties: {
+        __v: {
+          type: 'number',
+        },
+        _id: {
+          type: 'string',
+        },
+        foo: {
+          type: 'number',
+        },
+      },
+      required: ['_id', 'foo'],
+      type: 'object',
+    });
+
+    expectType<
+      [
+        {
+          _id: string;
+          foo: number;
+        },
+        {
+          foo?: number;
+        }
+      ]
+    >(value);
+    expectType<string>(value[0]?._id);
+    expectType<typeof value[0]>({
+      _id: 'first',
+      foo: 123,
+    });
+    expectType<typeof value[0]>({
+      _id: 'second',
+      foo: 123,
+    });
+  });
+
+  test('with number IDs', () => {
+    const value = schema({
+      _id: types.number({ required: true }),
+      foo: types.string({ required: true }),
+    });
+
+    expect(value).toEqual({
+      $validationAction: 'error',
+      $validationLevel: 'strict',
+      additionalProperties: false,
+      properties: {
+        __v: {
+          type: 'number',
+        },
+        _id: {
+          type: 'number',
+        },
+        foo: {
+          type: 'string',
+        },
+      },
+      required: ['_id', 'foo'],
+      type: 'object',
+    });
+
+    expectType<
+      [
+        {
+          _id: number;
+          foo: string;
+        },
+        {
+          foo?: string;
+        }
+      ]
+    >(value);
+    expectType<number>(value[0]?._id);
+    expectType<typeof value[0]>({
+      _id: 123,
+      foo: 'first',
+    });
+    expectType<typeof value[0]>({
+      _id: 456,
+      foo: 'second',
+    });
+  });
+
   test('full', () => {
     const value = schema(
       {

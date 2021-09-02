@@ -33,7 +33,7 @@ import {
   timestampUpdateFilter,
 } from './utils';
 
-export interface Model<TSchema, TDefaults extends Partial<TSchema>> {
+export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>> {
   collection: Collection<TSchema>;
   defaults?: TDefaults;
   defaultOptions: {

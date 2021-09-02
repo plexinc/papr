@@ -14,7 +14,7 @@ export enum VALIDATION_LEVEL {
 }
 
 export interface BaseSchema {
-  _id: ObjectId;
+  _id: ObjectId | string | number;
 }
 
 export interface TimestampSchema {
@@ -42,11 +42,11 @@ export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Ext
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
 
 export type ProjectionType<
-  TSchema,
+  TSchema extends BaseSchema,
   Projection extends Partial<Record<keyof TSchema, number>> | undefined
 > = undefined extends Projection
   ? TSchema
-  : BaseSchema & Pick<TSchema, keyof Projection & keyof TSchema>;
+  : Pick<TSchema, '_id'> & Pick<TSchema, keyof Projection & keyof TSchema>;
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));

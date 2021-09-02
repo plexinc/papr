@@ -110,7 +110,9 @@ export default class Papr {
    * @example
    * await papr.updateSchema(User);
    */
-  async updateSchema<TSchema, TDefaults>(model: Model<TSchema, TDefaults>): Promise<void> {
+  async updateSchema<TSchema extends BaseSchema, TDefaults>(
+    model: Model<TSchema, TDefaults>
+  ): Promise<void> {
     if (!this.db) {
       throw new Error('The DB is not connected');
     }

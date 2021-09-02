@@ -14,6 +14,8 @@ in the MongoDB docs.
 Under the hood it is just a wrapper around the [`object`](api/types.md#object) type with some default properties
 (e.g. `_id` and timestamps properties).
 
+While the default `_id` property is added with an `ObjectId` type, its type can be customized into a `string` or a `number`
+
 **Parameters:**
 
 | Name | Type | Attribute |
@@ -42,8 +44,9 @@ const userSchema = schema({
 });
 
 const orderSchema = schema({
-  user: types.objectId(),
-  product: types.string()
+  _id: types.number({ required: true }),
+  user: types.objectId({ required: true }),
+  product: types.string({ required: true })
 }, {
   defaults: { product: 'test' },
   timestamps: true,
