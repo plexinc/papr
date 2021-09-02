@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/plexinc/papr/compare/v2.0.3...v2.1.0) (2021-09-02)
+
+
+### Features
+
+* Model.findOneAndDelete ([#75](https://github.com/plexinc/papr/issues/75)) ([c555246](https://github.com/plexinc/papr/commit/c55524668343e196fec65241cb778a1a4694c06a))
+* Support IDs with strings or numbers ([#74](https://github.com/plexinc/papr/issues/74)) ([3e793cb](https://github.com/plexinc/papr/commit/3e793cbd40ad3539fda39b5436a1df7665e84f41))
+
+
+### Bug Fixes
+
+* Fix insert and projection types ([#72](https://github.com/plexinc/papr/issues/72)) ([344abab](https://github.com/plexinc/papr/commit/344abab587b4850351c535b8282184871a6afb9c))
+
 ### [2.0.3](https://github.com/plexinc/papr/compare/v2.0.2...v2.0.3) (2021-08-25)
 
 
