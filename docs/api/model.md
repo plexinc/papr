@@ -269,6 +269,30 @@ userProjected.lastName; // valid
 ```
 
 
+## `findOneAndDelete`
+
+Calls the MongoDB [`findOneAndDelete()`](http://mongodb.github.io/node-mongodb-native/4.1/classes/collection.html#findoneanddelete) method and returns the document found before removal.
+
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+
+**Parameters:**
+
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `filter` | `Filter<TSchema>` | required |
+| `options` | `FindOneAndUpdateOptions` | optional |
+
+**Returns:**
+
+`Promise<(TProjected | null)>` 
+
+**Example:**
+
+```ts
+const user = await User.findOneAndDelete({ firstName: 'John' });
+```
+
+
 ## `findOneAndUpdate`
 
 Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method.

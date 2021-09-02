@@ -69,6 +69,10 @@ describe('model', () => {
         toArray: jest.fn().mockResolvedValue(docs),
       }),
       findOne: jest.fn().mockResolvedValue(doc),
+      findOneAndDelete: jest.fn().mockResolvedValue({
+        ok: 1,
+        value: doc,
+      }),
       findOneAndUpdate: jest.fn().mockResolvedValue({
         ok: 1,
         value: doc,
@@ -662,6 +666,51 @@ describe('model', () => {
         result.bar;
         expectType<Date | undefined>(result.ham);
       }
+    });
+  });
+
+  describe('findOneAndDelete', () => {
+    test('simple schema', async () => {
+      const result = await simpleModel.findOneAndDelete({ foo: 'bar' });
+
+      expect(result).toBe(doc);
+      expectType<SimpleDocument | null>(result);
+
+      if (result) {
+        expectType<string>(result.foo);
+        expectType<number>(result.bar);
+        expectType<Date | undefined>(result.ham);
+        // @ts-expect-error `createdAt` is undefined here
+        result.createdAt;
+        // @ts-expect-error `updatedAt` is undefined here
+        result.updatedAt;
+      }
+    });
+
+    test('with projection', async () => {
+      const result = await simpleModel.findOneAndDelete({ foo: 'bar' }, { projection });
+
+      expect(result).toBe(doc);
+      expectType<{
+        _id: ObjectId;
+        foo: string;
+        ham?: Date;
+      } | null>(result);
+
+      if (result) {
+        expectType<string>(result.foo);
+        // @ts-expect-error `bar` is undefined here
+        result.bar;
+        expectType<Date | undefined>(result.ham);
+      }
+    });
+
+    test('throws error on failure', async () => {
+      (collection.findOneAndDelete as jest.Mock).mockResolvedValue({ ok: 0 });
+
+      await expect(simpleModel.findOneAndDelete({ foo: 'bar' })).rejects.toThrow(
+        'findOneAndDelete failed'
+      );
     });
   });
 

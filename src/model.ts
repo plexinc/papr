@@ -10,6 +10,7 @@ import type {
   DeleteResult,
   DistinctOptions,
   Filter,
+  FindOneAndDeleteOptions,
   FindOneAndUpdateOptions,
   FindOptions,
   Flatten,
@@ -81,6 +82,11 @@ export interface Model<TSchema, TDefaults extends Partial<TSchema>> {
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
   ) => Promise<ProjectionType<TSchema, Projection> | null>;
 
+  findOneAndDelete: <Projection>(
+    filter: Filter<TSchema>,
+    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: Projection }
+  ) => Promise<ProjectionType<TSchema, Projection> | null>;
+
   findOneAndUpdate: <Projection>(
     filter: Filter<TSchema>,
     update: UpdateFilter<TSchema>,
@@ -126,6 +132,7 @@ export function abstract<TSchema>(schema: TSchema): unknown {
     find: abstractMethod,
     findById: abstractMethod,
     findOne: abstractMethod,
+    findOneAndDelete: abstractMethod,
     findOneAndUpdate: abstractMethod,
     insertMany: abstractMethod,
     insertOne: abstractMethod,
@@ -579,6 +586,37 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       ) as unknown as ProjectionType<TSchema, Projection> | null;
     }
   );
+
+  /**
+   * @description
+   * Calls the MongoDB [`findOneAndDelete()`](http://mongodb.github.io/node-mongodb-native/4.1/classes/collection.html#findoneanddelete) method and returns the document found before removal.
+   *
+   * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+   *
+   * @param filter {Filter<TSchema>}
+   * @param [options] {FindOneAndUpdateOptions}
+   *
+   * @returns {Promise<TProjected | null>}
+   *
+   * @example
+   * const user = await User.findOneAndDelete({ firstName: 'John' });
+   */
+  // prettier-ignore
+  model.findOneAndDelete = wrap(model, async function findOneAndDelete<Projection>(
+    filter: Filter<TSchema>,
+    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: Projection }
+  ): Promise<ProjectionType<TSchema, Projection> | null> {
+    const result = await model.collection.findOneAndDelete(filter, {
+      ...model.defaultOptions,
+      ...options,
+    } as FindOneAndDeleteOptions);
+
+    if (result.ok === 1) {
+      return result.value as ProjectionType<TSchema, Projection>;
+    }
+
+    throw new Error('findOneAndDelete failed');
+  });
 
   /**
    * @description
