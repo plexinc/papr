@@ -2,7 +2,7 @@
 // that the output of the build process works under native Node.js ESM syntax
 // At this moment Jest does not support ESM syntax without transpiling
 import assert from 'assert';
-import mongodb from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4';
 // eslint-disable-next-line
 import Papr, { schema, types } from 'papr';
@@ -21,7 +21,7 @@ async function setup() {
 
   console.log(`Testing with ${uri}${DB}`);
 
-  connection = await mongodb.MongoClient.connect(uri);
+  connection = await MongoClient.connect(uri);
   const db = connection.db(DB);
 
   await db.collection(COLLECTION).deleteMany({});
@@ -59,7 +59,7 @@ async function run() {
   });
   assert.strictEqual(typeof doc1, 'object');
   assert.strictEqual(typeof doc1._id, 'object');
-  assert.ok(doc1._id instanceof mongodb.ObjectId);
+  assert.ok(doc1._id instanceof ObjectId);
   assert.strictEqual(doc1.age, 40);
   assert.strictEqual(doc1.firstName, 'John');
   assert.strictEqual(doc1.lastName, 'Wick');

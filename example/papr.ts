@@ -1,11 +1,11 @@
-import mongodb, { MongoClient } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import Papr from '../src';
 
 export let client: MongoClient;
 const papr = new Papr();
 
 export async function connect(): Promise<void> {
-  client = await mongodb.MongoClient.connect('mongodb://localhost:27017', {
+  client = await MongoClient.connect('mongodb://localhost:27017', {
     directConnection: true,
   });
 
