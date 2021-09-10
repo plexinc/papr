@@ -8,12 +8,12 @@
 
 <!-- prettier-ignore -->
 ```ts
-import mongodb from 'mongodb';
+import { MongoClient } from 'mongodb';
 import Papr, { schema, types } from 'papr';
 
 const papr = new Papr();
 
-const connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
+const connection = await MongoClient.connect('mongodb://localhost:27017');
 papr.initialize(connection.db('test'));
 await papr.updateSchemas();
 

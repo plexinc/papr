@@ -44,7 +44,9 @@ export default class Papr {
    * @param db {mongodb.Db}
    *
    * @example
-   * const connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
+   * import { MongoClient } from 'mongodb';
+   *
+   * const connection = await MongoClient.connect('mongodb://localhost:27017');
    *
    * papr.initialize(connection.db('test'));
    */

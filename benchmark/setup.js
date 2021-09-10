@@ -1,5 +1,5 @@
 import arg from 'arg';
-import mongodb from 'mongodb';
+import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
 // eslint-disable-next-line
 import Papr from '../esm/index.js';
@@ -40,7 +40,7 @@ export const papr = new Papr();
 export let db;
 
 export default async function setup() {
-  const connection = await mongodb.MongoClient.connect(URL, {
+  const connection = await MongoClient.connect(URL, {
     directConnection: true
   });
   db = connection.db(DATABASE);

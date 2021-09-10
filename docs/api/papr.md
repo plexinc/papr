@@ -46,7 +46,9 @@ Initialize existing and future registered models with a mongo db instance
 **Example:**
 
 ```ts
-const connection = await mongodb.MongoClient.connect('mongodb://localhost:27017');
+import { MongoClient } from 'mongodb';
+
+const connection = await MongoClient.connect('mongodb://localhost:27017');
 
 papr.initialize(connection.db('test'));
 ```
