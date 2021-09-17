@@ -1,0 +1,78 @@
+
+    <svg class="chart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" preserveAspectRatio="none">
+      <style>
+        /* <![CDATA[ */
+        .bar{fill: #13aa52;}
+.bar-1{fill: #13aa52;}
+.bar-2{fill: #e5a00d;}
+.bar-3{fill: #800;}
+
+        .tick {
+          stroke: #555;
+          stroke-width: 0.2;
+        }
+
+        .tick-label {
+          font-family: "Helvetica Nue", Arial, sans-serif; fill: #fff;
+        }
+
+        .bar-label {
+          font-family: "Helvetica Nue", Arial, sans-serif;
+          fill: white;
+        }
+        /* ]]> */
+      </style>
+      <defs>
+        <linearGradient id="bgGradient" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#e0e1e2" />
+          <stop offset="25%" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      
+      <g transform="scale(0.9, 1)">
+        <g transform="scale(1, 0.9) translate(0, 2)">
+        <line x1="0" x2="100" y1="60" y2="60" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="60" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">0</text>
+      
+        <line x1="0" x2="100" y1="51.87135057510194" y2="51.87135057510194" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="51.87135057510194" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">100</text>
+      
+        <line x1="0" x2="100" y1="43.74270115020389" y2="43.74270115020389" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="43.74270115020389" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">200</text>
+      
+        <line x1="0" x2="100" y1="35.61405172530584" y2="35.61405172530584" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="35.61405172530584" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">300</text>
+      
+        <line x1="0" x2="100" y1="27.485402300407785" y2="27.485402300407785" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="27.485402300407785" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">400</text>
+      
+        <line x1="0" x2="100" y1="19.356752875509734" y2="19.356752875509734" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="19.356752875509734" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">500</text>
+      
+        <line x1="0" x2="100" y1="11.228103450611677" y2="11.228103450611677" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="11.228103450611677" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">600</text>
+      
+        <line x1="0" x2="100" y1="3.0994540257136336" y2="3.0994540257136336" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="3.0994540257136336" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">700</text>
+      </g>
+        <g transform="scale(0.9, 1) translate(10, 0)">
+        <text class="tick-label" x="15.517241379310349" y="60" dy="-1.3" text-anchor="middle" font-size="1.4">insert</text>
+      
+        <text class="tick-label" x="50.00000000000001" y="60" dy="-1.3" text-anchor="middle" font-size="1.4">find</text>
+      
+        <text class="tick-label" x="84.48275862068968" y="60" dy="-1.3" text-anchor="middle" font-size="1.4">update</text>
+      </g>
+        <g transform="scale(0.9) translate(10, 2)"><rect class="bar-1" x="1.724137931034484" y="0.1324969856258349" width="8.561236623067778" height="59.867503014374165"/><rect class="bar-2" x="11.23662306777646" y="2.516629861948438" width="8.561236623067778" height="57.48337013805156"/><rect class="bar-3" x="20.749108204518436" y="19.70872339560782" width="8.561236623067778" height="40.29127660439218"/><rect class="bar-1" x="36.20689655172414" y="10.183571999512282" width="8.561236623067778" height="49.81642800048772"/><rect class="bar-2" x="45.719381688466115" y="13.692709956240776" width="8.561236623067778" height="46.307290043759224"/><rect class="bar-3" x="55.231866825208094" y="22.685434815005486" width="8.561236623067778" height="37.314565184994514"/><rect class="bar-1" x="70.68965517241381" y="0" width="8.561236623067778" height="60"/><rect class="bar-2" x="80.20214030915578" y="3.808272255564738" width="8.561236623067778" height="56.19172774443526"/><rect class="bar-3" x="89.71462544589775" y="12.926178315472882" width="8.561236623067778" height="47.07382168452712"/></g>
+      </g>
+      <g transform="translate(90, 2)">
+    <rect class="bar-1" x="1" y="0" width="2" height="2"/>
+    <text class="tick-label" x="3.2" y="0" dy="1.5" text-anchor="left" font-size="1.4">mongodb</text>
+    
+    <rect class="bar-2" x="1" y="3" width="2" height="2"/>
+    <text class="tick-label" x="3.2" y="3" dy="1.5" text-anchor="left" font-size="1.4">papr</text>
+    
+    <rect class="bar-3" x="1" y="6" width="2" height="2"/>
+    <text class="tick-label" x="3.2" y="6" dy="1.5" text-anchor="left" font-size="1.4">mongoose</text>
+    </g>
+    </svg>
+  
