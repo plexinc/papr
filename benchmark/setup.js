@@ -57,9 +57,7 @@ export default async function setup() {
   papr.initialize(db);
   papr.updateSchemas();
 
-  mongoose.connect(`${URL}/${DATABASE}`, {
-    directConnection: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  await mongoose.connect(`${URL}/${DATABASE}`, {
+    directConnection: true
   });
 }
