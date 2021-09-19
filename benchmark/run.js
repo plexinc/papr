@@ -3,7 +3,7 @@ import barChart from '@byu-oit/bar-chart';
 import { ObjectId } from 'mongodb';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
-import setup, { db } from './setup.js';
+import setup, { db, teardown } from './setup.js';
 
 const CHART_LABELS = ['insert', 'find', 'update'];
 const CHART_LEGEND_LABELS = ['mongodb', 'papr', 'mongoose'];
@@ -166,9 +166,8 @@ async function run() {
     .replace('font-family: "Helvetica Nue", Arial, sans-serif;', 'font-family: "Helvetica Nue", Arial, sans-serif; fill: #fff;');
 
   fs.writeFileSync('docs/benchmark.svg', chart);
-
-  process.exit(0);
 }
 
 await setup();
 await run();
+await teardown();
