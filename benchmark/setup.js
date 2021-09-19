@@ -61,3 +61,9 @@ export default async function setup() {
     directConnection: true
   });
 }
+
+export async function teardown() {
+  await db.dropDatabase();
+
+  process.exit(0);
+}
