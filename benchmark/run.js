@@ -35,13 +35,12 @@ const TIMES = {
 const NS_PER_S = 1e9;
 
 function timer() {
-  const time = process.hrtime();
+  const start = process.hrtime.bigint();
 
   return () => {
-    const diff = process.hrtime(time);
-    const ns = diff[0] * NS_PER_S + diff[1];
+    const diff = Number(process.hrtime.bigint() - start);
 
-    return Number(ns / NS_PER_S);
+    return diff / NS_PER_S;
   };
 }
 
