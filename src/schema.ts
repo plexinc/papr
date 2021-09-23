@@ -60,13 +60,13 @@ function sanitize(value: any): void {
  * @param [options] {SchemaOptions}
  * @param [options.defaults] {Partial<TProperties>}
  * @param [options.timestamps=false] {boolean}
- * @param [options.validationAction=VALIDATION_ACTION.ERROR] {VALIDATION_ACTION}
+ * @param [options.validationAction=VALIDATION_ACTIONS.ERROR] {VALIDATION_ACTIONS}
  * @param [options.validationLevel=VALIDATION_LEVEL.STRICT] {VALIDATION_LEVEL}
  *
  * @returns {TSchema}
  *
  * @example
- * import { schema, types } from 'papr';
+ * import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
  *
  * const userSchema = schema({
  *   active: types.boolean(),
@@ -82,7 +82,7 @@ function sanitize(value: any): void {
  * }, {
  *   defaults: { product: 'test' },
  *   timestamps: true,
- *   validationAction: VALIDATION_ACTION.WARN,
+ *   validationAction: VALIDATION_ACTIONS.WARN,
  *   validationLevel: VALIDATION_LEVEL.MODERATE
  * });
  */
