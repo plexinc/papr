@@ -57,7 +57,7 @@
     "@babel/preset-typescript": "7.15.0",
     "@byu-oit/bar-chart": "1.4.2",
     "@commitlint/cli": "13.2.0",
-    "@commitlint/config-conventional": "13.1.0",
+    "@commitlint/config-conventional": "13.2.0",
     "@types/jest": "27.0.1",
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
