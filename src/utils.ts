@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import type { AnyBulkWriteOperation, OptionalId, UpdateFilter } from 'mongodb';
-import { Hooks } from './hooks';
+import { Hooks } from './hooks.js';
 
 export enum VALIDATION_ACTIONS {
   ERROR = 'error',

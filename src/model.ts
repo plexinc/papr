@@ -22,7 +22,7 @@ import type {
   UpdateResult,
   WithId,
 } from 'mongodb';
-import { serializeArguments } from './hooks';
+import { serializeArguments } from './hooks.js';
 import {
   BaseSchema,
   cleanSetOnInsert,
@@ -31,7 +31,7 @@ import {
   ProjectionType,
   timestampBulkWriteOperation,
   timestampUpdateFilter,
-} from './utils';
+} from './utils.js';
 
 export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>> {
   collection: Collection<TSchema>;

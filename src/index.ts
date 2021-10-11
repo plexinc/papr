@@ -1,8 +1,8 @@
 import { Db } from 'mongodb';
-import { abstract, build, Model } from './model';
-import schema from './schema';
-import types from './types';
-import { BaseSchema, ModelOptions } from './utils';
+import { abstract, build, Model } from './model.js';
+import schema from './schema.js';
+import types from './types.js';
+import { BaseSchema, ModelOptions } from './utils.js';
 
 export default class Papr {
   db?: Db;

@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "module": "ESNext",
+    "module": "esnext",
     "noEmit": false,
     "outDir": "./esm",
-    "target": "ESNext"
+    "target": "esnext"
   },
   "extends": "./tsconfig.json",
   "include": ["./src"],

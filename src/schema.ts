@@ -1,6 +1,6 @@
 import { WithId } from 'mongodb';
-import types, { ObjectType } from './types';
-import { TimestampSchema, VALIDATION_ACTIONS, VALIDATION_LEVEL } from './utils';
+import types, { ObjectType } from './types.js';
+import { TimestampSchema, VALIDATION_ACTIONS, VALIDATION_LEVEL } from './utils.js';
 
 interface SchemaOptions<TProperties, TDefaults extends Partial<TProperties>> {
   defaults?: TDefaults;
