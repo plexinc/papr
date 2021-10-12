@@ -2,6 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noEmit": false,
     "outDir": "./esm",
     "target": "ESNext"
