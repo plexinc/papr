@@ -1,4 +1,4 @@
-import { types, schema } from '../src';
+import { types, schema } from '../src/index.js';
 import papr from './papr';
 
 const userSchema = schema(

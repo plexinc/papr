@@ -179,6 +179,6 @@ export default class Papr {
 }
 
 export { schema, types, types as Types };
-export * from './hooks';
-export * from './model';
-export * from './utils';
+export * from './hooks.js';
+export * from './model.js';
+export * from './utils.js';
