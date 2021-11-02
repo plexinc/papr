@@ -3,7 +3,7 @@
 // At this moment Jest does not support ESM syntax without transpiling
 const assert = require('assert');
 const { MongoClient, ObjectId } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server-global-4.4');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const paprExport = require('papr');
 
 const { default: Papr, schema, types } = paprExport;
