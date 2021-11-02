@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.16.0",
-    "@babel/preset-env": "7.15.0",
+    "@babel/preset-env": "7.16.0",
     "@babel/preset-typescript": "7.16.0",
     "@byu-oit/bar-chart": "1.4.2",
     "@commitlint/cli": "14.1.0",
