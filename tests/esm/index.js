@@ -3,7 +3,7 @@
 // At this moment Jest does not support ESM syntax without transpiling
 import assert from 'assert';
 import { MongoClient, ObjectId } from 'mongodb';
-import { MongoMemoryServer } from 'mongodb-memory-server-global-4.4';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 // eslint-disable-next-line
 import Papr, { schema, types } from 'papr';
 
