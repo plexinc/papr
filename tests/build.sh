@@ -13,7 +13,7 @@ tar xf ./build/papr.tgz --directory=./build/
 cd tests/esm/
 rm -f package-lock.json
 npm install
-node --experimental-specifier-resolution=node ./index.js
+node ./index.js
 
 cd ../cjs/
 rm -f package-lock.json
