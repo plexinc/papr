@@ -38,7 +38,7 @@
     "url": "https://github.com/plexinc/papr/issues/new"
   },
   "scripts": {
-    "build": "tsc --project ./tsconfig-esm.json && tsc --project ./tsconfig-cjs.json && echo \"{\\\"type\\\":\\\"commonjs\\\"}\" > ./cjs/package.json",
+    "build": "./build.sh",
     "docs": "node docs/build.js && docsify serve ./docs",
     "benchmark": "yarn build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint": "eslint --config ./.eslintrc.ts.json --ext .ts ./example ./src && eslint --ext .js,.mjs ./benchmark ./tests",
