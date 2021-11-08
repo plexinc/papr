@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/plexinc/papr/compare/v2.1.0...v2.1.1) (2021-11-08)
+
+
+### Bug Fixes
+
+* bump normalize-url from 4.5.0 to 4.5.1 ([ebd58c2](https://github.com/plexinc/papr/commit/ebd58c20eda7c38bcf510ecbbb1d22fa7763e4db))
+* bump path-parse from 1.0.6 to 1.0.7 ([e85b312](https://github.com/plexinc/papr/commit/e85b312f377e4736d39252378d2aeb60c2e08c1a))
+* bump prismjs from 1.23.0 to 1.25.0 ([682db15](https://github.com/plexinc/papr/commit/682db15b9c254cf2306597c9c1bcca3a84449846))
+* bump tmpl from 1.0.4 to 1.0.5 ([5907415](https://github.com/plexinc/papr/commit/5907415468d11d78a3a9e671a52a46fe8c7fb102))
+* bump ws from 7.4.5 to 7.5.5 ([4962e37](https://github.com/plexinc/papr/commit/4962e3732e10e703d3b85f8c615b3ebcfc8e614c))
+* ESM build with file extensions ([#122](https://github.com/plexinc/papr/issues/122)) ([b81a6de](https://github.com/plexinc/papr/commit/b81a6de3c67a779fef4ffa77ff26efc69d8e4c4d))
+
 ## [2.1.0](https://github.com/plexinc/papr/compare/v2.0.3...v2.1.0) (2021-09-02)
 
 
