@@ -24,7 +24,7 @@ While the default `_id` property is added with an `ObjectId` type, its type can 
 | `options` | `SchemaOptions` | optional |
 | `options.defaults` | `Partial<TProperties>` | optional |
 | `options.timestamps` | `boolean` | optional |
-| `options.validationAction` | `VALIDATION_ACTION` | optional |
+| `options.validationAction` | `VALIDATION_ACTIONS` | optional |
 | `options.validationLevel` | `VALIDATION_LEVEL` | optional |
 
 **Returns:**
@@ -34,7 +34,7 @@ While the default `_id` property is added with an `ObjectId` type, its type can 
 **Example:**
 
 ```ts
-import { schema, types } from 'papr';
+import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
 
 const userSchema = schema({
   active: types.boolean(),
@@ -50,7 +50,7 @@ const orderSchema = schema({
 }, {
   defaults: { product: 'test' },
   timestamps: true,
-  validationAction: VALIDATION_ACTION.WARN,
+  validationAction: VALIDATION_ACTIONS.WARN,
   validationLevel: VALIDATION_LEVEL.MODERATE
 });
 ```
