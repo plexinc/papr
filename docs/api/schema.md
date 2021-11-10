@@ -29,7 +29,7 @@ While the default `_id` property is added with an `ObjectId` type, its type can 
 
 **Returns:**
 
-`TSchema` 
+`Array` The return type is `[TSchema, TDefaults]`
 
 **Example:**
 
@@ -43,6 +43,8 @@ const userSchema = schema({
   lastName: types.string({ required: true }),
 });
 
+type UserDocument = typeof userSchema[0];
+
 const orderSchema = schema({
   _id: types.number({ required: true }),
   user: types.objectId({ required: true }),
@@ -53,4 +55,6 @@ const orderSchema = schema({
   validationAction: VALIDATION_ACTIONS.WARN,
   validationLevel: VALIDATION_LEVEL.MODERATE
 });
+
+type OrderDocument = typeof orderSchema[0];
 ```

@@ -23,6 +23,11 @@ const DOCS = [
     input: 'src/types.ts',
     output: 'docs/api/types.md',
     title: 'Types'
+  },
+  {
+    input: 'src/utils.ts',
+    output: 'docs/api/utils.md',
+    title: 'Utilities'
   }
 ];
 const WARNING = '<!-- THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY! -->';
