@@ -74,7 +74,7 @@
     "jest": "27.3.0",
     "jsdoc-api": "7.1.0",
     "jsdoc-parse": "6.0.0",
-    "lint-staged": "11.2.0",
+    "lint-staged": "12.0.2",
     "mongodb": "4.1.1",
     "mongodb-memory-server": "8.0.0",
     "mongoose": "6.0.6",
@@ -101,9 +101,10 @@
       ]
     }
   },
-  "lintstaged": {
+  "lint-staged": {
     "*.ts": [
-      "eslint --fix"
+      "eslint --config ./.eslintrc.ts.json --ext .ts --fix",
+      "prettier --write --list-different"
     ],
     "src/*.ts": [
       "node docs/build.js",
