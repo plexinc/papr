@@ -174,7 +174,7 @@ const ages = await User.distinct('age');
 
 Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
 
-The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
@@ -207,7 +207,7 @@ usersProjected[0]?.lastName; // valid
 
 Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
 
-The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
@@ -240,7 +240,7 @@ userProjected.lastName; // valid
 
 Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
 
-The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
@@ -273,7 +273,7 @@ userProjected.lastName; // valid
 
 Calls the MongoDB [`findOneAndDelete()`](http://mongodb.github.io/node-mongodb-native/4.1/classes/collection.html#findoneanddelete) method and returns the document found before removal.
 
-The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
@@ -297,7 +297,7 @@ const user = await User.findOneAndDelete({ firstName: 'John' });
 
 Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method.
 
-The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly.
+The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 

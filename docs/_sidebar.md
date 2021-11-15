@@ -6,4 +6,5 @@
   - [Schema](api/schema.md)
   - [Types](api/types.md)
   - [Model](api/model.md)
+  - [Utilities](api/utils.md)
 - [Changelog](CHANGELOG.md)

@@ -63,7 +63,7 @@ function sanitize(value: any): void {
  * @param [options.validationAction=VALIDATION_ACTIONS.ERROR] {VALIDATION_ACTIONS}
  * @param [options.validationLevel=VALIDATION_LEVEL.STRICT] {VALIDATION_LEVEL}
  *
- * @returns {TSchema}
+ * @returns {Array} The return type is `[TSchema, TDefaults]`
  *
  * @example
  * import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
@@ -75,6 +75,8 @@ function sanitize(value: any): void {
  *   lastName: types.string({ required: true }),
  * });
  *
+ * type UserDocument = typeof userSchema[0];
+ *
  * const orderSchema = schema({
  *   _id: types.number({ required: true }),
  *   user: types.objectId({ required: true }),
@@ -85,6 +87,8 @@ function sanitize(value: any): void {
  *   validationAction: VALIDATION_ACTIONS.WARN,
  *   validationLevel: VALIDATION_LEVEL.MODERATE
  * });
+ *
+ * type OrderDocument = typeof orderSchema[0];
  */
 export default function schema<
   TProperties extends Record<string, unknown>,
