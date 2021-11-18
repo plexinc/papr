@@ -85,7 +85,7 @@
     "typescript": "4.5.2"
   },
   "peerDependencies": {
-    "mongodb": ">=4.1.1"
+    "mongodb": ">=4.2.0"
   },
   "commitlint": {
     "extends": [

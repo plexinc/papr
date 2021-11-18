@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 import type { AnyBulkWriteOperation, OptionalId, UpdateFilter } from 'mongodb';
 import { Hooks } from './hooks';
 
@@ -45,8 +45,8 @@ export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends Partial<Record<keyof TSchema, number>> | undefined
 > = undefined extends Projection
-  ? TSchema
-  : Pick<TSchema, '_id'> & Pick<TSchema, keyof Projection & keyof TSchema>;
+  ? WithId<TSchema>
+  : WithId<Pick<TSchema, keyof Projection & keyof TSchema>>;
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
