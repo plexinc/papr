@@ -103,6 +103,18 @@ describe('types', () => {
         // @ts-expect-error invalid option
         types.enum(Object.values(TEST_ENUM), { maxLength: 1 });
       });
+
+      test('array of const', () => {
+        const value = types.enum(['a' as const, 'b' as const]);
+
+        expect(value).toEqual({
+          enum: ['a', 'b'],
+        });
+        expectType<typeof value>('a');
+        // @ts-expect-error `value` can not be c
+        expectType<typeof value>('c');
+        expectType<typeof value>(undefined);
+      });
     });
 
     describe('number', () => {
