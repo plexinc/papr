@@ -48,6 +48,10 @@ user.age; // number | undefined
 user.firstName; // TypeScript error
 ```
 
+## TypeScript configuration
+
+`papr` requires that the [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) option in the TypeScript configuration is enabled.
+
 ## JSON Schema
 
 `papr` schemas provide an easy short-hand for creating JSON Schemas for validating documents on the MongoDB server using [JSON schema validation](https://docs.mongodb.com/manual/core/schema-validation/#json-schema):
