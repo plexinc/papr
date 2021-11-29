@@ -22,10 +22,10 @@ Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `pipeline` | `Array<Record<string, unknown>>` | required |
-| `options` | `AggregateOptions` | optional |
+| Name       | Type                             | Attribute |
+| ---------- | -------------------------------- | --------- |
+| `pipeline` | `Array<Record<string, unknown>>` | required  |
+| `options`  | `AggregateOptions`               | optional  |
 
 **Returns:**
 
@@ -34,12 +34,8 @@ Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/
 **Example:**
 
 ```ts
-const results = await User.aggregate([
- { $sortByCount: '$age' },
- { $limit: 5 }
-]);
+const results = await User.aggregate([{ $sortByCount: '$age' }, { $limit: 5 }]);
 ```
-
 
 ## `bulkWrite`
 
@@ -47,10 +43,10 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `operations` | `Array<AnyBulkWriteOperation<TSchema>>` | required |
-| `options` | `BulkWriteOptions` | optional |
+| Name         | Type                                    | Attribute |
+| ------------ | --------------------------------------- | --------- |
+| `operations` | `Array<AnyBulkWriteOperation<TSchema>>` | required  |
+| `options`    | `BulkWriteOptions`                      | optional  |
 
 **Returns:**
 
@@ -60,25 +56,24 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 ```ts
 const results = await User.bulkWrite([
-   {
-     insertOne: {
-       document: {
-         firstName: 'John',
-         lastName: 'Wick'
-       },
-     },
-   },
-   {
-     updateOne: {
-       filter: { lastName: 'Wick' },
-       update: {
-         $set: { age: 40 },
-       },
-     },
-   },
+  {
+    insertOne: {
+      document: {
+        firstName: 'John',
+        lastName: 'Wick',
+      },
+    },
+  },
+  {
+    updateOne: {
+      filter: { lastName: 'Wick' },
+      update: {
+        $set: { age: 40 },
+      },
+    },
+  },
 ]);
 ```
-
 
 ## `countDocuments`
 
@@ -86,14 +81,14 @@ Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-na
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `CountDocumentsOptions` | optional |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `Filter<TSchema>`       | required  |
+| `options` | `CountDocumentsOptions` | optional  |
 
 **Returns:**
 
-`Promise<number>` 
+`Promise<number>`
 
 **Example:**
 
@@ -102,17 +97,16 @@ const countAll = await User.countDocuments({});
 const countWicks = await User.countDocuments({ lastName: 'Wick' });
 ```
 
-
 ## `deleteMany`
 
 Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteMany) method.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `DeleteOptions` | optional |
+| Name      | Type              | Attribute |
+| --------- | ----------------- | --------- |
+| `filter`  | `Filter<TSchema>` | required  |
+| `options` | `DeleteOptions`   | optional  |
 
 **Returns:**
 
@@ -124,17 +118,16 @@ Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native
 await User.deleteMany({ lastName: 'Wick' });
 ```
 
-
 ## `deleteOne`
 
 Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteOne) method.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `DeleteOptions` | optional |
+| Name      | Type              | Attribute |
+| --------- | ----------------- | --------- |
+| `filter`  | `Filter<TSchema>` | required  |
+| `options` | `DeleteOptions`   | optional  |
 
 **Returns:**
 
@@ -146,18 +139,17 @@ Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/
 await User.deleteOne({ lastName: 'Wick' });
 ```
 
-
 ## `distinct`
 
 Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#distinct) method.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `key` | `keyof TSchema` | required |
-| `filter` | `Filter<TSchema>` | optional |
-| `options` | `DistinctOptions` | optional |
+| Name      | Type              | Attribute |
+| --------- | ----------------- | --------- |
+| `key`     | `keyof TSchema`   | required  |
+| `filter`  | `Filter<TSchema>` | optional  |
+| `options` | `DistinctOptions` | optional  |
 
 **Returns:**
 
@@ -169,7 +161,6 @@ Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4
 const ages = await User.distinct('age');
 ```
 
-
 ## `find`
 
 Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
@@ -178,14 +169,14 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `FindOptions<TSchema>` | optional |
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `filter`  | `Filter<TSchema>`      | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
 
-`Promise<Array<TProjected>>` 
+`Promise<Array<TProjected>>`
 
 **Example:**
 
@@ -194,14 +185,10 @@ const users = await User.find({ firstName: 'John' });
 users[0]?.firstName; // valid
 users[0]?.lastName; // valid
 
-const usersProjected = await User.find(
-  { firstName: 'John' },
-  { projection: { lastName: 1 } }
-);
+const usersProjected = await User.find({ firstName: 'John' }, { projection: { lastName: 1 } });
 usersProjected[0]?.firstName; // TypeScript error
 usersProjected[0]?.lastName; // valid
 ```
-
 
 ## `findById`
 
@@ -211,14 +198,14 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `id` | `string \| ObjectId` | required |
-| `options` | `FindOptions<TSchema>` | optional |
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `id`      | `string \| ObjectId`   | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
 
-`Promise<(TProjected | null)>` 
+`Promise<(TProjected | null)>`
 
 **Example:**
 
@@ -227,14 +214,12 @@ const user = await User.findById('606ac819fa14e243e66ec4f4');
 user.firstName; // valid
 user.lastName; // valid
 
-const userProjected = await User.find(
-  new ObjectId('606ac819fa14e243e66ec4f4'),
-  { projection: { lastName: 1 } }
-);
+const userProjected = await User.find(new ObjectId('606ac819fa14e243e66ec4f4'), {
+  projection: { lastName: 1 },
+});
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
-
 
 ## `findOne`
 
@@ -244,14 +229,14 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `FindOptions<TSchema>` | optional |
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `filter`  | `Filter<TSchema>`      | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
 
-`Promise<(TProjected | null)>` 
+`Promise<(TProjected | null)>`
 
 **Example:**
 
@@ -260,14 +245,10 @@ const user = await User.findOne({ firstName: 'John' });
 user.firstName; // valid
 user.lastName; // valid
 
-const userProjected = await User.findOne(
-  { firstName: 'John' },
-  { projection: { lastName: 1 } }
-);
+const userProjected = await User.findOne({ firstName: 'John' }, { projection: { lastName: 1 } });
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
-
 
 ## `findOneAndDelete`
 
@@ -277,21 +258,20 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `options` | `FindOneAndUpdateOptions` | optional |
+| Name      | Type                      | Attribute |
+| --------- | ------------------------- | --------- |
+| `filter`  | `Filter<TSchema>`         | required  |
+| `options` | `FindOneAndUpdateOptions` | optional  |
 
 **Returns:**
 
-`Promise<(TProjected | null)>` 
+`Promise<(TProjected | null)>`
 
 **Example:**
 
 ```ts
 const user = await User.findOneAndDelete({ firstName: 'John' });
 ```
-
 
 ## `findOneAndUpdate`
 
@@ -301,23 +281,20 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `update` | `UpdateFilter<TSchema>` | required |
-| `options` | `FindOneAndUpdateOptions` | optional |
+| Name      | Type                      | Attribute |
+| --------- | ------------------------- | --------- |
+| `filter`  | `Filter<TSchema>`         | required  |
+| `update`  | `UpdateFilter<TSchema>`   | required  |
+| `options` | `FindOneAndUpdateOptions` | optional  |
 
 **Returns:**
 
-`Promise<(TProjected | null)>` 
+`Promise<(TProjected | null)>`
 
 **Example:**
 
 ```ts
-const user = await User.findOneAndUpdate(
-  { firstName: 'John' },
-  { $set: { age: 40 } }
-);
+const user = await User.findOneAndUpdate({ firstName: 'John' }, { $set: { age: 40 } });
 user.firstName; // valid
 user.lastName; // valid
 
@@ -330,31 +307,29 @@ userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
 
-
 ## `insertMany`
 
 Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `documents` | `Array<TSchema>` | required |
-| `options` | `BulkWriteOptions` | optional |
+| Name        | Type               | Attribute |
+| ----------- | ------------------ | --------- |
+| `documents` | `Array<TSchema>`   | required  |
+| `options`   | `BulkWriteOptions` | optional  |
 
 **Returns:**
 
-`Promise<Array<TSchema>>` 
+`Promise<Array<TSchema>>`
 
 **Example:**
 
 ```ts
 const users = await User.insertMany([
   { firstName: 'John', lastName: 'Wick' },
-  { firstName: 'John', lastName: 'Doe' }
+  { firstName: 'John', lastName: 'Doe' },
 ]);
 ```
-
 
 ## `insertOne`
 
@@ -362,24 +337,23 @@ Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `document` | `TSchema` | required |
-| `options` | `InsertOneOptions` | optional |
+| Name       | Type               | Attribute |
+| ---------- | ------------------ | --------- |
+| `document` | `TSchema`          | required  |
+| `options`  | `InsertOneOptions` | optional  |
 
 **Returns:**
 
-`Promise<TSchema>` 
+`Promise<TSchema>`
 
 **Example:**
 
 ```ts
 const users = await User.insertOne([
   { firstName: 'John', lastName: 'Wick' },
-  { firstName: 'John', lastName: 'Doe' }
+  { firstName: 'John', lastName: 'Doe' },
 ]);
 ```
-
 
 ## `updateMany`
 
@@ -387,11 +361,11 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `update` | `UpdateFilter<TSchema>` | required |
-| `options` | `UpdateOptions` | optional |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `Filter<TSchema>`       | required  |
+| `update`  | `UpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`         | optional  |
 
 **Returns:**
 
@@ -400,12 +374,8 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 **Example:**
 
 ```ts
-const result = await User.updateMany(
-  { firstName: 'John' },
-  { $set: { age: 40 } }
-);
+const result = await User.updateMany({ firstName: 'John' }, { $set: { age: 40 } });
 ```
-
 
 ## `updateOne`
 
@@ -413,11 +383,11 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `update` | `UpdateFilter<TSchema>` | required |
-| `options` | `UpdateOptions` | optional |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `Filter<TSchema>`       | required  |
+| `update`  | `UpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`         | optional  |
 
 **Returns:**
 
@@ -426,12 +396,8 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 **Example:**
 
 ```ts
-const result = await User.updateOne(
-  { firstName: 'John' },
-  { $set: { age: 40 } }
-);
+const result = await User.updateOne({ firstName: 'John' }, { $set: { age: 40 } });
 ```
-
 
 ## `upsert`
 
@@ -439,20 +405,17 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `filter` | `Filter<TSchema>` | required |
-| `update` | `UpdateFilter<TSchema>` | required |
+| Name     | Type                    | Attribute |
+| -------- | ----------------------- | --------- |
+| `filter` | `Filter<TSchema>`       | required  |
+| `update` | `UpdateFilter<TSchema>` | required  |
 
 **Returns:**
 
-`Promise<TSchema>` 
+`Promise<TSchema>`
 
 **Example:**
 
 ```ts
-const user = await User.upsert(
-  { firstName: 'John', lastName: 'Wick' },
-  { $set: { age: 40 } }
-);
+const user = await User.upsert({ firstName: 'John', lastName: 'Wick' }, { $set: { age: 40 } });
 ```
