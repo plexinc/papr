@@ -16,14 +16,14 @@ Creates an array consisting of items of a single type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `item` | `TItem` | required |
-| `options` | `ArrayOptions` | optional |
-| `options.maxItems` | `number` | optional |
-| `options.minItems` | `number` | optional |
-| `options.required` | `boolean` | optional |
-| `options.uniqueItems` | `boolean` | optional |
+| Name                  | Type           | Attribute |
+| --------------------- | -------------- | --------- |
+| `item`                | `TItem`        | required  |
+| `options`             | `ArrayOptions` | optional  |
+| `options.maxItems`    | `number`       | optional  |
+| `options.minItems`    | `number`       | optional  |
+| `options.required`    | `boolean`      | optional  |
+| `options.uniqueItems` | `boolean`      | optional  |
 
 **Example:**
 
@@ -42,17 +42,16 @@ schema({
 });
 ```
 
-
 ## `binary`
 
 Creates a binary type. Useful for storing `Buffer` or any other binary data.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `GenericOptions` | optional |
-| `options.required` | `boolean` | optional |
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
 
 **Example:**
 
@@ -65,17 +64,16 @@ schema({
 });
 ```
 
-
 ## `boolean`
 
 Creates a boolean type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `GenericOptions` | optional |
-| `options.required` | `boolean` | optional |
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
 
 **Example:**
 
@@ -88,17 +86,16 @@ schema({
 });
 ```
 
-
 ## `date`
 
 Creates a date type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `GenericOptions` | optional |
-| `options.required` | `boolean` | optional |
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
 
 **Example:**
 
@@ -111,7 +108,6 @@ schema({
 });
 ```
 
-
 ## `enum`
 
 Creates an enum type based on a TypeScript `enum` structure.
@@ -120,11 +116,11 @@ Enum types may contain `null` as well.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `values` | `Array<TValue>` | required |
-| `options` | `GenericOptions` | optional |
-| `options.required` | `boolean` | optional |
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `values`           | `Array<TValue>`  | required  |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
 
 **Example:**
 
@@ -133,7 +129,7 @@ import { schema, types } from 'papr';
 
 enum Sample {
   foo = 'foo',
-  bar = 'bar'
+  bar = 'bar',
 }
 
 schema({
@@ -143,23 +139,22 @@ schema({
 });
 ```
 
-
 ## `number`
 
 Creates a number type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `NumberOptions` | optional |
-| `options.enum` | `Array<number>` | optional |
-| `options.exclusiveMaximum` | `boolean` | optional |
-| `options.exclusiveMinimum` | `boolean` | optional |
-| `options.maximum` | `number` | optional |
-| `options.minimum` | `number` | optional |
-| `options.mulitpleOf` | `number` | optional |
-| `options.required` | `boolean` | optional |
+| Name                       | Type            | Attribute |
+| -------------------------- | --------------- | --------- |
+| `options`                  | `NumberOptions` | optional  |
+| `options.enum`             | `Array<number>` | optional  |
+| `options.exclusiveMaximum` | `boolean`       | optional  |
+| `options.exclusiveMinimum` | `boolean`       | optional  |
+| `options.maximum`          | `number`        | optional  |
+| `options.minimum`          | `number`        | optional  |
+| `options.mulitpleOf`       | `number`        | optional  |
+| `options.required`         | `boolean`       | optional  |
 
 **Example:**
 
@@ -181,23 +176,22 @@ schema({
 });
 ```
 
-
 ## `object`
 
 Creates an object type specifying all the known properties upfront.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `properties` | `TProperties` | required |
-| `options` | `ObjectOptions` | optional |
-| `options.additionalProperties` | `boolean` | optional |
-| `options.dependencies` | `Record<string, Array<string>>` | optional |
-| `options.maxProperties` | `number` | optional |
-| `options.minProperties` | `number` | optional |
-| `options.patternProperties` | `Record<string, unknown>` | optional |
-| `options.required` | `boolean` | optional |
+| Name                           | Type                            | Attribute |
+| ------------------------------ | ------------------------------- | --------- |
+| `properties`                   | `TProperties`                   | required  |
+| `options`                      | `ObjectOptions`                 | optional  |
+| `options.additionalProperties` | `boolean`                       | optional  |
+| `options.dependencies`         | `Record<string, Array<string>>` | optional  |
+| `options.maxProperties`        | `number`                        | optional  |
+| `options.minProperties`        | `number`                        | optional  |
+| `options.patternProperties`    | `Record<string, unknown>`       | optional  |
+| `options.required`             | `boolean`                       | optional  |
 
 **Example:**
 
@@ -237,23 +231,22 @@ schema({
 });
 ```
 
-
 ## `objectGeneric`
 
 Creates an object type without any upfront properties defined, instead you define only a pattern for the properties names. All properties will expect the same type as value (`TValue`).
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `value` | `TValue` | required |
-| `pattern` | `string` | optional |
-| `options` | `ObjectOptions` | optional |
-| `options.additionalProperties` | `boolean` | optional |
-| `options.dependencies` | `Record<string, Array<string>>` | optional |
-| `options.maxProperties` | `number` | optional |
-| `options.minProperties` | `number` | optional |
-| `options.required` | `boolean` | optional |
+| Name                           | Type                            | Attribute |
+| ------------------------------ | ------------------------------- | --------- |
+| `value`                        | `TValue`                        | required  |
+| `pattern`                      | `string`                        | optional  |
+| `options`                      | `ObjectOptions`                 | optional  |
+| `options.additionalProperties` | `boolean`                       | optional  |
+| `options.dependencies`         | `Record<string, Array<string>>` | optional  |
+| `options.maxProperties`        | `number`                        | optional  |
+| `options.minProperties`        | `number`                        | optional  |
+| `options.required`             | `boolean`                       | optional  |
 
 **Example:**
 
@@ -264,14 +257,9 @@ schema({
   // This accepts any property name with the value as a number
   optionalObjectGeneric: types.objectGeneric(types.number()),
   // This accepts only objects with properties starting with `foo`
-  requiredObjectGeneric: types.objectGeneric(
-    types.number(),
-    '^foo.+',
-    { required: true }
-  ),
+  requiredObjectGeneric: types.objectGeneric(types.number(), '^foo.+', { required: true }),
 });
 ```
-
 
 ## `objectId`
 
@@ -279,10 +267,10 @@ Creates an `ObjectId` type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `GenericOptions` | optional |
-| `options.required` | `boolean` | optional |
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
 
 **Example:**
 
@@ -295,21 +283,20 @@ schema({
 });
 ```
 
-
 ## `string`
 
 Creates a string type.
 
 **Parameters:**
 
-| Name | Type | Attribute |
-| --- | --- | --- |
-| `options` | `StringOptions` | optional |
-| `options.enum` | `Array<string>` | optional |
-| `options.maxLength` | `number` | optional |
-| `options.minLength` | `number` | optional |
-| `options.pattern` | `string` | optional |
-| `options.required` | `boolean` | optional |
+| Name                | Type            | Attribute |
+| ------------------- | --------------- | --------- |
+| `options`           | `StringOptions` | optional  |
+| `options.enum`      | `Array<string>` | optional  |
+| `options.maxLength` | `number`        | optional  |
+| `options.minLength` | `number`        | optional  |
+| `options.pattern`   | `string`        | optional  |
+| `options.required`  | `boolean`       | optional  |
 
 **Example:**
 
@@ -328,7 +315,6 @@ schema({
   }),
 });
 ```
-
 
 ## `any`
 
