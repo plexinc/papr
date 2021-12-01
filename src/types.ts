@@ -285,7 +285,10 @@ export default {
   date: createSimpleType<Date>('date'),
 
   /**
-   * Creates an enum type based on a TypeScript `enum` structure.
+   * With `enum` you can either :
+   *
+   * - Create an enum type based on a TypeScript `enum` structure
+   * - Create an union type based on an array of `const`
    *
    * Enum types may contain `null` as well.
    *
@@ -305,6 +308,8 @@ export default {
    *   requiredEnum: types.enum(Object.values(Sample), { required: true }),
    *   optionalEnum: types.enum(Object.values(Sample)),
    *   optionalEnumWithNull: types.enum([...Object.values(Sample), null]),
+   *   optionalEnumAsConstArray: types.enum(['foo' as const, 'bar' as const], { required: true }), // type is 'foo' | 'bar' | undefined
+   *   requiredEnumAsConstArray: types.enum(['foo' as const, 'bar' as const], { required: true }), // type is 'foo' | 'bar'
    * });
    */
   enum: enumType,
