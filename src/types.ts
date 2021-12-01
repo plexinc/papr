@@ -285,10 +285,10 @@ export default {
   date: createSimpleType<Date>('date'),
 
   /**
-   * With `enum` you can either :
+   * With `enum` you can create an enum type either:
    *
-   * - Create an enum type based on a TypeScript `enum` structure
-   * - Create an union type based on an array of `const`
+   * - based on a TypeScript `enum` structure
+   * - based on an array of `const`
    *
    * Enum types may contain `null` as well.
    *
@@ -299,17 +299,24 @@ export default {
    * @example
    * import { schema, types } from 'papr';
    *
-   * enum Sample {
+   * enum SampleEnum {
    *   foo = 'foo',
    *   bar = 'bar'
    * }
    *
+   * const SampleArray = ['foo' as const, 'bar' as const];
+   *
    * schema({
-   *   requiredEnum: types.enum(Object.values(Sample), { required: true }),
-   *   optionalEnum: types.enum(Object.values(Sample)),
-   *   optionalEnumWithNull: types.enum([...Object.values(Sample), null]),
-   *   optionalEnumAsConstArray: types.enum(['foo' as const, 'bar' as const], { required: true }), // type is 'foo' | 'bar' | undefined
-   *   requiredEnumAsConstArray: types.enum(['foo' as const, 'bar' as const], { required: true }), // type is 'foo' | 'bar'
+   *   // type: SampleEnum
+   *   requiredEnum: types.enum(Object.values(SampleEnum), { required: true }),
+   *   // type: SampleEnum | undefined
+   *   optionalEnum: types.enum(Object.values(SampleEnum)),
+   *   // type: SampleEnum | null | undefined
+   *   optionalEnumWithNull: types.enum([...Object.values(SampleEnum), null]),
+   *   // type: 'foo' | 'bar'
+   *   requiredEnumAsConstArray: types.enum(SampleArray, { required: true }),
+   *   // type: 'foo' | 'bar' | undefined
+   *   optionalEnumAsConstArray: types.enum(SampleArray),
    * });
    */
   enum: enumType,
