@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/plexinc/papr/compare/v2.1.1...v2.2.0) (2021-12-02)
+
+
+### Features
+
+* Use mongodb v4.2.1 ([#141](https://github.com/plexinc/papr/issues/141)) ([a17e53f](https://github.com/plexinc/papr/commit/a17e53fcab7d0c307c11bce99728da625a484e68))
+
+
+### Bug Fixes
+
+* Support enum type with array of const values ([#133](https://github.com/plexinc/papr/issues/133)) ([f39003f](https://github.com/plexinc/papr/commit/f39003f29538826821554405ec656740dd2ab621))
+
 ### [2.1.1](https://github.com/plexinc/papr/compare/v2.1.0...v2.1.1) (2021-11-08)
 
 
