@@ -115,7 +115,7 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
-  upsert: (filter: Filter<TSchema>, update: UpdateFilter<TSchema>) => Promise<TSchema>;
+  upsert: (filter: Filter<TSchema>, update: UpdateFilter<TSchema>) => Promise<WithId<TSchema>>;
 }
 
 function abstractMethod(): void {
@@ -506,7 +506,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
           ...model.defaultOptions,
           ...options,
         } as FindOptions<TSchema>)
-        .toArray();
+        .toArray() as unknown as ProjectionType<TSchema, Projection>[];
     }
   );
 
@@ -872,7 +872,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.upsert = async function upsert(
     filter: Filter<TSchema>,
     update: UpdateFilter<TSchema>
-  ): Promise<TSchema> {
+  ): Promise<WithId<TSchema>> {
     const item = await model.findOneAndUpdate(filter, update, {
       upsert: true,
     });
