@@ -10,7 +10,7 @@ This TypeScript type is useful to compute the sub-document resulting from a `fin
 import { ProjectionType } from 'papr';
 
 const projection = {
-  firstName: 1,
+  firstName: 1
 };
 
 type UserProjected = ProjectionType<UserDocument, typeof projection>;
@@ -39,3 +39,4 @@ enum VALIDATION_LEVEL {
   STRICT = 'strict',
 }
 ```
+

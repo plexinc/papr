@@ -18,14 +18,14 @@ While the default `_id` property is added with an `ObjectId` type, its type can 
 
 **Parameters:**
 
-| Name                       | Type                      | Attribute |
-| -------------------------- | ------------------------- | --------- |
-| `properties`               | `Record<string, unknown>` | required  |
-| `options`                  | `SchemaOptions`           | optional  |
-| `options.defaults`         | `Partial<TProperties>`    | optional  |
-| `options.timestamps`       | `boolean`                 | optional  |
-| `options.validationAction` | `VALIDATION_ACTIONS`      | optional  |
-| `options.validationLevel`  | `VALIDATION_LEVEL`        | optional  |
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `properties` | `Record<string, unknown>` | required |
+| `options` | `SchemaOptions` | optional |
+| `options.defaults` | `Partial<TProperties>` | optional |
+| `options.timestamps` | `boolean` | optional |
+| `options.validationAction` | `VALIDATION_ACTIONS` | optional |
+| `options.validationLevel` | `VALIDATION_LEVEL` | optional |
 
 **Returns:**
 
@@ -45,19 +45,16 @@ const userSchema = schema({
 
 type UserDocument = typeof userSchema[0];
 
-const orderSchema = schema(
-  {
-    _id: types.number({ required: true }),
-    user: types.objectId({ required: true }),
-    product: types.string({ required: true }),
-  },
-  {
-    defaults: { product: 'test' },
-    timestamps: true,
-    validationAction: VALIDATION_ACTIONS.WARN,
-    validationLevel: VALIDATION_LEVEL.MODERATE,
-  }
-);
+const orderSchema = schema({
+  _id: types.number({ required: true }),
+  user: types.objectId({ required: true }),
+  product: types.string({ required: true })
+}, {
+  defaults: { product: 'test' },
+  timestamps: true,
+  validationAction: VALIDATION_ACTIONS.WARN,
+  validationLevel: VALIDATION_LEVEL.MODERATE
+});
 
 type OrderDocument = typeof orderSchema[0];
 ```

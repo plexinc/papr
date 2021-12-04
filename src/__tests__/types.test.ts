@@ -105,15 +105,52 @@ describe('types', () => {
       });
 
       test('array of const', () => {
-        const value = types.enum(['a' as const, 'b' as const]);
+        const valueRequired = types.enum(['a' as const, 'b' as const], { required: true });
+        const valueNonRequired = types.enum(['a' as const, 'b' as const]);
 
-        expect(value).toEqual({
+        expect(valueRequired).toEqual({
+          $required: true,
           enum: ['a', 'b'],
         });
-        expectType<typeof value>('a');
+        expect(valueNonRequired).toEqual({
+          enum: ['a', 'b'],
+        });
+        expectType<typeof valueRequired>('a');
+        // @ts-expect-error `valueRequired` can not be c
+        expectType<typeof valueRequired>('c');
+        // @ts-expect-error `valueRequired` can not be undefined
+        expectType<typeof valueRequired>(undefined);
+
+        expectType<typeof valueNonRequired>('a');
         // @ts-expect-error `value` can not be c
-        expectType<typeof value>('c');
-        expectType<typeof value>(undefined);
+        expectType<typeof valueNonRequired>('c');
+        expectType<typeof valueNonRequired>(undefined);
+      });
+
+      test('array of strings', () => {
+        const valueRequired = types.enum(['a', 'b'], { required: true });
+        const valueNonRequired = types.enum(['a', 'b']);
+        const arrayOfStrings = ['a', 'b'];
+        // @ts-expect-error accepts only litterals
+        types.enum(arrayOfStrings);
+
+        expect(valueRequired).toEqual({
+          $required: true,
+          enum: ['a', 'b'],
+        });
+        expect(valueNonRequired).toEqual({
+          enum: ['a', 'b'],
+        });
+        expectType<typeof valueRequired>('a');
+        // @ts-expect-error `valueRequired` can not be c
+        expectType<typeof valueRequired>('c');
+        // @ts-expect-error `valueRequired` can not be undefined
+        expectType<typeof valueRequired>(undefined);
+
+        expectType<typeof valueNonRequired>('a');
+        // @ts-expect-error `value` can not be c
+        expectType<typeof valueNonRequired>('c');
+        expectType<typeof valueNonRequired>(undefined);
       });
     });
 
