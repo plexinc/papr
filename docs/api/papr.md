@@ -2,6 +2,8 @@
 
 # Papr
 
+
+
 ## `Papr`
 
 Returns a new instance of `Papr`.
@@ -10,11 +12,11 @@ It may be called with some options for before and after hooks and a maximum exec
 
 **Parameters:**
 
-| Name              | Type           | Attribute |
-| ----------------- | -------------- | --------- |
-| `options`         | `ModelOptions` | optional  |
-| `options.hooks`   | `Hooks`        | optional  |
-| `options.maxTime` | `number`       | optional  |
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `options` | `ModelOptions` | optional |
+| `options.hooks` | `Hooks` | optional |
+| `options.maxTime` | `number` | optional |
 
 **Example:**
 
@@ -24,11 +26,12 @@ const papr = new Papr();
 const paprWithOptions = new Papr({
   hooks: {
     after: [afterHook],
-    before: [beforeHook],
+    before: [beforeHook]
   },
-  maxTime: 1000,
+  maxTime: 1000
 });
 ```
+
 
 ## `initialize`
 
@@ -36,9 +39,9 @@ Initialize existing and future registered models with a mongo db instance
 
 **Parameters:**
 
-| Name | Type         | Attribute |
-| ---- | ------------ | --------- |
-| `db` | `mongodb.Db` | required  |
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `db` | `mongodb.Db` | required |
 
 **Example:**
 
@@ -50,26 +53,28 @@ const connection = await MongoClient.connect('mongodb://localhost:27017');
 papr.initialize(connection.db('test'));
 ```
 
+
 ## `model`
 
 Builds a model instance and associates its collection name and schema.
 
 **Parameters:**
 
-| Name               | Type      | Attribute |
-| ------------------ | --------- | --------- |
-| `collectionName`   | `string`  | required  |
-| `collectionSchema` | `TSchema` | required  |
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `collectionName` | `string` | required |
+| `collectionSchema` | `TSchema` | required |
 
 **Returns:**
 
-`Model<TSchema, TDefaults>`
+`Model<TSchema, TDefaults>` 
 
 **Example:**
 
 ```ts
 const User = papr.model('users', userSchema);
 ```
+
 
 ## `updateSchema`
 
@@ -81,13 +86,13 @@ command for existing collections.
 
 **Parameters:**
 
-| Name    | Type                        | Attribute |
-| ------- | --------------------------- | --------- |
-| `model` | `Model<TSchema, TDefaults>` | required  |
+| Name | Type | Attribute |
+| --- | --- | --- |
+| `model` | `Model<TSchema, TDefaults>` | required |
 
 **Returns:**
 
-`Promise<void>`
+`Promise<void>` 
 
 **Example:**
 
@@ -95,13 +100,14 @@ command for existing collections.
 await papr.updateSchema(User);
 ```
 
+
 ## `updateSchemas`
 
 Updates the validation schemas and validation options on all the MongoDB collections registered by models.
 
 **Returns:**
 
-`Promise<void>`
+`Promise<void>` 
 
 **Example:**
 

@@ -128,6 +128,13 @@ function array<Item, Options extends ArrayOptions>(
   } as unknown as GetType<Item[], Options>;
 }
 
+type LiteralOrNever<T> = string extends T ? never : T;
+
+function enumType<Enum extends string, Options extends GenericOptions>(
+  values: LiteralOrNever<Enum>[][],
+  options?: Options
+): GetType<typeof values[number], Options>;
+
 function enumType<Enum, Options extends GenericOptions>(
   values: Enum[],
   options?: Options
@@ -289,6 +296,7 @@ export default {
    *
    * - based on a TypeScript `enum` structure
    * - based on an array of `const`
+   * - based on an array of litteral strings
    *
    * Enum types may contain `null` as well.
    *
@@ -317,6 +325,10 @@ export default {
    *   requiredEnumAsConstArray: types.enum(SampleArray, { required: true }),
    *   // type: 'foo' | 'bar' | undefined
    *   optionalEnumAsConstArray: types.enum(SampleArray),
+   *   // type: 'foo' | 'bar'
+   *   requiredEnumAsStringLitteralArray: types.enum(['foo', 'bar'], { required: true }),
+   *   // type: 'foo' | 'bar' | undefined
+   *   optionalEnumAsStringLitteralArray: types.enum(['foo', 'bar']),
    * });
    */
   enum: enumType,
