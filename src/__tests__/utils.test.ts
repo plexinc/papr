@@ -8,10 +8,23 @@ describe('utils', () => {
     foo: string;
     bar: number;
     ham?: Date;
+    nestedList: {
+      direct: string;
+      other?: number;
+    }[];
+    nestedObject: {
+      deep: {
+        deeper: string;
+        other?: number;
+      };
+      direct: boolean;
+      other?: number;
+    };
   };
 
   test('ProjectionType, required fields', () => {
     const foo = { foo: 1 };
+
     const testFoo: ProjectionType<Schema, typeof foo> = {
       _id: new ObjectId(),
       foo: 'foo',
@@ -28,6 +41,7 @@ describe('utils', () => {
     testFoo.ham;
 
     const bar = { bar: 1 };
+
     const testBar: ProjectionType<Schema, typeof bar> = {
       _id: new ObjectId(),
       bar: 123,
@@ -45,7 +59,11 @@ describe('utils', () => {
   });
 
   test('ProjectionType, multiple mixed fields', () => {
-    const multiple = { bar: 1, ham: 1 };
+    const multiple = {
+      bar: 1,
+      ham: 1,
+    };
+
     const testMultiple: ProjectionType<Schema, typeof multiple> = {
       _id: new ObjectId(),
       bar: 123,
@@ -63,12 +81,74 @@ describe('utils', () => {
     expectType<Date | undefined>(testMultiple.ham);
   });
 
+  test('ProjectionType, nested fields', () => {
+    const nested = {
+      foo: 1,
+      'nestedList.0.direct': 1,
+      'nestedObject.deep.deeper': 1,
+      'nestedObject.direct': 1,
+    };
+
+    const testNested: ProjectionType<Schema, typeof nested> = {
+      _id: new ObjectId(),
+      foo: 'foo',
+      nestedList: [
+        {
+          direct: 'in list',
+        },
+      ],
+      nestedObject: {
+        deep: {
+          deeper: 'in object',
+        },
+        direct: true,
+      },
+    };
+
+    expectType<{
+      _id: ObjectId;
+      foo: string;
+      nestedList: {
+        direct: string;
+      }[];
+      nestedObject?: {
+        deep?: {
+          deeper: string;
+        };
+        direct: boolean;
+      };
+    }>(testNested);
+    expectType<string>(testNested.foo);
+    // @ts-expect-error `bar` should be undefined here
+    testNested.bar;
+    // @ts-expect-error `ham` should be undefined here
+    testNested.ham;
+    expectType<any[]>(testNested.nestedList);
+    expectType<string>(testNested.nestedList[0].direct);
+    // @ts-expect-error `nestedList[0].other` should be undefined here
+    testNested.nestedList[0].other;
+    expectType<object>(testNested.nestedObject);
+    expectType<object>(testNested.nestedObject.deep);
+    expectType<string>(testNested.nestedObject.deep.deeper);
+    // @ts-expect-error `nestedObject.deep.other` should be undefined here
+    testNested.nestedObject.deep.other;
+    // @ts-expect-error `nestedObject.other` should be undefined here
+    testNested.nestedObject.other;
+  });
+
   test('ProjectionType, full schema', () => {
     const testFull: ProjectionType<Schema, undefined> = {
       _id: new ObjectId(),
       bar: 123,
       foo: 'foo',
       ham: new Date(),
+      nestedList: [],
+      nestedObject: {
+        deep: {
+          deeper: 'hi',
+        },
+        direct: true,
+      },
     };
 
     expectType<Schema>(testFull);
