@@ -21,6 +21,10 @@ describe('model', () => {
       bar: Types.number({ required: true }),
       foo: Types.string({ required: true }),
       ham: Types.date(),
+      nested: Types.object({
+        direct: Types.string({ required: true }),
+        other: Types.number(),
+      }),
     },
     {
       defaults: DEFAULTS,
@@ -32,6 +36,10 @@ describe('model', () => {
       bar: Types.number({ required: true }),
       foo: Types.string({ required: true }),
       ham: Types.date(),
+      nested: Types.object({
+        direct: Types.string({ required: true }),
+        other: Types.number(),
+      }),
     },
     {
       defaults: DEFAULTS,
@@ -172,7 +180,6 @@ describe('model', () => {
           replaceOne: {
             filter: { foo: 'foo' },
             replacement: {
-              _id: new ObjectId(),
               bar: 123,
               foo: 'foo',
             },
@@ -364,8 +371,6 @@ describe('model', () => {
     });
 
     test('timestamps schema', async () => {
-      const id = new ObjectId();
-
       await timestampsModel.bulkWrite([
         {
           insertOne: {
@@ -397,7 +402,6 @@ describe('model', () => {
             filter: { foo: 'foo' },
             // @ts-expect-error TODO Fix operation types with timestamps
             replacement: {
-              _id: id,
               bar: 123,
               foo: 'foo',
             },
@@ -490,7 +494,6 @@ describe('model', () => {
           replaceOne: {
             filter: { foo: 'foo' },
             replacement: {
-              _id: id,
               bar: 123,
               createdAt: expect.any(Date),
               foo: 'foo',
@@ -575,13 +578,24 @@ describe('model', () => {
     });
 
     test('with projection', async () => {
-      const results = await simpleModel.find({}, { projection });
+      const results = await simpleModel.find(
+        {},
+        {
+          projection: {
+            ...projection,
+            'nested.direct': 1,
+          },
+        }
+      );
 
       expectType<
         {
           _id: ObjectId;
           foo: string;
           ham?: Date;
+          nested?: {
+            direct: string;
+          };
         }[]
       >(results);
 
@@ -590,6 +604,9 @@ describe('model', () => {
         // @ts-expect-error `bar` is undefined here
         results[0].bar;
         expectType<Date | undefined>(results[0].ham);
+        expectType<string | undefined>(results[0].nested?.direct);
+        // @ts-expect-error `nested.other` is undefined here
+        results[0].nested?.other;
       }
     });
 

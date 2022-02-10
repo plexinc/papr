@@ -406,6 +406,8 @@ export default {
   /**
    * Creates an object type without any upfront properties defined, instead you define only a pattern for the properties names. All properties will expect the same type as value (`TValue`).
    *
+   * Note: It's recommended to avoid using such a type. It might throw a TypeScript error (TS2589) in the projection logic due to the looseness of the type definition.
+   *
    * @param value {TValue}
    * @param [pattern=.+] {string}
    * @param [options] {ObjectOptions}

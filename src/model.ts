@@ -16,7 +16,7 @@ import type {
   Flatten,
   InsertOneOptions,
   MatchKeysAndValues,
-  OptionalId,
+  OptionalUnlessRequiredId,
   UpdateFilter,
   UpdateOptions,
   UpdateResult,
@@ -731,7 +731,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       });
 
       const result = await model.collection.insertMany(
-        documents as unknown as OptionalId<TSchema>[],
+        documents as unknown as OptionalUnlessRequiredId<TSchema>[],
         {
           ...model.defaultOptions,
           ...options,
@@ -781,7 +781,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
 
       // Casting to unknown first because TS complains here
       const result = await model.collection.insertOne(
-        data as unknown as OptionalId<TSchema>,
+        data as unknown as OptionalUnlessRequiredId<TSchema>,
         {
           ...model.defaultOptions,
           ...options,
