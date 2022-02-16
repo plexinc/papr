@@ -52,7 +52,7 @@
     "test:types": "tsc"
   },
   "devDependencies": {
-    "@babel/core": "7.16.0",
+    "@babel/core": "7.17.4",
     "@babel/preset-env": "7.16.0",
     "@babel/preset-typescript": "7.16.0",
     "@byu-oit/bar-chart": "1.4.2",
@@ -73,7 +73,7 @@
     "husky": "7.0.0",
     "jest": "27.5.1",
     "jsdoc-api": "7.1.0",
-    "jsdoc-parse": "6.0.0",
+    "jsdoc-parse": "6.1.0",
     "lint-staged": "12.3.4",
     "mongodb": "4.2.1",
     "mongodb-memory-server": "8.1.0",
