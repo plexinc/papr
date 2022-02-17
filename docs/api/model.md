@@ -20,6 +20,10 @@ const User = papr.model('users', userSchema);
 
 Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#aggregate) method.
 
+The MongoDB aggregation pipeline syntax is very rich and powerful, however providing full typed support for the results is out of the scope of `papr`.
+
+We provide a generic type to this method `TAggregate`, defaulted to the `TSchema` of the model, which can be used to customize the return type of the results.
+
 **Parameters:**
 
 | Name       | Type                             | Attribute |
@@ -29,12 +33,19 @@ Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-`Promise<Array<Aggregate>>` A custom data type based on the pipeline steps
+`Promise<Array<TAggregate>>` A custom data type based on the pipeline steps
 
 **Example:**
 
 ```ts
+// The default results type is UserDocument
 const results = await User.aggregate([{ $sortByCount: '$age' }, { $limit: 5 }]);
+
+// Use custom results type
+const results = await User.aggregate<{ age: number }>([
+  { $sortByCount: '$age' },
+  { $projection: { age: 1 } },
+]);
 ```
 
 ## `bulkWrite`
