@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/plexinc/papr/compare/v2.2.0...v2.3.0) (2022-03-03)
+
+
+### Features
+
+* Support nested fields in projection ([#155](https://github.com/plexinc/papr/issues/155)) ([6ed7ba1](https://github.com/plexinc/papr/commit/6ed7ba12cc0216d1156d155f7a6eb0985b34bc0b))
+
+
+### Bug Fixes
+
+* bump node-fetch from 2.6.1 to 2.6.7 ([cb25d05](https://github.com/plexinc/papr/commit/cb25d05bdceb0d51ebee42ef87da868c67f40c26))
+* bump shelljs from 0.8.4 to 0.8.5 ([#149](https://github.com/plexinc/papr/issues/149)) ([2ee4a30](https://github.com/plexinc/papr/commit/2ee4a30e6d99cad06339a1b290d29d25e8114a13))
+* bump trim-off-newlines from 1.0.1 to 1.0.3 ([#152](https://github.com/plexinc/papr/issues/152)) ([6ed3ccd](https://github.com/plexinc/papr/commit/6ed3ccd1923d06a53e7210441f0e4f68e9e77782))
+
 ## [2.2.0](https://github.com/plexinc/papr/compare/v2.1.1...v2.2.0) (2021-12-02)
 
 
