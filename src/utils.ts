@@ -1,5 +1,6 @@
-import { ObjectId, WithId } from 'mongodb';
+import { Join, NestedPaths, ObjectId, WithId } from 'mongodb';
 import type { AnyBulkWriteOperation, OptionalId, UpdateFilter } from 'mongodb';
+import { DeepPick } from './DeepPick';
 import { Hooks } from './hooks';
 
 export enum VALIDATION_ACTIONS {
@@ -43,10 +44,10 @@ export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Ext
 
 export type ProjectionType<
   TSchema extends BaseSchema,
-  Projection extends Partial<Record<keyof TSchema, number>> | undefined
+  Projection extends Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>> | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : WithId<Pick<TSchema, keyof Projection & keyof TSchema>>;
+  : WithId<DeepPick<TSchema, keyof Projection & string>>;
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
