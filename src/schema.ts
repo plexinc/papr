@@ -2,18 +2,18 @@ import { WithId } from 'mongodb';
 import types, { ObjectType } from './types';
 import { TimestampSchema, VALIDATION_ACTIONS, VALIDATION_LEVEL } from './utils';
 
-interface SchemaOptions<TProperties, TDefaults extends Partial<TProperties>> {
-  defaults?: TDefaults;
+interface SchemaOptions<TProperties> {
+  defaults?: Partial<TProperties>;
   timestamps?: boolean;
   validationAction?: VALIDATION_ACTIONS;
   validationLevel?: VALIDATION_LEVEL;
 }
 
-type TimestampsOptions = Required<Pick<SchemaOptions<unknown, any>, 'timestamps'>>;
+type TimestampsOptions = Required<Pick<SchemaOptions<unknown>, 'timestamps'>>;
 
 export type SchemaType<
   TProperties extends Record<string, unknown>,
-  TOptions extends SchemaOptions<unknown, any>
+  TOptions extends SchemaOptions<unknown>
 > = TOptions extends TimestampsOptions
   ? ObjectType<WithId<TProperties> & TimestampSchema>
   : ObjectType<WithId<TProperties>>;
@@ -92,8 +92,8 @@ function sanitize(value: any): void {
  */
 export default function schema<
   TProperties extends Record<string, unknown>,
-  TDefaults extends Partial<TProperties>,
-  TOptions extends SchemaOptions<TProperties, TDefaults>
+  TOptions extends SchemaOptions<TProperties>,
+  TDefaults extends TOptions['defaults'] = object
 >(properties: TProperties, options?: TOptions): [SchemaType<TProperties, TOptions>, TDefaults] {
   const {
     defaults,

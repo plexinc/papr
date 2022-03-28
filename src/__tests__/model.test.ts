@@ -48,9 +48,11 @@ describe('model', () => {
   );
 
   type SimpleDocument = typeof simpleSchema[0];
+  type SimpleDefaults = typeof simpleSchema[1];
   type TimestampsDocument = typeof timestampsSchema[0];
-  let simpleModel: Model<SimpleDocument, typeof DEFAULTS>;
-  let timestampsModel: Model<TimestampsDocument, typeof DEFAULTS>;
+  type TimestampsDefaults = typeof timestampsSchema[1];
+  let simpleModel: Model<SimpleDocument, SimpleDefaults>;
+  let timestampsModel: Model<TimestampsDocument, TimestampsDefaults>;
 
   let doc: SimpleDocument;
   let docs: SimpleDocument[];
