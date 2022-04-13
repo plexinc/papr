@@ -45,10 +45,7 @@ describe('schema', () => {
           foo?: boolean;
           bar: number;
         },
-        {
-          foo?: boolean;
-          bar?: number;
-        }
+        {}
       ]
     >(value);
     expectType<ObjectId>(value[0]?._id);
@@ -106,8 +103,7 @@ describe('schema', () => {
           bar: number;
         },
         {
-          foo?: boolean;
-          bar?: number;
+          foo: boolean;
         }
       ]
     >(value);
@@ -167,11 +163,7 @@ describe('schema', () => {
           createdAt: Date;
           updatedAt: Date;
         },
-        {
-          foo?: boolean;
-          createdAt?: Date;
-          updatedAt?: Date;
-        }
+        {}
       ]
     >(value);
     expectType<ObjectId>(value[0]?._id);
@@ -217,9 +209,7 @@ describe('schema', () => {
           _id: string;
           foo: number;
         },
-        {
-          foo?: number;
-        }
+        {}
       ]
     >(value);
     expectType<string>(value[0]?._id);
@@ -264,9 +254,7 @@ describe('schema', () => {
           _id: number;
           foo: string;
         },
-        {
-          foo?: string;
-        }
+        {}
       ]
     >(value);
     expectType<number>(value[0]?._id);
@@ -529,6 +517,9 @@ describe('schema', () => {
       updatedAt: Date;
     }>(value[0]);
     /* eslint-enable */
+    expectType<{
+      stringOptional: string;
+    }>(value[1]);
     expectType<ObjectId>(value[0]?._id);
   });
 });
