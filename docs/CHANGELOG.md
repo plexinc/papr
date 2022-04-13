@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/plexinc/papr/compare/v2.3.0...v3.0.0) (2022-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* `schema()` generic types have changed.
+
+### Bug Fixes
+
+* bump minimist from 1.2.5 to 1.2.6 ([#180](https://github.com/plexinc/papr/issues/180)) ([b9d5cea](https://github.com/plexinc/papr/commit/b9d5cea0713b286352790703e27365528fe02dd2))
+* bump prismjs from 1.25.0 to 1.27.0 ([7c0d1d2](https://github.com/plexinc/papr/commit/7c0d1d212e3a63979ece1ced78f4d4999f7c95ca))
+* Improve defaults type at schema declaration ([#178](https://github.com/plexinc/papr/issues/178)) ([efa5d92](https://github.com/plexinc/papr/commit/efa5d92b1ed47a4145b5bac7e27c1793ca029954))
+
 ## [2.3.0](https://github.com/plexinc/papr/compare/v2.2.0...v2.3.0) (2022-03-03)
 
 
