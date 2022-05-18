@@ -117,7 +117,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
 function array<Item, Options extends ArrayOptions>(
   items: Item,
   options?: Options
-): GetType<Item[], Options> {
+): GetType<readonly Item[], Options> {
   const { required, ...otherOptions } = options || {};
 
   return {

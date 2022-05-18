@@ -490,9 +490,9 @@ describe('schema', () => {
       anyOptional?: any;
       // This `any` can not be required in TS
       anyRequired?: any;
-      arrayOptional?: (number | undefined)[];
-      arrayRequired: (number | undefined)[];
-      arrayOfObjects?: {
+      arrayOptional?: readonly (number | undefined)[];
+      arrayRequired: readonly (number | undefined)[];
+      arrayOfObjects?: readonly {
         foo?: number;
       }[];
       binaryOptional?: Binary;

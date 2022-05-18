@@ -327,7 +327,7 @@ describe('types', () => {
           },
           type: 'array',
         });
-        expectType<boolean[] | undefined>(value);
+        expectType<readonly boolean[] | undefined>(value);
         expectType<typeof value>(undefined);
       });
 
@@ -341,7 +341,7 @@ describe('types', () => {
           },
           type: 'array',
         });
-        expectType<(string | undefined)[]>(value);
+        expectType<readonly (string | undefined)[]>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
       });
@@ -360,7 +360,7 @@ describe('types', () => {
           minItems: 1,
           type: 'array',
         });
-        expectType<(number | undefined)[] | undefined>(value);
+        expectType<readonly (number | undefined)[] | undefined>(value);
       });
 
       test('with object items', () => {
@@ -388,7 +388,7 @@ describe('types', () => {
           },
           type: 'array',
         });
-        expectType<{ foo?: string }[]>(value);
+        expectType<readonly { foo?: string }[]>(value);
       });
     });
 
