@@ -117,7 +117,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "14.16.0",
+    "node": "14.19.3",
     "yarn": "1.22.10"
   }
 }
