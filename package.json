@@ -58,7 +58,7 @@
     "@byu-oit/bar-chart": "1.4.2",
     "@commitlint/cli": "17.0.0",
     "@commitlint/config-conventional": "17.0.0",
-    "@types/jest": "27.5.0",
+    "@types/jest": "27.5.1",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "arg": "5.0.0",
