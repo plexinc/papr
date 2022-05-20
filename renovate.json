@@ -1,0 +1,43 @@
+{
+  "branchConcurrentLimit": 10,
+  "commitMessageAction": "Upgrade",
+  "commitMessagePrefix": "chore:",
+  "commitMessageTopic": "{{depName}}",
+  "extends": ["config:base", ":disableHost(registry.npmjs.org)"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "groupName": "@babel packages",
+      "matchPackagePrefixes": ["@babel/"],
+      "matchUpdateTypes": ["major", "minor", "patch"]
+    },
+    {
+      "schedule": ["before 6am on Monday"],
+      "excludePackagePrefixes": ["@types/", "@babel/"],
+      "excludePackageNames": ["@types/node", "node"],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
+      "enabled": false,
+      "groupName": "Skip major Node.js versions",
+      "matchPackageNames": ["@types/node", "node"],
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "enabled": false,
+      "groupName": "Skip certain packages",
+      "matchPackageNames": ["mongoose"]
+    }
+  ],
+  "postUpdateOptions": ["yarnDedupeHighest"],
+  "prCreation": "not-pending",
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 1,
+  "rebaseWhen": "auto",
+  "reviewers": ["avaly", "ejmartin504"],
+  "stabilityDays": 3,
+  "timezone": "Etc/UTC",
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  }
+}
