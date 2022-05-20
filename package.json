@@ -52,7 +52,7 @@
     "test:types": "tsc"
   },
   "devDependencies": {
-    "@babel/core": "7.17.4",
+    "@babel/core": "7.18.0",
     "@babel/preset-env": "7.17.10",
     "@babel/preset-typescript": "7.17.12",
     "@byu-oit/bar-chart": "1.4.2",
