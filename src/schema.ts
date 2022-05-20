@@ -30,6 +30,7 @@ function sanitize(value: any): void {
     delete value.$required;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   for (const key of Object.keys(value)) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     sanitize(value[key]);
