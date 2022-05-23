@@ -14,9 +14,12 @@ jobs:
       - uses: volta-cli/action@v1
       - uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-mongodb
+          path: |
+            .yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}-mongodb
           restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
             ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn test:build
@@ -28,9 +31,12 @@ jobs:
       - uses: volta-cli/action@v1
       - uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            .yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
             ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn lint && yarn pretty:ci
@@ -42,9 +48,12 @@ jobs:
       - uses: volta-cli/action@v1
       - uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            .yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
             ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn test
@@ -56,9 +65,12 @@ jobs:
       - uses: volta-cli/action@v1
       - uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            .yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
             ${{ runner.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - run: yarn test:types
