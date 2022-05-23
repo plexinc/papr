@@ -6,3 +6,12 @@ node_modules
 tests/*/package-lock.json
 tests/*/yarn.lock
 yarn-error.log
+
+# Yarn ignores
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
