@@ -54,10 +54,10 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name         | Type                                    | Attribute |
-| ------------ | --------------------------------------- | --------- |
-| `operations` | `Array<AnyBulkWriteOperation<TSchema>>` | required  |
-| `options`    | `BulkWriteOptions`                      | optional  |
+| Name         | Type                                            | Attribute |
+| ------------ | ----------------------------------------------- | --------- |
+| `operations` | `Array<BulkWriteOperation<TSchema, TDefaults>>` | required  |
+| `options`    | `BulkWriteOptions`                              | optional  |
 
 **Returns:**
 
