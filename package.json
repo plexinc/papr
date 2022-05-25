@@ -103,8 +103,8 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --config ./.eslintrc.ts.json --ext .ts --fix",
+    "*.{js,mjs,ts}": [
+      "eslint --ext .js,.mjs,.ts --fix",
       "prettier --write --list-different"
     ],
     "src/*.ts": [
