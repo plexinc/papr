@@ -324,10 +324,10 @@ Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Parameters:**
 
-| Name        | Type               | Attribute |
-| ----------- | ------------------ | --------- |
-| `documents` | `Array<TSchema>`   | required  |
-| `options`   | `BulkWriteOptions` | optional  |
+| Name        | Type                                           | Attribute |
+| ----------- | ---------------------------------------------- | --------- |
+| `documents` | `Array<DocumentForInsert<TSchema, TDefaults>>` | required  |
+| `options`   | `BulkWriteOptions`                             | optional  |
 
 **Returns:**
 
@@ -348,10 +348,10 @@ Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name       | Type               | Attribute |
-| ---------- | ------------------ | --------- |
-| `document` | `TSchema`          | required  |
-| `options`  | `InsertOneOptions` | optional  |
+| Name       | Type                                    | Attribute |
+| ---------- | --------------------------------------- | --------- |
+| `document` | `DocumentForInsert<TSchema, TDefaults>` | required  |
+| `options`  | `InsertOneOptions`                      | optional  |
 
 **Returns:**
 

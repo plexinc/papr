@@ -90,6 +90,25 @@ export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
  * @module intro
  * @description
  *
+ * ## `DocumentForInsert`
+ *
+ * This TypeScript type is useful to define an document representation for an insertion operation, where the `_id` and
+ * other properties which have defaults defined are not required.
+ *
+ * ```ts
+ * import { DocumentForInsert } from 'papr';
+ *
+ * import type { OrderDocument, OrderDefaults } from './schema';
+ *
+ * const newOrder: DocumentForInsert<OrderDocument, OrderDefaults> = {
+ *   user: 'John',
+ * };
+ *
+ * newOrder._id; // ObjectId | undefined
+ * newOrder.user; // string
+ * newOrder.product; // string | undefined
+ * ```
+ *
  * ## `ProjectionType`
  *
  * This TypeScript type is useful to compute the sub-document resulting from a `find*` operation which used a projection.
@@ -128,6 +147,7 @@ export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
  * }
  * ```
  */
+
 // Creates new update object so the original doesn't get mutated
 export function timestampUpdateFilter<TSchema>(
   update: UpdateFilter<TSchema>

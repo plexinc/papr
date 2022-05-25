@@ -1,7 +1,6 @@
-import { MongoError, ObjectId } from 'mongodb';
+import { AnyBulkWriteOperation, MongoError, ObjectId } from 'mongodb';
 import type {
   AggregateOptions,
-  AnyBulkWriteOperation,
   BulkWriteOptions,
   BulkWriteResult,
   Collection,
@@ -706,7 +705,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * @description
    * Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
    *
-   * @param documents {Array<TSchema>}
+   * @param documents {Array<DocumentForInsert<TSchema, TDefaults>>}
    * @param [options] {BulkWriteOptions}
    *
    * @returns {Promise<Array<TSchema>>}
@@ -757,7 +756,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * @description
    * Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertOne) method.
    *
-   * @param document {TSchema}
+   * @param document {DocumentForInsert<TSchema, TDefaults>}
    * @param [options] {InsertOneOptions}
    *
    * @returns {Promise<TSchema>}

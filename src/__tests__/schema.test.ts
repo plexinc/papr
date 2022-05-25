@@ -99,7 +99,7 @@ describe('schema', () => {
       [
         {
           _id: ObjectId;
-          foo?: boolean;
+          foo: boolean;
           bar: number;
         },
         {
@@ -114,6 +114,7 @@ describe('schema', () => {
       bar: 123,
       foo: true,
     });
+    // @ts-expect-error Error because `foo` is missing
     expectType<typeof value[0]>({
       _id: new ObjectId(),
       bar: 123,
@@ -306,11 +307,13 @@ describe('schema', () => {
           },
           { required: true }
         ),
-        stringOptional: types.string(),
+        stringOptionalWithDefault: types.string(),
         stringRequired: types.string({ required: true }),
       },
       {
-        defaults: { stringOptional: 'foo' },
+        defaults: {
+          stringOptionalWithDefault: 'foo',
+        },
         timestamps: true,
         validationAction: VALIDATION_ACTIONS.WARN,
         validationLevel: VALIDATION_LEVEL.MODERATE,
@@ -318,7 +321,9 @@ describe('schema', () => {
     );
 
     expect(value).toEqual({
-      $defaults: { stringOptional: 'foo' },
+      $defaults: {
+        stringOptionalWithDefault: 'foo',
+      },
       $validationAction: 'warn',
       $validationLevel: 'moderate',
       additionalProperties: false,
@@ -455,7 +460,7 @@ describe('schema', () => {
           },
           type: 'object',
         },
-        stringOptional: {
+        stringOptionalWithDefault: {
           type: 'string',
         },
         stringRequired: {
@@ -511,14 +516,14 @@ describe('schema', () => {
       objectIdRequired: ObjectId;
       objectOptional?: { foo?: number };
       objectRequired: { foo?: number };
-      stringOptional?: string;
+      stringOptionalWithDefault: string;
       stringRequired: string;
       createdAt: Date;
       updatedAt: Date;
     }>(value[0]);
     /* eslint-enable */
     expectType<{
-      stringOptional: string;
+      stringOptionalWithDefault: string;
     }>(value[1]);
     expectType<ObjectId>(value[0]?._id);
   });

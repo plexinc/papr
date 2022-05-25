@@ -11,12 +11,21 @@ interface SchemaOptions<TProperties> {
 
 type TimestampsOptions = Required<Pick<SchemaOptions<unknown>, 'timestamps'>>;
 
+export type SchemaWithDefaults<
+  TProperties extends Record<string, unknown>,
+  TDefaults extends Partial<TProperties> | undefined
+> = undefined extends TDefaults
+  ? TProperties
+  : Omit<TProperties, keyof TDefaults> & {
+      [Prop in keyof TDefaults & string]: NonNullable<TProperties[Prop]>;
+    };
+
 export type SchemaType<
   TProperties extends Record<string, unknown>,
-  TOptions extends SchemaOptions<unknown>
+  TOptions extends SchemaOptions<TProperties>
 > = TOptions extends TimestampsOptions
-  ? ObjectType<WithId<TProperties> & TimestampSchema>
-  : ObjectType<WithId<TProperties>>;
+  ? ObjectType<WithId<SchemaWithDefaults<TProperties, TOptions['defaults']>> & TimestampSchema>
+  : ObjectType<WithId<SchemaWithDefaults<TProperties, TOptions['defaults']>>>;
 
 // This removes the artificial `$required` attributes added in the object schemas
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,7 +62,11 @@ function sanitize(value: any): void {
  * Under the hood it is just a wrapper around the [`object`](api/types.md#object) type with some default properties
  * (e.g. `_id` and timestamps properties).
  *
- * While the default `_id` property is added with an `ObjectId` type, its type can be customized into a `string` or a `number`
+ * While the default `_id` property is added with an `ObjectId` type, its type can be customized into a `string` or a `number`.
+ *
+ * The defaults defined in the `options` are exported as a result type (the second value in the return tuple) and
+ * are used when computing the schema properties nullable status.
+ * Properties which are not required, but have a default value defined, will be non-nullable in the final schema type.
  *
  * @name schema
  *
@@ -76,7 +89,8 @@ function sanitize(value: any): void {
  *   lastName: types.string({ required: true }),
  * });
  *
- * type UserDocument = typeof userSchema[0];
+ * export type UserDocument = typeof userSchema[0];
+ * export type UserDefaults = typeof userSchema[1];
  *
  * const orderSchema = schema({
  *   _id: types.number({ required: true }),
@@ -89,7 +103,8 @@ function sanitize(value: any): void {
  *   validationLevel: VALIDATION_LEVEL.MODERATE
  * });
  *
- * type OrderDocument = typeof orderSchema[0];
+ * export type OrderDocument = typeof orderSchema[0];
+ * export type OrderDefaults = typeof orderSchema[1];
  */
 export default function schema<
   TProperties extends Record<string, unknown>,
