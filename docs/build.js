@@ -1,6 +1,7 @@
 import fs from 'fs';
 import jsdocApi from 'jsdoc-api';
 import jsdocParse from 'jsdoc-parse';
+import prettier from 'prettier';
 import ts from 'typescript';
 
 const DOCS = [
@@ -31,6 +32,7 @@ const DOCS = [
   }
 ];
 const WARNING = '<!-- THIS FILE IS AUTO-GENERATED. DO NOT EDIT MANUALLY! -->';
+const PKG = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 
 function transpileTS(tsCode) {
   const options = {
@@ -93,5 +95,8 @@ DOCS.forEach(doc => {
 
   const result = `${WARNING}\n\n# ${doc.title}\n\n${intro ? intro.description : ''}\n\n${list}`;
 
-  fs.writeFileSync(doc.output, result);
+  fs.writeFileSync(doc.output, prettier.format(result, {
+    ...PKG.prettier,
+    filepath: doc.output
+  }));
 });

@@ -39,7 +39,7 @@
   },
   "scripts": {
     "build": "./build.sh",
-    "docs": "node docs/build.js && prettier docs/**/*md --write && docsify serve ./docs",
+    "docs": "node docs/build.js && docsify serve ./docs",
     "benchmark": "yarn build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint": "eslint --config ./.eslintrc.ts.json --ext .ts ./example ./src && eslint --ext .js,.mjs ./benchmark ./tests",
     "prepack": "yarn build",
