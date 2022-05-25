@@ -41,7 +41,7 @@
     "build": "./build.sh",
     "docs": "node docs/build.js && docsify serve ./docs",
     "benchmark": "yarn build && node --experimental-specifier-resolution=node ./benchmark/run.js",
-    "lint": "eslint --config ./.eslintrc.ts.json --ext .ts ./example ./src && eslint --ext .js,.mjs ./benchmark ./tests",
+    "lint": "eslint --ext .js,.mjs,.ts .",
     "prepack": "yarn build",
     "prepare": "husky install",
     "pretty": "prettier '**/*.{md,ts}' --write",
