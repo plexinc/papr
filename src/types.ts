@@ -49,7 +49,11 @@ type BSONType =
   | 'objectId'
   | 'string';
 
-type GetType<Type, Options> = Options extends RequiredOptions ? Type : Type | undefined;
+type GetType<Type, Options> = Options extends RequiredOptions
+  ? Options['required'] extends true
+    ? Type
+    : Type | undefined
+  : Type | undefined;
 
 type RequiredProperties<Properties> = {
   [Prop in keyof Properties]: undefined extends Properties[Prop] ? never : Prop;
@@ -133,7 +137,7 @@ function enumType<Enum, Options extends GenericOptions>(
   options?: Options
 ): GetType<Enum, Options> {
   return {
-    ...(options && 'required' in options ? { $required: true } : {}),
+    ...(options?.required ? { $required: true } : {}),
     enum: values,
   } as unknown as GetType<Enum, Options>;
 }
@@ -191,7 +195,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
 function createSimpleType<Type>(type: BSONType) {
   return <Options extends GenericOptions>(options?: Options) => {
     return {
-      ...(options && 'required' in options ? { $required: true } : {}),
+      ...(options?.required ? { $required: true } : {}),
       ...(type === 'date' || type === 'objectId' || type === 'binData'
         ? { bsonType: type }
         : { type }),
