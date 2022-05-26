@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/plexinc/papr/compare/v3.0.0...v3.0.1) (2022-05-26)
+
+
+### Bug Fixes
+
+* Allow explicit optional types on schemas ([#207](https://github.com/plexinc/papr/issues/207)) ([716dbb4](https://github.com/plexinc/papr/commit/716dbb404092162aa438eeb05dfa2afa393b735f))
+
 ## [3.0.0](https://github.com/plexinc/papr/compare/v2.3.0...v3.0.0) (2022-04-13)
 
 
