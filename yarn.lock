@@ -7554,9 +7554,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.5.0":
-  version: 8.5.0
-  resolution: "mongodb-memory-server-core@npm:8.5.0"
+"mongodb-memory-server-core@npm:8.6.0":
+  version: 8.6.0
+  resolution: "mongodb-memory-server-core@npm:8.6.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -7571,20 +7571,20 @@ __metadata:
     semver: ^7.3.7
     tar-stream: ^2.1.4
     tmp: ^0.2.1
-    tslib: ^2.3.1
+    tslib: ^2.4.0
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: cce007d30beaa6fe4ee4761ea31210724488e35f0f880b4dbd8ba46b6c38d8533fb7b14ee41b8439869363eddc2255dda865149ea38b79ad1748ee59d3fb9262
+  checksum: 7eaeb064aa2f234e49c0e34fd3ca5b778e4a15e7615a1b15d41abddc094da854cf6d154567244528bfa5a85bcfc8ff74ecf5262ea0b34fb29dc05f6c90a4d730
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.5.0":
-  version: 8.5.0
-  resolution: "mongodb-memory-server@npm:8.5.0"
+"mongodb-memory-server@npm:8.6.0":
+  version: 8.6.0
+  resolution: "mongodb-memory-server@npm:8.6.0"
   dependencies:
-    mongodb-memory-server-core: 8.5.0
-    tslib: ^2.3.1
-  checksum: e1d4f96c9706285b84c8801faf529cc5507416fa9fff43e432aec547fe486fbd67637fb6edc9868b8cacaa0afd51da7b68d288a4de1741e0cc0bcd6ff469e102
+    mongodb-memory-server-core: 8.6.0
+    tslib: ^2.4.0
+  checksum: f26f22568ffd1643b0edf2e0691ce79ddfb68ffffdca1721cf2ddce069035877bdb453486f4e3160c0f7fec98fc002ef03152c0b667218e3900eefdcdf7d69be
   languageName: node
   linkType: hard
 
@@ -8114,7 +8114,7 @@ __metadata:
     jsdoc-parse: 6.1.0
     lint-staged: 12.4.0
     mongodb: 4.6.0
-    mongodb-memory-server: 8.5.0
+    mongodb-memory-server: 8.6.0
     mongoose: 6.0.6
     prettier: 2.6.0
     standard-version: 9.5.0
@@ -9962,10 +9962,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "tslib@npm:2.3.1"
-  checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
+"tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "tslib@npm:2.4.0"
+  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
 
