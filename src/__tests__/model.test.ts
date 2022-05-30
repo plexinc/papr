@@ -1,9 +1,10 @@
-import { AnyBulkWriteOperation, Collection, MongoError, ObjectId } from 'mongodb';
+import { Collection, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
 import { abstract, build, Model } from '../model';
 import schema from '../schema';
 import Types from '../types';
+import { BulkWriteOperation } from '../utils';
 
 describe('model', () => {
   let collection: Collection;
@@ -153,7 +154,7 @@ describe('model', () => {
 
   describe('bulkWrite', () => {
     test('simple schema', async () => {
-      const operations: AnyBulkWriteOperation<SimpleDocument>[] = [
+      const operations: BulkWriteOperation<SimpleDocument, SimpleDefaults>[] = [
         {
           insertOne: {
             document: {
@@ -207,7 +208,7 @@ describe('model', () => {
     });
 
     test('schema with defaults', async () => {
-      const operations: AnyBulkWriteOperation<SimpleDocument>[] = [
+      const operations: BulkWriteOperation<SimpleDocument, SimpleDefaults>[] = [
         {
           insertOne: {
             document: {
@@ -218,7 +219,6 @@ describe('model', () => {
         },
         {
           insertOne: {
-            // @ts-expect-error TODO Fix operation types with defaults
             document: {
               foo: 'foo',
             },
@@ -376,7 +376,6 @@ describe('model', () => {
       await timestampsModel.bulkWrite([
         {
           insertOne: {
-            // @ts-expect-error TODO Fix operation types with timestamps
             document: {
               bar: 123,
               foo: 'foo',

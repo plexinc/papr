@@ -25,6 +25,7 @@ import type {
 import { serializeArguments } from './hooks';
 import {
   BaseSchema,
+  BulkWriteOperation,
   cleanSetOnInsert,
   DocumentForInsert,
   ModelOptions,
@@ -51,7 +52,7 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
   ) => Promise<TResult[]>;
 
   bulkWrite: (
-    operations: AnyBulkWriteOperation<TSchema>[],
+    operations: BulkWriteOperation<TSchema, TDefaults>[],
     options?: BulkWriteOptions
   ) => Promise<BulkWriteResult>;
 
@@ -298,7 +299,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    *
    * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#bulkWrite) method.
    *
-   * @param operations {Array<AnyBulkWriteOperation<TSchema>>}
+   * @param operations {Array<BulkWriteOperation<TSchema, TDefaults>>}
    * @param [options] {BulkWriteOptions}
    *
    * @returns {Promise<BulkWriteResult>} https://mongodb.github.io/node-mongodb-native/4.1/classes/BulkWriteResult.html
@@ -326,7 +327,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.bulkWrite = wrap(
     model,
     async function bulkWrite(
-      operations: AnyBulkWriteOperation<TSchema>[],
+      operations: BulkWriteOperation<TSchema, TDefaults>[],
       options?: BulkWriteOptions
     ): Promise<BulkWriteResult> {
       const finalOperations = operations.map((op) => {
@@ -366,10 +367,13 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
         return model.hasTimestamps ? timestampBulkWriteOperation(operation) : operation;
       });
 
-      const result = await model.collection.bulkWrite(finalOperations, {
-        ...model.defaultOptions,
-        ...options,
-      } as BulkWriteOptions);
+      const result = await model.collection.bulkWrite(
+        finalOperations as AnyBulkWriteOperation<TSchema>[],
+        {
+          ...model.defaultOptions,
+          ...options,
+        } as BulkWriteOptions
+      );
 
       return result;
     }

@@ -1,5 +1,16 @@
-import { Join, NestedPaths, ObjectId, WithId } from 'mongodb';
-import type { AnyBulkWriteOperation, OptionalId, UpdateFilter } from 'mongodb';
+import { ObjectId } from 'mongodb';
+import type {
+  DeleteManyModel,
+  DeleteOneModel,
+  Join,
+  NestedPaths,
+  OptionalId,
+  ReplaceOneModel,
+  UpdateFilter,
+  UpdateManyModel,
+  UpdateOneModel,
+  WithId,
+} from 'mongodb';
 import { DeepPick } from './DeepPick';
 import { Hooks } from './hooks';
 
@@ -41,6 +52,28 @@ export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Ext
   ? Omit<DocumentForInsertWithoutDefaults<TSchema, TDefaults>, 'createdAt' | 'updatedAt'> &
       Partial<TimestampSchema>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
+
+export type BulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>> =
+  | {
+      insertOne: {
+        document: DocumentForInsert<TSchema, TDefaults>;
+      };
+    }
+  | {
+      replaceOne: ReplaceOneModel<TSchema>;
+    }
+  | {
+      updateOne: UpdateOneModel<TSchema>;
+    }
+  | {
+      updateMany: UpdateManyModel<TSchema>;
+    }
+  | {
+      deleteOne: DeleteOneModel<TSchema>;
+    }
+  | {
+      deleteMany: DeleteManyModel<TSchema>;
+    };
 
 export type ProjectionType<
   TSchema extends BaseSchema,
@@ -115,9 +148,9 @@ export function timestampUpdateFilter<TSchema>(
 }
 
 // Creates new operation objects so the original operations don't get mutated
-export function timestampBulkWriteOperation<TSchema>(
-  operation: AnyBulkWriteOperation<TSchema>
-): AnyBulkWriteOperation<TSchema> {
+export function timestampBulkWriteOperation<TSchema, TDefaults>(
+  operation: BulkWriteOperation<TSchema, TDefaults>
+): BulkWriteOperation<TSchema, TDefaults> {
   if ('insertOne' in operation) {
     return {
       insertOne: {
