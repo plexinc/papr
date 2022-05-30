@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/plexinc/papr/compare/v3.0.1...v4.0.0) (2022-05-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* `bulkWrite` operations types updated to handle defaults
+for attributes.
+
+Required changes: The defaults model type needs to be passed to any usage
+of the `BulkWriteOperation` type.
+
+### Features
+
+* Better `bulkWrite` types for insert operations ([#211](https://github.com/plexinc/papr/issues/211)) ([8ae6182](https://github.com/plexinc/papr/commit/8ae6182d871fc6daec346884b3ed5bb2333d4964))
+
 ### [3.0.1](https://github.com/plexinc/papr/compare/v3.0.0...v3.0.1) (2022-05-26)
 
 
