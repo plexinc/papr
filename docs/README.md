@@ -81,7 +81,7 @@ The benchmark numbers are from a benchmark with:
 - MongoDB server v5.0.2
 - `mongodb` v4.6.0
 - `papr` v4.0.0
-- `mongoose` v6.0.6
+- `mongoose` v6.3.5
 
 This benchmark can be run locally with `yarn benchmark`. Run `yarn benchmark --help` for more information on available arguments.
 
