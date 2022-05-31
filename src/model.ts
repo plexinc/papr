@@ -123,7 +123,9 @@ function abstractMethod(): void {
   throw new Error('Collection is not initialized!');
 }
 
-export function abstract<TSchema>(schema: TSchema): unknown {
+export function abstract<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
+  schema: [TSchema, TDefaults]
+): unknown {
   return {
     aggregate: abstractMethod,
     bulkWrite: abstractMethod,

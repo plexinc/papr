@@ -39,7 +39,7 @@ export default class Papr {
   }
 
   /**
-   * Initialize existing and future registered models with a mongo db instance
+   * Initialize existing and future registered models with a mongo db instance.
    *
    * @param db {mongodb.Db}
    *
@@ -77,16 +77,11 @@ export default class Papr {
    * @example
    * const User = papr.model('users', userSchema);
    */
-  model<
-    TSchema extends BaseSchema,
-    TDefaults extends Partial<TSchema>,
-    // We're using `ExternalModel` as a return type here, which extends a `Model<TSchema>` in order to allow
-    // custom static methods to be applied to the resulting model.
-    ExternalModel extends Model<TSchema, TDefaults> = Model<TSchema, TDefaults>
-  >(collectionName: string, collectionSchema: [TSchema, TDefaults]): ExternalModel {
-    // We're casting to `ExternalModel` here we need to return `ExternalModel` as a type,
-    // which is not guaranteed to be equal to `Model`.
-    const model = abstract(collectionSchema) as ExternalModel;
+  model<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
+    collectionName: string,
+    collectionSchema: [TSchema, TDefaults]
+  ): Model<TSchema, TDefaults> {
+    const model = abstract(collectionSchema) as Model<TSchema, TDefaults>;
 
     if (this.db) {
       build(collectionSchema, model, this.db.collection(collectionName), this.options);

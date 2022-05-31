@@ -10,6 +10,7 @@ describe('index', () => {
   let collection: Collection;
 
   const COLLECTION = 'testcollection';
+  const COLLECTION_OTHER = 'testcollection2';
   const DEFAULTS = {
     foo: 'bar',
   };
@@ -181,12 +182,12 @@ describe('index', () => {
   test('updateSchemas', async () => {
     (db.collection as jest.Mock)
       .mockReturnValueOnce(collection)
-      .mockReturnValueOnce({ collectionName: 'testcollection2' });
+      .mockReturnValueOnce({ collectionName: COLLECTION_OTHER });
 
     const papr = new Papr();
 
     papr.model(COLLECTION, testSchema1);
-    papr.model('testcollection2', testSchema2);
+    papr.model(COLLECTION_OTHER, testSchema2);
     papr.initialize(db);
 
     await papr.updateSchemas();
@@ -213,7 +214,7 @@ describe('index', () => {
         },
       },
     });
-    expect(db.createCollection).toHaveBeenCalledWith('testcollection2', {
+    expect(db.createCollection).toHaveBeenCalledWith(COLLECTION_OTHER, {
       validationAction: 'warn',
       validationLevel: 'moderate',
       validator: {
