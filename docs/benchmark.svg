@@ -34,26 +34,26 @@
         <line x1="0" x2="100" y1="60" y2="60" stroke-dasharray="0.2 0.1" class="tick" />
         <text x="4" y="60" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">0</text>
       
-        <line x1="0" x2="100" y1="51.87135057510194" y2="51.87135057510194" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="51.87135057510194" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">100</text>
+        <line x1="0" x2="100" y1="52.05697794487543" y2="52.05697794487543" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="52.05697794487543" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">100</text>
       
-        <line x1="0" x2="100" y1="43.74270115020389" y2="43.74270115020389" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="43.74270115020389" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">200</text>
+        <line x1="0" x2="100" y1="44.113955889750855" y2="44.113955889750855" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="44.113955889750855" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">200</text>
       
-        <line x1="0" x2="100" y1="35.61405172530584" y2="35.61405172530584" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="35.61405172530584" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">300</text>
+        <line x1="0" x2="100" y1="36.17093383462628" y2="36.17093383462628" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="36.17093383462628" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">300</text>
       
-        <line x1="0" x2="100" y1="27.485402300407785" y2="27.485402300407785" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="27.485402300407785" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">400</text>
+        <line x1="0" x2="100" y1="28.22791177950171" y2="28.22791177950171" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="28.22791177950171" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">400</text>
       
-        <line x1="0" x2="100" y1="19.356752875509734" y2="19.356752875509734" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="19.356752875509734" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">500</text>
+        <line x1="0" x2="100" y1="20.284889724377138" y2="20.284889724377138" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="20.284889724377138" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">500</text>
       
-        <line x1="0" x2="100" y1="11.228103450611677" y2="11.228103450611677" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="11.228103450611677" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">600</text>
+        <line x1="0" x2="100" y1="12.341867669252558" y2="12.341867669252558" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="12.341867669252558" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">600</text>
       
-        <line x1="0" x2="100" y1="3.0994540257136336" y2="3.0994540257136336" stroke-dasharray="0.2 0.1" class="tick" />
-        <text x="4" y="3.0994540257136336" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">700</text>
+        <line x1="0" x2="100" y1="4.3988456141279855" y2="4.3988456141279855" stroke-dasharray="0.2 0.1" class="tick" />
+        <text x="4" y="4.3988456141279855" dy="-0.3" text-anchor="end" font-size="1.4" class="tick-label">700</text>
       </g>
         <g transform="scale(0.9, 1) translate(10, 0)">
         <text class="tick-label" x="15.517241379310349" y="60" dy="-1.3" text-anchor="middle" font-size="1.4">insert</text>
@@ -62,7 +62,7 @@
       
         <text class="tick-label" x="84.48275862068968" y="60" dy="-1.3" text-anchor="middle" font-size="1.4">update</text>
       </g>
-        <g transform="scale(0.9) translate(10, 2)"><rect class="bar-1" x="1.724137931034484" y="0.1324969856258349" width="8.561236623067778" height="59.867503014374165"/><rect class="bar-2" x="11.23662306777646" y="2.516629861948438" width="8.561236623067778" height="57.48337013805156"/><rect class="bar-3" x="20.749108204518436" y="19.70872339560782" width="8.561236623067778" height="40.29127660439218"/><rect class="bar-1" x="36.20689655172414" y="10.183571999512282" width="8.561236623067778" height="49.81642800048772"/><rect class="bar-2" x="45.719381688466115" y="13.692709956240776" width="8.561236623067778" height="46.307290043759224"/><rect class="bar-3" x="55.231866825208094" y="22.685434815005486" width="8.561236623067778" height="37.314565184994514"/><rect class="bar-1" x="70.68965517241381" y="0" width="8.561236623067778" height="60"/><rect class="bar-2" x="80.20214030915578" y="3.808272255564738" width="8.561236623067778" height="56.19172774443526"/><rect class="bar-3" x="89.71462544589775" y="12.926178315472882" width="8.561236623067778" height="47.07382168452712"/></g>
+        <g transform="scale(0.9) translate(10, 2)"><rect class="bar-1" x="1.724137931034484" y="0.5218565490216847" width="8.561236623067778" height="59.478143450978315"/><rect class="bar-2" x="11.23662306777646" y="3.5179644682146716" width="8.561236623067778" height="56.48203553178533"/><rect class="bar-3" x="20.749108204518436" y="17.884508459318482" width="8.561236623067778" height="42.11549154068152"/><rect class="bar-1" x="36.20689655172414" y="12.435595329503023" width="8.561236623067778" height="47.56440467049698"/><rect class="bar-2" x="45.719381688466115" y="13.19097672694538" width="8.561236623067778" height="46.80902327305462"/><rect class="bar-3" x="55.231866825208094" y="21.995816675050968" width="8.561236623067778" height="38.00418332494903"/><rect class="bar-1" x="70.68965517241381" y="0" width="8.561236623067778" height="60"/><rect class="bar-2" x="80.20214030915578" y="4.679234292673883" width="8.561236623067778" height="55.32076570732612"/><rect class="bar-3" x="89.71462544589775" y="12.478487648600705" width="8.561236623067778" height="47.521512351399295"/></g>
       </g>
       <g transform="translate(90, 2)">
     <rect class="bar-1" x="1" y="0" width="2" height="2"/>
