@@ -1,6 +1,7 @@
 import fs from 'fs';
 import barChart from '@byu-oit/bar-chart';
 import { ObjectId } from 'mongodb';
+import mongoose from 'mongoose';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
 import setup, { db, teardown } from './setup.js';
@@ -30,7 +31,7 @@ const TIMES = {
     find: 0,
     insert: 0,
     update: 0,
-  }
+  },
 };
 const NS_PER_S = 1e9;
 
@@ -52,7 +53,7 @@ function randomURL() {
   return `https://example.com/${random(1000)}`;
 }
 
-function randomDocument(source) {
+function randomDocument(source, type) {
   return {
     age: random(60),
     firstName: 'John',
@@ -60,7 +61,7 @@ function randomDocument(source) {
     localization: {
       foo: 'bar',
     },
-    reference: new ObjectId(),
+    reference: type === 'mongoose' ? new mongoose.Types.ObjectId() : new ObjectId(),
     reviews: [
       { score: random(10) },
       { score: random(10) },
@@ -110,7 +111,7 @@ async function run() {
   const mongodb = await db.collection('mongodbtests');
 
   await test('mongodb', 'insert', INSERT_COUNT, async () => {
-    const result = await mongodb.insertOne(randomDocument('mongodb'));
+    const result = await mongodb.insertOne(randomDocument('mongodbtests'));
     IDS.mongodb.push(result.insertedId);
   });
   await test('papr', 'insert', INSERT_COUNT, async () => {
@@ -118,7 +119,7 @@ async function run() {
     IDS.papr.push(doc._id);
   });
   await test('mongoose', 'insert', INSERT_COUNT, async () => {
-    const doc = await SampleMongoose.create(randomDocument());
+    const doc = await SampleMongoose.create(randomDocument(undefined, 'mongoose'));
     IDS.mongoose.push(doc._id);
   });
 
@@ -137,32 +138,31 @@ async function run() {
   console.log('---');
 
   await test('mongodb', 'update', UPDATE_COUNT, async () => {
-    await mongodb.updateOne(randomQueryID('mongodb'), { $set: { age: random(100) }, });
+    await mongodb.updateOne(randomQueryID('mongodb'), { $set: { age: random(100) } });
   });
   await test('papr', 'update', UPDATE_COUNT, async () => {
-    await SamplePapr.updateOne(randomQueryID('papr'), { $set: { age: random(100) }, });
+    await SamplePapr.updateOne(randomQueryID('papr'), { $set: { age: random(100) } });
   });
   await test('mongoose', 'update', UPDATE_COUNT, async () => {
     await SampleMongoose.updateOne(randomQueryID('mongoose'), { age: random(100) });
   });
 
   const chart = barChart({
-    colors: [
-      '#13aa52',
-      '#e5a00d',
-      '#800'
-    ],
+    colors: ['#13aa52', '#e5a00d', '#800'],
     data: [
       [TIMES.mongodb.insert, TIMES.papr.insert, TIMES.mongoose.insert],
       [TIMES.mongodb.find, TIMES.papr.find, TIMES.mongoose.find],
       [TIMES.mongodb.update, TIMES.papr.update, TIMES.mongoose.update],
     ],
     labels: CHART_LABELS,
-    legendLabels: CHART_LEGEND_LABELS
+    legendLabels: CHART_LEGEND_LABELS,
   })
     .replace('<rect x="0" y="0" width="100" height="60" fill="url(#bgGradient)" />', '')
     .replace('stroke: #ccc;', 'stroke: #555;')
-    .replace('font-family: "Helvetica Nue", Arial, sans-serif;', 'font-family: "Helvetica Nue", Arial, sans-serif; fill: #fff;');
+    .replace(
+      'font-family: "Helvetica Nue", Arial, sans-serif;',
+      'font-family: "Helvetica Nue", Arial, sans-serif; fill: #fff;'
+    );
 
   fs.writeFileSync('docs/benchmark.svg', chart);
 }
