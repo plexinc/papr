@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/plexinc/papr/compare/v4.0.0...v5.0.0) (2022-06-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed undocumented support for a custom model generic type in
+the `model()` function.
+
+* Remove custom model type support ([#219](https://github.com/plexinc/papr/issues/219)) ([8675ffa](https://github.com/plexinc/papr/commit/8675ffa0cfcf247c85f41ed2254b497ae3cd1ff1))
+
 ## [4.0.0](https://github.com/plexinc/papr/compare/v3.0.1...v4.0.0) (2022-05-30)
 
 
