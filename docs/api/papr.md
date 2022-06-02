@@ -32,7 +32,7 @@ const paprWithOptions = new Papr({
 
 ## `initialize`
 
-Initialize existing and future registered models with a mongo db instance
+Initialize existing and future registered models with a mongo db instance.
 
 **Parameters:**
 
