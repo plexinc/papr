@@ -2167,10 +2167,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.18":
-  version: 14.18.18
-  resolution: "@types/node@npm:14.18.18"
-  checksum: a165225cd2603f6e62af8407449e4a4407305e03b41c1adf6b186fdf546e1a03c8214217659b5b36c556947c0c06234993ac880d4db6378136a7a810d47e0742
+"@types/node@npm:14.18.20":
+  version: 14.18.20
+  resolution: "@types/node@npm:14.18.20"
+  checksum: 999d8ef25c983c9ca7c3365d6878a7f9387a90e10fdec9b6fc26764ae0b52768b8ca4f7e3fcab6056326dcc613b730f2a58b59acacdc5d5863fa4b7a09c1f85f
   languageName: node
   linkType: hard
 
@@ -8086,7 +8086,7 @@ __metadata:
     "@commitlint/cli": 17.0.0
     "@commitlint/config-conventional": 17.0.0
     "@types/jest": 27.5.1
-    "@types/node": 14.18.18
+    "@types/node": 14.18.20
     "@typescript-eslint/eslint-plugin": 5.27.0
     "@typescript-eslint/parser": 5.27.0
     arg: 5.0.1
