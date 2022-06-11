@@ -121,7 +121,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
 function array<Item, Options extends ArrayOptions>(
   items: Item,
   options?: Options
-): GetType<Item[], Options> {
+): GetType<NonNullable<Item>[], Options> {
   const { required, ...otherOptions } = options || {};
 
   return {
@@ -129,7 +129,7 @@ function array<Item, Options extends ArrayOptions>(
     items,
     type: 'array',
     ...otherOptions,
-  } as unknown as GetType<Item[], Options>;
+  } as unknown as GetType<NonNullable<Item>[], Options>;
 }
 
 function enumType<Enum, Options extends GenericOptions>(
