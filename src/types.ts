@@ -216,6 +216,10 @@ function string<Options extends StringOptions>(options?: Options): GetType<strin
 export default {
   /**
    * Creates an array consisting of items of a single type.
+   * Note that the "required" option will not be respected on the type passed to
+   * `array`.
+   * All inner types are "required", i.e. non-optional, by default.
+   * e.g. types.array(types.number({ required: true })) is equivalent to types.array(types.number())
    *
    * @param item {TItem}
    * @param [options] {ArrayOptions}
@@ -237,6 +241,7 @@ export default {
    *     uniqueItems: true,
    *   }),
    * });
+   *
    */
   array,
 
