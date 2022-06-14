@@ -216,10 +216,6 @@ function string<Options extends StringOptions>(options?: Options): GetType<strin
 export default {
   /**
    * Creates an array consisting of items of a single type.
-   * Note that the "required" option will not be respected on the type passed to
-   * `array`.
-   * All inner types are "required", i.e. non-optional, by default.
-   * e.g. types.array(types.number({ required: true })) is equivalent to types.array(types.number())
    *
    * @param item {TItem}
    * @param [options] {ArrayOptions}
@@ -234,6 +230,9 @@ export default {
    * schema({
    *   requiredList: types.array(types.number(), { required: true }),
    *   optionalList: types.array(types.number()),
+   *   // All inner types are `required` by default, so optionalList and anotherOptionalList
+   *   // are equivalent types
+   *   anotherOptionalList: types.array(types.number({ required: true }))
    *   listWithAllOptions: types.array(types.number(), {
    *     maxItems: 10,
    *     minItems: 1,
