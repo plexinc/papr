@@ -543,7 +543,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * user.firstName; // valid
    * user.lastName; // valid
    *
-   * const userProjected = await User.find(
+   * const userProjected = await User.findById(
    *   new ObjectId('606ac819fa14e243e66ec4f4'),
    *   { projection: { lastName: 1 } }
    * );

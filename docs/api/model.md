@@ -225,7 +225,7 @@ const user = await User.findById('606ac819fa14e243e66ec4f4');
 user.firstName; // valid
 user.lastName; // valid
 
-const userProjected = await User.find(new ObjectId('606ac819fa14e243e66ec4f4'), {
+const userProjected = await User.findById(new ObjectId('606ac819fa14e243e66ec4f4'), {
   projection: { lastName: 1 },
 });
 userProjected.firstName; // TypeScript error
