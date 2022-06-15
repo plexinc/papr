@@ -6,7 +6,7 @@ set -euxo pipefail
 
 tsc --project ./tsconfig-esm.json
 
-sed -i "s/from '.\/\(.*\)';/from '.\/\1.js';/g" ./esm/*.js
+sed -i '' -e "s/from '.\/\(.*\)';/from '.\/\1.js';/g" ./esm/*.js
 
 # CommonJS
 
