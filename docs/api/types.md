@@ -33,6 +33,9 @@ import { schema, types } from 'papr';
 schema({
   requiredList: types.array(types.number(), { required: true }),
   optionalList: types.array(types.number()),
+  // All inner types are `required` by default, so optionalList and anotherOptionalList
+  // are equivalent types
+  anotherOptionalList: types.array(types.number({ required: true }))
   listWithAllOptions: types.array(types.number(), {
     maxItems: 10,
     minItems: 1,

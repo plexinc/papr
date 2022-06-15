@@ -274,12 +274,9 @@ describe('schema', () => {
         anyOptional: types.any(),
         anyRequired: types.any({ required: true }),
         arrayOfObjects: types.array(
-          types.object(
-            {
-              foo: types.number(),
-            },
-            { required: true }
-          )
+          types.object({
+            foo: types.number(),
+          })
         ),
         arrayOptional: types.array(types.number()),
         arrayRequired: types.array(types.number(), { required: true }),
@@ -490,8 +487,8 @@ describe('schema', () => {
       anyOptional?: any;
       // This `any` can not be required in TS
       anyRequired?: any;
-      arrayOptional?: (number | undefined)[];
-      arrayRequired: (number | undefined)[];
+      arrayOptional?: number[];
+      arrayRequired: number[];
       arrayOfObjects?: {
         foo?: number;
       }[];
@@ -580,14 +577,11 @@ describe('schema', () => {
         anyOptional: types.any({ required: false }),
         anyRequired: types.any({ required: true }),
         arrayOfObjects: types.array(
-          types.object(
-            {
-              foo: types.number(),
-            },
-            { required: true }
-          )
+          types.object({
+            foo: types.number(),
+          })
         ),
-        arrayOptional: types.array(types.number({ required: false })),
+        arrayOptional: types.array(types.number()),
         arrayRequired: types.array(types.number(), { required: true }),
         binaryOptional: types.binary({ required: false }),
         binaryRequired: types.binary({ required: true }),
@@ -796,8 +790,8 @@ describe('schema', () => {
       anyOptional?: any;
       // This `any` can not be required in TS
       anyRequired?: any;
-      arrayOptional?: (number | undefined)[];
-      arrayRequired: (number | undefined)[];
+      arrayOptional?: number[];
+      arrayRequired: number[];
       arrayOfObjects?: {
         foo?: number;
       }[];

@@ -121,7 +121,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
 function array<Item, Options extends ArrayOptions>(
   items: Item,
   options?: Options
-): GetType<Item[], Options> {
+): GetType<NonNullable<Item>[], Options> {
   const { required, ...otherOptions } = options || {};
 
   return {
@@ -129,7 +129,7 @@ function array<Item, Options extends ArrayOptions>(
     items,
     type: 'array',
     ...otherOptions,
-  } as unknown as GetType<Item[], Options>;
+  } as unknown as GetType<NonNullable<Item>[], Options>;
 }
 
 function enumType<Enum, Options extends GenericOptions>(
@@ -230,6 +230,9 @@ export default {
    * schema({
    *   requiredList: types.array(types.number(), { required: true }),
    *   optionalList: types.array(types.number()),
+   *   // All inner types are `required` by default, so optionalList and anotherOptionalList
+   *   // are equivalent types
+   *   anotherOptionalList: types.array(types.number({ required: true }))
    *   listWithAllOptions: types.array(types.number(), {
    *     maxItems: 10,
    *     minItems: 1,
@@ -237,6 +240,7 @@ export default {
    *     uniqueItems: true,
    *   }),
    * });
+   *
    */
   array,
 
