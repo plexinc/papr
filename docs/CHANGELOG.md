@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/plexinc/papr/compare/v5.0.0...v6.0.0) (2022-06-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Arrays will no longer default to type (T | undefined)[]
+
+### Features
+
+* Make array members non-optional by default ([#231](https://github.com/plexinc/papr/issues/231)) ([2c52719](https://github.com/plexinc/papr/commit/2c52719f0025c85760c3d5a82660cdb5cf2c8c5b))
+
 ## [5.0.0](https://github.com/plexinc/papr/compare/v4.0.0...v5.0.0) (2022-06-02)
 
 
