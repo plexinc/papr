@@ -6,7 +6,10 @@ set -euxo pipefail
 
 tsc --project ./tsconfig-esm.json
 
-sed -i '' -e "s/from '.\/\(.*\)';/from '.\/\1.js';/g" ./esm/*.js
+# https://stackoverflow.com/a/22084103
+# This works in Linux and MacOS
+sed --in-place=.backup --expression="s/from '.\/\(.*\)';/from '.\/\1.js';/g" ./esm/*.js
+rm ./esm/*.js.backup
 
 # CommonJS
 
