@@ -6,7 +6,7 @@ export type Hook<A> = (
   collectionName: string,
   methodName: string,
   args: A[],
-  context: unknown,
+  result: unknown,
   error?: Error
 ) => Promise<void>;
 

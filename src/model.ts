@@ -154,10 +154,9 @@ function wrap<A, R>(
   return async function modelWrapped(...args) {
     const { collectionName } = model.collection;
     const { after = [], before = [] } = model.options?.hooks || {};
-    const context = {};
 
     for (const hook of before) {
-      await hook(collectionName, method.name, args, context);
+      await hook(collectionName, method.name, args, null);
     }
 
     let result: R;
@@ -165,7 +164,7 @@ function wrap<A, R>(
       result = await method(...args);
 
       for (const hook of after) {
-        await hook(collectionName, method.name, args, context);
+        await hook(collectionName, method.name, args, result);
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -177,7 +176,7 @@ function wrap<A, R>(
         }
 
         for (const hook of after) {
-          await hook(collectionName, method.name, args, context, err);
+          await hook(collectionName, method.name, args, null, err);
         }
       }
 
