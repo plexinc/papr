@@ -163,9 +163,8 @@ function wrap<A, R>(
     let result: R;
     try {
       result = await method(...args);
-
       for (const hook of after) {
-        await hook(collectionName, method.name, args, context, undefined, result);
+        await hook(collectionName, method.name, args, { ...context, result });
       }
     } catch (err) {
       if (err instanceof Error) {

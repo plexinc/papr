@@ -6,9 +6,8 @@ export type Hook<A> = (
   collectionName: string,
   methodName: string,
   args: A[],
-  context: unknown,
+  context: { result?: unknown } | unknown,
   error?: Error,
-  result?: unknown,
 ) => Promise<void>;
 
 export interface Hooks {

@@ -1077,9 +1077,10 @@ describe('model', () => {
         'testcollection', 
         'find', 
         [{ foo: 'bar' }], 
-        { id: 'mock' }, 
-        undefined, 
-        [{ '_id': new ObjectId('62b3876eb20d64c7bb577874'), 'bar': 123, 'foo': 'foo' }]
+        { 
+          id: 'mock',
+          result: results,
+        },
       );
     });
 
