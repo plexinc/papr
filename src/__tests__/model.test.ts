@@ -1047,7 +1047,8 @@ describe('model', () => {
       hooks = {
         after: [jest.fn().mockResolvedValue(undefined)],
         before: [
-          jest.fn().mockImplementation((_a, _b, _c, response) => {
+          jest.fn().mockImplementation((_a, _b, _c, context) => {
+            context.id = 'mock';
             return Promise.resolve();
           }),
         ],
@@ -1065,10 +1066,16 @@ describe('model', () => {
       expectType<SimpleDocument[]>(results);
 
       expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], null);
+      // The context is actually populated in `before` hook calls,
+      // but since we're checking it afterwards we need to list it here as the input argument
+      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
+        id: 'mock',
+      });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], [{ '_id': new ObjectId('62b3876eb20d64c7bb577874'), 'bar': 123, 'foo': 'foo' }]);
+      expect(hooks.after?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
+        id: 'mock',
+      }, undefined, [{ '_id': new ObjectId('62b3876eb20d64c7bb577874'), 'bar': 123, 'foo': 'foo' }]);
     });
 
     test('find throws error', async () => {
@@ -1080,14 +1087,20 @@ describe('model', () => {
       await expect(hooksModel.find({ foo: 'bar' })).rejects.toThrow('Test');
 
       expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], null);
+      // The context is actually populated in `before` hook calls,
+      // but since we're checking it afterwards we need to list it here as the input argument
+      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
+        id: 'mock',
+      });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
       expect(hooks.after?.[0]).toHaveBeenCalledWith(
         'testcollection',
         'find',
         [{ foo: 'bar' }],
-        null,
+        {
+          id: 'mock',
+        },
         err
       );
     });
