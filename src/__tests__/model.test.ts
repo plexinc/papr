@@ -1073,9 +1073,14 @@ describe('model', () => {
       });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
-        id: 'mock',
-      }, undefined, [{ '_id': new ObjectId('62b3876eb20d64c7bb577874'), 'bar': 123, 'foo': 'foo' }]);
+      expect(hooks.after?.[0]).toHaveBeenCalledWith(
+        'testcollection', 
+        'find', 
+        [{ foo: 'bar' }], 
+        { id: 'mock' }, 
+        undefined, 
+        [{ '_id': new ObjectId('62b3876eb20d64c7bb577874'), 'bar': 123, 'foo': 'foo' }]
+      );
     });
 
     test('find throws error', async () => {
