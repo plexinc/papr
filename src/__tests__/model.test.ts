@@ -60,7 +60,7 @@ describe('model', () => {
 
   beforeEach(() => {
     doc = {
-      _id: new ObjectId('62b3876eb20d64c7bb577874'),
+      _id: new ObjectId(),
       bar: 123,
       foo: 'foo',
     };
