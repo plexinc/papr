@@ -7,7 +7,7 @@ export type Hook<A> = (
   methodName: string,
   args: A[],
   context: unknown,
-  error?: Error,
+  error?: Error
 ) => Promise<void>;
 
 export interface Hooks {
