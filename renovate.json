@@ -3,7 +3,7 @@
   "commitMessageAction": "Upgrade",
   "commitMessagePrefix": "chore:",
   "commitMessageTopic": "{{depName}}",
-  "extends": ["config:base", ":disableHost(registry.npmjs.org)"],
+  "extends": ["config:base"],
   "labels": ["dependencies"],
   "packageRules": [
     {
