@@ -157,14 +157,14 @@ function wrap<A, R>(
     const context = {};
 
     for (const hook of before) {
-      await hook(collectionName, method.name, args, context);
+      await hook({ args, collectionName, context, methodName: method.name });
     }
 
     let result: R;
     try {
       result = await method(...args);
       for (const hook of after) {
-        await hook(collectionName, method.name, args, { ...context, result });
+        await hook({ args, collectionName, context, methodName: method.name, result });
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -176,7 +176,7 @@ function wrap<A, R>(
         }
 
         for (const hook of after) {
-          await hook(collectionName, method.name, args, context, err);
+          await hook({ args, collectionName, context, error: err, methodName: method.name });
         }
       }
 

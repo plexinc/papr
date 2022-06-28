@@ -1047,7 +1047,7 @@ describe('model', () => {
       hooks = {
         after: [jest.fn().mockResolvedValue(undefined)],
         before: [
-          jest.fn().mockImplementation((_a, _b, _c, context) => {
+          jest.fn().mockImplementation(({ _a, _b, _c, context }) => {
             context.id = 'mock';
             return Promise.resolve();
           }),
@@ -1068,20 +1068,25 @@ describe('model', () => {
       expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
       // The context is actually populated in `before` hook calls,
       // but since we're checking it afterwards we need to list it here as the input argument
-      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
-        id: 'mock',
+      expect(hooks.before?.[0]).toHaveBeenCalledWith({
+        args: [{ foo: 'bar' }],
+        collectionName: 'testcollection',
+        context: {
+          id: 'mock',
+        },
+        methodName:'find'
       });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith(
-        'testcollection', 
-        'find', 
-        [{ foo: 'bar' }], 
-        { 
+      expect(hooks.after?.[0]).toHaveBeenCalledWith({
+        args: [{ foo: 'bar' }],
+        collectionName: 'testcollection',
+        context: {
           id: 'mock',
-          result: results,
         },
-      );
+        methodName:'find',
+        result: results
+      });
     });
 
     test('find throws error', async () => {
@@ -1095,20 +1100,25 @@ describe('model', () => {
       expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
       // The context is actually populated in `before` hook calls,
       // but since we're checking it afterwards we need to list it here as the input argument
-      expect(hooks.before?.[0]).toHaveBeenCalledWith('testcollection', 'find', [{ foo: 'bar' }], {
-        id: 'mock',
+      expect(hooks.before?.[0]).toHaveBeenCalledWith({
+        args: [{ foo: 'bar' }],
+        collectionName: 'testcollection',
+        context: {
+          id: 'mock',
+        },
+        methodName:'find'
       });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith(
-        'testcollection',
-        'find',
-        [{ foo: 'bar' }],
-        {
+      expect(hooks.after?.[0]).toHaveBeenCalledWith({
+        args: [{ foo: 'bar' }],
+        collectionName: 'testcollection',
+        context: {
           id: 'mock',
         },
-        err
-      );
+        error: err,
+        methodName:'find'
+      });
     });
   });
 
