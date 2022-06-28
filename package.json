@@ -42,7 +42,7 @@
     "docs": "node docs/build.js && docsify serve ./docs",
     "benchmark": "yarn build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint": "eslint --ext .js,.mjs,.ts .",
-    "postinstall": "yarn clean-modules -f .yarnclean -y && husky install",
+    "postinstall": "husky install",
     "postpack": "pinst --enable",
     "prepack": "pinst --disable && yarn build",
     "pretty": "prettier '**/*.{md,ts}' --write",
