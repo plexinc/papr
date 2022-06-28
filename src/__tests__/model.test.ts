@@ -1074,7 +1074,7 @@ describe('model', () => {
         context: {
           id: 'mock',
         },
-        methodName:'find'
+        methodName: 'find',
       });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
@@ -1084,8 +1084,8 @@ describe('model', () => {
         context: {
           id: 'mock',
         },
-        methodName:'find',
-        result: results
+        methodName: 'find',
+        result: results,
       });
     });
 
@@ -1106,7 +1106,7 @@ describe('model', () => {
         context: {
           id: 'mock',
         },
-        methodName:'find'
+        methodName: 'find',
       });
 
       expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
@@ -1117,7 +1117,7 @@ describe('model', () => {
           id: 'mock',
         },
         error: err,
-        methodName:'find'
+        methodName: 'find',
       });
     });
   });
