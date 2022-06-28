@@ -1047,7 +1047,7 @@ describe('model', () => {
       hooks = {
         after: [jest.fn().mockResolvedValue(undefined)],
         before: [
-          jest.fn().mockImplementation(({ _a, _b, _c, context }) => {
+          jest.fn().mockImplementation(({ context }) => {
             context.id = 'mock';
             return Promise.resolve();
           }),
