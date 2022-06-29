@@ -7,4 +7,5 @@
   - [Types](api/types.md)
   - [Model](api/model.md)
   - [Utilities](api/utils.md)
+- [Recipes](recipes.md)
 - [Changelog](CHANGELOG.md)
