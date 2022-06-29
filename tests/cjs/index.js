@@ -56,7 +56,7 @@ async function run() {
   const doc1 = await Sample.insertOne({
     age: 40,
     firstName: 'John',
-    lastName: 'Wick'
+    lastName: 'Wick',
   });
   assert.strictEqual(typeof doc1, 'object');
   assert.strictEqual(typeof doc1._id, 'object');
@@ -67,16 +67,13 @@ async function run() {
 
   const doc2 = await Sample.insertOne({
     firstName: 'John',
-    lastName: 'Doe'
+    lastName: 'Doe',
   });
   assert.strictEqual(typeof doc2, 'object');
 
   // finding documents
 
-  const docs = await Sample.find(
-    { firstName: 'John' },
-    { sort: { lastName: 1 } }
-  );
+  const docs = await Sample.find({ firstName: 'John' }, { sort: { lastName: 1 } });
 
   assert.ok(Array.isArray(docs));
   assert.strictEqual(docs.length, 2);
@@ -97,4 +94,3 @@ async function teardown() {
 
   console.log('OK');
 })();
-

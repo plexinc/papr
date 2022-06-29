@@ -15,7 +15,7 @@ export default class Papr {
   /**
    * Returns a new instance of `Papr`.
    *
-   * It may be called with some options for before and after hooks and a maximum execution time for queries.
+   * It may be called with some options for before and after [hooks](api/hooks.md) and a maximum execution time for queries.
    *
    * @name Papr
    *
