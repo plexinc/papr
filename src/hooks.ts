@@ -2,13 +2,14 @@ import { inspect } from 'util';
 
 export type Log = (message: string) => void;
 
-export type Hook<A> = (
-  collectionName: string,
-  methodName: string,
-  args: A[],
-  context: unknown,
-  error?: Error
-) => Promise<void>;
+export type Hook<A> = (params: {
+  args: A[];
+  collectionName: string;
+  context: unknown;
+  error?: Error;
+  methodName: string;
+  result?: unknown;
+}) => Promise<void>;
 
 export interface Hooks {
   after?: Hook<unknown>[];
@@ -17,14 +18,14 @@ export interface Hooks {
 
 export function logHook(log: Log): Hook<unknown> {
   // eslint-disable-next-line @typescript-eslint/require-await
-  return async function logHookMethod(
-    collectionName: string,
-    methodName: string,
-    args: unknown[]
-  ): Promise<void> {
-    const flatArgs = serializeArguments(args);
+  return async function logHookMethod(params: {
+    collectionName: string;
+    methodName: string;
+    args: unknown[];
+  }): Promise<void> {
+    const flatArgs = serializeArguments(params.args);
 
-    const message = `${collectionName}.${methodName}(${flatArgs})`;
+    const message = `${params.collectionName}.${params.methodName}(${flatArgs})`;
 
     log(message);
   };
