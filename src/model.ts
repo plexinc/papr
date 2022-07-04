@@ -71,7 +71,7 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
   find: <Projection>(
     filter: Filter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection>[]>;
+  ) => Promise<ProjectionType<TSchema, Projection>[] | undefined>;
 
   findById: <Projection>(
     id: string | ObjectId,

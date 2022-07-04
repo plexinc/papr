@@ -569,9 +569,9 @@ describe('model', () => {
     test('default', async () => {
       const results = await simpleModel.find({});
 
-      expectType<SimpleDocument[]>(results);
+      expectType<SimpleDocument[] | undefined>(results);
 
-      if (results.length) {
+      if (results?.length) {
         expectType<string>(results[0].foo);
         expectType<number>(results[0].bar);
         expectType<Date | undefined>(results[0].ham);
@@ -590,17 +590,18 @@ describe('model', () => {
       );
 
       expectType<
-        {
-          _id: ObjectId;
-          foo: string;
-          ham?: Date;
-          nested?: {
-            direct: string;
-          };
-        }[]
+        | {
+            _id: ObjectId;
+            foo: string;
+            ham?: Date;
+            nested?: {
+              direct: string;
+            };
+          }[]
+        | undefined
       >(results);
 
-      if (results.length) {
+      if (results?.length) {
         expectType<string>(results[0].foo);
         // @ts-expect-error `bar` is undefined here
         results[0].bar;
@@ -616,7 +617,7 @@ describe('model', () => {
 
       type Projected = Pick<SimpleDocument, '_id' | 'foo' | 'ham'>;
 
-      function testProjected(input: Projected[]): Projected[] {
+      function testProjected(input: Projected[] | undefined): Projected[] | undefined {
         return input;
       }
 
@@ -1063,7 +1064,7 @@ describe('model', () => {
     test('find', async () => {
       const results = await hooksModel.find({ foo: 'bar' });
 
-      expectType<SimpleDocument[]>(results);
+      expectType<SimpleDocument[] | undefined>(results);
 
       expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
       // The context is actually populated in `before` hook calls,
