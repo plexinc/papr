@@ -2,7 +2,7 @@
   "name": "papr",
   "description": "MongoDB TypeScript-aware Models",
   "author": "Plex Inc.",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "keywords": [
     "mongodb",
     "database",

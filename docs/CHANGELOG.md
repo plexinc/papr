@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/plexinc/papr/compare/v6.0.0...v7.0.0) (2022-07-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* The hook parameters have been merged into a single object parameter.
+
+### Features
+
+* Send result to the after hook parameters ([#242](https://github.com/plexinc/papr/issues/242)) ([cef1536](https://github.com/plexinc/papr/commit/cef1536ba7eff4c2e6b52a2106eb88b9bff2149f))
+
+
+### Bug Fixes
+
+* Update sed command for macOS ([#234](https://github.com/plexinc/papr/issues/234)) ([0b6c476](https://github.com/plexinc/papr/commit/0b6c47620e670ac00ae42681b7f9f74c478e8112))
+
 ## [6.0.0](https://github.com/plexinc/papr/compare/v5.0.0...v6.0.0) (2022-06-15)
 
 
