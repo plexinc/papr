@@ -13,8 +13,8 @@ export type Hook<TArgs, TContext = Record<string, unknown>> = (params: {
 }) => Promise<void>;
 
 export interface Hooks {
-  after?: Hook<unknown>[];
-  before?: Hook<unknown>[];
+  after?: Hook<unknown, unknown>[];
+  before?: Hook<unknown, unknown>[];
 }
 
 /**
