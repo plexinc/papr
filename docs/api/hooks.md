@@ -8,10 +8,10 @@ The only exception is the custom `upsert` method.
 ## `Hook<TArgs>`
 
 ```
-export type Hook<TArgs> = (params: {
+export type Hook<TArgs, TContext = Record<string, unknown>> = (params: {
   args: TArgs[];
   collectionName: string;
-  context: Record<string, unknown>;
+  context: TContext;
   error?: Error;
   methodName: HookMethodsNames;
   result?: unknown;
