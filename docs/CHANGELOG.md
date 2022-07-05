@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/plexinc/papr/compare/v7.0.0...v7.0.1) (2022-07-05)
+
+
+### Bug Fixes
+
+* Customisable Hook context type ([#258](https://github.com/plexinc/papr/issues/258)) ([26d4628](https://github.com/plexinc/papr/commit/26d4628ef1fef0ca9266d4a4c6d21c3fc53313e7))
+
 ## [7.0.0](https://github.com/plexinc/papr/compare/v6.0.0...v7.0.0) (2022-07-05)
 
 
