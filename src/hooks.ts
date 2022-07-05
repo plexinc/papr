@@ -3,10 +3,10 @@ import { HookMethodsNames } from './model';
 
 export type Log = (message: string) => void;
 
-export type Hook<TArgs> = (params: {
+export type Hook<TArgs, TContext = Record<string, unknown>> = (params: {
   args: TArgs[];
   collectionName: string;
-  context: Record<string, unknown>;
+  context: TContext;
   error?: Error;
   methodName: HookMethodsNames;
   result?: unknown;
@@ -27,10 +27,10 @@ export interface Hooks {
  * ## `Hook<TArgs>`
  *
  * ```
- * export type Hook<TArgs> = (params: {
+ * export type Hook<TArgs, TContext = Record<string, unknown>> = (params: {
  *   args: TArgs[];
  *   collectionName: string;
- *   context: Record<string, unknown>;
+ *   context: TContext;
  *   error?: Error;
  *   methodName: HookMethodsNames;
  *   result?: unknown;
