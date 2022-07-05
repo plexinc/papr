@@ -119,6 +119,17 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
   upsert: (filter: Filter<TSchema>, update: UpdateFilter<TSchema>) => Promise<WithId<TSchema>>;
 }
 
+type ModelMethodsNames = NonNullable<
+  {
+    [P in keyof Model<BaseSchema, Object>]: Model<BaseSchema, Object>[P] extends Function
+      ? P
+      : never;
+  }[keyof Model<BaseSchema, Object>]
+>;
+
+// `upsert` is a custom method, which is not wrapped with hooks.
+export type HookMethodsNames = Exclude<ModelMethodsNames, 'upsert'>;
+
 function abstractMethod(): void {
   throw new Error('Collection is not initialized!');
 }
@@ -146,25 +157,39 @@ export function abstract<TSchema extends BaseSchema, TDefaults extends Partial<T
   };
 }
 
-function wrap<A, R>(
+function wrap<TArgs, TResult>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   model: Model<any, any>,
-  method: (...args: A[]) => Promise<R>
-): (...args: A[]) => Promise<R> {
+  method: (...args: TArgs[]) => Promise<TResult>
+): (...args: TArgs[]) => Promise<TResult> {
   return async function modelWrapped(...args) {
     const { collectionName } = model.collection;
     const { after = [], before = [] } = model.options?.hooks || {};
     const context = {};
 
     for (const hook of before) {
-      await hook({ args, collectionName, context, methodName: method.name });
+      await hook({
+        args,
+        collectionName,
+        context,
+        // @ts-expect-error We can't get the proper method name type here
+        methodName: method.name,
+      });
     }
 
-    let result: R;
+    let result: TResult;
     try {
       result = await method(...args);
+
       for (const hook of after) {
-        await hook({ args, collectionName, context, methodName: method.name, result });
+        await hook({
+          args,
+          collectionName,
+          context,
+          // @ts-expect-error We can't get the proper method name type here
+          methodName: method.name,
+          result,
+        });
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -176,7 +201,14 @@ function wrap<A, R>(
         }
 
         for (const hook of after) {
-          await hook({ args, collectionName, context, error: err, methodName: method.name });
+          await hook({
+            args,
+            collectionName,
+            context,
+            error: err,
+            // @ts-expect-error We can't get the proper method name type here
+            methodName: method.name,
+          });
         }
       }
 
