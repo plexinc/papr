@@ -3010,12 +3010,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"builtins@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "builtins@npm:4.1.0"
+"builtins@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "builtins@npm:5.0.1"
   dependencies:
     semver: ^7.0.0
-  checksum: 3524f5a5898c3f77a73fee2e0046e676abbb0acc18db1e495676ee07fbef1537134b0e9c4da525f4cb12ba3cd1b430a26c373d32b59b80a5c048f8ace31b595f
+  checksum: 66d204657fe36522822a95b288943ad11b58f5eaede235b11d8c4edaa28ce4800087d44a2681524c340494aadb120a0068011acabe99d30e8f11a7d826d83515
   languageName: node
   linkType: hard
 
@@ -4675,21 +4675,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:15.2.0":
-  version: 15.2.0
-  resolution: "eslint-plugin-n@npm:15.2.0"
+"eslint-plugin-n@npm:15.2.4":
+  version: 15.2.4
+  resolution: "eslint-plugin-n@npm:15.2.4"
   dependencies:
-    builtins: ^4.0.0
+    builtins: ^5.0.1
     eslint-plugin-es: ^4.1.0
     eslint-utils: ^3.0.0
     ignore: ^5.1.1
-    is-core-module: ^2.3.0
-    minimatch: ^3.0.4
+    is-core-module: ^2.9.0
+    minimatch: ^3.1.2
     resolve: ^1.10.1
-    semver: ^6.3.0
+    semver: ^7.3.7
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: 4303dea35a40877958e5de9d54c098d842191428e1cef0df320cc3533ecd0b539a67323f6788bffdf76445c2f5a5dfe28837a5d1efb70ebb29c0caa6259bb805
+  checksum: dd651651ab76120e45707ee968d846e3ffffb42d1035792fdef6d3b0dcfddf3673bc6a09cb2fac8c5f1d081f14f2a67fc52295d5ed1d2edfb5beead93284eaac
   languageName: node
   linkType: hard
 
@@ -5917,7 +5917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.3.0, is-core-module@npm:^2.8.1":
+"is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
   version: 2.9.0
   resolution: "is-core-module@npm:2.9.0"
   dependencies:
@@ -8154,7 +8154,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-config-standard: 17.0.0
     eslint-plugin-import: 2.26.0
-    eslint-plugin-n: 15.2.0
+    eslint-plugin-n: 15.2.4
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-promise: 6.0.0
     husky: 8.0.1
