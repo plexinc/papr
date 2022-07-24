@@ -7589,9 +7589,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.7.1":
-  version: 8.7.1
-  resolution: "mongodb-memory-server-core@npm:8.7.1"
+"mongodb-memory-server-core@npm:8.8.0":
+  version: 8.8.0
+  resolution: "mongodb-memory-server-core@npm:8.8.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -7601,7 +7601,7 @@ __metadata:
     get-port: ^5.1.1
     https-proxy-agent: ^5.0.1
     md5-file: ^5.0.0
-    mongodb: ^4.7.0
+    mongodb: ~4.7.0
     new-find-package-json: ^2.0.0
     semver: ^7.3.7
     tar-stream: ^2.1.4
@@ -7609,17 +7609,17 @@ __metadata:
     tslib: ^2.4.0
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: d62a07b02fed1017581320c8ca3c2673fa1c192fac0075fd31124a2793ac6575e36092336e06e0c189019da52baaae30590f7d57e5532a2e235044c644526b71
+  checksum: eafce387c34e3aeff66158ca95941d11c8a87f86b9c1219306727482afa0373281ec72204c133da27d781a4823f1170b7e2d3fbba9824a682ed3a512e47c4e02
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.7.1":
-  version: 8.7.1
-  resolution: "mongodb-memory-server@npm:8.7.1"
+"mongodb-memory-server@npm:8.8.0":
+  version: 8.8.0
+  resolution: "mongodb-memory-server@npm:8.8.0"
   dependencies:
-    mongodb-memory-server-core: 8.7.1
+    mongodb-memory-server-core: 8.8.0
     tslib: ^2.4.0
-  checksum: 696c363d56e4cb4f969e4b82c5aaade814e01e98dd080f35252136c4ee78d66cf3da3822be24e242703dc8d3b3d4bf99f6a6abf04af88ea024a389749512125f
+  checksum: 43e35ce1eb30b99ad2f5e5ae5d022054bbc5fa9998978e7cdb8dfe7cf82e24413f97cc6bfeab97b618091668134b87ecbff90193152dfad53d4262091ceee2be
   languageName: node
   linkType: hard
 
@@ -7639,7 +7639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.7.0, mongodb@npm:^4.7.0":
+"mongodb@npm:4.7.0, mongodb@npm:~4.7.0":
   version: 4.7.0
   resolution: "mongodb@npm:4.7.0"
   dependencies:
@@ -8163,7 +8163,7 @@ __metadata:
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.0
     mongodb: 4.7.0
-    mongodb-memory-server: 8.7.1
+    mongodb-memory-server: 8.8.0
     mongoose: 6.3.5
     pinst: 3.0.0
     prettier: 2.7.1
