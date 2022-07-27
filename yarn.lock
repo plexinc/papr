@@ -2970,12 +2970,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.6.2, bson@npm:^4.6.3":
-  version: 4.6.4
-  resolution: "bson@npm:4.6.4"
+"bson@npm:^4.6.2, bson@npm:^4.6.3, bson@npm:^4.6.5":
+  version: 4.6.5
+  resolution: "bson@npm:4.6.5"
   dependencies:
     buffer: ^5.6.0
-  checksum: f56375865c8fc048179075296019a0d2e058edbbb6692e54e2751da738840968de678a48a2276faf2ec8f8b36c5c26f14670ab4d414fe68f0169215efe15d570
+  checksum: b9d4856241e76f6bacf6825b5280f993a867b74fa47bb62b3a20d835d9f02979e1a10a6c38536ac86cb485dc96aabdacb0c6922fca7a784603a781a00e23c336
   languageName: node
   linkType: hard
 
@@ -7639,7 +7639,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.7.0, mongodb@npm:~4.7.0":
+"mongodb@npm:4.8.1":
+  version: 4.8.1
+  resolution: "mongodb@npm:4.8.1"
+  dependencies:
+    bson: ^4.6.5
+    denque: ^2.0.1
+    mongodb-connection-string-url: ^2.5.2
+    saslprep: ^1.0.3
+    socks: ^2.6.2
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  checksum: 97ff4ebe3fde7b3b5b133d8f7a2e4d6e372c44f8223a6d40b13bb3a705bbbb48ed50958a0fc6b3a33161605723479fced8e0eb83cf7fd5271f7530e6e2d67a2d
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:~4.7.0":
   version: 4.7.0
   resolution: "mongodb@npm:4.7.0"
   dependencies:
@@ -8162,7 +8178,7 @@ __metadata:
     jsdoc-api: 7.1.0
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.0
-    mongodb: 4.7.0
+    mongodb: 4.8.1
     mongodb-memory-server: 8.8.0
     mongoose: 6.3.5
     pinst: 3.0.0
