@@ -82,6 +82,12 @@ export type ProjectionType<
   ? WithId<TSchema>
   : WithId<DeepPick<TSchema, keyof Projection & string>>;
 
+export type Identity<Type> = Type;
+
+export type Flatten<Type extends object> = Identity<{
+  [Key in keyof Type]: Type[Key];
+}>;
+
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
 }

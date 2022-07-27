@@ -1,4 +1,5 @@
 import { ObjectId, Binary } from 'mongodb';
+import { Flatten } from './utils';
 
 // These options are based on the available keywords from:
 // https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/#json-schema
@@ -62,12 +63,11 @@ type RequiredProperties<Properties> = {
 type OptionalProperties<Properties> = Exclude<keyof Properties, RequiredProperties<Properties>>;
 
 // We define properties which extend `undefined` as true optional properties `[Prop]?: Value`
-// prettier-ignore
-export type ObjectType<Properties> = {
-  [Prop in OptionalProperties<Properties>]?: Properties[Prop];
-} & {
-  [Prop in RequiredProperties<Properties>]: Properties[Prop];
-};
+export type ObjectType<Properties> = Flatten<
+  Pick<Properties, NonNullable<RequiredProperties<Properties>>> & {
+    [Prop in OptionalProperties<Properties>]?: Properties[Prop];
+  }
+>;
 
 /**
  * @module intro
