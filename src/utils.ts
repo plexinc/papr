@@ -154,13 +154,14 @@ export function timestampUpdateFilter<TSchema>(
 ): UpdateFilter<TSchema> {
   const $currentDate = {
     ...update.$currentDate,
+    // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
     ...(!update.$set?.updatedAt &&
       !update.$unset?.updatedAt && {
         updatedAt: true,
       }),
   };
 
-  // @ts-expect-error We can't let TS know that the current schema has timestamps attributes
+  // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
   return {
     ...update,
     ...(Object.keys($currentDate).length > 0 && { $currentDate }),
@@ -193,6 +194,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
 
     const $currentDate = {
       ...update.$currentDate,
+      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.updatedAt &&
         !update.$unset?.updatedAt && {
           updatedAt: true,
@@ -200,6 +202,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
+      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.createdAt &&
         !update.$unset?.createdAt && {
           createdAt: new Date(),
@@ -209,7 +212,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
     return {
       updateOne: {
         ...operation.updateOne,
-        // @ts-expect-error We can't let TS know that the current schema has timestamps attributes
+        // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
         update: {
           ...update,
           ...(Object.keys($currentDate).length > 0 && { $currentDate }),
@@ -229,6 +232,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
 
     const $currentDate = {
       ...update.$currentDate,
+      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.updatedAt &&
         !update.$unset?.updatedAt && {
           updatedAt: true,
@@ -236,6 +240,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
+      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.createdAt &&
         !update.$unset?.createdAt && {
           createdAt: new Date(),
@@ -245,7 +250,7 @@ export function timestampBulkWriteOperation<TSchema, TDefaults>(
     return {
       updateMany: {
         ...operation.updateMany,
-        // @ts-expect-error We can't let TS know that the current schema has timestamps attributes
+        // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
         update: {
           ...update,
           ...(Object.keys($currentDate).length > 0 && { $currentDate }),
@@ -283,7 +288,7 @@ export function cleanSetOnInsert<TSchema>(
       key in (update.$inc || {}) ||
       key in (update.$unset || {})
     ) {
-      delete $setOnInsert[key];
+      delete $setOnInsert[key as keyof typeof $setOnInsert];
     }
   }
   return $setOnInsert;
