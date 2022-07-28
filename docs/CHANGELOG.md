@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/plexinc/papr/compare/v7.0.1...v7.1.0) (2022-07-28)
+
+
+### Features
+
+* Support for mongodb v4.8.1 ([#262](https://github.com/plexinc/papr/issues/262)) ([0b86f01](https://github.com/plexinc/papr/commit/0b86f01954cd6a9370ae7fd3924b6e862cf94473))
+
 ### [7.0.1](https://github.com/plexinc/papr/compare/v7.0.0...v7.0.1) (2022-07-05)
 
 
