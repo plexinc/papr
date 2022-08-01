@@ -1,4 +1,4 @@
-import { ObjectId, Binary } from 'mongodb';
+import { Binary, ObjectId } from 'mongodb';
 import { Flatten } from './utils';
 
 // These options are based on the available keywords from:
@@ -56,11 +56,14 @@ type GetType<Type, Options> = Options extends RequiredOptions
     : Type | undefined
   : Type | undefined;
 
-type RequiredProperties<Properties> = {
+export type RequiredProperties<Properties> = {
   [Prop in keyof Properties]: undefined extends Properties[Prop] ? never : Prop;
 }[keyof Properties];
 
-type OptionalProperties<Properties> = Exclude<keyof Properties, RequiredProperties<Properties>>;
+export type OptionalProperties<Properties> = Exclude<
+  keyof Properties,
+  RequiredProperties<Properties>
+>;
 
 // We define properties which extend `undefined` as true optional properties `[Prop]?: Value`
 export type ObjectType<Properties> = Flatten<
@@ -178,7 +181,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
   property: Property,
   pattern = '.+',
   options?: Options
-): GetType<ObjectType<{ [key: string]: Property }>, Options> {
+): GetType<Record<string, Property>, Options> {
   const { required, ...otherOptions } = options || {};
 
   return {
@@ -189,7 +192,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
     },
     type: 'object',
     ...otherOptions,
-  } as unknown as GetType<ObjectType<{ [key: string]: Property }>, Options>;
+  } as unknown as GetType<Record<string, Property>, Options>;
 }
 
 function createSimpleType<Type>(type: BSONType) {

@@ -528,12 +528,13 @@ describe('types', () => {
           })
         );
         expectType<
-          | {
-              [key: string]: {
+          | Record<
+              string,
+              {
                 foo?: boolean;
                 bar: number;
-              };
-            }
+              }
+            >
           | undefined
         >(value);
         const item = value?.item;
@@ -589,12 +590,7 @@ describe('types', () => {
             type: 'object',
           })
         );
-        expectType<
-          | {
-              [key: string]: boolean | undefined;
-            }
-          | undefined
-        >(value);
+        expectType<Record<string, boolean | undefined> | undefined>(value);
       });
     });
   });
