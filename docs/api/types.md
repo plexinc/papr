@@ -300,6 +300,31 @@ schema({
 });
 ```
 
+## `oneOf`
+
+Creates a union type of multiple other types.
+
+This is useful when combined with `objectGeneric`.
+
+**Parameters:**
+
+| Name               | Type            | Attribute |
+| ------------------ | --------------- | --------- |
+| `types`            | `Array<Type>`   | required  |
+| `options`          | `StringOptions` | optional  |
+| `options.required` | `boolean`       | optional  |
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  optionalStringOrNumber: types.oneOf([types.string(), types.number()]),
+  requiredStringOrNumber: types.oneOf([types.string(), types.number()], { required: true }),
+});
+```
+
 ## `string`
 
 Creates a string type.

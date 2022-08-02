@@ -650,4 +650,57 @@ describe('types', () => {
       });
     });
   });
+
+  describe('compound types', () => {
+    describe('oneOf', () => {
+      test('default', () => {
+        const value = types.oneOf([types.number(), types.string()]);
+
+        expect(value).toEqual(
+          expect.objectContaining({
+            oneOf: [
+              {
+                type: 'number',
+              },
+              {
+                type: 'string',
+              },
+            ],
+          })
+        );
+        expectType<number | string | undefined>(value);
+        // @ts-expect-error `value` should not be `boolean`
+        expectType<boolean>(value);
+        expectType<typeof value>(123);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(undefined);
+      });
+    });
+
+    test('required', () => {
+      const value = types.oneOf([types.boolean(), types.string()], { required: true });
+
+      expect(value).toEqual(
+        expect.objectContaining({
+          oneOf: [
+            {
+              $required: true,
+              type: 'boolean',
+            },
+            {
+              $required: true,
+              type: 'string',
+            },
+          ],
+        })
+      );
+      expectType<boolean | string>(value);
+      // @ts-expect-error `value` should not be `number`
+      expectType<number>(value);
+      // @ts-expect-error `value` should not be `undefined`
+      expectType<undefined>(value);
+      expectType<typeof value>(true);
+      expectType<typeof value>('foo');
+    });
+  });
 });

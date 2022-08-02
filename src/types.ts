@@ -195,6 +195,24 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
   } as unknown as GetType<Record<string, Property>, Options>;
 }
 
+export function oneOf<Types extends any[], Options extends GenericOptions>(
+  types: Types,
+  options?: Options
+): GetType<NonNullable<Types[number]>, Options> {
+  const { required } = options || {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return {
+    oneOf: required
+      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        types.map((type) => ({
+          ...type,
+          $required: true,
+        }))
+      : types,
+  } as unknown as GetType<NonNullable<Types[number]>, Options>;
+}
+
 function createSimpleType<Type>(type: BSONType) {
   return <Options extends GenericOptions>(options?: Options) => {
     return {
@@ -463,6 +481,25 @@ export default {
    * });
    */
   objectId: createSimpleType<ObjectId>('objectId'),
+
+  /**
+   * Creates a union type of multiple other types.
+   *
+   * This is useful when combined with `objectGeneric`.
+   *
+   * @param types {Type[]}
+   * @param [options] {StringOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   optionalStringOrNumber: types.oneOf([types.string(), types.number()]),
+   *   requiredStringOrNumber: types.oneOf([types.string(), types.number()], { required: true }),
+   * });
+   */
+  oneOf,
 
   /**
    * Creates a string type.
