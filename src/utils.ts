@@ -45,10 +45,10 @@ export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<
 > &
   Partial<Pick<TSchema, keyof TDefaults & keyof TSchema>>;
 
-export type DocumentForInsert<TSchema, TDefaults extends Partial<TSchema>> = Extract<
-  keyof TSchema,
-  'createdAt'
-> extends 'createdAt'
+export type DocumentForInsert<
+  TSchema,
+  TDefaults extends Partial<TSchema>
+> = TSchema extends TimestampSchema
   ? Omit<DocumentForInsertWithoutDefaults<TSchema, TDefaults>, 'createdAt' | 'updatedAt'> &
       Partial<TimestampSchema>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
