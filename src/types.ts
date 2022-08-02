@@ -216,6 +216,10 @@ function string<Options extends StringOptions>(options?: Options): GetType<strin
   } as unknown as GetType<string, Options>;
 }
 
+function unknown<Options extends GenericOptions>(options?: Options): unknown {
+  return any(options) as unknown;
+}
+
 export default {
   /**
    * Creates an array consisting of items of a single type.
@@ -499,4 +503,18 @@ export default {
    */
   // eslint-disable-next-line sort-keys
   any,
+
+  /**
+   * This allows any value to be assigned, but is typed as unknown to force assertions
+   * before relying on the data. Like with `any`, we recommend avoiding this type.
+   * It only exists as an escape hatch for unknown data.
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   unknownData: types.unknown(),
+   * });
+   */
+  unknown,
 };
