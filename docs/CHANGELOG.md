@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/plexinc/papr/compare/v7.1.0...v7.2.0) (2022-08-02)
+
+
+### Features
+
+* `oneOf` type ([#275](https://github.com/plexinc/papr/issues/275)) ([2d55250](https://github.com/plexinc/papr/commit/2d55250a99f0629f051fe7d768080046d30d5866))
+* `unknown` type ([#276](https://github.com/plexinc/papr/issues/276)) ([716712a](https://github.com/plexinc/papr/commit/716712a0241761a8b3008ef52f090aa9532e9b9f))
+
+
+### Bug Fixes
+
+* Use Record for objectGeneric type ([#274](https://github.com/plexinc/papr/issues/274)) ([59f3664](https://github.com/plexinc/papr/commit/59f3664389a4ead84cae185ab4526a3f04f580da))
+
 ## [7.1.0](https://github.com/plexinc/papr/compare/v7.0.1...v7.1.0) (2022-07-28)
 
 
