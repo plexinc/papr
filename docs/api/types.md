@@ -346,3 +346,19 @@ schema({
   unknownData: types.any(),
 });
 ```
+
+## `unknown`
+
+This allows any value to be assigned, but is typed as unknown to force assertions
+before relying on the data. Like with `any`, we recommend avoiding this type.
+It only exists as an escape hatch for unknown data.
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  unknownData: types.unknown(),
+});
+```

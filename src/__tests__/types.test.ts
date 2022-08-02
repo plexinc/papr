@@ -593,5 +593,61 @@ describe('types', () => {
         expectType<Record<string, boolean | undefined> | undefined>(value);
       });
     });
+
+    describe('unknown', () => {
+      test('default', () => {
+        const value = types.unknown();
+
+        expect(value).toEqual({
+          bsonType: [
+            'array',
+            'binData',
+            'bool',
+            'date',
+            'null',
+            'number',
+            'object',
+            'objectId',
+            'string',
+          ],
+        });
+
+        expectType<unknown>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+      });
+
+      test('required', () => {
+        const value = types.unknown({ required: true });
+
+        expect(value).toEqual({
+          $required: true,
+          bsonType: [
+            'array',
+            'binData',
+            'bool',
+            'date',
+            'null',
+            'number',
+            'object',
+            'objectId',
+            'string',
+          ],
+        });
+
+        expectType<unknown>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+      });
+
+      test('options', () => {
+        // @ts-expect-error invalid option
+        types.unknown({ maximum: 1 });
+        // @ts-expect-error invalid option
+        types.unknown({ maxLength: 1 });
+      });
+    });
   });
 });
