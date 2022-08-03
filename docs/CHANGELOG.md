@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.1](https://github.com/plexinc/papr/compare/v7.2.0...v7.2.1) (2022-08-03)
+
+
+### Bug Fixes
+
+* Correct TimestampSchema ternary in DocumentForInsert ([#277](https://github.com/plexinc/papr/issues/277)) ([7e8d750](https://github.com/plexinc/papr/commit/7e8d7504aeee51e6ad0c27a9df7a8597fdb63f74))
+
 ## [7.2.0](https://github.com/plexinc/papr/compare/v7.1.0...v7.2.0) (2022-08-02)
 
 
