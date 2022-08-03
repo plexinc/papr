@@ -1179,6 +1179,11 @@ describe('model', () => {
       await simpleModel.insertOne({});
     });
 
+    test('simple schema, including fields missing from schema', async () => {
+      // @ts-expect-error Ignore included fields missing from schema
+      await simpleModel.insertOne({ createdAt: new Date() });
+    });
+
     test('timestamps schema', async () => {
       const result = await timestampsModel.insertOne({
         bar: 123,
