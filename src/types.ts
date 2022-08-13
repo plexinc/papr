@@ -1,4 +1,5 @@
 import { Binary, ObjectId } from 'mongodb';
+import { TupleItems } from './TupleItems';
 import { Flatten } from './utils';
 
 // These options are based on the available keywords from:
@@ -233,6 +234,26 @@ function string<Options extends StringOptions>(options?: Options): GetType<strin
     type: 'string',
     ...otherOptions,
   } as unknown as GetType<string, Options>;
+}
+
+function tuple<Items extends readonly unknown[], Options extends GenericOptions>(
+  items: Items,
+  options?: Options
+): GetType<TupleItems<Items>, Options> {
+  const { required } = options || {};
+
+  const minItems = items.reduce<number>((value, item: { $required: boolean }, index) => {
+    if (item.$required) return index + 1;
+    return value;
+  }, 0);
+
+  return {
+    ...(required ? { $required: true } : {}),
+    items,
+    type: 'array',
+    minItems,
+    additionalItems: false,
+  } as unknown as GetType<TupleItems<Items>, Options>;
 }
 
 function unknown<Options extends GenericOptions>(options?: Options): unknown {
@@ -528,6 +549,31 @@ export default {
    * });
    */
   string,
+
+  /**
+   * Creates a tuple type for the items in the supplied items array.
+   *
+   * Items passed to tuple must be readonly to preserve their order and any optional properties preceding a required property are implicitly required as well.
+   *
+   * @param types {Type[]}
+   * @param [options] {GenericOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   requiredTuple: types.tuple([
+   *     types.number(),
+   *     types.string()
+   *   ] as const, { required: true }),
+   *   optionalTuple: types.tuple([
+   *     types.number(),
+   *     types.string()
+   *   ] as const),
+   * });
+   */
+  tuple,
 
   /**
    * We recommend avoiding this type. It only exists as an escape hatch for unknown data.
