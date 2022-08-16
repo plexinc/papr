@@ -815,6 +815,13 @@ describe('model', () => {
     });
   });
 
+  describe('exists', () => {
+    test('default', async () => {
+      const result = await simpleModel.exists({ bar: 123 });
+      expectType<boolean>(result);
+    });
+  });
+
   describe('find', () => {
     test('default', async () => {
       const results = await simpleModel.find({});
