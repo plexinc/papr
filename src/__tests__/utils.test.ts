@@ -123,6 +123,7 @@ describe('utils', () => {
     testNested.bar;
     // @ts-expect-error `ham` should be undefined here
     testNested.ham;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expectType<any[]>(testNested.nestedList);
     expectType<string>(testNested.nestedList[0].direct);
     // @ts-expect-error `nestedList[0].other` should be undefined here

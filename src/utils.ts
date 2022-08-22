@@ -296,6 +296,7 @@ export function cleanSetOnInsert<TSchema>(
       key in (update.$inc || {}) ||
       key in (update.$unset || {})
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete $setOnInsert[key as keyof typeof $setOnInsert];
     }
   }
