@@ -195,6 +195,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
   } as unknown as GetType<Record<string, Property>, Options>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function oneOf<Types extends any[], Options extends GenericOptions>(
   types: Types,
   options?: Options
