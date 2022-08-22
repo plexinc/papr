@@ -77,7 +77,9 @@ export type BulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>> =
 
 export type ProjectionType<
   TSchema extends BaseSchema,
-  Projection extends Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>> | undefined
+  Projection extends
+    | Partial<Record<Join<NestedPaths<WithId<TSchema>, true>, '.'>, number>>
+    | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
   : WithId<DeepPick<TSchema, keyof Projection & string>>;
