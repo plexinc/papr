@@ -594,6 +594,172 @@ describe('types', () => {
       });
     });
 
+    describe('tuple', () => {
+      test('default', () => {
+        const value = types.tuple([
+          types.string(),
+          types.number(),
+          types.boolean(),
+          types.objectId(),
+          types.date(),
+        ] as const);
+
+        expect(value).toEqual({
+          items: [
+            {
+              type: 'string',
+            },
+            {
+              type: 'number',
+            },
+            {
+              type: 'boolean',
+            },
+            {
+              bsonType: 'objectId',
+            },
+            {
+              bsonType: 'date',
+            },
+          ],
+          additionalItems: false,
+          minItems: 0,
+          type: 'array',
+        });
+        expectType<
+          | undefined
+          | []
+          | [string]
+          | [string, number]
+          | [string, number, boolean]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean, ObjectId, Date]
+        >(value);
+        expectType<typeof value>(undefined);
+      });
+
+      test('required', () => {
+        const value = types.tuple(
+          [
+            types.string(),
+            types.number(),
+            types.boolean(),
+            types.objectId(),
+            types.date(),
+          ] as const,
+          { required: true }
+        );
+
+        expect(value).toEqual({
+          items: [
+            {
+              type: 'string',
+            },
+            {
+              type: 'number',
+            },
+            {
+              type: 'boolean',
+            },
+            {
+              bsonType: 'objectId',
+            },
+            {
+              bsonType: 'date',
+            },
+          ],
+          $required: true,
+          additionalItems: false,
+          minItems: 0,
+          type: 'array',
+        });
+        expectType<
+          | []
+          | [string]
+          | [string, number]
+          | [string, number, boolean]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean, ObjectId, Date]
+        >(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+      });
+
+      test('with required properties', () => {
+        const value = types.tuple(
+          [
+            types.string({ required: true }),
+            types.number({ required: true }),
+            types.boolean({ required: true }),
+            types.objectId(),
+            types.date(),
+          ] as const,
+          { required: true }
+        );
+
+        expect(value).toEqual({
+          items: [
+            { $required: true, type: 'string' },
+            { $required: true, type: 'number' },
+            { $required: true, type: 'boolean' },
+            {
+              bsonType: 'objectId',
+            },
+            {
+              bsonType: 'date',
+            },
+          ],
+          $required: true,
+          additionalItems: false,
+          minItems: 3,
+          type: 'array',
+        });
+        expectType<
+          | [string, number, boolean]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean, ObjectId, Date]
+        >(value);
+      });
+
+      test('with required properties and preceding optional properties', () => {
+        const value = types.tuple(
+          [
+            types.string(),
+            types.number(),
+            types.boolean(),
+            types.objectId({ required: true }),
+            types.date(),
+          ] as const,
+          { required: true }
+        );
+
+        expect(value).toEqual({
+          items: [
+            {
+              type: 'string',
+            },
+            {
+              type: 'number',
+            },
+            {
+              type: 'boolean',
+            },
+            { $required: true, bsonType: 'objectId' },
+            {
+              bsonType: 'date',
+            },
+          ],
+          $required: true,
+          additionalItems: false,
+          minItems: 4,
+          type: 'array',
+        });
+        expectType<[string, number, boolean, ObjectId] | [string, number, boolean, ObjectId, Date]>(
+          value
+        );
+      });
+    });
+
     describe('unknown', () => {
       test('default', () => {
         const value = types.unknown();

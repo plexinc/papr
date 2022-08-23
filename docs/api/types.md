@@ -358,6 +358,31 @@ schema({
 });
 ```
 
+## `tuple`
+
+Creates a tuple type for the items in the supplied items array.
+
+Items passed to tuple must be readonly to preserve their order and any optional properties preceding a required property are implicitly required as well.
+
+**Parameters:**
+
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `types`            | `Array<Type>`    | required  |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  requiredTuple: types.tuple([types.number(), types.string()] as const, { required: true }),
+  optionalTuple: types.tuple([types.number(), types.string()] as const),
+});
+```
+
 ## `any`
 
 We recommend avoiding this type. It only exists as an escape hatch for unknown data.
