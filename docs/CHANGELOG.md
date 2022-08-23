@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/plexinc/papr/compare/v7.2.2...v7.3.0) (2022-08-23)
+
+
+### Features
+
+* `tuple` type ([#284](https://github.com/plexinc/papr/issues/284)) ([0531447](https://github.com/plexinc/papr/commit/0531447af494e60ff0ecfeeffc29c169a359c7b6))
+
 ### [7.2.2](https://github.com/plexinc/papr/compare/v7.2.1...v7.2.2) (2022-08-22)
 
 
