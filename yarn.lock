@@ -3007,7 +3007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^4.6.2, bson@npm:^4.6.3, bson@npm:^4.7.0":
+"bson@npm:^4.6.2, bson@npm:^4.7.0":
   version: 4.7.0
   resolution: "bson@npm:4.7.0"
   dependencies:
@@ -7639,9 +7639,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.8.0":
-  version: 8.8.0
-  resolution: "mongodb-memory-server-core@npm:8.8.0"
+"mongodb-memory-server-core@npm:8.9.0":
+  version: 8.9.0
+  resolution: "mongodb-memory-server-core@npm:8.9.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -7651,7 +7651,7 @@ __metadata:
     get-port: ^5.1.1
     https-proxy-agent: ^5.0.1
     md5-file: ^5.0.0
-    mongodb: ~4.7.0
+    mongodb: ~4.9.0
     new-find-package-json: ^2.0.0
     semver: ^7.3.7
     tar-stream: ^2.1.4
@@ -7659,17 +7659,17 @@ __metadata:
     tslib: ^2.4.0
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: eafce387c34e3aeff66158ca95941d11c8a87f86b9c1219306727482afa0373281ec72204c133da27d781a4823f1170b7e2d3fbba9824a682ed3a512e47c4e02
+  checksum: 338a5aac68bd2d230176cdbc6e3fc1280280a7116724921381b51d341c9990a0748450fe77d3aa83f1d21e1bb96a042132c06494597b97ed0881fa803f189cb9
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.8.0":
-  version: 8.8.0
-  resolution: "mongodb-memory-server@npm:8.8.0"
+"mongodb-memory-server@npm:8.9.0":
+  version: 8.9.0
+  resolution: "mongodb-memory-server@npm:8.9.0"
   dependencies:
-    mongodb-memory-server-core: 8.8.0
+    mongodb-memory-server-core: 8.9.0
     tslib: ^2.4.0
-  checksum: 43e35ce1eb30b99ad2f5e5ae5d022054bbc5fa9998978e7cdb8dfe7cf82e24413f97cc6bfeab97b618091668134b87ecbff90193152dfad53d4262091ceee2be
+  checksum: e8102827e0a4ca3843ebf1674eae0395715e846645dbb18a4194bac98451b97fac0f26664410cf05d6954453914f703422d7a07de6e2bd1b629537e7d8889eb6
   languageName: node
   linkType: hard
 
@@ -7689,7 +7689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.9.0":
+"mongodb@npm:4.9.0, mongodb@npm:~4.9.0":
   version: 4.9.0
   resolution: "mongodb@npm:4.9.0"
   dependencies:
@@ -7702,22 +7702,6 @@ __metadata:
     saslprep:
       optional: true
   checksum: bc4af35d79207d456060e3de86ef4aa6f1e4238a9e112701918d9c2c412f0f6e574ee30818737699c22518ee11bf8f5e7e8d310dfe00f1b89bfba0b232df942a
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:~4.7.0":
-  version: 4.7.0
-  resolution: "mongodb@npm:4.7.0"
-  dependencies:
-    bson: ^4.6.3
-    denque: ^2.0.1
-    mongodb-connection-string-url: ^2.5.2
-    saslprep: ^1.0.3
-    socks: ^2.6.2
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  checksum: 6c8ddf1d14a4392d83702aa532e5a1e6deaa501cfd66e352a1226358422716e340465ca4b0f2c5d8f660bf15c06456059953fb99482f714c1dab408ecfe3aeea
   languageName: node
   linkType: hard
 
@@ -8229,7 +8213,7 @@ __metadata:
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.3
     mongodb: 4.9.0
-    mongodb-memory-server: 8.8.0
+    mongodb-memory-server: 8.9.0
     mongoose: 6.3.5
     pinst: 3.0.0
     prettier: 2.7.1
