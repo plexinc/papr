@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Collection, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
@@ -66,37 +67,48 @@ describe('model', () => {
     };
     docs = [doc];
 
-    // @ts-expect-error Ignore mock collection
     collection = {
+      // @ts-expect-error Ignore mock function
       aggregate: jest.fn().mockReturnValue({
+        // @ts-expect-error Ignore mock function
         toArray: jest.fn().mockResolvedValue(docs),
       }),
+      // @ts-expect-error Ignore mock function
       bulkWrite: jest.fn().mockResolvedValue({
         result: true,
       }),
       collectionName: 'testcollection',
+      // @ts-expect-error Ignore mock function
       distinct: jest.fn().mockResolvedValue(['FOO', 'BAR']),
+      // @ts-expect-error Ignore mock function
       find: jest.fn().mockReturnValue({
+        // @ts-expect-error Ignore mock function
         toArray: jest.fn().mockResolvedValue(docs),
       }),
+      // @ts-expect-error Ignore mock function
       findOne: jest.fn().mockResolvedValue(doc),
+      // @ts-expect-error Ignore mock function
       findOneAndDelete: jest.fn().mockResolvedValue({
         ok: 1,
         value: doc,
       }),
+      // @ts-expect-error Ignore mock function
       findOneAndUpdate: jest.fn().mockResolvedValue({
         ok: 1,
         value: doc,
       }),
+      // @ts-expect-error Ignore mock function
       insertMany: jest.fn().mockResolvedValue({
         acknowledged: true,
         insertedCount: 2,
         insertedIds: [new ObjectId(), new ObjectId()],
       }),
+      // @ts-expect-error Ignore mock function
       insertOne: jest.fn().mockResolvedValue({
         acknowledged: true,
         insertedId: new ObjectId(),
       }),
+      // @ts-expect-error Ignore mock function
       updateMany: jest.fn().mockResolvedValue({
         modifiedCount: 1,
         result: {
@@ -104,6 +116,7 @@ describe('model', () => {
           ok: 1,
         },
       }),
+      // @ts-expect-error Ignore mock function
       updateOne: jest.fn().mockResolvedValue({
         modifiedCount: 1,
         result: {
@@ -453,11 +466,14 @@ describe('model', () => {
       ]);
 
       expect(collection.bulkWrite).toHaveBeenCalledTimes(1);
-      expect((collection.bulkWrite as jest.Mock).mock.calls[0][1]).toEqual({
+      expect(
+        (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock.calls[0][1]
+      ).toEqual({
         ignoreUndefined: true,
       });
 
-      const operations = (collection.bulkWrite as jest.Mock).mock.calls[0][0];
+      const operations = (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock
+        .calls[0][0];
 
       expect(operations).toHaveLength(10);
       expect(operations).toEqual([
@@ -724,7 +740,11 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndDelete as jest.Mock).mockResolvedValue({ ok: 0 });
+      (collection.findOneAndDelete as jest.Mocked<Collection['findOneAndDelete']>)
+        // @ts-expect-error Ignore mock value
+        .mockResolvedValue({
+          ok: 0,
+        });
 
       await expect(simpleModel.findOneAndDelete({ foo: 'bar' })).rejects.toThrow(
         'findOneAndDelete failed'
@@ -773,7 +793,9 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndUpdate as jest.Mock).mockResolvedValue({ ok: 0 });
+      (collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>)
+        // @ts-expect-error Ignore mock value
+        .mockResolvedValue({ ok: 0 });
 
       await expect(
         simpleModel.findOneAndUpdate({ foo: 'bar' }, { $set: { bar: 123 } })
@@ -1045,9 +1067,9 @@ describe('model', () => {
 
     beforeEach(() => {
       hooks = {
-        after: [jest.fn().mockResolvedValue(undefined)],
+        after: [jest.fn(() => Promise.resolve())],
         before: [
-          jest.fn().mockImplementation(({ context }) => {
+          jest.fn(({ context }) => {
             context.id = 'mock';
             return Promise.resolve();
           }),
@@ -1091,7 +1113,8 @@ describe('model', () => {
 
     test('find throws error', async () => {
       const err = new Error('Test');
-      (collection.find as jest.Mock).mockReturnValue({
+      (collection.find as jest.Mocked<Collection['find']>).mockReturnValue({
+        // @ts-expect-error Ignore mock function
         toArray: jest.fn().mockRejectedValue(err),
       });
 
@@ -1241,7 +1264,10 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.insertOne as jest.Mock).mockResolvedValue({ result: { ok: 0 } });
+      // @ts-expect-error Ignore mock value
+      (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockResolvedValue({
+        result: { ok: 0 },
+      });
 
       await expect(
         simpleModel.insertOne({
@@ -1337,7 +1363,8 @@ describe('model', () => {
     });
 
     test('timestamps schema', async () => {
-      (collection.insertMany as jest.Mock).mockResolvedValue({
+      // @ts-expect-error Ignore mock value
+      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
         acknowledged: true,
         insertedCount: 3,
         insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
@@ -1399,7 +1426,10 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.insertMany as jest.Mock).mockResolvedValue({ result: { ok: 0 } });
+      // @ts-expect-error Ignore mock function
+      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
+        result: { ok: 0 },
+      });
 
       await expect(
         simpleModel.insertMany([
@@ -1453,7 +1483,8 @@ describe('model', () => {
     test('find error on maxTimeMS', async () => {
       const err = new MongoError('Test error');
       err.code = 50;
-      (collection.find as jest.Mock).mockReturnValue({
+      (collection.find as jest.Mocked<Collection['find']>).mockReturnValue({
+        // @ts-expect-error Ignore mock function
         toArray: jest.fn().mockRejectedValue(err),
       });
 
@@ -1648,7 +1679,9 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndUpdate as jest.Mock).mockResolvedValue({ ok: false });
+      (collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>)
+        // @ts-expect-error Ignore mock function
+        .mockResolvedValue({ ok: false });
 
       await expect(simpleModel.upsert({ foo: 'foo' }, { $set: { bar: 123 } })).rejects.toThrow(
         'findOneAndUpdate failed'

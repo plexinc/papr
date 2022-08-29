@@ -1,3 +1,4 @@
+import { test } from '@jest/globals';
 import type { ObjectId } from 'mongodb';
 import { expectType, TypeEqual } from 'ts-expect';
 
