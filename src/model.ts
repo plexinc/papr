@@ -29,6 +29,7 @@ import {
   cleanSetOnInsert,
   DocumentForInsert,
   ModelOptions,
+  Projection,
   ProjectionType,
   timestampBulkWriteOperation,
   timestampUpdateFilter,
@@ -68,31 +69,31 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
     options?: DistinctOptions
   ) => Promise<Flatten<WithId<TSchema>[TKey]>[]>;
 
-  find: <Projection>(
+  find: <TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection>[]>;
+    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
-  findById: <Projection>(
+  findById: <TProjection extends Projection<TSchema> | undefined>(
     id: string | ObjectId,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection> | null>;
+    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findOne: <Projection>(
+  findOne: <TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection> | null>;
+    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findOneAndDelete: <Projection>(
+  findOneAndDelete: <TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
-    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection> | null>;
+    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findOneAndUpdate: <Projection>(
+  findOneAndUpdate: <TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
     update: UpdateFilter<TSchema>,
-    options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: Projection }
-  ) => Promise<ProjectionType<TSchema, Projection> | null>;
+    options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   insertOne: (
     doc: DocumentForInsert<TSchema, TDefaults>,
@@ -545,16 +546,16 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   // prettier-ignore
   model.find = wrap(
     model,
-    async function find<Projection>(
+    async function find<TProjection extends Projection<TSchema> | undefined>(
       filter: Filter<TSchema>,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-    ): Promise<ProjectionType<TSchema, Projection>[]> {
+      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    ): Promise<ProjectionType<TSchema, TProjection>[]> {
       return model.collection
         .find(filter, {
           ...model.defaultOptions,
           ...options,
         } as FindOptions<TSchema>)
-        .toArray() as unknown as ProjectionType<TSchema, Projection>[];
+        .toArray() as unknown as ProjectionType<TSchema, TProjection>[];
     }
   );
 
@@ -584,17 +585,17 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   // prettier-ignore
   model.findById = wrap(
     model,
-    async function findById<Projection>(
+    async function findById<TProjection extends Projection<TSchema> | undefined>(
       id: string | ObjectId,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-    ): Promise<ProjectionType<TSchema, Projection> | null> {
+      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    ): Promise<ProjectionType<TSchema, TProjection> | null> {
       return model.collection.findOne(
         { _id: new ObjectId(id) } as Filter<TSchema>,
         {
           ...model.defaultOptions,
           ...options,
         } as FindOptions<TSchema>
-      ) as unknown as ProjectionType<TSchema, Projection> | null;
+      ) as unknown as ProjectionType<TSchema, TProjection> | null;
     }
   );
 
@@ -624,14 +625,14 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   // prettier-ignore
   model.findOne = wrap(
     model,
-    async function findOne<Projection>(
+    async function findOne<TProjection extends Projection<TSchema> | undefined>(
       filter: Filter<TSchema>,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: Projection }
-    ): Promise<ProjectionType<TSchema, Projection> | null> {
+      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    ): Promise<ProjectionType<TSchema, TProjection> | null> {
       return model.collection.findOne(
         filter,
         options as FindOptions<TSchema>
-      ) as unknown as ProjectionType<TSchema, Projection> | null;
+      ) as unknown as ProjectionType<TSchema, TProjection> | null;
     }
   );
 
@@ -650,17 +651,17 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * const user = await User.findOneAndDelete({ firstName: 'John' });
    */
   // prettier-ignore
-  model.findOneAndDelete = wrap(model, async function findOneAndDelete<Projection>(
+  model.findOneAndDelete = wrap(model, async function findOneAndDelete<TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
-    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: Projection }
-  ): Promise<ProjectionType<TSchema, Projection> | null> {
+    options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
+  ): Promise<ProjectionType<TSchema, TProjection> | null> {
     const result = await model.collection.findOneAndDelete(filter, {
       ...model.defaultOptions,
       ...options,
     } as FindOneAndDeleteOptions);
 
     if (result.ok === 1) {
-      return result.value as ProjectionType<TSchema, Projection>;
+      return result.value as ProjectionType<TSchema, TProjection>;
     }
 
     throw new Error('findOneAndDelete failed');
@@ -695,11 +696,11 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * userProjected.lastName; // valid
    */
   // prettier-ignore
-  model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<Projection>(
+  model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<TProjection extends Projection<TSchema> | undefined>(
     filter: Filter<TSchema>,
     update: UpdateFilter<TSchema>,
-    options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: Projection }
-  ): Promise<ProjectionType<TSchema, Projection> | null> {
+    options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
+  ): Promise<ProjectionType<TSchema, TProjection> | null> {
     const finalUpdate = model.hasTimestamps ? timestampUpdateFilter(update) : update;
 
     // @ts-expect-error We can't let TS know that the current schema has timestamps attributes
@@ -729,7 +730,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
     );
 
     if (result.ok === 1) {
-      return result.value as ProjectionType<TSchema, Projection>;
+      return result.value as ProjectionType<TSchema, TProjection>;
     }
 
     throw new Error('findOneAndUpdate failed');
@@ -929,6 +930,6 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       throw new Error('upsert failed');
     }
 
-    return item;
+    return item as unknown as WithId<TSchema>;
   };
 }

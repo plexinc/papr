@@ -60,18 +60,23 @@ export type BulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>> =
       };
     }
   | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
       replaceOne: ReplaceOneModel<TSchema>;
     }
   | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
       updateOne: UpdateOneModel<TSchema>;
     }
   | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
       updateMany: UpdateManyModel<TSchema>;
     }
   | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
       deleteOne: DeleteOneModel<TSchema>;
     }
   | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
       deleteMany: DeleteManyModel<TSchema>;
     };
 
@@ -83,6 +88,10 @@ export type ProjectionType<
 > = undefined extends Projection
   ? WithId<TSchema>
   : WithId<DeepPick<TSchema, keyof Projection & string>>;
+
+export type Projection<TSchema> = Partial<
+  Record<Join<NestedPaths<WithId<TSchema>, true>, '.'>, number>
+>;
 
 export type Identity<Type> = Type;
 
@@ -177,7 +186,7 @@ export function timestampUpdateFilter<TSchema>(
 }
 
 // Creates new operation objects so the original operations don't get mutated
-export function timestampBulkWriteOperation<TSchema, TDefaults>(
+export function timestampBulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>>(
   operation: BulkWriteOperation<TSchema, TDefaults>
 ): BulkWriteOperation<TSchema, TDefaults> {
   if ('insertOne' in operation) {
