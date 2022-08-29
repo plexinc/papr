@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { Collection, Db } from 'mongodb';
 import Papr from '../index';
 import * as model from '../model';
@@ -37,18 +38,21 @@ describe('index', () => {
       collectionName: COLLECTION,
     };
 
-    // @ts-expect-error Ignore mock db
     db = {
+      // @ts-expect-error Ignore mocked function type
       collection: jest.fn().mockReturnValue(collection),
+      // @ts-expect-error Ignore mocked function type
       collections: jest.fn().mockResolvedValue([]),
+      // @ts-expect-error Ignore mocked function type
       command: jest.fn(),
+      // @ts-expect-error Ignore mocked function type
       createCollection: jest.fn().mockReturnValue(collection),
     };
   });
 
   describe('initialize and model', () => {
     beforeEach(() => {
-      jest.spyOn(model, 'build').mockImplementation();
+      jest.spyOn(model, 'build').mockReturnValue(undefined);
     });
 
     afterEach(() => {
@@ -64,7 +68,7 @@ describe('index', () => {
     });
 
     test('define model without db', () => {
-      jest.spyOn(model, 'build').mockImplementation();
+      jest.spyOn(model, 'build').mockReturnValue(undefined);
 
       const papr = new Papr();
 
@@ -74,7 +78,7 @@ describe('index', () => {
     });
 
     test('register model and initialize afterwards', () => {
-      jest.spyOn(model, 'build').mockImplementation();
+      jest.spyOn(model, 'build').mockReturnValue(undefined);
 
       const options = { maxTime: 1000 };
       const papr = new Papr(options);
@@ -144,7 +148,8 @@ describe('index', () => {
     });
 
     test('existing collection', async () => {
-      (db.collections as jest.Mock).mockResolvedValue([collection]);
+      // @ts-expect-error Ignore collection type
+      (db.collections as jest.Mocked<Db['collections']>).mockResolvedValue([collection]);
 
       const papr = new Papr();
 
@@ -180,8 +185,9 @@ describe('index', () => {
   });
 
   test('updateSchemas', async () => {
-    (db.collection as jest.Mock)
+    (db.collection as jest.Mocked<Db['collection']>)
       .mockReturnValueOnce(collection)
+      // @ts-expect-error Ignore collection type
       .mockReturnValueOnce({ collectionName: COLLECTION_OTHER });
 
     const papr = new Papr();
