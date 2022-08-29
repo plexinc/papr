@@ -107,7 +107,7 @@ export default class Papr {
    * @example
    * await papr.updateSchema(User);
    */
-  async updateSchema<TSchema extends BaseSchema, TDefaults>(
+  async updateSchema<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
     model: Model<TSchema, TDefaults>
   ): Promise<void> {
     if (!this.db) {
