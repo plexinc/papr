@@ -16,7 +16,7 @@ Under the hood it is just a wrapper around the [`object`](api/types.md#object) t
 
 While the default `_id` property is added with an `ObjectId` type, its type can be customized into a `string` or a `number`.
 
-The defaults defined in the `options` are exported as a result type (the second value in the return tuple).
+The options are exported as a result type (the second value in the return tuple).
 
 **Parameters:**
 
@@ -25,13 +25,13 @@ The defaults defined in the `options` are exported as a result type (the second 
 | `properties`               | `Record<string, unknown>` | required  |
 | `options`                  | `SchemaOptions`           | optional  |
 | `options.defaults`         | `Partial<TProperties>`    | optional  |
-| `options.timestamps`       | `boolean`                 | optional  |
+| `options.timestamps`       | `TimestampSchemaOptions`  | optional  |
 | `options.validationAction` | `VALIDATION_ACTIONS`      | optional  |
 | `options.validationLevel`  | `VALIDATION_LEVEL`        | optional  |
 
 **Returns:**
 
-`Array` The return type is `[TSchema, TDefaults]`
+`Array` The return type is `[TSchema, TOptions]`
 
 **Example:**
 

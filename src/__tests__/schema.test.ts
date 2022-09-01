@@ -104,7 +104,7 @@ describe('schema', () => {
           bar: number;
         },
         {
-          foo: boolean;
+          defaults: { foo: boolean };
         }
       ]
     >(value);
@@ -121,61 +121,255 @@ describe('schema', () => {
     });
   });
 
-  test('with timestamps', () => {
-    const value = schema(
-      {
-        foo: types.boolean(),
-      },
-      {
-        timestamps: true,
-      }
-    );
+  describe('with timestamps', () => {
+    test('enabled', () => {
+      const value = schema(
+        {
+          foo: types.boolean(),
+        },
+        {
+          timestamps: true,
+        }
+      );
 
-    expect(value).toEqual({
-      $validationAction: 'error',
-      $validationLevel: 'strict',
-      additionalProperties: false,
-      properties: {
-        __v: {
-          type: 'number',
+      expect(value).toEqual({
+        $timestamps: true,
+        $validationAction: 'error',
+        $validationLevel: 'strict',
+        additionalProperties: false,
+        properties: {
+          __v: {
+            type: 'number',
+          },
+          _id: {
+            bsonType: 'objectId',
+          },
+          createdAt: {
+            bsonType: 'date',
+          },
+          foo: {
+            type: 'boolean',
+          },
+          updatedAt: {
+            bsonType: 'date',
+          },
         },
-        _id: {
-          bsonType: 'objectId',
-        },
-        createdAt: {
-          bsonType: 'date',
-        },
-        foo: {
-          type: 'boolean',
-        },
-        updatedAt: {
-          bsonType: 'date',
-        },
-      },
-      required: ['_id', 'createdAt', 'updatedAt'],
-      type: 'object',
+        required: ['_id', 'createdAt', 'updatedAt'],
+        type: 'object',
+      });
+
+      expectType<
+        [
+          {
+            _id: ObjectId;
+            foo?: boolean;
+            createdAt: Date;
+            updatedAt: Date;
+          },
+          { timestamps: boolean }
+        ]
+      >(value);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?.createdAt);
+      expectType<Date>(value[0]?.updatedAt);
+      expectType<typeof value[0]>({
+        _id: new ObjectId(),
+        createdAt: new Date(),
+        foo: true,
+        updatedAt: new Date(),
+      });
     });
 
-    expectType<
-      [
+    test('disabled', () => {
+      const value = schema(
         {
-          _id: ObjectId;
-          foo?: boolean;
-          createdAt: Date;
-          updatedAt: Date;
+          foo: types.boolean(),
         },
-        {}
-      ]
-    >(value);
-    expectType<ObjectId>(value[0]?._id);
-    expectType<boolean | undefined>(value[0]?.foo);
-    expectType<Date>(value[0]?.createdAt);
-    expectType<Date>(value[0]?.updatedAt);
-    expectType<typeof value[0]>({
-      _id: new ObjectId(),
-      createdAt: new Date(),
-      foo: true,
-      updatedAt: new Date(),
+        {
+          timestamps: false,
+        }
+      );
+
+      expect(value).toEqual({
+        $validationAction: 'error',
+        $validationLevel: 'strict',
+        additionalProperties: false,
+        properties: {
+          __v: {
+            type: 'number',
+          },
+          _id: {
+            bsonType: 'objectId',
+          },
+          foo: {
+            type: 'boolean',
+          },
+        },
+        required: ['_id'],
+        type: 'object',
+      });
+
+      expectType<
+        [
+          {
+            _id: ObjectId;
+            foo?: boolean;
+          },
+          { timestamps: boolean }
+        ]
+      >(value);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      // @ts-expect-error `createdAt` is undefined here
+      value[0]?.createdAt;
+      expectType<typeof value[0]>({
+        _id: new ObjectId(),
+        foo: true,
+      });
+    });
+
+    test('enabled with property names', () => {
+      const value = schema(
+        {
+          foo: types.boolean(),
+        },
+        {
+          timestamps: {
+            createdAt: '_createdDate' as const,
+            updatedAt: '_updatedDate' as const,
+          },
+        }
+      );
+
+      expect(value).toEqual({
+        $timestamps: {
+          createdAt: '_createdDate',
+          updatedAt: '_updatedDate',
+        },
+        $validationAction: 'error',
+        $validationLevel: 'strict',
+        additionalProperties: false,
+        properties: {
+          __v: {
+            type: 'number',
+          },
+          _id: {
+            bsonType: 'objectId',
+          },
+          _createdDate: {
+            bsonType: 'date',
+          },
+          foo: {
+            type: 'boolean',
+          },
+          _updatedDate: {
+            bsonType: 'date',
+          },
+        },
+        required: ['_id', '_createdDate', '_updatedDate'],
+        type: 'object',
+      });
+
+      expectType<
+        [
+          {
+            _id: ObjectId;
+            foo?: boolean;
+            _createdDate: Date;
+            _updatedDate: Date;
+          },
+          {
+            timestamps: {
+              createdAt: string;
+              updatedAt: string;
+            };
+          }
+        ]
+      >(value);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?._createdDate);
+      expectType<Date>(value[0]?._updatedDate);
+      // @ts-expect-error `createdAt` is undefined here
+      value[0]?.createdAt;
+      // @ts-expect-error `updatedAt` is undefined here
+      value[0]?.updatedAt;
+      expectType<typeof value[0]>({
+        _id: new ObjectId(),
+        _createdDate: new Date(),
+        foo: true,
+        _updatedDate: new Date(),
+      });
+    });
+
+    test('enabled with partial property names', () => {
+      const value = schema(
+        {
+          foo: types.boolean(),
+        },
+        {
+          timestamps: {
+            createdAt: '_createdDate' as const,
+          },
+        }
+      );
+
+      expect(value).toEqual({
+        $timestamps: {
+          createdAt: '_createdDate',
+        },
+        $validationAction: 'error',
+        $validationLevel: 'strict',
+        additionalProperties: false,
+        properties: {
+          __v: {
+            type: 'number',
+          },
+          _id: {
+            bsonType: 'objectId',
+          },
+          _createdDate: {
+            bsonType: 'date',
+          },
+          foo: {
+            type: 'boolean',
+          },
+          updatedAt: {
+            bsonType: 'date',
+          },
+        },
+        required: ['_id', '_createdDate', 'updatedAt'],
+        type: 'object',
+      });
+
+      expectType<
+        [
+          {
+            _id: ObjectId;
+            foo?: boolean;
+            _createdDate: Date;
+            updatedAt: Date;
+          },
+          {
+            timestamps: {
+              createdAt: string;
+            };
+          }
+        ]
+      >(value);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?._createdDate);
+      expectType<Date>(value[0]?.updatedAt);
+      // @ts-expect-error `createdAt` is undefined here
+      value[0]?.createdAt;
+      expectType<typeof value[0]>({
+        _id: new ObjectId(),
+        _createdDate: new Date(),
+        foo: true,
+        updatedAt: new Date(),
+      });
     });
   });
 
@@ -317,6 +511,7 @@ describe('schema', () => {
 
     expect(value).toEqual({
       $defaults: { stringOptional: 'foo' },
+      $timestamps: true,
       $validationAction: 'warn',
       $validationLevel: 'moderate',
       additionalProperties: false,
@@ -516,7 +711,10 @@ describe('schema', () => {
     }>(value[0]);
     /* eslint-enable */
     expectType<{
-      stringOptional: string;
+      defaults: { stringOptional: string };
+      timestamps: boolean;
+      validationAction: typeof VALIDATION_ACTIONS.WARN;
+      validationLevel: typeof VALIDATION_LEVEL.MODERATE;
     }>(value[1]);
     expectType<ObjectId>(value[0]?._id);
   });
@@ -620,6 +818,7 @@ describe('schema', () => {
 
     expect(value).toEqual({
       $defaults: { stringOptional: 'foo' },
+      $timestamps: true,
       $validationAction: 'warn',
       $validationLevel: 'moderate',
       additionalProperties: false,
@@ -819,7 +1018,10 @@ describe('schema', () => {
     }>(value[0]);
     /* eslint-enable */
     expectType<{
-      stringOptional: string;
+      defaults: { stringOptional: string };
+      timestamps: boolean;
+      validationAction: typeof VALIDATION_ACTIONS.WARN;
+      validationLevel: typeof VALIDATION_LEVEL.MODERATE;
     }>(value[1]);
     expectType<ObjectId>(value[0]?._id);
   });

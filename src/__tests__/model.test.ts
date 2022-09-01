@@ -49,12 +49,35 @@ describe('model', () => {
     }
   );
 
+  const timestampConfigSchema = schema(
+    {
+      bar: Types.number({ required: true }),
+      foo: Types.string({ required: true }),
+      ham: Types.date(),
+      nested: Types.object({
+        direct: Types.string({ required: true }),
+        other: Types.number(),
+      }),
+    },
+    {
+      defaults: DEFAULTS,
+      timestamps: {
+        createdAt: '_createdDate' as const,
+        updatedAt: '_updatedDate' as const,
+      },
+    }
+  );
+
   type SimpleDocument = typeof simpleSchema[0];
-  type SimpleDefaults = typeof simpleSchema[1];
+  type SimpleOptions = typeof simpleSchema[1];
   type TimestampsDocument = typeof timestampsSchema[0];
-  type TimestampsDefaults = typeof timestampsSchema[1];
-  let simpleModel: Model<SimpleDocument, SimpleDefaults>;
-  let timestampsModel: Model<TimestampsDocument, TimestampsDefaults>;
+  type TimestampsOptions = typeof timestampsSchema[1];
+  type TimestampConfigDocument = typeof timestampConfigSchema[0];
+  type TimestampConfigOptions = typeof timestampConfigSchema[1];
+
+  let simpleModel: Model<SimpleDocument, SimpleOptions>;
+  let timestampsModel: Model<TimestampsDocument, TimestampsOptions>;
+  let timestampConfigModel: Model<TimestampConfigDocument, TimestampConfigOptions>;
 
   let doc: SimpleDocument;
   let docs: SimpleDocument[];
@@ -135,6 +158,11 @@ describe('model', () => {
     timestampsModel = abstract(timestampsSchema);
     // @ts-expect-error Ignore schema types
     build(timestampsSchema, timestampsModel, collection);
+
+    // @ts-expect-error Ignore abstract assignment
+    timestampConfigModel = abstract(timestampConfigSchema);
+    // @ts-expect-error Ignore schema types
+    build(timestampConfigSchema, timestampConfigModel, collection);
   });
 
   describe('aggregate', () => {
@@ -167,7 +195,7 @@ describe('model', () => {
 
   describe('bulkWrite', () => {
     test('simple schema', async () => {
-      const operations: BulkWriteOperation<SimpleDocument, SimpleDefaults>[] = [
+      const operations: BulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
         {
           insertOne: {
             document: {
@@ -221,7 +249,7 @@ describe('model', () => {
     });
 
     test('schema with defaults', async () => {
-      const operations: BulkWriteOperation<SimpleDocument, SimpleDefaults>[] = [
+      const operations: BulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
         {
           insertOne: {
             document: {
@@ -566,6 +594,188 @@ describe('model', () => {
         },
       ]);
     });
+
+    test('timestamp config schema', async () => {
+      await timestampConfigModel.bulkWrite([
+        {
+          insertOne: {
+            document: {
+              bar: 123,
+              foo: 'foo',
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: 'foo' },
+            update: {
+              $set: { bar: 123 },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: 'foo' },
+            update: {
+              $set: { bar: 123 },
+            },
+          },
+        },
+        {
+          replaceOne: {
+            filter: { foo: 'foo' },
+            // @ts-expect-error TODO Fix operation types with timestamps
+            replacement: {
+              bar: 123,
+              foo: 'foo',
+            },
+          },
+        },
+        {
+          deleteOne: {
+            filter: { foo: 'foo' },
+          },
+        },
+        {
+          deleteMany: {
+            filter: { foo: 'foo' },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: '_createdDate in $set' },
+            update: {
+              $set: { _createdDate: new Date() },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: '_createdDate in $unset' },
+            update: {
+              $unset: { _createdDate: 1 },
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: '_updatedDate in $unset' },
+            update: {
+              $unset: { _updatedDate: 1 },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: '_updatedDate in $set' },
+            update: {
+              $set: { _updatedDate: new Date() },
+            },
+          },
+        },
+      ]);
+
+      expect(collection.bulkWrite).toHaveBeenCalledTimes(1);
+      expect(
+        (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock.calls[0][1]
+      ).toEqual({
+        ignoreUndefined: true,
+      });
+
+      const operations = (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock
+        .calls[0][0];
+
+      expect(operations).toHaveLength(10);
+      expect(operations).toEqual([
+        {
+          insertOne: {
+            document: {
+              bar: 123,
+              _createdDate: expect.any(Date),
+              foo: 'foo',
+              _updatedDate: expect.any(Date),
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: 'foo' },
+            update: {
+              $currentDate: { _updatedDate: true },
+              $set: { bar: 123 },
+              $setOnInsert: { _createdDate: expect.any(Date) },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: 'foo' },
+            update: {
+              $currentDate: { _updatedDate: true },
+              $set: { bar: 123 },
+              $setOnInsert: { _createdDate: expect.any(Date) },
+            },
+          },
+        },
+        {
+          replaceOne: {
+            filter: { foo: 'foo' },
+            replacement: {
+              bar: 123,
+              _createdDate: expect.any(Date),
+              foo: 'foo',
+              _updatedDate: expect.any(Date),
+            },
+          },
+        },
+        {
+          deleteOne: {
+            filter: { foo: 'foo' },
+          },
+        },
+        {
+          deleteMany: {
+            filter: { foo: 'foo' },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: '_createdDate in $set' },
+            update: {
+              $currentDate: { _updatedDate: true },
+              $set: { _createdDate: expect.any(Date) },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: '_createdDate in $unset' },
+            update: {
+              $currentDate: { _updatedDate: true },
+              $unset: { _createdDate: 1 },
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: '_updatedDate in $unset' },
+            update: {
+              $setOnInsert: { _createdDate: expect.any(Date) },
+              $unset: { _updatedDate: 1 },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: '_updatedDate in $set' },
+            update: {
+              $set: { _updatedDate: expect.any(Date) },
+              $setOnInsert: { _createdDate: expect.any(Date) },
+            },
+          },
+        },
+      ]);
+    });
   });
 
   describe('distinct', () => {
@@ -590,6 +800,20 @@ describe('model', () => {
       if (results.length) {
         expectType<string>(results[0].foo);
         expectType<number>(results[0].bar);
+        expectType<Date | undefined>(results[0].ham);
+      }
+    });
+
+    test('with timestamp config', async () => {
+      const results = await timestampConfigModel.find({});
+
+      expectType<TimestampConfigDocument[]>(results);
+
+      if (results.length) {
+        expectType<string>(results[0].foo);
+        expectType<number>(results[0].bar);
+        expectType<Date>(results[0]._createdDate);
+        expectType<Date>(results[0]._updatedDate);
         expectType<Date | undefined>(results[0].ham);
       }
     });
@@ -874,6 +1098,42 @@ describe('model', () => {
       }
     });
 
+    test('timestamp config schema', async () => {
+      const result = await timestampConfigModel.findOneAndUpdate(
+        { foo: 'bar' },
+        {
+          $set: { bar: 123 },
+          $unset: { ham: 1 },
+        }
+      );
+
+      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        {
+          foo: 'bar',
+        },
+        {
+          $currentDate: { _updatedDate: true },
+          $set: { bar: 123 },
+          $unset: { ham: 1 },
+        },
+        {
+          ignoreUndefined: true,
+          returnDocument: 'after',
+        }
+      );
+
+      expectType<TimestampConfigDocument | null>(result);
+
+      if (result) {
+        expectType<ObjectId>(result._id);
+        expectType<string>(result.foo);
+        expectType<number>(result.bar);
+        expectType<Date | undefined>(result.ham);
+        expectType<Date>(result._createdDate);
+        expectType<Date>(result._updatedDate);
+      }
+    });
+
     test('simple schema empty update', async () => {
       const result = await simpleModel.findOneAndUpdate({ foo: 'bar' }, {});
 
@@ -1058,12 +1318,45 @@ describe('model', () => {
           }
         );
       });
+
+      test('timestamp config schema', async () => {
+        const result = await timestampConfigModel.findOneAndUpdate(
+          { foo: 'foo' },
+          { $set: { bar: 123 } },
+          { upsert: true }
+        );
+
+        expectType<SimpleDocument | null>(result);
+
+        if (result) {
+          expectType<ObjectId>(result._id);
+          expectType<string>(result.foo);
+          expectType<number>(result.bar);
+          expectType<Date | undefined>(result.ham);
+          expectType<Date>(result._createdDate);
+          expectType<Date>(result._updatedDate);
+        }
+
+        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+          { foo: 'foo' },
+          {
+            $currentDate: { _updatedDate: true },
+            $set: { bar: 123 },
+            $setOnInsert: { _createdDate: expect.any(Date) },
+          },
+          {
+            ignoreUndefined: true,
+            returnDocument: 'after',
+            upsert: true,
+          }
+        );
+      });
     });
   });
 
   describe('hooks', () => {
     let hooks: Hooks;
-    let hooksModel: Model<SimpleDocument, typeof DEFAULTS>;
+    let hooksModel: Model<SimpleDocument, SimpleOptions>;
 
     beforeEach(() => {
       hooks = {
@@ -1263,6 +1556,62 @@ describe('model', () => {
       expectType<Date>(result.updatedAt);
     });
 
+    test('timestamp config schema', async () => {
+      const result = await timestampConfigModel.insertOne({
+        bar: 123,
+        foo: 'foo',
+      });
+
+      expect(collection.insertOne).toHaveBeenCalledWith(
+        {
+          bar: 123,
+          _createdDate: expect.any(Date),
+          foo: 'foo',
+          _updatedDate: expect.any(Date),
+        },
+        { ignoreUndefined: true }
+      );
+
+      expectType<TimestampConfigDocument>(result);
+
+      expectType<ObjectId>(result._id);
+      expectType<string>(result.foo);
+      expectType<number>(result.bar);
+      expectType<Date | undefined>(result.ham);
+      expectType<Date>(result._createdDate);
+      expectType<Date>(result._updatedDate);
+    });
+
+    test('timestamp config schema with custom dates', async () => {
+      const date = new Date('2020-01-01T12:00:00');
+
+      const result = await timestampConfigModel.insertOne({
+        _createdDate: date,
+        _updatedDate: date,
+        bar: 123,
+        foo: 'foo',
+      });
+
+      expect(collection.insertOne).toHaveBeenCalledWith(
+        {
+          bar: 123,
+          _createdDate: date,
+          foo: 'foo',
+          _updatedDate: date,
+        },
+        { ignoreUndefined: true }
+      );
+
+      expectType<TimestampConfigDocument>(result);
+
+      expectType<ObjectId>(result._id);
+      expectType<string>(result.foo);
+      expectType<number>(result.bar);
+      expectType<Date | undefined>(result.ham);
+      expectType<Date>(result._createdDate);
+      expectType<Date>(result._updatedDate);
+    });
+
     test('throws error on failure', async () => {
       // @ts-expect-error Ignore mock value
       (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockResolvedValue({
@@ -1425,6 +1774,69 @@ describe('model', () => {
       }
     });
 
+    test('timestamp config schema', async () => {
+      // @ts-expect-error Ignore mock value
+      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
+        acknowledged: true,
+        insertedCount: 3,
+        insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
+      });
+
+      const date = new Date('2020-01-01T12:00:00');
+      const result = await timestampConfigModel.insertMany([
+        {
+          bar: 123,
+          foo: 'foo',
+        },
+        {
+          bar: 456,
+          _createdDate: date,
+          foo: 'bar',
+        },
+        {
+          bar: 789,
+          _createdDate: date,
+          foo: 'ham',
+          _updatedDate: date,
+        },
+      ]);
+
+      expect(collection.insertMany).toHaveBeenCalledWith(
+        [
+          {
+            bar: 123,
+            _createdDate: expect.any(Date),
+            foo: 'foo',
+            _updatedDate: expect.any(Date),
+          },
+          {
+            bar: 456,
+            _createdDate: date,
+            foo: 'bar',
+            _updatedDate: expect.any(Date),
+          },
+          {
+            bar: 789,
+            _createdDate: date,
+            foo: 'ham',
+            _updatedDate: date,
+          },
+        ],
+        { ignoreUndefined: true }
+      );
+
+      expectType<TimestampConfigDocument[]>(result);
+
+      for (const item of result) {
+        expectType<ObjectId>(item._id);
+        expectType<string>(item.foo);
+        expectType<number>(item.bar);
+        expectType<Date | undefined>(item.ham);
+        expectType<Date>(item._createdDate);
+        expectType<Date>(item._updatedDate);
+      }
+    });
+
     test('throws error on failure', async () => {
       // @ts-expect-error Ignore mock function
       (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
@@ -1443,7 +1855,7 @@ describe('model', () => {
   });
 
   describe('maxTime', () => {
-    let maxTimeModel: Model<SimpleDocument, typeof DEFAULTS>;
+    let maxTimeModel: Model<SimpleDocument, SimpleOptions>;
 
     beforeEach(() => {
       // @ts-expect-error Ignore abstract assignment
@@ -1570,6 +1982,19 @@ describe('model', () => {
         { ignoreUndefined: true }
       );
     });
+
+    test('timestamp config schema', async () => {
+      await timestampConfigModel.updateMany({ foo: 'foo' }, { $set: { bar: 123 } });
+
+      expect(collection.updateMany).toHaveBeenCalledWith(
+        { foo: 'foo' },
+        {
+          $currentDate: { _updatedDate: true },
+          $set: { bar: 123 },
+        },
+        { ignoreUndefined: true }
+      );
+    });
   });
 
   describe('updateOne', () => {
@@ -1644,6 +2069,19 @@ describe('model', () => {
         { foo: 'foo' },
         {
           $unset: { updatedAt: 1 },
+        },
+        { ignoreUndefined: true }
+      );
+    });
+
+    test('timestamp config schema', async () => {
+      await timestampConfigModel.updateOne({ foo: 'foo' }, { $set: { bar: 123 } });
+
+      expect(collection.updateOne).toHaveBeenCalledWith(
+        { foo: 'foo' },
+        {
+          $currentDate: { _updatedDate: true },
+          $set: { bar: 123 },
         },
         { ignoreUndefined: true }
       );

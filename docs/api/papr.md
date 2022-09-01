@@ -63,7 +63,7 @@ Builds a model instance and associates its collection name and schema.
 
 **Returns:**
 
-`Model<TSchema, TDefaults>`
+`Model<TSchema, TOptions>`
 
 **Example:**
 
@@ -81,9 +81,9 @@ command for existing collections.
 
 **Parameters:**
 
-| Name    | Type                        | Attribute |
-| ------- | --------------------------- | --------- |
-| `model` | `Model<TSchema, TDefaults>` | required  |
+| Name    | Type                       | Attribute |
+| ------- | -------------------------- | --------- |
+| `model` | `Model<TSchema, TOptions>` | required  |
 
 **Returns:**
 

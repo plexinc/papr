@@ -13,6 +13,7 @@ import type {
 } from 'mongodb';
 import { DeepPick } from './DeepPick';
 import { Hooks } from './hooks';
+import { SchemaOptions, SchemaTimestampOptions } from './schema';
 
 export enum VALIDATION_ACTIONS {
   ERROR = 'error',
@@ -29,10 +30,22 @@ export interface BaseSchema {
   _id: ObjectId | string | number;
 }
 
-export interface TimestampSchema {
-  createdAt: Date;
-  updatedAt: Date;
-}
+type TimestampSchemaProperty<
+  TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
+  TOptions extends SchemaTimestampOptions | undefined
+> = TOptions extends object
+  ? TOptions[TProperty] extends string
+    ? TOptions[TProperty]
+    : TProperty
+  : TOptions extends false
+  ? never
+  : TProperty;
+
+export type TimestampSchema<TOptions extends SchemaTimestampOptions | undefined> = {
+  [key in
+    | TimestampSchemaProperty<'createdAt', TOptions>
+    | TimestampSchemaProperty<'updatedAt', TOptions>]: Date;
+};
 
 export interface ModelOptions {
   hooks?: Hooks;
@@ -47,16 +60,22 @@ export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<
 
 export type DocumentForInsert<
   TSchema,
-  TDefaults extends Partial<TSchema>
-> = TSchema extends TimestampSchema
-  ? Omit<DocumentForInsertWithoutDefaults<TSchema, TDefaults>, 'createdAt' | 'updatedAt'> &
-      Partial<TimestampSchema>
+  TOptions extends SchemaOptions<TSchema>,
+  TDefaults extends NonNullable<TOptions['defaults']> = NonNullable<TOptions['defaults']>
+> = TOptions['timestamps'] extends SchemaTimestampOptions
+  ? TOptions['timestamps'] extends false
+    ? DocumentForInsertWithoutDefaults<TSchema, TDefaults>
+    : Omit<
+        DocumentForInsertWithoutDefaults<TSchema, TDefaults>,
+        keyof TimestampSchema<TOptions['timestamps']>
+      > &
+        Partial<TimestampSchema<TOptions['timestamps']>>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
 
-export type BulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>> =
+export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>> =
   | {
       insertOne: {
-        document: DocumentForInsert<TSchema, TDefaults>;
+        document: DocumentForInsert<TSchema, TOptions>;
       };
     }
   | {
@@ -94,6 +113,14 @@ export type Identity<Type> = Type;
 export type Flatten<Type extends object> = Identity<{
   [Key in keyof Type]: Type[Key];
 }>;
+
+export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = Pick<
+  TObj,
+  Exclude<keyof TObj, Keys>
+> &
+  {
+    [Key in Keys]-?: Required<Pick<TObj, Key>> & Partial<Pick<TObj, Exclude<Keys, Key>>>;
+  }[Keys];
 
 export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
@@ -161,16 +188,30 @@ export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
  * ```
  */
 
+// Returns either the default timestamp property or the value supplied in timestamp options
+export function getTimestampProperty<
+  TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
+  TOptions extends SchemaTimestampOptions | undefined
+>(property: TProperty, options: TOptions) {
+  if (typeof options === 'object') {
+    return options[property] ?? property;
+  }
+  return property;
+}
+
 // Creates new update object so the original doesn't get mutated
-export function timestampUpdateFilter<TSchema>(
-  update: UpdateFilter<TSchema>
+export function timestampUpdateFilter<TSchema, TOptions extends SchemaOptions<TSchema>>(
+  update: UpdateFilter<TSchema>,
+  timestamps: TOptions['timestamps']
 ): UpdateFilter<TSchema> {
+  const updatedAtProperty = getTimestampProperty('updatedAt', timestamps);
+
   const $currentDate = {
     ...update.$currentDate,
     // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
-    ...(!update.$set?.updatedAt &&
-      !update.$unset?.updatedAt && {
-        updatedAt: true,
+    ...(!update.$set?.[updatedAtProperty] &&
+      !update.$unset?.[updatedAtProperty] && {
+        [updatedAtProperty]: true,
       }),
   };
 
@@ -182,15 +223,19 @@ export function timestampUpdateFilter<TSchema>(
 }
 
 // Creates new operation objects so the original operations don't get mutated
-export function timestampBulkWriteOperation<TSchema, TDefaults extends Partial<TSchema>>(
-  operation: BulkWriteOperation<TSchema, TDefaults>
-): BulkWriteOperation<TSchema, TDefaults> {
+export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>(
+  operation: BulkWriteOperation<TSchema, TOptions>,
+  timestamps: TOptions['timestamps']
+): BulkWriteOperation<TSchema, TOptions> {
+  const createdAtProperty = getTimestampProperty('createdAt', timestamps);
+  const updatedAtProperty = getTimestampProperty('updatedAt', timestamps);
+
   if ('insertOne' in operation) {
     return {
       insertOne: {
         document: {
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          [createdAtProperty]: new Date(),
+          [updatedAtProperty]: new Date(),
           ...operation.insertOne.document,
         },
       },
@@ -208,17 +253,17 @@ export function timestampBulkWriteOperation<TSchema, TDefaults extends Partial<T
     const $currentDate = {
       ...update.$currentDate,
       // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
-      ...(!update.$set?.updatedAt &&
-        !update.$unset?.updatedAt && {
-          updatedAt: true,
+      ...(!update.$set?.[updatedAtProperty] &&
+        !update.$unset?.[updatedAtProperty] && {
+          [updatedAtProperty]: true,
         }),
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
       // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
-      ...(!update.$set?.createdAt &&
-        !update.$unset?.createdAt && {
-          createdAt: new Date(),
+      ...(!update.$set?.[createdAtProperty] &&
+        !update.$unset?.[createdAtProperty] && {
+          [createdAtProperty]: new Date(),
         }),
     };
 
@@ -246,17 +291,17 @@ export function timestampBulkWriteOperation<TSchema, TDefaults extends Partial<T
     const $currentDate = {
       ...update.$currentDate,
       // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
-      ...(!update.$set?.updatedAt &&
-        !update.$unset?.updatedAt && {
-          updatedAt: true,
+      ...(!update.$set?.[updatedAtProperty] &&
+        !update.$unset?.[updatedAtProperty] && {
+          [updatedAtProperty]: true,
         }),
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
       // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
-      ...(!update.$set?.createdAt &&
-        !update.$unset?.createdAt && {
-          createdAt: new Date(),
+      ...(!update.$set?.[createdAtProperty] &&
+        !update.$unset?.[createdAtProperty] && {
+          [createdAtProperty]: new Date(),
         }),
     };
 
@@ -278,8 +323,8 @@ export function timestampBulkWriteOperation<TSchema, TDefaults extends Partial<T
       replaceOne: {
         ...operation.replaceOne,
         replacement: {
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          [createdAtProperty]: new Date(),
+          [updatedAtProperty]: new Date(),
           ...operation.replaceOne.replacement,
         },
       },
