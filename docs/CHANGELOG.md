@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.3.1](https://github.com/plexinc/papr/compare/v7.3.0...v7.3.1) (2022-09-01)
+
+
+### Bug Fixes
+
+* Upgrade mongodb to v4.9.1 ([#304](https://github.com/plexinc/papr/issues/304)) ([cc2e975](https://github.com/plexinc/papr/commit/cc2e97562bb9bd502b1851debdc58727f7a1d398))
+* Upgrade typescript to v4.8.2 ([#300](https://github.com/plexinc/papr/issues/300)) ([fd3ee59](https://github.com/plexinc/papr/commit/fd3ee591b281adcabc8d5207244283063592b19f))
+
 ## [7.3.0](https://github.com/plexinc/papr/compare/v7.2.2...v7.3.0) (2022-08-23)
 
 
