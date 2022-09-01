@@ -23,11 +23,13 @@ import type {
   WithId,
 } from 'mongodb';
 import { serializeArguments } from './hooks';
+import { SchemaOptions, SchemaTimestampOptions } from './schema';
 import {
   BaseSchema,
   BulkWriteOperation,
   cleanSetOnInsert,
   DocumentForInsert,
+  getTimestampProperty,
   ModelOptions,
   Projection,
   ProjectionType,
@@ -35,14 +37,14 @@ import {
   timestampUpdateFilter,
 } from './utils';
 
-export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>> {
+export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>> {
   collection: Collection<TSchema>;
-  defaults?: TDefaults;
+  defaults?: Partial<TSchema>;
   defaultOptions: {
     ignoreUndefined?: boolean;
     maxTimeMS?: number;
   };
-  hasTimestamps: boolean;
+  timestamps?: SchemaTimestampOptions;
   options?: ModelOptions;
   schema: TSchema;
   type: 'plex';
@@ -53,7 +55,7 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
   ) => Promise<TResult[]>;
 
   bulkWrite: (
-    operations: BulkWriteOperation<TSchema, TDefaults>[],
+    operations: BulkWriteOperation<TSchema, TOptions>[],
     options?: BulkWriteOptions
   ) => Promise<BulkWriteResult>;
 
@@ -96,12 +98,12 @@ export interface Model<TSchema extends BaseSchema, TDefaults extends Partial<TSc
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   insertOne: (
-    doc: DocumentForInsert<TSchema, TDefaults>,
+    doc: DocumentForInsert<TSchema, TOptions>,
     options?: InsertOneOptions
   ) => Promise<TSchema>;
 
   insertMany: (
-    docs: DocumentForInsert<TSchema, TDefaults>[],
+    docs: DocumentForInsert<TSchema, TOptions>[],
     options?: BulkWriteOptions
   ) => Promise<TSchema[]>;
 
@@ -135,8 +137,8 @@ function abstractMethod(): void {
   throw new Error('Collection is not initialized!');
 }
 
-export function abstract<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
-  schema: [TSchema, TDefaults]
+export function abstract<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>>(
+  schema: [TSchema, TOptions]
 ): unknown {
   return {
     aggregate: abstractMethod,
@@ -239,9 +241,9 @@ function wrap<TArgs, TResult>(
  * ```
  */
 
-export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
-  schema: [TSchema, TDefaults],
-  model: Model<TSchema, TDefaults>,
+export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>>(
+  schema: [TSchema, TOptions],
+  model: Model<TSchema, TOptions>,
   collection: Collection<TSchema>,
   options?: ModelOptions
 ): void {
@@ -256,18 +258,9 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.defaults = schema.$defaults || {};
   model.collection = collection;
 
-  /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+  // @ts-expect-error We're accessing runtime property on the schema
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  model.hasTimestamps =
-    // @ts-expect-error We're accessing runtime properties on the schema to determine timestamps availability
-    schema.properties.createdAt &&
-    // @ts-expect-error We're accessing runtime properties on the schema to determine timestamps availability
-    schema.properties.createdAt.bsonType === 'date' &&
-    // @ts-expect-error We're accessing runtime properties on the schema to determine timestamps availability
-    schema.properties.updatedAt &&
-    // @ts-expect-error We're accessing runtime properties on the schema to determine timestamps availability
-    schema.properties.updatedAt.bsonType === 'date';
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment */
+  model.timestamps = schema.$timestamps;
 
   model.options = options;
 
@@ -333,7 +326,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    *
    * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#bulkWrite) method.
    *
-   * @param operations {Array<BulkWriteOperation<TSchema, TDefaults>>}
+   * @param operations {Array<BulkWriteOperation<TSchema, TOptions>>}
    * @param [options] {BulkWriteOptions}
    *
    * @returns {Promise<BulkWriteResult>} https://mongodb.github.io/node-mongodb-native/4.1/classes/BulkWriteResult.html
@@ -361,7 +354,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.bulkWrite = wrap(
     model,
     async function bulkWrite(
-      operations: BulkWriteOperation<TSchema, TDefaults>[],
+      operations: BulkWriteOperation<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<BulkWriteResult> {
       const finalOperations = operations.map((op) => {
@@ -398,7 +391,9 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
             },
           };
         }
-        return model.hasTimestamps ? timestampBulkWriteOperation(operation) : operation;
+        return model.timestamps
+          ? timestampBulkWriteOperation(operation, model.timestamps)
+          : operation;
       });
 
       const result = await model.collection.bulkWrite(
@@ -701,12 +696,12 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
     update: UpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
-    const finalUpdate = model.hasTimestamps ? timestampUpdateFilter(update) : update;
+    const finalUpdate = model.timestamps ? timestampUpdateFilter(update, model.timestamps) : update;
 
     // @ts-expect-error We can't let TS know that the current schema has timestamps attributes
     const created: MatchKeysAndValues<TSchema> = {
-      ...(model.hasTimestamps && {
-        createdAt: new Date()
+      ...(model.timestamps && {
+        [getTimestampProperty('createdAt', model.timestamps)]: new Date()
       })
     };
 
@@ -740,7 +735,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * @description
    * Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
    *
-   * @param documents {Array<DocumentForInsert<TSchema, TDefaults>>}
+   * @param documents {Array<DocumentForInsert<TSchema, TOptions>>}
    * @param [options] {BulkWriteOptions}
    *
    * @returns {Promise<Array<TSchema>>}
@@ -754,14 +749,14 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.insertMany = wrap(
     model,
     async function insertMany(
-      docs: DocumentForInsert<TSchema, TDefaults>[],
+      docs: DocumentForInsert<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<TSchema[]> {
       const documents = docs.map((doc) => {
         return {
-          ...(model.hasTimestamps && {
-            createdAt: new Date(),
-            updatedAt: new Date(),
+          ...(model.timestamps && {
+            [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
+            [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
           }),
           ...(model.defaults || {}),
           ...doc,
@@ -791,7 +786,7 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
    * @description
    * Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertOne) method.
    *
-   * @param document {DocumentForInsert<TSchema, TDefaults>}
+   * @param document {DocumentForInsert<TSchema, TOptions>}
    * @param [options] {InsertOneOptions}
    *
    * @returns {Promise<TSchema>}
@@ -805,13 +800,13 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
   model.insertOne = wrap(
     model,
     async function insertOne(
-      doc: DocumentForInsert<TSchema, TDefaults>,
+      doc: DocumentForInsert<TSchema, TOptions>,
       options?: InsertOneOptions
     ): Promise<TSchema> {
       const data = {
-        ...(model.hasTimestamps && {
-          createdAt: new Date(),
-          updatedAt: new Date(),
+        ...(model.timestamps && {
+          [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
+          [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
         }),
         ...(model.defaults || {}),
         ...doc,
@@ -860,7 +855,9 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       update: UpdateFilter<TSchema>,
       options?: UpdateOptions
     ): Promise<UpdateResult> {
-      const finalUpdate = model.hasTimestamps ? timestampUpdateFilter(update) : update;
+      const finalUpdate = model.timestamps
+        ? timestampUpdateFilter(update, model.timestamps)
+        : update;
 
       return model.collection.updateMany(filter, finalUpdate, {
         ...model.defaultOptions,
@@ -892,7 +889,9 @@ export function build<TSchema extends BaseSchema, TDefaults extends Partial<TSch
       update: UpdateFilter<TSchema>,
       options?: Omit<UpdateOptions, 'upsert'>
     ): Promise<UpdateResult> {
-      const finalUpdate = model.hasTimestamps ? timestampUpdateFilter(update) : update;
+      const finalUpdate = model.timestamps
+        ? timestampUpdateFilter(update, model.timestamps)
+        : update;
       // @ts-expect-error removing the upsert from options at runtime
       const { upsert, ...finalOptions } = options || {};
 

@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 import { abstract, build, Model } from './model';
-import schema from './schema';
+import schema, { SchemaOptions } from './schema';
 import types from './types';
 import { BaseSchema, ModelOptions } from './utils';
 
@@ -72,16 +72,16 @@ export default class Papr {
    * @param collectionName {string}
    * @param collectionSchema {TSchema}
    *
-   * @returns {Model<TSchema, TDefaults>}
+   * @returns {Model<TSchema, TOptions>}
    *
    * @example
    * const User = papr.model('users', userSchema);
    */
-  model<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
+  model<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>>(
     collectionName: string,
-    collectionSchema: [TSchema, TDefaults]
-  ): Model<TSchema, TDefaults> {
-    const model = abstract(collectionSchema) as Model<TSchema, TDefaults>;
+    collectionSchema: [TSchema, TOptions]
+  ): Model<TSchema, TOptions> {
+    const model = abstract(collectionSchema) as Model<TSchema, TOptions>;
 
     if (this.db) {
       build(collectionSchema, model, this.db.collection(collectionName), this.options);
@@ -100,15 +100,15 @@ export default class Papr {
    * method for new collections, and the [`collMod`](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod)
    * command for existing collections.
    *
-   * @param model {Model<TSchema, TDefaults>}
+   * @param model {Model<TSchema, TOptions>}
    *
    * @returns {Promise<void>}
    *
    * @example
    * await papr.updateSchema(User);
    */
-  async updateSchema<TSchema extends BaseSchema, TDefaults extends Partial<TSchema>>(
-    model: Model<TSchema, TDefaults>
+  async updateSchema<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>>(
+    model: Model<TSchema, TOptions>
   ): Promise<void> {
     if (!this.db) {
       throw new Error('The DB is not connected');
@@ -122,6 +122,8 @@ export default class Papr {
     const {
       // @ts-expect-error We're defining the defaults in the JSON Schema object, but TS sees these as `any`
       $defaults,
+      // @ts-expect-error We're defining these timestamp options in the JSON Schema object, but TS sees these as `any`
+      $timestamps,
       // @ts-expect-error We're defining these validation options in the JSON Schema object, but TS sees these as `any`
       $validationAction: validationAction,
       // @ts-expect-error We're defining these validation options in the JSON Schema object, but TS sees these as `any`
@@ -176,4 +178,5 @@ export default class Papr {
 export { schema, types, types as Types };
 export * from './hooks';
 export * from './model';
+export * from './schema';
 export * from './utils';
