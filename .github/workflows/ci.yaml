@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v2
+      - uses: volta-cli/action@v3
       - uses: actions/cache@v3
         with:
           path: |
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v2
+      - uses: volta-cli/action@v3
       - uses: actions/cache@v3
         with:
           path: |
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v2
+      - uses: volta-cli/action@v3
       - uses: actions/cache@v3
         with:
           path: |
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v2
+      - uses: volta-cli/action@v3
       - uses: actions/cache@v3
         with:
           path: |
