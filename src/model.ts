@@ -122,6 +122,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   upsert: (filter: Filter<TSchema>, update: UpdateFilter<TSchema>) => Promise<WithId<TSchema>>;
 }
 
+/* eslint-disable @typescript-eslint/ban-types */
 type ModelMethodsNames = NonNullable<
   {
     [P in keyof Model<BaseSchema, Object>]: Model<BaseSchema, Object>[P] extends Function
@@ -129,6 +130,7 @@ type ModelMethodsNames = NonNullable<
       : never;
   }[keyof Model<BaseSchema, Object>]
 >;
+/* eslint-enable @typescript-eslint/ban-types */
 
 // `upsert` is a custom method, which is not wrapped with hooks.
 export type HookMethodsNames = Exclude<ModelMethodsNames, 'upsert'>;

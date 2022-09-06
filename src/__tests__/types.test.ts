@@ -606,6 +606,7 @@ describe('types', () => {
         ] as const);
 
         expect(value).toEqual({
+          additionalItems: false,
           items: [
             {
               type: 'string',
@@ -623,7 +624,6 @@ describe('types', () => {
               bsonType: 'date',
             },
           ],
-          additionalItems: false,
           minItems: 0,
           type: 'array',
         });
@@ -652,6 +652,8 @@ describe('types', () => {
         );
 
         expect(value).toEqual({
+          $required: true,
+          additionalItems: false,
           items: [
             {
               type: 'string',
@@ -669,8 +671,6 @@ describe('types', () => {
               bsonType: 'date',
             },
           ],
-          $required: true,
-          additionalItems: false,
           minItems: 0,
           type: 'array',
         });
@@ -699,6 +699,8 @@ describe('types', () => {
         );
 
         expect(value).toEqual({
+          $required: true,
+          additionalItems: false,
           items: [
             { $required: true, type: 'string' },
             { $required: true, type: 'number' },
@@ -710,8 +712,6 @@ describe('types', () => {
               bsonType: 'date',
             },
           ],
-          $required: true,
-          additionalItems: false,
           minItems: 3,
           type: 'array',
         });
@@ -735,6 +735,8 @@ describe('types', () => {
         );
 
         expect(value).toEqual({
+          $required: true,
+          additionalItems: false,
           items: [
             {
               type: 'string',
@@ -750,8 +752,6 @@ describe('types', () => {
               bsonType: 'date',
             },
           ],
-          $required: true,
-          additionalItems: false,
           minItems: 4,
           type: 'array',
         });

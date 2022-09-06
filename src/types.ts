@@ -249,10 +249,10 @@ function tuple<Items extends readonly unknown[], Options extends GenericOptions>
 
   return {
     ...(required ? { $required: true } : {}),
-    items,
-    type: 'array',
-    minItems,
     additionalItems: false,
+    items,
+    minItems,
+    type: 'array',
   } as unknown as GetType<TupleItems<Items>, Options>;
 }
 
