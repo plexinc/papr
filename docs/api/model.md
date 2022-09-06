@@ -416,10 +416,10 @@ Performs an optimized `find` to test for the existence of any document matching 
 
 **Parameters:**
 
-| Name      | Type                                      | Attribute |
-| --------- | ----------------------------------------- | --------- | ------ | --------- | -------- |
-| `filter`  | `Filter<TSchema>`                         | required  |
-| `options` | `Omit<FindOptions<TSchema>, ("projection" | "limit"   | "sort" | "skip")>` | optional |
+| Name      | Type                                                                        | Attribute |
+| --------- | --------------------------------------------------------------------------- | --------- |
+| `filter`  | `Filter<TSchema>`                                                           | required  |
+| `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
 
 **Returns:**
 
