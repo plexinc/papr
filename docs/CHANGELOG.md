@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/plexinc/papr/compare/v7.3.1...v8.0.0) (2022-09-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changes the return type for `schema` and the generic
+arguments for `model` and various utils
+
+### Features
+
+* Add timestamp option to set property names ([115c805](https://github.com/plexinc/papr/commit/115c805d902176aec11c4b3cb8af2d09fe27b913))
+
 ### [7.3.1](https://github.com/plexinc/papr/compare/v7.3.0...v7.3.1) (2022-09-01)
 
 
