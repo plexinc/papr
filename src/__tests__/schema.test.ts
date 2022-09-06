@@ -46,6 +46,7 @@ describe('schema', () => {
           foo?: boolean;
           bar: number;
         },
+        // eslint-disable-next-line @typescript-eslint/ban-types
         {}
       ]
     >(value);
@@ -254,17 +255,17 @@ describe('schema', () => {
           __v: {
             type: 'number',
           },
+          _createdDate: {
+            bsonType: 'date',
+          },
           _id: {
             bsonType: 'objectId',
           },
-          _createdDate: {
+          _updatedDate: {
             bsonType: 'date',
           },
           foo: {
             type: 'boolean',
-          },
-          _updatedDate: {
-            bsonType: 'date',
           },
         },
         required: ['_id', '_createdDate', '_updatedDate'],
@@ -296,10 +297,10 @@ describe('schema', () => {
       // @ts-expect-error `updatedAt` is undefined here
       value[0]?.updatedAt;
       expectType<typeof value[0]>({
-        _id: new ObjectId(),
         _createdDate: new Date(),
-        foo: true,
+        _id: new ObjectId(),
         _updatedDate: new Date(),
+        foo: true,
       });
     });
 
@@ -326,11 +327,11 @@ describe('schema', () => {
           __v: {
             type: 'number',
           },
-          _id: {
-            bsonType: 'objectId',
-          },
           _createdDate: {
             bsonType: 'date',
+          },
+          _id: {
+            bsonType: 'objectId',
           },
           foo: {
             type: 'boolean',
@@ -365,8 +366,8 @@ describe('schema', () => {
       // @ts-expect-error `createdAt` is undefined here
       value[0]?.createdAt;
       expectType<typeof value[0]>({
-        _id: new ObjectId(),
         _createdDate: new Date(),
+        _id: new ObjectId(),
         foo: true,
         updatedAt: new Date(),
       });
@@ -404,6 +405,7 @@ describe('schema', () => {
           _id: string;
           foo: number;
         },
+        // eslint-disable-next-line @typescript-eslint/ban-types
         {}
       ]
     >(value);
@@ -449,6 +451,7 @@ describe('schema', () => {
           _id: number;
           foo: string;
         },
+        // eslint-disable-next-line @typescript-eslint/ban-types
         {}
       ]
     >(value);
@@ -754,6 +757,7 @@ describe('schema', () => {
           foo?: boolean;
           bar: number;
         },
+        // eslint-disable-next-line @typescript-eslint/ban-types
         {}
       ]
     >(value);

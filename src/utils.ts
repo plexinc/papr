@@ -192,7 +192,7 @@ export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
 export function getTimestampProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
   TOptions extends SchemaTimestampOptions | undefined
->(property: TProperty, options: TOptions) {
+>(property: TProperty, options: TOptions): keyof Exclude<SchemaTimestampOptions, boolean> | string {
   if (typeof options === 'object') {
     return options[property] ?? property;
   }

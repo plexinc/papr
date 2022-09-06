@@ -690,10 +690,10 @@ describe('model', () => {
         {
           insertOne: {
             document: {
-              bar: 123,
               _createdDate: expect.any(Date),
-              foo: 'foo',
               _updatedDate: expect.any(Date),
+              bar: 123,
+              foo: 'foo',
             },
           },
         },
@@ -721,10 +721,10 @@ describe('model', () => {
           replaceOne: {
             filter: { foo: 'foo' },
             replacement: {
-              bar: 123,
               _createdDate: expect.any(Date),
-              foo: 'foo',
               _updatedDate: expect.any(Date),
+              bar: 123,
+              foo: 'foo',
             },
           },
         },
@@ -1564,10 +1564,10 @@ describe('model', () => {
 
       expect(collection.insertOne).toHaveBeenCalledWith(
         {
-          bar: 123,
           _createdDate: expect.any(Date),
-          foo: 'foo',
           _updatedDate: expect.any(Date),
+          bar: 123,
+          foo: 'foo',
         },
         { ignoreUndefined: true }
       );
@@ -1594,10 +1594,10 @@ describe('model', () => {
 
       expect(collection.insertOne).toHaveBeenCalledWith(
         {
-          bar: 123,
           _createdDate: date,
-          foo: 'foo',
           _updatedDate: date,
+          bar: 123,
+          foo: 'foo',
         },
         { ignoreUndefined: true }
       );
@@ -1789,37 +1789,37 @@ describe('model', () => {
           foo: 'foo',
         },
         {
-          bar: 456,
           _createdDate: date,
+          bar: 456,
           foo: 'bar',
         },
         {
-          bar: 789,
           _createdDate: date,
-          foo: 'ham',
           _updatedDate: date,
+          bar: 789,
+          foo: 'ham',
         },
       ]);
 
       expect(collection.insertMany).toHaveBeenCalledWith(
         [
           {
-            bar: 123,
             _createdDate: expect.any(Date),
+            _updatedDate: expect.any(Date),
+            bar: 123,
             foo: 'foo',
-            _updatedDate: expect.any(Date),
           },
           {
+            _createdDate: date,
+            _updatedDate: expect.any(Date),
             bar: 456,
-            _createdDate: date,
             foo: 'bar',
-            _updatedDate: expect.any(Date),
           },
           {
-            bar: 789,
             _createdDate: date,
-            foo: 'ham',
             _updatedDate: date,
+            bar: 789,
+            foo: 'ham',
           },
         ],
         { ignoreUndefined: true }
