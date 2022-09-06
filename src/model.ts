@@ -77,7 +77,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
   findById: <TProjection extends Projection<TSchema> | undefined>(
-    id: string | ObjectId,
+    id: string | TSchema['_id'],
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
@@ -562,7 +562,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param id {string|ObjectId}
+   * @param id {string|TSchema._id}
    * @param [options] {FindOptions<TSchema>}
    *
    * @returns {Promise<TProjected|null>}
@@ -583,11 +583,15 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.findById = wrap(
     model,
     async function findById<TProjection extends Projection<TSchema> | undefined>(
-      id: string | ObjectId,
+      id: string | TSchema['_id'],
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
+      // @ts-expect-error We're accessing runtime properties on the schema to determine id type
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const _id = model.schema.properties._id?.bsonType === 'objectId' ? new ObjectId(id) : id;
+
       return model.collection.findOne(
-        { _id: new ObjectId(id) } as Filter<TSchema>,
+        { _id } as Filter<TSchema>,
         {
           ...model.defaultOptions,
           ...options,

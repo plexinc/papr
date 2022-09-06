@@ -68,16 +68,35 @@ describe('model', () => {
     }
   );
 
+  const numericIdSchema = schema(
+    {
+      _id: Types.number({ required: true }),
+      bar: Types.number({ required: true }),
+      foo: Types.string({ required: true }),
+      ham: Types.date(),
+      nested: Types.object({
+        direct: Types.string({ required: true }),
+        other: Types.number(),
+      }),
+    },
+    {
+      defaults: DEFAULTS,
+    }
+  );
+
   type SimpleDocument = typeof simpleSchema[0];
   type SimpleOptions = typeof simpleSchema[1];
   type TimestampsDocument = typeof timestampsSchema[0];
   type TimestampsOptions = typeof timestampsSchema[1];
   type TimestampConfigDocument = typeof timestampConfigSchema[0];
   type TimestampConfigOptions = typeof timestampConfigSchema[1];
+  type NumericIdDocument = typeof numericIdSchema[0];
+  type NumericIdOptions = typeof numericIdSchema[1];
 
   let simpleModel: Model<SimpleDocument, SimpleOptions>;
   let timestampsModel: Model<TimestampsDocument, TimestampsOptions>;
   let timestampConfigModel: Model<TimestampConfigDocument, TimestampConfigOptions>;
+  let numericIdModel: Model<NumericIdDocument, NumericIdOptions>;
 
   let doc: SimpleDocument;
   let docs: SimpleDocument[];
@@ -163,6 +182,11 @@ describe('model', () => {
     timestampConfigModel = abstract(timestampConfigSchema);
     // @ts-expect-error Ignore schema types
     build(timestampConfigSchema, timestampConfigModel, collection);
+
+    // @ts-expect-error Ignore abstract assignment
+    numericIdModel = abstract(numericIdSchema);
+    // @ts-expect-error Ignore schema types
+    build(numericIdSchema, numericIdModel, collection);
   });
 
   describe('aggregate', () => {
@@ -893,6 +917,16 @@ describe('model', () => {
         result.bar;
         expectType<Date | undefined>(result.ham);
       }
+    });
+
+    test('with a numeric _id', async () => {
+      const result = await numericIdModel.findById(1, { projection });
+
+      expectType<{
+        _id: number;
+        foo: string;
+        ham?: Date;
+      } | null>(result);
     });
   });
 
