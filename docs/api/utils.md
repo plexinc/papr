@@ -10,9 +10,9 @@ other properties which have defaults defined are not required.
 ```ts
 import { DocumentForInsert } from 'papr';
 
-import type { OrderDocument, OrderDefaults } from './schema';
+import type { OrderDocument, OrderOptions } from './schema';
 
-const newOrder: DocumentForInsert<OrderDocument, OrderDefaults> = {
+const newOrder: DocumentForInsert<OrderDocument, OrderOptions> = {
   user: 'John',
 };
 

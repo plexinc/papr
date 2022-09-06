@@ -92,7 +92,7 @@ function sanitize(value: any): void {
  * });
  *
  * export type UserDocument = typeof userSchema[0];
- * export type UserDefaults = typeof userSchema[1];
+ * export type UserOptions = typeof userSchema[1];
  *
  * const orderSchema = schema({
  *   _id: types.number({ required: true }),
@@ -106,7 +106,7 @@ function sanitize(value: any): void {
  * });
  *
  * export type OrderDocument = typeof orderSchema[0];
- * export type OrderDefaults = typeof orderSchema[1];
+ * export type OrderOptions = typeof orderSchema[1];
  */
 export default function schema<
   TProperties extends Record<string, unknown>,
