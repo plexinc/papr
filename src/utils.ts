@@ -104,7 +104,7 @@ export type ProjectionType<
   Projection extends Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>> | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : WithId<DeepPick<TSchema, keyof Projection & string>>;
+  : WithId<DeepPick<TSchema, '_id' | (keyof Projection & string)>>;
 
 export type Projection<TSchema> = Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>>;
 

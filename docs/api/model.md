@@ -209,10 +209,10 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `id`      | `string \| ObjectId`   | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `id`      | `string \| TSchema._id` | required  |
+| `options` | `FindOptions<TSchema>`  | optional  |
 
 **Returns:**
 
