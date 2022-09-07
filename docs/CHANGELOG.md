@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/plexinc/papr/compare/v8.0.0...v8.1.0) (2022-09-07)
+
+
+### Features
+
+* Allow user definition of `_id` property type ([#311](https://github.com/plexinc/papr/issues/311)) ([056928e](https://github.com/plexinc/papr/commit/056928e955a34aa466d547dd99d1cb75f59ece9d))
+
 ## [8.0.0](https://github.com/plexinc/papr/compare/v7.3.1...v8.0.0) (2022-09-06)
 
 
