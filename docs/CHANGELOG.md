@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/plexinc/papr/compare/v8.1.0...v8.2.0) (2022-09-08)
+
+
+### Features
+
+* Add `Model.exists(filter)` query helper ([47ee728](https://github.com/plexinc/papr/commit/47ee728c0d8ce36943aa211e98d81f00aa2fe62c))
+
 ## [8.1.0](https://github.com/plexinc/papr/compare/v8.0.0...v8.1.0) (2022-09-07)
 
 
