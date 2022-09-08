@@ -10,6 +10,20 @@ Some types have additional options, based on the available options from JSON sch
 
 The following data types are available to define the schemas of your `papr` models:
 
+## `any`
+
+We recommend avoiding this type. It only exists as an escape hatch for unknown data.
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  unknownData: types.any(),
+});
+```
+
 ## `array`
 
 Creates an array consisting of items of a single type.
@@ -380,20 +394,6 @@ import { schema, types } from 'papr';
 schema({
   requiredTuple: types.tuple([types.number(), types.string()] as const, { required: true }),
   optionalTuple: types.tuple([types.number(), types.string()] as const),
-});
-```
-
-## `any`
-
-We recommend avoiding this type. It only exists as an escape hatch for unknown data.
-
-**Example:**
-
-```ts
-import { schema, types } from 'papr';
-
-schema({
-  unknownData: types.any(),
 });
 ```
 

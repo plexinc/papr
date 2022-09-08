@@ -108,6 +108,7 @@ DOCS.forEach((doc) => {
     .filter(
       (item) => item.kind === 'constructor' || item.kind === 'function' || item.kind === 'member'
     )
+    .sort((itemA, itemB) => (itemA.name < itemB.name ? -1 : 1))
     .map((item) => {
       const { description, params } = item;
 

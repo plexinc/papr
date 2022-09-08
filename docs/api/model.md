@@ -172,6 +172,31 @@ Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4
 const ages = await User.distinct('age');
 ```
 
+## `exists`
+
+Performs an optimized `find` to test for the existence of any document matching the filter criteria.
+
+**Parameters:**
+
+| Name      | Type                                                                        | Attribute |
+| --------- | --------------------------------------------------------------------------- | --------- |
+| `filter`  | `Filter<TSchema>`                                                           | required  |
+| `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
+
+**Returns:**
+
+`Promise<boolean>`
+
+**Example:**
+
+```ts
+const isAlreadyActive = await User.exists({
+  firstName: 'John',
+  lastName: 'Wick',
+  active: true,
+});
+```
+
 ## `find`
 
 Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
@@ -408,31 +433,6 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 ```ts
 const result = await User.updateOne({ firstName: 'John' }, { $set: { age: 40 } });
-```
-
-## `exists`
-
-Performs an optimized `find` to test for the existence of any document matching the filter criteria.
-
-**Parameters:**
-
-| Name      | Type                                                                        | Attribute |
-| --------- | --------------------------------------------------------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`                                                           | required  |
-| `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
-
-**Returns:**
-
-`Promise<boolean>`
-
-**Example:**
-
-```ts
-const isAlreadyActive = await User.exists({
-  firstName: 'John',
-  lastName: 'Wick',
-  active: true,
-});
 ```
 
 ## `upsert`

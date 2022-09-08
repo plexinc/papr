@@ -525,7 +525,6 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Performs an optimized `find` to test for the existence of any document matching the filter criteria.
    *
-   *
    * @param filter {Filter<TSchema>}
    * @param [options] {Omit<FindOptions<TSchema>, "projection" | "limit" | "sort" | "skip">}
    *
