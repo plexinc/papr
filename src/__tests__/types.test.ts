@@ -842,32 +842,33 @@ describe('types', () => {
         expectType<typeof value>('foo');
         expectType<typeof value>(undefined);
       });
-    });
 
-    test('required', () => {
-      const value = types.oneOf([types.boolean(), types.string()], { required: true });
+      test('required', () => {
+        const value = types.oneOf([types.boolean(), types.string()], { required: true });
 
-      expect(value).toEqual(
-        expect.objectContaining({
-          oneOf: [
-            {
-              $required: true,
-              type: 'boolean',
-            },
-            {
-              $required: true,
-              type: 'string',
-            },
-          ],
-        })
-      );
-      expectType<boolean | string>(value);
-      // @ts-expect-error `value` should not be `number`
-      expectType<number>(value);
-      // @ts-expect-error `value` should not be `undefined`
-      expectType<undefined>(value);
-      expectType<typeof value>(true);
-      expectType<typeof value>('foo');
+        expect(value).toEqual(
+          expect.objectContaining({
+            $required: true,
+            oneOf: [
+              {
+                $required: true,
+                type: 'boolean',
+              },
+              {
+                $required: true,
+                type: 'string',
+              },
+            ],
+          })
+        );
+        expectType<boolean | string>(value);
+        // @ts-expect-error `value` should not be `number`
+        expectType<number>(value);
+        // @ts-expect-error `value` should not be `undefined`
+        expectType<undefined>(value);
+        expectType<typeof value>(true);
+        expectType<typeof value>('foo');
+      });
     });
   });
 });

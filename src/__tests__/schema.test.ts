@@ -501,6 +501,8 @@ describe('schema', () => {
           },
           { required: true }
         ),
+        oneOfOptional: types.oneOf([types.number(), types.string()]),
+        oneOfRequired: types.oneOf([types.number(), types.string()], { required: true }),
         stringOptional: types.string(),
         stringRequired: types.string({ required: true }),
       },
@@ -651,6 +653,26 @@ describe('schema', () => {
           },
           type: 'object',
         },
+        oneOfOptional: {
+          oneOf: [
+            {
+              type: 'number',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
+        oneOfRequired: {
+          oneOf: [
+            {
+              type: 'number',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
         stringOptional: {
           type: 'string',
         },
@@ -673,6 +695,7 @@ describe('schema', () => {
         'objectGenericRequired',
         'objectIdRequired',
         'objectRequired',
+        'oneOfRequired',
         'stringRequired',
         'createdAt',
         'updatedAt',
@@ -707,6 +730,8 @@ describe('schema', () => {
       objectIdRequired: ObjectId;
       objectOptional?: { foo?: number };
       objectRequired: { foo?: number };
+      oneOfOptional?: number | string;
+      oneOfRequired: number | string;
       stringOptional?: string;
       stringRequired: string;
       createdAt: Date;
@@ -809,6 +834,8 @@ describe('schema', () => {
           },
           { required: true }
         ),
+        oneOfOptional: types.oneOf([types.number(), types.string()]),
+        oneOfRequired: types.oneOf([types.number(), types.string()], { required: true }),
         stringOptional: types.string({ required: false }),
         stringRequired: types.string({ required: true }),
       },
@@ -959,6 +986,26 @@ describe('schema', () => {
           },
           type: 'object',
         },
+        oneOfOptional: {
+          oneOf: [
+            {
+              type: 'number',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
+        oneOfRequired: {
+          oneOf: [
+            {
+              type: 'number',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
         stringOptional: {
           type: 'string',
         },
@@ -981,6 +1028,7 @@ describe('schema', () => {
         'objectGenericRequired',
         'objectIdRequired',
         'objectRequired',
+        'oneOfRequired',
         'stringRequired',
         'createdAt',
         'updatedAt',
@@ -1015,6 +1063,8 @@ describe('schema', () => {
       objectIdRequired: ObjectId;
       objectOptional?: { foo?: number };
       objectRequired: { foo?: number };
+      oneOfOptional?: number | string;
+      oneOfRequired: number | string;
       stringOptional?: string;
       stringRequired: string;
       createdAt: Date;

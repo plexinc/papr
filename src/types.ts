@@ -205,6 +205,7 @@ export function oneOf<Types extends any[], Options extends GenericOptions>(
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
+    ...(required ? { $required: true } : {}),
     oneOf: required
       ? // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         types.map((type) => ({
