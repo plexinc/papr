@@ -393,6 +393,29 @@ describe('types', () => {
       });
     });
 
+    describe('constant', () => {
+      test('default', () => {
+        const value = types.constant('foo' as const);
+
+        expect(value).toEqual({
+          enum: ['foo'],
+        });
+        expectType<'foo' | undefined>(value);
+      });
+
+      test('required', () => {
+        const value = types.constant('foo' as const, { required: true });
+
+        expect(value).toEqual({
+          $required: true,
+          enum: ['foo'],
+        });
+        expectType<'foo'>(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+      });
+    });
+
     describe('object', () => {
       test('default', () => {
         const value = types.object({
