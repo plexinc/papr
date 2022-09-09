@@ -130,9 +130,6 @@ describe('index', () => {
           $jsonSchema: {
             additionalProperties: false,
             properties: {
-              __v: {
-                type: 'number',
-              },
               _id: {
                 bsonType: 'objectId',
               },
@@ -166,9 +163,6 @@ describe('index', () => {
           $jsonSchema: {
             additionalProperties: false,
             properties: {
-              __v: {
-                type: 'number',
-              },
               _id: {
                 bsonType: 'objectId',
               },
@@ -205,9 +199,6 @@ describe('index', () => {
         $jsonSchema: {
           additionalProperties: false,
           properties: {
-            __v: {
-              type: 'number',
-            },
             _id: {
               bsonType: 'objectId',
             },
@@ -227,9 +218,6 @@ describe('index', () => {
         $jsonSchema: {
           additionalProperties: false,
           properties: {
-            __v: {
-              type: 'number',
-            },
             _id: {
               bsonType: 'objectId',
             },

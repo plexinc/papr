@@ -22,9 +22,6 @@ describe('schema', () => {
       $validationLevel: 'strict',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           bsonType: 'objectId',
         },
@@ -80,9 +77,6 @@ describe('schema', () => {
       $validationLevel: 'strict',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           bsonType: 'objectId',
         },
@@ -139,9 +133,6 @@ describe('schema', () => {
         $validationLevel: 'strict',
         additionalProperties: false,
         properties: {
-          __v: {
-            type: 'number',
-          },
           _id: {
             bsonType: 'objectId',
           },
@@ -197,9 +188,6 @@ describe('schema', () => {
         $validationLevel: 'strict',
         additionalProperties: false,
         properties: {
-          __v: {
-            type: 'number',
-          },
           _id: {
             bsonType: 'objectId',
           },
@@ -252,9 +240,6 @@ describe('schema', () => {
         $validationLevel: 'strict',
         additionalProperties: false,
         properties: {
-          __v: {
-            type: 'number',
-          },
           _createdDate: {
             bsonType: 'date',
           },
@@ -324,9 +309,6 @@ describe('schema', () => {
         $validationLevel: 'strict',
         additionalProperties: false,
         properties: {
-          __v: {
-            type: 'number',
-          },
           _createdDate: {
             bsonType: 'date',
           },
@@ -385,9 +367,6 @@ describe('schema', () => {
       $validationLevel: 'strict',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           type: 'string',
         },
@@ -431,9 +410,6 @@ describe('schema', () => {
       $validationLevel: 'strict',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           type: 'number',
         },
@@ -523,9 +499,6 @@ describe('schema', () => {
       $validationLevel: 'moderate',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           bsonType: 'objectId',
         },
@@ -769,9 +742,6 @@ describe('schema', () => {
       $validationLevel: 'strict',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           bsonType: 'objectId',
         },
@@ -867,9 +837,6 @@ describe('schema', () => {
       $validationLevel: 'moderate',
       additionalProperties: false,
       properties: {
-        __v: {
-          type: 'number',
-        },
         _id: {
           bsonType: 'objectId',
         },
