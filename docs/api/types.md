@@ -103,6 +103,38 @@ schema({
 });
 ```
 
+## `constant`
+
+Creates a constant value. Useful for creating discriminated unions with the `oneOf` type.
+
+**Parameters:**
+
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `value`            | `TValue`         | required  |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  shape: types.oneOf([
+    types.object({
+      type: types.constant('circle' as const, { required: true }),
+      radius: types.number({ required: true }),
+    }),
+    types.object({
+      type: types.constant('rectangle' as const, { required: true }),
+      width: types.number({ required: true }),
+      length: types.number({ required: true }),
+    }),
+  ]),
+});
+```
+
 ## `date`
 
 Creates a date type.

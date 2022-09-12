@@ -136,6 +136,16 @@ function array<Item, Options extends ArrayOptions>(
   } as unknown as GetType<NonNullable<Item>[], Options>;
 }
 
+function constant<Value, Options extends GenericOptions>(
+  value: Value,
+  options?: Options
+): GetType<Value, Options> {
+  return {
+    ...(options?.required ? { $required: true } : {}),
+    enum: [value],
+  } as unknown as GetType<Value, Options>;
+}
+
 function enumType<Enum, Options extends GenericOptions>(
   values: Enum[],
   options?: Options
@@ -323,6 +333,32 @@ export default {
    * });
    */
   boolean: createSimpleType<boolean>('boolean'),
+
+  /**
+   * Creates a constant value. Useful for creating discriminated unions with the `oneOf` type.
+   *
+   * @param value {TValue}
+   * @param [options] {GenericOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   shape: types.oneOf([
+   *     types.object({
+   *       type: types.constant('circle' as const, { required: true }),
+   *       radius: types.number({ required: true }),
+   *     }),
+   *     types.object({
+   *       type: types.constant('rectangle' as const, { required: true }),
+   *       width: types.number({ required: true }),
+   *       length: types.number({ required: true }),
+   *     }),
+   *   ]),
+   * });
+   */
+  constant,
 
   /**
    * Creates a date type.

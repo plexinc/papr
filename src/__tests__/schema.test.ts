@@ -482,6 +482,8 @@ describe('schema', () => {
         binaryRequired: types.binary({ required: true }),
         booleanOptional: types.boolean(),
         booleanRequired: types.boolean({ required: true }),
+        constantOptional: types.constant(TEST_ENUM.FOO as const),
+        constantRequired: types.constant(TEST_ENUM.FOO as const, { required: true }),
         dateOptional: types.date(),
         dateRequired: types.date({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
@@ -589,6 +591,12 @@ describe('schema', () => {
         booleanRequired: {
           type: 'boolean',
         },
+        constantOptional: {
+          enum: ['foo'],
+        },
+        constantRequired: {
+          enum: ['foo'],
+        },
         createdAt: {
           bsonType: 'date',
         },
@@ -689,6 +697,7 @@ describe('schema', () => {
         'arrayRequired',
         'binaryRequired',
         'booleanRequired',
+        'constantRequired',
         'dateRequired',
         'enumRequired',
         'numberRequired',
@@ -718,6 +727,8 @@ describe('schema', () => {
       binaryRequired: Binary;
       booleanOptional?: boolean;
       booleanRequired: boolean;
+      constantOptional?: TEST_ENUM.FOO;
+      constantRequired: TEST_ENUM.FOO;
       dateOptional?: Date;
       dateRequired: Date;
       enumOptional?: TEST_ENUM | null;
@@ -815,6 +826,8 @@ describe('schema', () => {
         binaryRequired: types.binary({ required: true }),
         booleanOptional: types.boolean({ required: false }),
         booleanRequired: types.boolean({ required: true }),
+        constantOptional: types.constant(TEST_ENUM.FOO as const, { required: false }),
+        constantRequired: types.constant(TEST_ENUM.FOO as const, { required: true }),
         dateOptional: types.date({ required: false }),
         dateRequired: types.date({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
@@ -922,6 +935,12 @@ describe('schema', () => {
         booleanRequired: {
           type: 'boolean',
         },
+        constantOptional: {
+          enum: ['foo'],
+        },
+        constantRequired: {
+          enum: ['foo'],
+        },
         createdAt: {
           bsonType: 'date',
         },
@@ -1022,6 +1041,7 @@ describe('schema', () => {
         'arrayRequired',
         'binaryRequired',
         'booleanRequired',
+        'constantRequired',
         'dateRequired',
         'enumRequired',
         'numberRequired',
@@ -1051,6 +1071,8 @@ describe('schema', () => {
       binaryRequired: Binary;
       booleanOptional?: boolean;
       booleanRequired: boolean;
+      constantOptional?: TEST_ENUM.FOO;
+      constantRequired: TEST_ENUM.FOO;
       dateOptional?: Date;
       dateRequired: Date;
       enumOptional?: TEST_ENUM | null;
