@@ -1,4 +1,5 @@
 import { URL } from 'url';
+import { Decimal128 } from 'mongodb';
 import mongoose from 'mongoose';
 import { COLLECTIONS } from './setup.js';
 
@@ -16,6 +17,7 @@ function isValidUrl(value) {
 const sampleSchema = new mongoose.Schema(
   {
     age: Number,
+    salary: Decimal128,
     binary: Buffer,
     city: String,
     firstName: {

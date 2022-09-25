@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { ObjectId, Binary } from 'mongodb';
+import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
 import schema from '../schema';
 import types from '../types';
@@ -486,6 +486,8 @@ describe('schema', () => {
         constantRequired: types.constant(TEST_ENUM.FOO as const, { required: true }),
         dateOptional: types.date(),
         dateRequired: types.date({ required: true }),
+        decimalOptional: types.decimal(),
+        decimalRequired: types.decimal({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
         enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
         numberOptional: types.number(),
@@ -535,6 +537,7 @@ describe('schema', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -548,6 +551,7 @@ describe('schema', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -605,6 +609,12 @@ describe('schema', () => {
         },
         dateRequired: {
           bsonType: 'date',
+        },
+        decimalOptional: {
+          bsonType: 'decimal',
+        },
+        decimalRequired: {
+          bsonType: 'decimal',
         },
         enumOptional: {
           enum: ['foo', 'bar', null],
@@ -699,6 +709,7 @@ describe('schema', () => {
         'booleanRequired',
         'constantRequired',
         'dateRequired',
+        'decimalRequired',
         'enumRequired',
         'numberRequired',
         'objectGenericRequired',
@@ -731,6 +742,8 @@ describe('schema', () => {
       constantRequired: TEST_ENUM.FOO;
       dateOptional?: Date;
       dateRequired: Date;
+      decimalOptional?: Decimal128;
+      decimalRequired: Decimal128;
       enumOptional?: TEST_ENUM | null;
       enumRequired: TEST_ENUM;
       numberOptional?: number;
@@ -879,6 +892,7 @@ describe('schema', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -892,6 +906,7 @@ describe('schema', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',

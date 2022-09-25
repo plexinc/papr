@@ -1,4 +1,4 @@
-import { Binary, ObjectId } from 'mongodb';
+import { Binary, ObjectId, Decimal128 } from 'mongodb';
 import { TupleItems } from './TupleItems';
 import { Flatten } from './utils';
 
@@ -46,6 +46,7 @@ type BSONType =
   | 'binData'
   | 'boolean'
   | 'date'
+  | 'decimal'
   | 'number'
   | 'object'
   | 'objectId'
@@ -111,6 +112,7 @@ export function any<Options extends GenericOptions>(options?: Options): any {
       'binData',
       'bool',
       'date',
+      'decimal',
       'null',
       'number',
       'object',
@@ -230,7 +232,7 @@ function createSimpleType<Type>(type: BSONType) {
   return <Options extends GenericOptions>(options?: Options) => {
     return {
       ...(options?.required ? { $required: true } : {}),
-      ...(type === 'date' || type === 'objectId' || type === 'binData'
+      ...(type === 'date' || type === 'objectId' || type === 'binData' || type === 'decimal'
         ? { bsonType: type }
         : { type }),
     } as unknown as GetType<Type, Options>;
@@ -360,6 +362,23 @@ export default {
    */
   constant,
 
+  /**
+   * Creates a IEEE 754 decimal-based 128 bit floating-point number type.
+   * Useful for storing monetary values, scientific computations or any other number that requires high precision.
+   *
+   * @param [options] {GenericOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *  requiredDecimal: types.decimal({ required: true }),
+   *  optionalDecimal: types.decimal(),
+   * });
+   */
+
+  decimal: createSimpleType<Decimal128>('decimal'),
   /**
    * Creates a date type.
    *

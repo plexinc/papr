@@ -1,6 +1,6 @@
 import fs from 'fs';
 import barChart from '@byu-oit/bar-chart';
-import { ObjectId } from 'mongodb';
+import { ObjectId, Decimal128 } from 'mongodb';
 import mongoose from 'mongoose';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
@@ -49,6 +49,12 @@ function random(max) {
   return Math.floor(Math.random() * max);
 }
 
+function randomDecimal(max) {
+  const cents = random(99);
+  const dollars = random(max);
+  return Decimal128(`${dollars}.${cents}`);
+}
+
 function randomURL() {
   return `https://example.com/${random(1000)}`;
 }
@@ -56,6 +62,7 @@ function randomURL() {
 function randomDocument(source, type) {
   return {
     age: random(60),
+    salary: randomDecimal(100000),
     firstName: 'John',
     lastName: 'Doe',
     localization: {
