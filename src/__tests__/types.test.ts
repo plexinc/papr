@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { ObjectId, Binary } from 'mongodb';
+import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
 import types from '../types';
 
@@ -72,6 +72,70 @@ describe('types', () => {
       });
     });
 
+    describe('decimal', () => {
+      test('default', () => {
+        const value = types.decimal();
+
+        expect(value).toEqual({
+          bsonType: 'decimal',
+        });
+        expectType<Decimal128 | undefined>(value);
+        expectType<typeof value>(undefined);
+      });
+
+      test('required', () => {
+        const value = types.decimal({ required: true });
+
+        expect(value).toEqual({
+          $required: true,
+          bsonType: 'decimal',
+        });
+        expectType<Decimal128>(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+      });
+
+      test('options', () => {
+        // @ts-expect-error invalid option
+        types.decimal({ maximum: 1 });
+      });
+    });
+
+    describe('number', () => {
+      test('default', () => {
+        const value = types.number();
+
+        expect(value).toEqual({
+          type: 'number',
+        });
+        expectType<number | undefined>(value);
+        expectType<typeof value>(undefined);
+      });
+
+      test('required', () => {
+        const value = types.number({ required: true });
+
+        expect(value).toEqual({
+          $required: true,
+          type: 'number',
+        });
+        expectType<number>(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+      });
+
+      test('options', () => {
+        types.number({
+          maximum: 9,
+          minimum: 2,
+          multipleOf: 2,
+        });
+
+        // @ts-expect-error invalid option
+        types.number({ maxLength: 1 });
+      });
+    });
+
     describe('enum', () => {
       test('default', () => {
         const value = types.enum(Object.values(TEST_ENUM));
@@ -115,41 +179,6 @@ describe('types', () => {
         // @ts-expect-error `value` can not be c
         expectType<typeof value>('c');
         expectType<typeof value>(undefined);
-      });
-    });
-
-    describe('number', () => {
-      test('default', () => {
-        const value = types.number();
-
-        expect(value).toEqual({
-          type: 'number',
-        });
-        expectType<number | undefined>(value);
-        expectType<typeof value>(undefined);
-      });
-
-      test('required', () => {
-        const value = types.number({ required: true });
-
-        expect(value).toEqual({
-          $required: true,
-          type: 'number',
-        });
-        expectType<number>(value);
-        // @ts-expect-error `value` should not be undefined
-        expectType<typeof value>(undefined);
-      });
-
-      test('options', () => {
-        types.number({
-          maximum: 9,
-          minimum: 2,
-          multipleOf: 2,
-        });
-
-        // @ts-expect-error invalid option
-        types.number({ maxLength: 1 });
       });
     });
 
@@ -270,6 +299,7 @@ describe('types', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -295,6 +325,7 @@ describe('types', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -794,6 +825,7 @@ describe('types', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',
@@ -818,6 +850,7 @@ describe('types', () => {
             'binData',
             'bool',
             'date',
+            'decimal',
             'null',
             'number',
             'object',

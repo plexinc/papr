@@ -157,6 +157,29 @@ schema({
 });
 ```
 
+## `decimal`
+
+Creates a IEEE 754 decimal-based 128 bit floating-point number type.
+Useful for storing monetary values, scientific computations or any other number that requires high precision.
+
+**Parameters:**
+
+| Name               | Type             | Attribute |
+| ------------------ | ---------------- | --------- |
+| `options`          | `GenericOptions` | optional  |
+| `options.required` | `boolean`        | optional  |
+
+**Example:**
+
+```ts
+import { schema, types } from 'papr';
+
+schema({
+  requiredDecimal: types.decimal({ required: true }),
+  optionalDecimal: types.decimal(),
+});
+```
+
 ## `enum`
 
 With `enum` you can create an enum type either:
