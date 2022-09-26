@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/plexinc/papr/compare/v8.2.0...v9.0.0) (2022-09-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Schemas no longer have a default `__v` property
+defined. Users who have migrated from Mongoose or are otherwise taking
+advantage of this property will have to manually add it to their schema
+definitions.
+* This changes the produced JSON schema for required
+`oneOf` types to correctly include it in the resulting `required`
+properties array.
+
+### Features
+
+* Support `constant` type ([#312](https://github.com/plexinc/papr/issues/312)) ([e676703](https://github.com/plexinc/papr/commit/e67670399dad5dfbbe7b30ea688f5c7912ba7a8b))
+
+
+### Bug Fixes
+
+* Correct `oneOf` required option ([a24054f](https://github.com/plexinc/papr/commit/a24054fbfaeb0f1ad58470080db6cc77bae23533))
+
+
+* Remove default schema `__v` version property ([86bca4f](https://github.com/plexinc/papr/commit/86bca4f4b45fa06cc3be9536bd0f0b51e27228e0))
+
 ## [8.2.0](https://github.com/plexinc/papr/compare/v8.1.0...v8.2.0) (2022-09-08)
 
 
