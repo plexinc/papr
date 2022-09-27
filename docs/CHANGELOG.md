@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/plexinc/papr/compare/v9.0.0...v9.1.0) (2022-09-27)
+
+
+### Features
+
+* `decimal` type ([#326](https://github.com/plexinc/papr/issues/326)) ([13443bc](https://github.com/plexinc/papr/commit/13443bc196c369720d5605f26fb513e9b8e27e2e))
+
 ## [9.0.0](https://github.com/plexinc/papr/compare/v8.2.0...v9.0.0) (2022-09-26)
 
 
