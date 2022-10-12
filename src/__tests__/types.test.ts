@@ -101,6 +101,37 @@ describe('types', () => {
       });
     });
 
+    describe('null', () => {
+      test('default', () => {
+        const value = types.null();
+
+        expect(value).toEqual({
+          type: 'null',
+        });
+        expectType<null | undefined>(value);
+        expectType<typeof value>(undefined);
+      });
+
+      test('required', () => {
+        const value = types.null({ required: true });
+
+        expect(value).toEqual({
+          $required: true,
+          type: 'null',
+        });
+        expectType<null>(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+      });
+
+      test('options', () => {
+        types.null({ required: true });
+
+        // @ts-expect-error invalid option
+        types.number({ maxLength: 1 });
+      });
+    });
+
     describe('number', () => {
       test('default', () => {
         const value = types.number();
