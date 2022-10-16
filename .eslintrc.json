@@ -2,7 +2,13 @@
   "env": {
     "jest": true
   },
-  "extends": ["eslint:recommended", "standard", "plugin:import/recommended", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "standard",
+    "plugin:import/recommended",
+    "plugin:promise/recommended",
+    "prettier"
+  ],
   "overrides": [
     {
       "extends": [
