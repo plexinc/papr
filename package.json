@@ -89,6 +89,9 @@
   "peerDependencies": {
     "mongodb": ">=4.9.1"
   },
+  "resolutions": {
+    "@aws-sdk/credential-providers": "file:__mocks__/@aws-sdk/credential-providers"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
