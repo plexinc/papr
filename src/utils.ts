@@ -101,12 +101,16 @@ export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>
 
 export type ProjectionType<
   TSchema extends BaseSchema,
-  Projection extends Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>> | undefined
+  Projection extends
+    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
+    | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
   : WithId<DeepPick<TSchema, '_id' | (keyof Projection & string)>>;
 
-export type Projection<TSchema> = Partial<Record<Join<NestedPaths<WithId<TSchema>>, '.'>, number>>;
+export type Projection<TSchema> = Partial<
+  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
+>;
 
 export type Identity<Type> = Type;
 
@@ -208,7 +212,6 @@ export function timestampUpdateFilter<TSchema, TOptions extends SchemaOptions<TS
 
   const $currentDate = {
     ...update.$currentDate,
-    // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
     ...(!update.$set?.[updatedAtProperty] &&
       !update.$unset?.[updatedAtProperty] && {
         [updatedAtProperty]: true,
@@ -252,7 +255,6 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 
     const $currentDate = {
       ...update.$currentDate,
-      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.[updatedAtProperty] &&
         !update.$unset?.[updatedAtProperty] && {
           [updatedAtProperty]: true,
@@ -260,7 +262,6 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
-      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.[createdAtProperty] &&
         !update.$unset?.[createdAtProperty] && {
           [createdAtProperty]: new Date(),
@@ -290,7 +291,6 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 
     const $currentDate = {
       ...update.$currentDate,
-      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.[updatedAtProperty] &&
         !update.$unset?.[updatedAtProperty] && {
           [updatedAtProperty]: true,
@@ -298,7 +298,6 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
-      // @ts-expect-error `TSchema` is a `TimestampSchema`, but we can't extend that base type
       ...(!update.$set?.[createdAtProperty] &&
         !update.$unset?.[createdAtProperty] && {
           [createdAtProperty]: new Date(),
