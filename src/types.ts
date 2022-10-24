@@ -47,6 +47,7 @@ type BSONType =
   | 'boolean'
   | 'date'
   | 'decimal'
+  | 'null'
   | 'number'
   | 'object'
   | 'objectId'
@@ -431,6 +432,32 @@ export default {
    * });
    */
   enum: enumType,
+
+  /**
+   * Creates a `null` type. Use discouraged. Typically used in conjunction with
+   * another type when applying a schema to a collection that already contains
+   * `null` values in a field.
+   *
+   * Usage of `null` as a value in Mongo is discouraged, as it makes some
+   * common query patterns ambiguous: `find({ myField: null })` will match
+   * documents that have the `myField` value set to the literal `null` _or_
+   * that match `{ myField: { $exists: false } }`.
+   *
+   * To match documents with a literal `null` value you must query with
+   * `{ myField: { $type: 10 } }` (where `10` is the [BSON null type
+   * constant](https://www.mongodb.com/docs/manual/reference/bson-types/))
+   *
+   * @param [options] {GenericOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   nullableNumber: types.oneOf([ types.number(), types.null() ]),
+   * });
+   */
+  null: createSimpleType<null>('null'),
 
   /**
    * Creates a number type.

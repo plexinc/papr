@@ -466,6 +466,10 @@ describe('schema', () => {
         decimalRequired: types.decimal({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
         enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
+        nullOptional: types.null(),
+        nullRequired: types.null({ required: true }),
+        nullableOneOfOptional: types.oneOf([types.number(), types.null()]),
+        nullableOneOfRequired: types.oneOf([types.number(), types.null()], { required: true }),
         numberOptional: types.number(),
         numberRequired: types.number({ required: true }),
         objectGenericOptional: types.objectGeneric(types.number()),
@@ -595,6 +599,18 @@ describe('schema', () => {
         enumRequired: {
           enum: ['foo', 'bar'],
         },
+        nullOptional: {
+          type: 'null',
+        },
+        nullRequired: {
+          type: 'null',
+        },
+        nullableOneOfOptional: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        nullableOneOfRequired: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
         numberOptional: {
           type: 'number',
         },
@@ -684,6 +700,8 @@ describe('schema', () => {
         'dateRequired',
         'decimalRequired',
         'enumRequired',
+        'nullRequired',
+        'nullableOneOfRequired',
         'numberRequired',
         'objectGenericRequired',
         'objectIdRequired',
@@ -719,6 +737,10 @@ describe('schema', () => {
       decimalRequired: Decimal128;
       enumOptional?: TEST_ENUM | null;
       enumRequired: TEST_ENUM;
+      nullOptional?: null;
+      nullRequired: null;
+      nullableOneOfOptional?: null | number;
+      nullableOneOfRequired?: null | number;
       numberOptional?: number;
       numberRequired: number;
       objectGenericOptional?: { [key: string]: number | undefined };
@@ -815,6 +837,10 @@ describe('schema', () => {
         dateRequired: types.date({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
         enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
+        nullOptional: types.null({ required: false }),
+        nullRequired: types.null({ required: true }),
+        nullableOneOfOptional: types.oneOf([types.number(), types.null()], { required: false }),
+        nullableOneOfRequired: types.oneOf([types.number(), types.null()], { required: true }),
         numberOptional: types.number({ required: false }),
         numberRequired: types.number({ required: true }),
         objectGenericOptional: types.objectGeneric(types.number({ required: false })),
@@ -938,6 +964,18 @@ describe('schema', () => {
         enumRequired: {
           enum: ['foo', 'bar'],
         },
+        nullOptional: {
+          type: 'null',
+        },
+        nullRequired: {
+          type: 'null',
+        },
+        nullableOneOfOptional: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
+        nullableOneOfRequired: {
+          oneOf: [{ type: 'number' }, { type: 'null' }],
+        },
         numberOptional: {
           type: 'number',
         },
@@ -1026,6 +1064,8 @@ describe('schema', () => {
         'constantRequired',
         'dateRequired',
         'enumRequired',
+        'nullRequired',
+        'nullableOneOfRequired',
         'numberRequired',
         'objectGenericRequired',
         'objectIdRequired',
@@ -1059,6 +1099,10 @@ describe('schema', () => {
       dateRequired: Date;
       enumOptional?: TEST_ENUM | null;
       enumRequired: TEST_ENUM;
+      nullOptional?: null;
+      nullRequired: null;
+      nullableOneOfOptional?: null | number;
+      nullableOneOfRequired: null | number;
       numberOptional?: number;
       numberRequired: number;
       objectGenericOptional?: { [key: string]: number | undefined };
