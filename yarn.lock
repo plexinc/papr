@@ -2211,10 +2211,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.32, @types/node@npm:^14.0.0":
-  version: 14.18.32
-  resolution: "@types/node@npm:14.18.32"
-  checksum: 45463114bf85d06dc12925d876dd90b7fff43d9ee10a40e48fd16aece3d0201c76426c128e41230b2818d386422be06c5be33b3d94d90ee924b6fa4d54574035
+"@types/node@npm:14.18.33, @types/node@npm:^14.0.0":
+  version: 14.18.33
+  resolution: "@types/node@npm:14.18.33"
+  checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
   languageName: node
   linkType: hard
 
@@ -8213,7 +8213,7 @@ __metadata:
     "@byu-oit/bar-chart": 1.4.2
     "@commitlint/cli": 17.1.2
     "@commitlint/config-conventional": 17.1.0
-    "@types/node": 14.18.32
+    "@types/node": 14.18.33
     "@typescript-eslint/eslint-plugin": 5.40.0
     "@typescript-eslint/parser": 5.40.0
     arg: 5.0.2
