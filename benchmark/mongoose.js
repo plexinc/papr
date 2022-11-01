@@ -17,7 +17,6 @@ function isValidUrl(value) {
 const sampleSchema = new mongoose.Schema(
   {
     age: Number,
-    salary: Decimal128,
     binary: Buffer,
     city: String,
     firstName: {
@@ -39,6 +38,7 @@ const sampleSchema = new mongoose.Schema(
         score: Number,
       },
     ],
+    salary: Decimal128,
     scores: [Number],
     source: {
       default: 'mongoosetests',

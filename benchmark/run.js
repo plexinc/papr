@@ -62,7 +62,6 @@ function randomURL() {
 function randomDocument(source, type) {
   return {
     age: random(60),
-    salary: randomDecimal(100000),
     firstName: 'John',
     lastName: 'Doe',
     localization: {
@@ -76,6 +75,7 @@ function randomDocument(source, type) {
       { score: random(10) },
       { score: random(10) },
     ],
+    salary: randomDecimal(100000),
     scores: [random(100), random(100)],
     ...(source && { source }),
     url: randomURL(),

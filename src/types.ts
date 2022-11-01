@@ -364,6 +364,22 @@ export default {
   constant,
 
   /**
+   * Creates a date type.
+   *
+   * @param [options] {GenericOptions}
+   * @param [options.required] {boolean}
+   *
+   * @example
+   * import { schema, types } from 'papr';
+   *
+   * schema({
+   *   requiredDate: types.date({ required: true }),
+   *   optionalDate: types.date(),
+   * });
+   */
+  date: createSimpleType<Date>('date'),
+
+  /**
    * Creates a IEEE 754 decimal-based 128 bit floating-point number type.
    * Useful for storing monetary values, scientific computations or any other number that requires high precision.
    *
@@ -380,21 +396,6 @@ export default {
    */
 
   decimal: createSimpleType<Decimal128>('decimal'),
-  /**
-   * Creates a date type.
-   *
-   * @param [options] {GenericOptions}
-   * @param [options.required] {boolean}
-   *
-   * @example
-   * import { schema, types } from 'papr';
-   *
-   * schema({
-   *   requiredDate: types.date({ required: true }),
-   *   optionalDate: types.date(),
-   * });
-   */
-  date: createSimpleType<Date>('date'),
 
   /**
    * With `enum` you can create an enum type either:

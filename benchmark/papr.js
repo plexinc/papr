@@ -5,7 +5,6 @@ import { papr, COLLECTIONS } from './setup.js';
 const sampleSchema = schema(
   {
     age: types.number(),
-    salary: types.decimal(),
     binary: types.binary(),
     city: types.string(),
     firstName: types.string({ required: true }),
@@ -22,6 +21,7 @@ const sampleSchema = schema(
         }
       )
     ),
+    salary: types.decimal(),
     scores: types.array(types.number({ required: true })),
     source: types.enum(COLLECTIONS, { required: true }),
     url: types.string({
