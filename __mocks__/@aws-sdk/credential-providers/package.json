@@ -1,4 +1,0 @@
-{
-  "name": "@aws-sdk/credential-providers",
-  "description": "mongodb includes this package as an optional dependency, but yarn v3 does not support ignoring optional dependencies."
-}
