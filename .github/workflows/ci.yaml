@@ -9,19 +9,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [14.x, 16.x, 18.x]
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
       - uses: actions/cache@v3
         with:
           path: |
             .yarn
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}-mongodb
+          key: ${{ runner.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}-mongodb
           restore-keys: |
-            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/package.json') }}-
+            ${{ runner.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --immutable
+      - run: node -v
       - run: yarn test:build
 
   lint:
