@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.1](https://github.com/plexinc/papr/compare/v9.2.0...v9.2.1) (2022-11-01)
+
+
+### Bug Fixes
+
+* Upgrade mongodb to v4.11.0 ([#343](https://github.com/plexinc/papr/issues/343)) ([f7db8b7](https://github.com/plexinc/papr/commit/f7db8b70b1fcf294890319d374151dbb67e2af44))
+
 ## [9.2.0](https://github.com/plexinc/papr/compare/v9.1.0...v9.2.0) (2022-10-24)
 
 
