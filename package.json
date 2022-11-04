@@ -119,7 +119,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "14.20.1",
+    "node": "14.21.0",
     "yarn": "1.22.19"
   },
   "packageManager": "yarn@3.2.4"
