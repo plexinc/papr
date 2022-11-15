@@ -99,6 +99,8 @@ export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>
       deleteMany: DeleteManyModel<TSchema>;
     };
 
+type FilterKeys<T, U> = { [P in keyof T]: T[P] extends U ? P : never }[keyof T];
+type FilterProperties<T, U> = { [K in FilterKeys<T, U>]: T[K]; };
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
@@ -106,7 +108,9 @@ export type ProjectionType<
     | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : WithId<DeepPick<TSchema, '_id' | (keyof Projection & string)>>;
+  : keyof FilterProperties<Projection, 1> extends never
+  ? Omit<WithId<TSchema>, keyof FilterProperties<Projection, 0>>
+  : Omit<WithId<DeepPick<TSchema, "_id" | (keyof Projection & string)>>, keyof FilterProperties<Projection, 0>>;
 
 export type Projection<TSchema> = Partial<
   Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
