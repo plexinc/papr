@@ -122,5 +122,5 @@
     "node": "14.20.1",
     "yarn": "1.22.19"
   },
-  "packageManager": "yarn@3.2.4"
+  "packageManager": "yarn@3.3.0"
 }
