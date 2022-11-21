@@ -5539,21 +5539,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:15.4.0":
-  version: 15.4.0
-  resolution: "eslint-plugin-n@npm:15.4.0"
+"eslint-plugin-n@npm:15.5.1":
+  version: 15.5.1
+  resolution: "eslint-plugin-n@npm:15.5.1"
   dependencies:
     builtins: ^5.0.1
     eslint-plugin-es: ^4.1.0
     eslint-utils: ^3.0.0
     ignore: ^5.1.1
-    is-core-module: ^2.10.0
+    is-core-module: ^2.11.0
     minimatch: ^3.1.2
     resolve: ^1.22.1
-    semver: ^7.3.7
+    semver: ^7.3.8
   peerDependencies:
     eslint: ">=7.0.0"
-  checksum: 30c82ea4af765d5c15afda0dc09302fd98963a2965b05c3f2a8048d586a78cc3ab53d9dbb3babbd1b926bdf9aab4e2c4353cce9088d8931000363fdbccc99b51
+  checksum: b97e547fd5429a564c84aace2803d82f4b031e0c4a8896fbe06ab2a116618d08e97435edd9f58e380771adc2ad43d53039e87fb0c91a007425a1ae412708714a
   languageName: node
   linkType: hard
 
@@ -6796,12 +6796,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.10.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
-  version: 2.10.0
-  resolution: "is-core-module@npm:2.10.0"
+"is-core-module@npm:^2.11.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
+  version: 2.11.0
+  resolution: "is-core-module@npm:2.11.0"
   dependencies:
     has: ^1.0.3
-  checksum: 0f3f77811f430af3256fa7bbc806f9639534b140f8ee69476f632c3e1eb4e28a38be0b9d1b8ecf596179c841b53576129279df95e7051d694dac4ceb6f967593
+  checksum: f96fd490c6b48eb4f6d10ba815c6ef13f410b0ba6f7eb8577af51697de523e5f2cd9de1c441b51d27251bf0e4aebc936545e33a5d26d5d51f28d25698d4a8bab
   languageName: node
   linkType: hard
 
@@ -9070,7 +9070,7 @@ __metadata:
     eslint-config-prettier: 8.5.0
     eslint-config-standard: 17.0.0
     eslint-plugin-import: 2.26.0
-    eslint-plugin-n: 15.4.0
+    eslint-plugin-n: 15.5.1
     eslint-plugin-prettier: 4.2.1
     eslint-plugin-promise: 6.1.1
     husky: 8.0.1
@@ -9970,7 +9970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.3.7, semver@npm:^7.0.0, semver@npm:^7.1.1, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7":
+"semver@npm:7.3.7":
   version: 7.3.7
   resolution: "semver@npm:7.3.7"
   dependencies:
@@ -9987,6 +9987,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.0.0, semver@npm:^7.1.1, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
+  version: 7.3.8
+  resolution: "semver@npm:7.3.8"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: ba9c7cbbf2b7884696523450a61fee1a09930d888b7a8d7579025ad93d459b2d1949ee5bbfeb188b2be5f4ac163544c5e98491ad6152df34154feebc2cc337c1
   languageName: node
   linkType: hard
 
