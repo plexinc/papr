@@ -8521,13 +8521,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.11.0":
-  version: 4.11.0
-  resolution: "mongodb@npm:4.11.0"
+"mongodb@npm:4.12.0":
+  version: 4.12.0
+  resolution: "mongodb@npm:4.12.0"
   dependencies:
     "@aws-sdk/credential-providers": ^3.186.0
     bson: ^4.7.0
-    denque: ^2.1.0
     mongodb-connection-string-url: ^2.5.4
     saslprep: ^1.0.3
     socks: ^2.7.1
@@ -8536,7 +8535,7 @@ __metadata:
       optional: true
     saslprep:
       optional: true
-  checksum: 3080c2f58dc712ca6d0a34b0f4101c3ca66fbf86360b2a5ea2b64a9f757b4a0d7b77851688657fc3240ac748ddcd69c21ec2f7c785f10cb7d41e00e863f415ec
+  checksum: 002a92eecfeb160d07aa83f8f9e4fa33a06816635606a85312713150eba41cb17abf92b785ca1ecc7c8de40519ef119d372896f2a1cd4902f92447d26a80b000
   languageName: node
   linkType: hard
 
@@ -9085,7 +9084,7 @@ __metadata:
     jsdoc-api: 7.1.1
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.3
-    mongodb: 4.11.0
+    mongodb: 4.12.0
     mongodb-memory-server: 8.9.3
     mongoose: 6.3.5
     pinst: 3.0.0
