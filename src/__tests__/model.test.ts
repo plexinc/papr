@@ -1403,7 +1403,7 @@ describe('model', () => {
       hooks = {
         after: [jest.fn(() => Promise.resolve())],
         before: [
-          jest.fn(({ context }) => {
+          jest.fn(({ args, collectionName, context, error, methodName }) => {
             context.id = 'mock';
             return Promise.resolve();
           }),
