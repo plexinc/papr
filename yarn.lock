@@ -8477,7 +8477,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-connection-string-url@npm:^2.5.2, mongodb-connection-string-url@npm:^2.5.3, mongodb-connection-string-url@npm:^2.5.4":
+"mongodb-connection-string-url@npm:^2.5.2, mongodb-connection-string-url@npm:^2.5.4":
   version: 2.5.4
   resolution: "mongodb-connection-string-url@npm:2.5.4"
   dependencies:
@@ -8487,9 +8487,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb-memory-server-core@npm:8.9.3":
-  version: 8.9.3
-  resolution: "mongodb-memory-server-core@npm:8.9.3"
+"mongodb-memory-server-core@npm:8.10.0":
+  version: 8.10.0
+  resolution: "mongodb-memory-server-core@npm:8.10.0"
   dependencies:
     "@types/tmp": ^0.2.3
     async-mutex: ^0.3.2
@@ -8499,25 +8499,25 @@ __metadata:
     get-port: ^5.1.1
     https-proxy-agent: ^5.0.1
     md5-file: ^5.0.0
-    mongodb: ~4.9.0
+    mongodb: ~4.11.0
     new-find-package-json: ^2.0.0
-    semver: ^7.3.7
+    semver: ^7.3.8
     tar-stream: ^2.1.4
     tmp: ^0.2.1
-    tslib: ^2.4.0
+    tslib: ^2.4.1
     uuid: ^8.3.1
     yauzl: ^2.10.0
-  checksum: 2a8669253bd5fcb4431c013db41e4afed68d56a57002e45dde1f6a894ae79cfb237c09408b1aa5c15306b6db296ee4bbf0568313cd708f096266e925732a2665
+  checksum: fdd281a1480a07fa22d4286d74e70f93d612ba9ad3ab76e6ab4dddbe136d863a2670e6a7aed411fc2ca3eab7f9508790e8f137cc432d16a559fa6f2eadcc379f
   languageName: node
   linkType: hard
 
-"mongodb-memory-server@npm:8.9.3":
-  version: 8.9.3
-  resolution: "mongodb-memory-server@npm:8.9.3"
+"mongodb-memory-server@npm:8.10.0":
+  version: 8.10.0
+  resolution: "mongodb-memory-server@npm:8.10.0"
   dependencies:
-    mongodb-memory-server-core: 8.9.3
-    tslib: ^2.4.0
-  checksum: a3181256ba987d2c78f45632242e4aa71e1b4d7c95c3330315fa56c38e15f75874a90adaea54591b25d817d0e9da65da55908e2c883258655ccb7a03ba8a9448
+    mongodb-memory-server-core: 8.10.0
+    tslib: ^2.4.1
+  checksum: 73828a765904ee063502531cd1e45bda2d78525eae026e3ce55f77d097312cd67e86f45e30cea91a90fd39316569aa2c8fb6b74dac84ed193c3d54033dbbaee5
   languageName: node
   linkType: hard
 
@@ -8555,19 +8555,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:~4.9.0":
-  version: 4.9.1
-  resolution: "mongodb@npm:4.9.1"
+"mongodb@npm:~4.11.0":
+  version: 4.11.0
+  resolution: "mongodb@npm:4.11.0"
   dependencies:
+    "@aws-sdk/credential-providers": ^3.186.0
     bson: ^4.7.0
     denque: ^2.1.0
-    mongodb-connection-string-url: ^2.5.3
+    mongodb-connection-string-url: ^2.5.4
     saslprep: ^1.0.3
-    socks: ^2.7.0
+    socks: ^2.7.1
   dependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
     saslprep:
       optional: true
-  checksum: 43d66207f094930d134e263489f788c5efd0ef079bf059986cd887570b561067f4dcf23d6e4334d2fd13fee7ce3ef8f9b163e609fc48e03e1236b6407095a4c5
+  checksum: 3080c2f58dc712ca6d0a34b0f4101c3ca66fbf86360b2a5ea2b64a9f757b4a0d7b77851688657fc3240ac748ddcd69c21ec2f7c785f10cb7d41e00e863f415ec
   languageName: node
   linkType: hard
 
@@ -9085,7 +9088,7 @@ __metadata:
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.3
     mongodb: 4.12.0
-    mongodb-memory-server: 8.9.3
+    mongodb-memory-server: 8.10.0
     mongoose: 6.3.5
     pinst: 3.0.0
     prettier: 2.7.1
@@ -10181,7 +10184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socks@npm:^2.6.2, socks@npm:^2.7.0, socks@npm:^2.7.1":
+"socks@npm:^2.6.2, socks@npm:^2.7.1":
   version: 2.7.1
   resolution: "socks@npm:2.7.1"
   dependencies:
@@ -10906,10 +10909,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "tslib@npm:2.4.0"
-  checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "tslib@npm:2.4.1"
+  checksum: 19480d6e0313292bd6505d4efe096a6b31c70e21cf08b5febf4da62e95c265c8f571f7b36fcc3d1a17e068032f59c269fab3459d6cd3ed6949eafecf64315fca
   languageName: node
   linkType: hard
 
