@@ -2719,6 +2719,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jsdoc/salty@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@jsdoc/salty@npm:0.2.1"
+  dependencies:
+    lodash: ^4.17.21
+  checksum: 6cedbfe1ba3953b50685eeabea1ecbabb8300f60d47f0523b518a40503ae02ffcc17e8722634b7013fd32461f59c5c8bbd2bacc6e9592ae2dba70ae389ac1839
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -7617,20 +7626,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc-api@npm:7.1.1":
-  version: 7.1.1
-  resolution: "jsdoc-api@npm:7.1.1"
+"jsdoc-api@npm:8.0.0":
+  version: 8.0.0
+  resolution: "jsdoc-api@npm:8.0.0"
   dependencies:
     array-back: ^6.2.2
     cache-point: ^2.0.0
     collect-all: ^1.0.4
     file-set: ^4.0.2
     fs-then-native: ^2.0.0
-    jsdoc: ^3.6.10
+    jsdoc: ^4.0.0
     object-to-spawn-args: ^2.0.1
     temp-path: ^1.0.0
     walk-back: ^5.1.0
-  checksum: 9d9e361f84208137e261e90b7291269cf3114d57091161ba58628652f2f143be8bbebeab6de0964dd5b474c4777d56ccb606733390e15bd84d9b3f2f269d7312
+  checksum: 048d414895bf1fc4badba21385f43fe771f7f88e936b0e900744b0f9de67d0db224a51ea8df43c9aa92779cd220dfc1c042d06a5cd534f1eb35ad9397d5492ea
   languageName: node
   linkType: hard
 
@@ -7648,11 +7657,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc@npm:^3.6.10":
-  version: 3.6.11
-  resolution: "jsdoc@npm:3.6.11"
+"jsdoc@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jsdoc@npm:4.0.0"
   dependencies:
     "@babel/parser": ^7.9.4
+    "@jsdoc/salty": ^0.2.1
     "@types/markdown-it": ^12.2.3
     bluebird: ^3.7.2
     catharsis: ^0.9.0
@@ -7665,11 +7675,10 @@ __metadata:
     mkdirp: ^1.0.4
     requizzle: ^0.2.3
     strip-json-comments: ^3.1.0
-    taffydb: 2.6.2
     underscore: ~1.13.2
   bin:
     jsdoc: jsdoc.js
-  checksum: 7920b5cba6200c8f56c9ac2ac5e89d06b6581dd1ce22e66976409fad8b68c16bfd8cd30fe9af58baeacc9f6bd9ba06d901ca4f5e234944f42a3c37e55e4ddcf0
+  checksum: 3aa99ccb13986e07929abda10276caa2b428faeb230563f89b3dea041f97bc9354f70eb4bd1add961b9041cd950fa8c5cdfad15f59e8ac6e6d3a58b153fc7184
   languageName: node
   linkType: hard
 
@@ -8106,7 +8115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.14, lodash@npm:^4.17.15":
+"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -9153,7 +9162,7 @@ __metadata:
     eslint-plugin-promise: 6.1.1
     husky: 8.0.2
     jest: 29.3.1
-    jsdoc-api: 7.1.1
+    jsdoc-api: 8.0.0
     jsdoc-parse: 6.1.0
     lint-staged: 13.0.3
     mongodb: 4.12.0
@@ -10696,13 +10705,6 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
-  languageName: node
-  linkType: hard
-
-"taffydb@npm:2.6.2":
-  version: 2.6.2
-  resolution: "taffydb@npm:2.6.2"
-  checksum: 8fea9cdff71735a40320c4beeb80cb98837076cb89614bc55ac5d67561f35ebae158cfc07a193a1099b5e32746433b2c086b0cd6d56f29aa7c7678e74968335b
   languageName: node
   linkType: hard
 
