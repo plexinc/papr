@@ -7643,17 +7643,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc-parse@npm:6.1.0":
-  version: 6.1.0
-  resolution: "jsdoc-parse@npm:6.1.0"
+"jsdoc-parse@npm:6.2.0":
+  version: 6.2.0
+  resolution: "jsdoc-parse@npm:6.2.0"
   dependencies:
     array-back: ^6.2.2
     lodash.omit: ^4.5.0
     lodash.pick: ^4.4.0
     reduce-extract: ^1.0.0
-    sort-array: ^4.1.4
+    sort-array: ^4.1.5
     test-value: ^3.0.0
-  checksum: a4294105d70157d033ce3d64104d0e6251dd42612cd489f0bc6ac6afb9df1fc36d5f979f115f4ad221d473b4b3c8a2dc148b80b64f046c98ba4b9ea93446b305
+  checksum: eca1336773d69db87b366e0d44df1efaaeef938c9629cbd878a75c0fed6fe862d536421520751b4ea1b3e10172e12b11ebdfb939a82f07fd668fa52f42ea34e7
   languageName: node
   linkType: hard
 
@@ -9163,7 +9163,7 @@ __metadata:
     husky: 8.0.2
     jest: 29.3.1
     jsdoc-api: 8.0.0
-    jsdoc-parse: 6.1.0
+    jsdoc-parse: 6.2.0
     lint-staged: 13.0.3
     mongodb: 4.12.0
     mongodb-memory-server: 8.10.0
@@ -10272,7 +10272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sort-array@npm:^4.1.4":
+"sort-array@npm:^4.1.5":
   version: 4.1.5
   resolution: "sort-array@npm:4.1.5"
   dependencies:
