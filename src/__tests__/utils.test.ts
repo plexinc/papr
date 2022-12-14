@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { ProjectionType, getIds } from '../utils';
+import { ProjectionType, getIds, FilterProperties, Projection } from '../utils';
 
 describe('utils', () => {
   type Schema = {
@@ -24,7 +24,7 @@ describe('utils', () => {
   };
 
   test('ProjectionType, required fields', () => {
-    const foo = { foo: 1 } as const;
+    const foo = { foo: 1 };
 
     const testFoo: ProjectionType<Schema, typeof foo> = {
       _id: new ObjectId(),
@@ -41,7 +41,7 @@ describe('utils', () => {
     // @ts-expect-error `ham` should be undefined here
     testFoo.ham;
 
-    const bar = { bar: 1 } as const;
+    const bar = { bar: 1 };
 
     const testBar: ProjectionType<Schema, typeof bar> = {
       _id: new ObjectId(),
@@ -63,7 +63,7 @@ describe('utils', () => {
     const multiple = {
       bar: 1,
       ham: 1,
-    } as const;
+    };
 
     const testMultiple: ProjectionType<Schema, typeof multiple> = {
       _id: new ObjectId(),
@@ -88,7 +88,7 @@ describe('utils', () => {
       'nestedList.0.direct': 1,
       'nestedObject.deep.deeper': 1,
       'nestedObject.direct': 1,
-    } as const;
+    };
 
     const testNested: ProjectionType<Schema, typeof nested> = {
       _id: new ObjectId(),

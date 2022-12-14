@@ -42,7 +42,7 @@ user.foo; // TypeScript error
 Schemas also give models the power to understand projections:
 
 ```ts
-const user = await UserModel.findOne({ firstName: 'Alice' }, { projection: { age: 1 } as const });
+const user = await UserModel.findOne({ firstName: 'Alice' }, { projection: { age: 1 } });
 user; // Pick<UserDocument, 'age'>
 user.age; // number | undefined
 user.firstName; // TypeScript error

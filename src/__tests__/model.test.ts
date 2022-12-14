@@ -856,7 +856,7 @@ describe('model', () => {
           projection: {
             ...projection,
             'nested.direct': 1,
-          } as const,
+          },
         }
       );
 
@@ -1921,14 +1921,14 @@ describe('model', () => {
     });
 
     test('find with projection', async () => {
-      await maxTimeModel.find({ foo: 'bar' }, { projection: { bar: 1 } as const });
+      await maxTimeModel.find({ foo: 'bar' }, { projection: { bar: 1 } });
 
       expect(collection.find).toHaveBeenCalledWith(
         { foo: 'bar' },
         {
           ignoreUndefined: true,
           maxTimeMS: 1000,
-          projection: { bar: 1 } as const,
+          projection: { bar: 1 },
         }
       );
     });

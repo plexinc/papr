@@ -221,10 +221,7 @@ const users = await User.find({ firstName: 'John' });
 users[0]?.firstName; // valid
 users[0]?.lastName; // valid
 
-const usersProjected = await User.find(
-  { firstName: 'John' },
-  { projection: { lastName: 1 } as const }
-);
+const usersProjected = await User.find({ firstName: 'John' }, { projection: { lastName: 1 } });
 usersProjected[0]?.firstName; // TypeScript error
 usersProjected[0]?.lastName; // valid
 ```
@@ -254,7 +251,7 @@ user.firstName; // valid
 user.lastName; // valid
 
 const userProjected = await User.findById(new ObjectId('606ac819fa14e243e66ec4f4'), {
-  projection: { lastName: 1 } as const,
+  projection: { lastName: 1 },
 });
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
@@ -284,10 +281,7 @@ const user = await User.findOne({ firstName: 'John' });
 user.firstName; // valid
 user.lastName; // valid
 
-const userProjected = await User.findOne(
-  { firstName: 'John' },
-  { projection: { lastName: 1 } as const }
-);
+const userProjected = await User.findOne({ firstName: 'John' }, { projection: { lastName: 1 } });
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
@@ -343,7 +337,7 @@ user.lastName; // valid
 const userProjected = await User.findOneAndUpdate(
   { firstName: 'John' },
   { $set: { age: 40 } },
-  { projection: { lastName: 1 } as const }
+  { projection: { lastName: 1 } }
 );
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
