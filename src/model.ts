@@ -579,7 +579,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * const usersProjected = await User.find(
    *   { firstName: 'John' },
-   *   { projection: { lastName: 1 } }
+   *   { projection: { lastName: 1 } as const }
    * );
    * usersProjected[0]?.firstName; // TypeScript error
    * usersProjected[0]?.lastName; // valid
@@ -619,7 +619,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * const userProjected = await User.findById(
    *   new ObjectId('606ac819fa14e243e66ec4f4'),
-   *   { projection: { lastName: 1 } }
+   *   { projection: { lastName: 1 } as const }
    * );
    * userProjected.firstName; // TypeScript error
    * userProjected.lastName; // valid
@@ -663,7 +663,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * const userProjected = await User.findOne(
    *   { firstName: 'John' },
-   *   { projection: { lastName: 1 } }
+   *   { projection: { lastName: 1 } as const }
    * );
    * userProjected.firstName; // TypeScript error
    * userProjected.lastName; // valid
@@ -736,7 +736,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * const userProjected = await User.findOneAndUpdate(
    *   { firstName: 'John' },
    *   { $set: { age: 40 } },
-   *   { projection: { lastName: 1 } }
+   *   { projection: { lastName: 1 } as const }
    * );
    * userProjected.firstName; // TypeScript error
    * userProjected.lastName; // valid
