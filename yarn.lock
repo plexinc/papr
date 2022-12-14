@@ -3046,10 +3046,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.18.33, @types/node@npm:^14.0.0":
-  version: 14.18.33
-  resolution: "@types/node@npm:14.18.33"
-  checksum: 4e23f95186d8ae1d38c999bc6b46fe94e790da88744b0a3bfeedcbd0d9ffe2cb0ff39e85f43014f6739e5270292c1a1f6f97a1fc606fd573a0c17fda9a1d42de
+"@types/node@npm:14.18.34, @types/node@npm:^14.0.0":
+  version: 14.18.34
+  resolution: "@types/node@npm:14.18.34"
+  checksum: 25ac3b456a0b7b82c76b37276ec86845849e8276fc81d1470a87227c105c619e299aa7165b6148aa11a4ea156b1452f6d3327935f3e7dc0067ff54dde0e3d4e0
   languageName: node
   linkType: hard
 
@@ -9148,7 +9148,7 @@ __metadata:
     "@byu-oit/bar-chart": 1.4.2
     "@commitlint/cli": 17.3.0
     "@commitlint/config-conventional": 17.3.0
-    "@types/node": 14.18.33
+    "@types/node": 14.18.34
     "@typescript-eslint/eslint-plugin": 5.45.0
     "@typescript-eslint/parser": 5.45.0
     arg: 5.0.2
