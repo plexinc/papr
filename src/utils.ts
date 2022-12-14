@@ -126,7 +126,7 @@ export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = Pick
     [Key in Keys]-?: Required<Pick<TObj, Key>> & Partial<Pick<TObj, Exclude<Keys, Key>>>;
   }[Keys];
 
-export function getIds(ids: (string | ObjectId)[] | Set<string>): ObjectId[] {
+export function getIds(ids: readonly (string | ObjectId)[] | Set<string>): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
 }
 
