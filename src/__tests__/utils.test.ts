@@ -24,7 +24,7 @@ describe('utils', () => {
   };
 
   test('ProjectionType, required fields', () => {
-    const foo = { foo: 1 };
+    const foo = { foo: 1 } as const;
 
     const testFoo: ProjectionType<Schema, typeof foo> = {
       _id: new ObjectId(),
@@ -41,7 +41,7 @@ describe('utils', () => {
     // @ts-expect-error `ham` should be undefined here
     testFoo.ham;
 
-    const bar = { bar: 1 };
+    const bar = { bar: 1 } as const;
 
     const testBar: ProjectionType<Schema, typeof bar> = {
       _id: new ObjectId(),
@@ -63,7 +63,7 @@ describe('utils', () => {
     const multiple = {
       bar: 1,
       ham: 1,
-    };
+    } as const;
 
     const testMultiple: ProjectionType<Schema, typeof multiple> = {
       _id: new ObjectId(),
@@ -88,7 +88,7 @@ describe('utils', () => {
       'nestedList.0.direct': 1,
       'nestedObject.deep.deeper': 1,
       'nestedObject.direct': 1,
-    };
+    } as const;
 
     const testNested: ProjectionType<Schema, typeof nested> = {
       _id: new ObjectId(),
@@ -136,6 +136,51 @@ describe('utils', () => {
     testNested.nestedObject.deep.other;
     // @ts-expect-error `nestedObject.other` should be undefined here
     testNested.nestedObject.other;
+  });
+
+  test('ProjectionType, excluding _id', () => {
+    const excluding = {
+      _id: 0,
+      bar: 1,
+      ham: 1,
+    } as const;
+
+    const testExcluding: ProjectionType<Schema, typeof excluding> = {
+      bar: 123,
+      ham: new Date(),
+    };
+
+    expectType<{
+      ham?: Date;
+    }>(testExcluding);
+    // @ts-expect-error `_id` should be undefined here
+    testExcluding._id;
+    expectType<Date | undefined>(testExcluding.ham);
+  });
+
+  test('ProjectionType, full schema except foo', () => {
+    const excludingFoo = {
+      foo: 0,
+    } as const;
+
+    const testExceptFoo: ProjectionType<Schema, typeof excludingFoo> = {
+      _id: new ObjectId(),
+      bar: 123,
+      ham: new Date(),
+      nestedList: [],
+      nestedObject: {
+        deep: {
+          deeper: 'hi',
+        },
+        direct: true,
+      },
+    };
+
+    expectType<Omit<Schema, 'foo'>>(testExceptFoo);
+    // @ts-expect-error `foo` should be undefined here
+    testExceptFoo.foo;
+    expectType<number>(testExceptFoo.bar);
+    expectType<Date | undefined>(testExceptFoo.ham);
   });
 
   test('ProjectionType, full schema', () => {
