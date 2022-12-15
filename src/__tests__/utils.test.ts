@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { ProjectionType, getIds, FilterProperties, Projection } from '../utils';
+import { ProjectionType, getIds } from '../utils';
 
 describe('utils', () => {
   type Schema = {
