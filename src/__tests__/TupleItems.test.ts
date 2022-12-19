@@ -7,7 +7,7 @@ import type { TupleItems } from '../TupleItems';
 expectType<
   TypeEqual<
     TupleItems<readonly ['a', 'b', 'c' | undefined, 'd' | undefined]>,
-    ['a', 'b'] | ['a', 'b', 'c'] | ['a', 'b', 'c', 'd']
+    ['a', 'b', 'c', 'd'] | ['a', 'b', 'c'] | ['a', 'b']
   >
 >(true);
 
@@ -15,7 +15,7 @@ expectType<
 expectType<
   TypeEqual<
     TupleItems<readonly ['a' | undefined, 'b', 'c' | undefined, 'd' | undefined]>,
-    ['a', 'b'] | ['a', 'b', 'c'] | ['a', 'b', 'c', 'd']
+    ['a', 'b', 'c', 'd'] | ['a', 'b', 'c'] | ['a', 'b']
   >
 >(true);
 
@@ -23,7 +23,7 @@ expectType<
 expectType<
   TypeEqual<
     TupleItems<readonly ['a' | undefined, 'b' | undefined, 'c' | undefined]>,
-    [] | ['a'] | ['a', 'b'] | ['a', 'b', 'c']
+    ['a', 'b', 'c'] | ['a', 'b'] | ['a'] | []
   >
 >(true);
 

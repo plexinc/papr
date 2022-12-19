@@ -27,7 +27,7 @@ export enum VALIDATION_LEVEL {
 }
 
 export interface BaseSchema {
-  _id: ObjectId | string | number;
+  _id: ObjectId | number | string;
 }
 
 type TimestampSchemaProperty<
@@ -74,21 +74,8 @@ export type DocumentForInsert<
 
 export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>> =
   | {
-      insertOne: {
-        document: DocumentForInsert<TSchema, TOptions>;
-      };
-    }
-  | {
       // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      replaceOne: ReplaceOneModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      updateOne: UpdateOneModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      updateMany: UpdateManyModel<TSchema>;
+      deleteMany: DeleteManyModel<TSchema>;
     }
   | {
       // @ts-expect-error Type expects a Document extended type, but Document is too generic
@@ -96,7 +83,20 @@ export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>
     }
   | {
       // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      deleteMany: DeleteManyModel<TSchema>;
+      replaceOne: ReplaceOneModel<TSchema>;
+    }
+  | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
+      updateMany: UpdateManyModel<TSchema>;
+    }
+  | {
+      // @ts-expect-error Type expects a Document extended type, but Document is too generic
+      updateOne: UpdateOneModel<TSchema>;
+    }
+  | {
+      insertOne: {
+        document: DocumentForInsert<TSchema, TOptions>;
+      };
     };
 
 export type ProjectionType<
@@ -106,7 +106,7 @@ export type ProjectionType<
     | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : WithId<DeepPick<TSchema, '_id' | (keyof Projection & string)>>;
+  : WithId<DeepPick<TSchema, '_id' | (string & keyof Projection)>>;
 
 export type Projection<TSchema> = Partial<
   Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
@@ -118,15 +118,12 @@ export type Flatten<Type extends object> = Identity<{
   [Key in keyof Type]: Type[Key];
 }>;
 
-export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = Pick<
-  TObj,
-  Exclude<keyof TObj, Keys>
-> &
-  {
-    [Key in Keys]-?: Required<Pick<TObj, Key>> & Partial<Pick<TObj, Exclude<Keys, Key>>>;
-  }[Keys];
+export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = {
+  [Key in Keys]-?: Partial<Pick<TObj, Exclude<Keys, Key>>> & Required<Pick<TObj, Key>>;
+}[Keys] &
+  Pick<TObj, Exclude<keyof TObj, Keys>>;
 
-export function getIds(ids: readonly (string | ObjectId)[] | Set<string>): ObjectId[] {
+export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): ObjectId[] {
   return [...ids].map((id) => new ObjectId(id));
 }
 
@@ -196,7 +193,7 @@ export function getIds(ids: readonly (string | ObjectId)[] | Set<string>): Objec
 export function getTimestampProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
   TOptions extends SchemaTimestampOptions | undefined
->(property: TProperty, options: TOptions): keyof Exclude<SchemaTimestampOptions, boolean> | string {
+>(property: TProperty, options: TOptions): string | keyof Exclude<SchemaTimestampOptions, boolean> {
   if (typeof options === 'object') {
     return options[property] ?? property;
   }

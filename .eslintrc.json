@@ -47,12 +47,14 @@
             "allowSingleLine": true
           }
         ],
+        "@typescript-eslint/consistent-indexed-object-style": ["error"],
         "@typescript-eslint/consistent-type-assertions": [
           "warn",
           {
             "assertionStyle": "as"
           }
         ],
+        "@typescript-eslint/consistent-type-definitions": ["error"],
         "@typescript-eslint/explicit-function-return-type": [
           "warn",
           {
@@ -71,6 +73,17 @@
         "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/method-signature-style": "error",
         "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "typeParameter",
+            "format": ["PascalCase"],
+            "custom": {
+              "match": true,
+              "regex": "^[A-Z][A-Za-z]+$"
+            }
+          }
+        ],
         "@typescript-eslint/no-dynamic-delete": "warn",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-extraneous-class": "error",
@@ -87,11 +100,16 @@
             "ignoreRestSiblings": true
           }
         ],
+        "@typescript-eslint/no-unnecessary-type-arguments": "error",
         "@typescript-eslint/no-unnecessary-type-constraint": "error",
         "@typescript-eslint/no-useless-constructor": "warn",
         "@typescript-eslint/object-curly-spacing": ["error", "always"],
+        "@typescript-eslint/parameter-properties": "error",
         "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslint/prefer-includes": "error",
         "@typescript-eslint/prefer-optional-chain": "error",
+        "@typescript-eslint/prefer-regexp-exec": "error",
+        "@typescript-eslint/prefer-string-starts-ends-with": "error",
         "@typescript-eslint/prefer-ts-expect-error": "error",
         "@typescript-eslint/quotes": [
           "error",
@@ -102,6 +120,8 @@
         ],
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/semi": "error",
+        "@typescript-eslint/sort-type-constituents": "error",
+        "@typescript-eslint/sort-type-union-intersection-members": "error",
         "@typescript-eslint/type-annotation-spacing": "error",
         "@typescript-eslint/unified-signatures": "error",
         "indent": "off"
