@@ -21,9 +21,9 @@ type InnerPick<Type, Paths extends string> = ObjectType<{
 
 type ArrayItemKeys<Paths extends string> = InnerKeys<`${number}`, Paths>;
 
-type Primitive = number | boolean | string | symbol | null | undefined;
+type Primitive = boolean | number | string | symbol | null | undefined;
 
-export type DeepPick<Type, Paths extends string> = Type extends Primitive | Binary | Date | ObjectId
+export type DeepPick<Type, Paths extends string> = Type extends Binary | Date | ObjectId | Primitive
   ? Type
   : Type extends (infer ArrayItem)[]
   ? DeepPick<ArrayItem, ArrayItemKeys<Paths>>[]

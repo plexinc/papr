@@ -651,7 +651,7 @@ describe('types', () => {
             type: 'object',
           })
         );
-        expectType<{ [key: string]: number | undefined }>(value);
+        expectType<Record<string, number | undefined>>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
       });
@@ -713,13 +713,13 @@ describe('types', () => {
           type: 'array',
         });
         expectType<
-          | undefined
           | []
-          | [string]
-          | [string, number]
-          | [string, number, boolean]
-          | [string, number, boolean, ObjectId]
           | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
+          | [string, number]
+          | [string]
+          | undefined
         >(value);
         expectType<typeof value>(undefined);
       });
@@ -761,11 +761,11 @@ describe('types', () => {
         });
         expectType<
           | []
-          | [string]
-          | [string, number]
-          | [string, number, boolean]
-          | [string, number, boolean, ObjectId]
           | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
+          | [string, number]
+          | [string]
         >(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
@@ -801,9 +801,9 @@ describe('types', () => {
           type: 'array',
         });
         expectType<
-          | [string, number, boolean]
-          | [string, number, boolean, ObjectId]
           | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
         >(value);
       });
 
@@ -840,7 +840,7 @@ describe('types', () => {
           minItems: 4,
           type: 'array',
         });
-        expectType<[string, number, boolean, ObjectId] | [string, number, boolean, ObjectId, Date]>(
+        expectType<[string, number, boolean, ObjectId, Date] | [string, number, boolean, ObjectId]>(
           value
         );
       });

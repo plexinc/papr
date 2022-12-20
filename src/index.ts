@@ -170,7 +170,7 @@ export default class Papr {
 
     // prettier-ignore
     await Promise.all(
-      [...this.models.values()].map((model) => this.updateSchema(model))
+      [...this.models.values()].map(model => this.updateSchema(model))
     );
   }
 }

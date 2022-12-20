@@ -9,11 +9,11 @@ import {
 } from './utils';
 
 export type SchemaTimestampOptions =
-  | boolean
   | RequireAtLeastOne<{
       createdAt?: string;
       updatedAt?: string;
-    }>;
+    }>
+  | boolean;
 
 export interface SchemaOptions<TProperties> {
   defaults?: Partial<TProperties>;
@@ -28,7 +28,7 @@ export type SchemaType<
   TProperties extends Record<string, unknown>,
   TOptions extends SchemaOptions<unknown>
 > = TOptions extends TimestampsOptions
-  ? ObjectType<WithId<TProperties> & TimestampSchema<TOptions['timestamps']>>
+  ? ObjectType<TimestampSchema<TOptions['timestamps']> & WithId<TProperties>>
   : ObjectType<WithId<TProperties>>;
 
 // This removes the artificial `$required` attributes added in the object schemas

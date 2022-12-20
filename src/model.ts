@@ -73,7 +73,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
 
   exists: (
     filter: Filter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection' | 'limit' | 'sort' | 'skip'>
+    options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ) => Promise<boolean>;
 
   find: <TProjection extends Projection<TSchema> | undefined>(
@@ -82,7 +82,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
   findById: <TProjection extends Projection<TSchema> | undefined>(
-    id: string | TSchema['_id'],
+    id: TSchema['_id'] | string,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
@@ -539,7 +539,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   model.exists = async function exists(
     filter: Filter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection' | 'limit' | 'sort' | 'skip'>
+    options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ): Promise<boolean> {
     // If there are any entries in the filter, we project out the value from
     // only one of them.  In this way, if there is an index that spans all the
@@ -628,7 +628,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.findById = wrap(
     model,
     async function findById<TProjection extends Projection<TSchema> | undefined>(
-      id: string | TSchema['_id'],
+      id: TSchema['_id'] | string,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
       // @ts-expect-error We're accessing runtime properties on the schema to determine id type
