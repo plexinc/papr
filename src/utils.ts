@@ -99,8 +99,12 @@ export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>
       deleteMany: DeleteManyModel<TSchema>;
     };
 
-type FilterKeys<T, U> = { [P in keyof T]: T[P] extends U ? P : never }[keyof T];
-type FilterProperties<T, U> = { [K in FilterKeys<T, U>]: T[K] };
+type FilterKeys<TObject, ValueType> = {
+  [TKey in keyof TObject]: TObject[TKey] extends ValueType ? TKey : never;
+}[keyof TObject];
+type FilterProperties<TObject, ValueType> = {
+  [TKey in FilterKeys<TObject, ValueType>]: TObject[TKey];
+};
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
