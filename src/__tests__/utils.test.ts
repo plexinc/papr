@@ -4,7 +4,7 @@ import { expectType } from 'ts-expect';
 import { ProjectionType, getIds } from '../utils';
 
 describe('utils', () => {
-  type Schema = {
+  interface Schema {
     _id: ObjectId;
     foo: string;
     bar: number;
@@ -21,7 +21,7 @@ describe('utils', () => {
       direct: boolean;
       other?: number;
     };
-  };
+  }
 
   test('ProjectionType, required fields', () => {
     const foo = { foo: 1 };
