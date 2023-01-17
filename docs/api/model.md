@@ -94,7 +94,7 @@ Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-na
 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
+| `filter`  | `PaprFilter<TSchema>`   | required  |
 | `options` | `CountDocumentsOptions` | optional  |
 
 **Returns:**
@@ -114,10 +114,10 @@ Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `filter`  | `Filter<TSchema>` | required  |
-| `options` | `DeleteOptions`   | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`       | optional  |
 
 **Returns:**
 
@@ -135,10 +135,10 @@ Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `filter`  | `Filter<TSchema>` | required  |
-| `options` | `DeleteOptions`   | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`       | optional  |
 
 **Returns:**
 
@@ -156,11 +156,11 @@ Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `key`     | `keyof TSchema`   | required  |
-| `filter`  | `Filter<TSchema>` | optional  |
-| `options` | `DistinctOptions` | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `key`     | `keyof TSchema`       | required  |
+| `filter`  | `PaprFilter<TSchema>` | optional  |
+| `options` | `DistinctOptions`     | optional  |
 
 **Returns:**
 
@@ -180,7 +180,7 @@ Performs an optimized `find` to test for the existence of any document matching 
 
 | Name      | Type                                                                        | Attribute |
 | --------- | --------------------------------------------------------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`                                                           | required  |
+| `filter`  | `PaprFilter<TSchema>`                                                       | required  |
 | `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
 
 **Returns:**
@@ -207,7 +207,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                   | Attribute |
 | --------- | ---------------------- | --------- |
-| `filter`  | `Filter<TSchema>`      | required  |
+| `filter`  | `PaprFilter<TSchema>`  | required  |
 | `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
@@ -267,7 +267,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                   | Attribute |
 | --------- | ---------------------- | --------- |
-| `filter`  | `Filter<TSchema>`      | required  |
+| `filter`  | `PaprFilter<TSchema>`  | required  |
 | `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
@@ -296,7 +296,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                      | Attribute |
 | --------- | ------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`         | required  |
+| `filter`  | `PaprFilter<TSchema>`     | required  |
 | `options` | `FindOneAndUpdateOptions` | optional  |
 
 **Returns:**
@@ -319,7 +319,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                      | Attribute |
 | --------- | ------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`         | required  |
+| `filter`  | `PaprFilter<TSchema>`     | required  |
 | `update`  | `UpdateFilter<TSchema>`   | required  |
 | `options` | `FindOneAndUpdateOptions` | optional  |
 
@@ -399,7 +399,7 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
+| `filter`  | `PaprFilter<TSchema>`   | required  |
 | `update`  | `UpdateFilter<TSchema>` | required  |
 | `options` | `UpdateOptions`         | optional  |
 
@@ -421,7 +421,7 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
+| `filter`  | `PaprFilter<TSchema>`   | required  |
 | `update`  | `UpdateFilter<TSchema>` | required  |
 | `options` | `UpdateOptions`         | optional  |
 
@@ -443,7 +443,7 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 | Name     | Type                    | Attribute |
 | -------- | ----------------------- | --------- |
-| `filter` | `Filter<TSchema>`       | required  |
+| `filter` | `PaprFilter<TSchema>`   | required  |
 | `update` | `UpdateFilter<TSchema>` | required  |
 
 **Returns:**

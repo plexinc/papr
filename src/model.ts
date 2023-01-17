@@ -23,6 +23,7 @@ import type {
   WithId,
 } from 'mongodb';
 import { serializeArguments } from './hooks';
+import type { PaprFilter } from './mongodbTypes';
 import { SchemaOptions, SchemaTimestampOptions } from './schema';
 import {
   BaseSchema,
@@ -59,25 +60,25 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: BulkWriteOptions
   ) => Promise<BulkWriteResult>;
 
-  countDocuments: (filter: Filter<TSchema>, options?: CountDocumentsOptions) => Promise<number>;
+  countDocuments: (filter: PaprFilter<TSchema>, options?: CountDocumentsOptions) => Promise<number>;
 
-  deleteMany: (filter: Filter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
+  deleteMany: (filter: PaprFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
 
-  deleteOne: (filter: Filter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
+  deleteOne: (filter: PaprFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
 
   distinct: <TKey extends keyof WithId<TSchema>>(
     key: TKey,
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: DistinctOptions
   ) => Promise<Flatten<WithId<TSchema>[TKey]>[]>;
 
   exists: (
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ) => Promise<boolean>;
 
   find: <TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
@@ -87,17 +88,17 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOne: <TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOneAndDelete: <TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOneAndUpdate: <TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     update: UpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
@@ -113,18 +114,18 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<TSchema[]>;
 
   updateOne: (
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     update: UpdateFilter<TSchema>,
     options?: Omit<UpdateOptions, 'upsert'>
   ) => Promise<UpdateResult>;
 
   updateMany: (
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     update: UpdateFilter<TSchema>,
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
-  upsert: (filter: Filter<TSchema>, update: UpdateFilter<TSchema>) => Promise<WithId<TSchema>>;
+  upsert: (filter: PaprFilter<TSchema>, update: UpdateFilter<TSchema>) => Promise<WithId<TSchema>>;
 }
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -419,7 +420,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#countDocuments) method.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {CountDocumentsOptions}
    *
    * @returns {Promise<number>}
@@ -431,7 +432,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.countDocuments = wrap(
     model,
     async function countDocuments(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: CountDocumentsOptions
     ): Promise<number> {
       return model.collection.countDocuments(filter, {
@@ -445,7 +446,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteMany) method.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {DeleteOptions}
    *
    * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html
@@ -456,7 +457,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.deleteMany = wrap(
     model,
     async function deleteMany(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: DeleteOptions
     ): Promise<DeleteResult> {
       return model.collection.deleteMany(filter, {
@@ -470,7 +471,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteOne) method.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {DeleteOptions}
    *
    * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html
@@ -481,7 +482,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.deleteOne = wrap(
     model,
     async function deleteOne(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: DeleteOptions
     ): Promise<DeleteResult> {
       return model.collection.deleteOne(filter, {
@@ -496,7 +497,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#distinct) method.
    *
    * @param key {"keyof TSchema"}
-   * @param [filter] {Filter<TSchema>}
+   * @param [filter] {PaprFilter<TSchema>}
    * @param [options] {DistinctOptions}
    *
    * @returns {Promise<Array<TValue>>} `TValue` is the type of the `key` field in the schema
@@ -510,7 +511,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     // @ts-expect-error Ignore erorr due to `wrap` arguments
     async function distinct<TKey extends keyof WithId<TSchema>>(
       key: TKey,
-      filter?: Filter<TSchema>,
+      filter?: PaprFilter<TSchema>,
       options?: DistinctOptions
     ): Promise<Flatten<WithId<TSchema>[TKey]>[]> {
       // @ts-expect-error `key` type is not recognized here correctly
@@ -525,7 +526,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Performs an optimized `find` to test for the existence of any document matching the filter criteria.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {Omit<FindOptions<TSchema>, "projection" | "limit" | "sort" | "skip">}
    *
    * @returns {Promise<boolean>}
@@ -538,7 +539,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * });
    */
   model.exists = async function exists(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ): Promise<boolean> {
     // If there are any entries in the filter, we project out the value from
@@ -567,7 +568,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOptions<TSchema>}
    *
    * @returns {Promise<Array<TProjected>>}
@@ -589,7 +590,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.find = wrap(
     model,
     async function find<TProjection extends Projection<TSchema> | undefined>(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection>[]> {
       return model.collection
@@ -651,7 +652,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOptions<TSchema>}
    *
    * @returns {Promise<TProjected | null>}
@@ -672,7 +673,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.findOne = wrap(
     model,
     async function findOne<TProjection extends Projection<TSchema> | undefined>(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
       return model.collection.findOne(
@@ -688,7 +689,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOneAndUpdateOptions}
    *
    * @returns {Promise<TProjected | null>}
@@ -698,7 +699,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   // prettier-ignore
   model.findOneAndDelete = wrap(model, async function findOneAndDelete<TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
     const result = await model.collection.findOneAndDelete(filter, {
@@ -719,7 +720,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    * @param [options] {FindOneAndUpdateOptions}
    *
@@ -743,7 +744,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   // prettier-ignore
   model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<TProjection extends Projection<TSchema> | undefined>(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     update: UpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
@@ -887,7 +888,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateMany) method.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
@@ -902,7 +903,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.updateMany = wrap(
     model,
     async function updateMany(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       update: UpdateFilter<TSchema>,
       options?: UpdateOptions
     ): Promise<UpdateResult> {
@@ -921,7 +922,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateOne) method.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
@@ -936,7 +937,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.updateOne = wrap(
     model,
     async function updateOne(
-      filter: Filter<TSchema>,
+      filter: PaprFilter<TSchema>,
       update: UpdateFilter<TSchema>,
       options?: Omit<UpdateOptions, 'upsert'>
     ): Promise<UpdateResult> {
@@ -957,7 +958,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
    *
-   * @param filter {Filter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param update {UpdateFilter<TSchema>}
    *
    * @returns {Promise<TSchema>}
@@ -969,7 +970,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * );
    */
   model.upsert = async function upsert(
-    filter: Filter<TSchema>,
+    filter: PaprFilter<TSchema>,
     update: UpdateFilter<TSchema>
   ): Promise<WithId<TSchema>> {
     const item = await model.findOneAndUpdate(filter, update, {

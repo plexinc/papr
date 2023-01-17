@@ -835,6 +835,13 @@ describe('model', () => {
       }
     });
 
+    test('filter with inexistent field', async () => {
+      await simpleModel.find({
+        // @ts-expect-error This should throw an error
+        inexistentField: 123,
+      });
+    });
+
     test('with timestamp config', async () => {
       const results = await timestampConfigModel.find({});
 
