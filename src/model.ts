@@ -16,19 +16,17 @@ import type {
   Flatten,
   InsertOneOptions,
   OptionalUnlessRequiredId,
-  StrictFilter,
   StrictMatchKeysAndValues,
-  StrictUpdateFilter,
   UpdateFilter,
   UpdateOptions,
   UpdateResult,
   WithId,
 } from 'mongodb';
 import { serializeArguments } from './hooks';
+import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes';
 import { SchemaOptions, SchemaTimestampOptions } from './schema';
 import {
   BaseSchema,
-  BulkWriteOperation,
   cleanSetOnInsert,
   DocumentForInsert,
   getTimestampProperty,
@@ -57,32 +55,29 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<TResult[]>;
 
   bulkWrite: (
-    operations: BulkWriteOperation<TSchema, TOptions>[],
+    operations: PaprBulkWriteOperation<TSchema, TOptions>[],
     options?: BulkWriteOptions
   ) => Promise<BulkWriteResult>;
 
-  countDocuments: (
-    filter: StrictFilter<TSchema>,
-    options?: CountDocumentsOptions
-  ) => Promise<number>;
+  countDocuments: (filter: PaprFilter<TSchema>, options?: CountDocumentsOptions) => Promise<number>;
 
-  deleteMany: (filter: StrictFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
+  deleteMany: (filter: PaprFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
 
-  deleteOne: (filter: StrictFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
+  deleteOne: (filter: PaprFilter<TSchema>, options?: DeleteOptions) => Promise<DeleteResult>;
 
   distinct: <TKey extends keyof WithId<TSchema>>(
     key: TKey,
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: DistinctOptions
   ) => Promise<Flatten<WithId<TSchema>[TKey]>[]>;
 
   exists: (
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ) => Promise<boolean>;
 
   find: <TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
@@ -92,18 +87,18 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOne: <TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOneAndDelete: <TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOneAndUpdate: <TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
@@ -118,20 +113,20 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<TSchema[]>;
 
   updateOne: (
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>,
     options?: Omit<UpdateOptions, 'upsert'>
   ) => Promise<UpdateResult>;
 
   updateMany: (
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>,
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
   upsert: (
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>
   ) => Promise<WithId<TSchema>>;
 }
 
@@ -369,7 +364,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.bulkWrite = wrap(
     model,
     async function bulkWrite(
-      operations: BulkWriteOperation<TSchema, TOptions>[],
+      operations: PaprBulkWriteOperation<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<BulkWriteResult> {
       const finalOperations = operations.map((op) => {
@@ -395,7 +390,6 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
               update: {
                 ...update,
                 $setOnInsert: cleanSetOnInsert(
-                  // @ts-expect-error Type of the values is not recognized here
                   {
                     ...model.defaults,
                     ...update.$setOnInsert,
@@ -427,7 +421,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#countDocuments) method.
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {CountDocumentsOptions}
    *
    * @returns {Promise<number>}
@@ -439,7 +433,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.countDocuments = wrap(
     model,
     async function countDocuments(
-      filter: StrictFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: CountDocumentsOptions
     ): Promise<number> {
       return model.collection.countDocuments(filter as Filter<TSchema>, {
@@ -453,7 +447,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#deleteMany) method.
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {DeleteOptions}
    *
    * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/5.0/interfaces/DeleteResult.html
@@ -464,7 +458,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.deleteMany = wrap(
     model,
     async function deleteMany(
-      filter: StrictFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: DeleteOptions
     ): Promise<DeleteResult> {
       return model.collection.deleteMany(
@@ -481,7 +475,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#deleteOne) method.
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {DeleteOptions}
    *
    * @returns {Promise<DeleteResult>} https://mongodb.github.io/node-mongodb-native/5.0/interfaces/DeleteResult.html
@@ -492,7 +486,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.deleteOne = wrap(
     model,
     async function deleteOne(
-      filter: StrictFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: DeleteOptions
     ): Promise<DeleteResult> {
       return model.collection.deleteOne(
@@ -510,7 +504,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#distinct) method.
    *
    * @param key {"keyof TSchema"}
-   * @param [filter] {StrictFilter<TSchema>}
+   * @param [filter] {PaprFilter<TSchema>}
    * @param [options] {DistinctOptions}
    *
    * @returns {Promise<Array<TValue>>} `TValue` is the type of the `key` field in the schema
@@ -524,7 +518,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     // @ts-expect-error Ignore error due to `wrap` arguments
     async function distinct<TKey extends keyof WithId<TSchema>>(
       key: TKey,
-      filter?: StrictFilter<TSchema>,
+      filter?: PaprFilter<TSchema>,
       options?: DistinctOptions
     ): Promise<Flatten<WithId<TSchema>[TKey]>[]> {
       return model.collection.distinct(
@@ -542,7 +536,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Performs an optimized `find` to test for the existence of any document matching the filter criteria.
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {Omit<FindOptions<TSchema>, "projection" | "limit" | "sort" | "skip">}
    *
    * @returns {Promise<boolean>}
@@ -555,7 +549,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * });
    */
   model.exists = async function exists(
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ): Promise<boolean> {
     // If there are any entries in the filter, we project out the value from
@@ -587,7 +581,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOptions<TSchema>}
    *
    * @returns {Promise<Array<TProjected>>}
@@ -609,7 +603,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.find = wrap(
     model,
     async function find<TProjection extends Projection<TSchema> | undefined>(
-      filter: StrictFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection>[]> {
       return model.collection
@@ -674,7 +668,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOptions<TSchema>}
    *
    * @returns {Promise<TProjected | null>}
@@ -695,7 +689,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.findOne = wrap(
     model,
     async function findOne<TProjection extends Projection<TSchema> | undefined>(
-      filter: StrictFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
       return model.collection.findOne(
@@ -711,7 +705,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {StrictFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
    * @param [options] {FindOneAndUpdateOptions}
    *
    * @returns {Promise<TProjected | null>}
@@ -721,7 +715,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   // prettier-ignore
   model.findOneAndDelete = wrap(model, async function findOneAndDelete<TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
     const result = await model.collection.findOneAndDelete(
@@ -745,8 +739,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
-   * @param filter {StrictFilter<TSchema>}
-   * @param update {StrictUpdateFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
+   * @param update {PaprUpdateFilter<TSchema>}
    * @param [options] {FindOneAndUpdateOptions}
    *
    * @returns {Promise<TProjected | null>}
@@ -769,8 +763,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   // prettier-ignore
   model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<TProjection extends Projection<TSchema> | undefined>(
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>,
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
     const finalUpdate = model.timestamps ? timestampUpdateFilter(update, model.timestamps) : update;
@@ -913,8 +907,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#updateMany) method.
    *
-   * @param filter {StrictFilter<TSchema>}
-   * @param update {StrictUpdateFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
+   * @param update {PaprUpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
    * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/5.0/interfaces/UpdateResult.html
@@ -928,8 +922,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.updateMany = wrap(
     model,
     async function updateMany(
-      filter: StrictFilter<TSchema>,
-      update: StrictUpdateFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
+      update: PaprUpdateFilter<TSchema>,
       options?: UpdateOptions
     ): Promise<UpdateResult> {
       const finalUpdate = model.timestamps
@@ -951,8 +945,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#updateOne) method.
    *
-   * @param filter {StrictFilter<TSchema>}
-   * @param update {StrictUpdateFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
+   * @param update {PaprUpdateFilter<TSchema>}
    * @param [options] {UpdateOptions}
    *
    * @returns {Promise<UpdateResult>} https://mongodb.github.io/node-mongodb-native/5.0/interfaces/UpdateResult.html
@@ -966,8 +960,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.updateOne = wrap(
     model,
     async function updateOne(
-      filter: StrictFilter<TSchema>,
-      update: StrictUpdateFilter<TSchema>,
+      filter: PaprFilter<TSchema>,
+      update: PaprUpdateFilter<TSchema>,
       options?: Omit<UpdateOptions, 'upsert'>
     ): Promise<UpdateResult> {
       const finalUpdate = model.timestamps
@@ -991,8 +985,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
    *
-   * @param filter {StrictFilter<TSchema>}
-   * @param update {StrictUpdateFilter<TSchema>}
+   * @param filter {PaprFilter<TSchema>}
+   * @param update {PaprUpdateFilter<TSchema>}
    *
    * @returns {Promise<TSchema>}
    *
@@ -1003,8 +997,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * );
    */
   model.upsert = async function upsert(
-    filter: StrictFilter<TSchema>,
-    update: StrictUpdateFilter<TSchema>
+    filter: PaprFilter<TSchema>,
+    update: PaprUpdateFilter<TSchema>
   ): Promise<WithId<TSchema>> {
     const item = await model.findOneAndUpdate(filter, update, {
       upsert: true,

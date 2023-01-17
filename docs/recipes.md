@@ -199,15 +199,16 @@ Starting with `mongodb` v4.3.0, these types were enhanced to support dot notatio
 
 However, `mongodb` v5.0.0 [removed these types](https://github.com/mongodb/node-mongodb-native/blob/main/etc/notes/CHANGES_5.0.0.md#dot-notation-typescript-support-removed-by-default) as the default ones used in their methods and reverted to the old ones without dot notation support. The previous enhanced types were not removed, instead they were renamed to `StrictFilter` and `StrictUpdateFilter`, but they aren't referenced in any of their methods.
 
-Papr is using the strict types to provide type safety for all query and update filters.
+Papr v11 has adopted and enhanced these strict types to provide type safety for all query and update filters.
 
-This comes with a caveat: whenever you need to interact with the `mongodb` driver collections, you need to cast filter types to their simple counterparts, since `Filter` is not compatible with `StrictFilter`.
+This comes with a caveat: whenever you need to interact with the `mongodb` driver collections, you need to cast filter types to their simple counterparts, since `Filter` is not compatible with `PaprFilter`.
 
 ```ts
-import { Filter, StrictFitler } from 'mongodb';
+import { Filter } from 'mongodb';
+import { PaprFilter } from 'papr';
 import User, { UserDocument } from './user';
 
-const filter: StrictFilter<UserDocument> = {
+const filter: PaprFilter<UserDocument> = {
   firstName: 'John',
 };
 
