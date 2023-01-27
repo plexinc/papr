@@ -50,7 +50,9 @@
     "release": "standard-version --infile docs/CHANGELOG.md",
     "test": "jest",
     "test:build": "./tests/build.sh",
-    "test:types": "tsc"
+    "test:types": "tsc",
+    "watch": "jest --watchAll",
+    "watch:types": "tsc --watch"
   },
   "devDependencies": {
     "@babel/core": "7.20.12",
