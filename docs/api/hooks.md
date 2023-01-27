@@ -2,8 +2,8 @@
 
 # Hooks
 
-All the methods of the `Model` which call native MongoDB driver methods have hooks support.
-The only exception is the custom `upsert` method.
+All the methods of the `Model` which call native MongoDB driver methods have hooks support. The only
+exception is the custom `upsert` method.
 
 ## `Hook<TArgs>`
 
@@ -18,19 +18,19 @@ export type Hook<TArgs, TContext = Record<string, unknown>> = (params: {
 }) => Promise<void>;
 ```
 
-The `context` parameter is an object which allows the `before` and `after` hooks to share
-custom data between each other for a given operation (e.g. tracing ID, etc.).
+The `context` parameter is an object which allows the `before` and `after` hooks to share custom
+data between each other for a given operation (e.g. tracing ID, etc.).
 
-The `result` parameter is only populated in the `after` hooks, and only for operations
-which have a return value.
+The `result` parameter is only populated in the `after` hooks, and only for operations which have a
+return value.
 
 ## `logHook`
 
 Papr provides a basic logging hook creator, which returns a hook method, which in turn will print
 the methods called on a collection with all its arguments.
 
-This hook creator method takes in a single argument consisting of a basic logger function
-which accepts one string argument, similar to `console.log`.
+This hook creator method takes in a single argument consisting of a basic logger function which
+accepts one string argument, similar to `console.log`.
 
 **Parameters:**
 

@@ -4,8 +4,8 @@
 
 ## `DocumentForInsert`
 
-This TypeScript type is useful to define an document representation for an insertion operation, where the `_id` and
-other properties which have defaults defined are not required.
+This TypeScript type is useful to define an document representation for an insertion operation,
+where the `_id` and other properties which have defaults defined are not required.
 
 ```ts
 import { DocumentForInsert } from 'papr';
@@ -23,7 +23,8 @@ newOrder.product; // string | undefined
 
 ## `ProjectionType`
 
-This TypeScript type is useful to compute the sub-document resulting from a `find*` operation which used a projection.
+This TypeScript type is useful to compute the sub-document resulting from a `find*` operation which
+used a projection.
 
 ```ts
 import { ProjectionType } from 'papr';

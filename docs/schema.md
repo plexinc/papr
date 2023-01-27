@@ -1,11 +1,13 @@
 # Schema
 
-Schemas are the foundation of `papr`, providing type safety at runtime (via generated JSON Schemas) and compile time (via generated TypeScript types).
+Schemas are the foundation of `papr`, providing type safety at runtime (via generated JSON Schemas)
+and compile time (via generated TypeScript types).
 
 ## Defining a Schema
 
-The first step to interacting with `papr` is to define a schema, which describes the expected shape of documents in a particular collection.
-(Throughout these examples, the `papr` object is an instance of `Papr` used for connecting to MongoDB. See [Getting Started](docs/getting-started.md))
+The first step to interacting with `papr` is to define a schema, which describes the expected shape
+of documents in a particular collection. (Throughout these examples, the `papr` object is an
+instance of `Papr` used for connecting to MongoDB. See [Getting Started](docs/getting-started.md))
 
 ```ts
 import { schema, types } from 'papr';
@@ -20,7 +22,8 @@ const userSchema = schema({
 });
 ```
 
-To interact with your collection using this schema, create two important derived types, the model type and the document type:
+To interact with your collection using this schema, create two important derived types, the model
+type and the document type:
 
 ```ts
 const UserDocument = typeof userSchema[0];
@@ -50,17 +53,23 @@ user.firstName; // TypeScript error
 
 ## TypeScript configuration
 
-`papr` requires that the [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) option in the TypeScript configuration is enabled.
+`papr` requires that the
+[`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) option in the
+TypeScript configuration is enabled.
 
 ## JSON Schema
 
-`papr` schemas provide an easy short-hand for creating JSON Schemas for validating documents on the MongoDB server using [JSON schema validation](https://docs.mongodb.com/manual/core/schema-validation/#json-schema):
+`papr` schemas provide an easy short-hand for creating JSON Schemas for validating documents on the
+MongoDB server using
+[JSON schema validation](https://docs.mongodb.com/manual/core/schema-validation/#json-schema):
 
 ```ts
 papr.updateSchema(UserModel);
 ```
 
-Calling this method will issue a [`collMod` command](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod) to MongoDB with a custom validator that is defined by your schema. In this case, it will look like:
+Calling this method will issue a
+[`collMod` command](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod) to
+MongoDB with a custom validator that is defined by your schema. In this case, it will look like:
 
 ```json
 {
@@ -86,9 +95,12 @@ Calling this method will issue a [`collMod` command](https://docs.mongodb.com/ma
 }
 ```
 
-See the documentation for more examples and all supported [schema / validator options](api/schema.md).
+See the documentation for more examples and all supported
+[schema / validator options](api/schema.md).
 
-With this validator applied to the collection, the following update would either fail (if `validationAction` is `error`) or output an error in the MongoDB server logs (if `validationAction` is `warn`) :
+With this validator applied to the collection, the following update would either fail (if
+`validationAction` is `error`) or output an error in the MongoDB server logs (if `validationAction`
+is `warn`) :
 
 <!-- prettier-ignore -->
 ```ts
@@ -100,9 +112,11 @@ const result = await UserModel.update(
 
 ## Schema Updates
 
-Whenever a change is made to a `papr` schema, [`updateSchema`](api/papr.md#updateschema) will need to be called in order to update the JSON Schema validator on the collection.
+Whenever a change is made to a `papr` schema, [`updateSchema`](api/papr.md#updateschema) will need
+to be called in order to update the JSON Schema validator on the collection.
 
-`papr` also provides a convenience method [`updateSchemas`](api/papr.md#updateschemas), to update all available schemas defined in the application.
+`papr` also provides a convenience method [`updateSchemas`](api/papr.md#updateschemas), to update
+all available schemas defined in the application.
 
 ---
 

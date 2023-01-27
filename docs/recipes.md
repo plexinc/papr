@@ -2,8 +2,8 @@
 
 ## Transactions
 
-Because Papr model methods are simple wrappers around the official MongoDB driver methods,
-they can be easily used with [MongoDB transactions](https://www.mongodb.com/docs/manual/core/transactions/).
+Because Papr model methods are simple wrappers around the official MongoDB driver methods, they can
+be easily used with [MongoDB transactions](https://www.mongodb.com/docs/manual/core/transactions/).
 
 ```ts
 import { MongoClient } from 'mongodb';
@@ -52,11 +52,15 @@ try {
 
 ## Mongoose Migration
 
-Migrating your Mongoose models to Papr is straightforward, but it's important to remember that Papr is not an ORM, so some of the functionality baked into your Mongoose models will need to be handled separately. This includes custom instance or static methods, query helpers, and index definitions.
+Migrating your Mongoose models to Papr is straightforward, but it's important to remember that Papr
+is not an ORM, so some of the functionality baked into your Mongoose models will need to be handled
+separately. This includes custom instance or static methods, query helpers, and index definitions.
 
 ### Timestamps
 
-Timestamp support with Papr is exactly the same as Mongoose. You can define custom timestamp property names in the config options the same as you would with Mongoose. An example of this can be seen below.
+Timestamp support with Papr is exactly the same as Mongoose. You can define custom timestamp
+property names in the config options the same as you would with Mongoose. An example of this can be
+seen below.
 
 ```js
 import mongoose from 'mongoose';
@@ -87,7 +91,9 @@ const exampleSchema = schema(
 
 ### Default Values
 
-Papr does not support dynamic default values, but static default values can be used. Unlike Mongoose where default values are defined in the individual property options, Papr defines defaults in the schema options. An example of this can be seen below.
+Papr does not support dynamic default values, but static default values can be used. Unlike Mongoose
+where default values are defined in the individual property options, Papr defines defaults in the
+schema options. An example of this can be seen below.
 
 ```js
 import mongoose from 'mongoose';
@@ -115,7 +121,10 @@ const exampleSchema = schema(
 
 ### Version Key
 
-Mongoose automatically adds a `versionKey` to all of your schemas - you will need to either remove that value from your collections or include the matching key in your Papr schema when migrating. The default value for this property is `__v`, but may be changed in your Mongoose schema options. An example of this can be seen below.
+Mongoose automatically adds a `versionKey` to all of your schemas - you will need to either remove
+that value from your collections or include the matching key in your Papr schema when migrating. The
+default value for this property is `__v`, but may be changed in your Mongoose schema options. An
+example of this can be seen below.
 
 ```js
 import mongoose from 'mongoose';
@@ -137,7 +146,8 @@ const exampleSchema = schema({
 
 ### Complete Example
 
-This is an example of a complete schema migration from Mongoose to Papr with all of the above considerations taken into account.
+This is an example of a complete schema migration from Mongoose to Papr with all of the above
+considerations taken into account.
 
 ```js
 import mongoose from 'mongoose';

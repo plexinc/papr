@@ -19,9 +19,12 @@
 
 `papr` is a lightweight library built around the MongoDB NodeJS driver, written in TypeScript.
 
-`papr` uses MongoDB's [JSON Schema validation](https://docs.mongodb.com/manual/core/schema-validation/#json-schema) feature to enable validation of document writes at runtime (requires MongoDB 3.6+).
+`papr` uses MongoDB's
+[JSON Schema validation](https://docs.mongodb.com/manual/core/schema-validation/#json-schema)
+feature to enable validation of document writes at runtime (requires MongoDB 3.6+).
 
-`papr` has a familiar API - if you have used the raw `mongodb` methods to query and change documents before, then you already know how to use `papr`.
+`papr` has a familiar API - if you have used the raw `mongodb` methods to query and change documents
+before, then you already know how to use `papr`.
 
 ## Sample code
 
@@ -46,7 +49,8 @@ Read the documentation at: [plexinc.github.io/papr](https://plexinc.github.io/pa
 
 ## Contributing
 
-This repository is following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
+This repository is following the
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
 
 ## License
 

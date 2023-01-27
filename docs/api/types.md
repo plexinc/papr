@@ -2,11 +2,13 @@
 
 # Types
 
-Types are the building blocks of `papr` [schemas](schema.md), which provide TypeScript type definitions,
-as well as the ability to generate [JSON schema](https://docs.mongodb.com/manual/core/schema-validation/#json-schema)
-for validators in MongoDB collections.
+Types are the building blocks of `papr` [schemas](schema.md), which provide TypeScript type
+definitions, as well as the ability to generate
+[JSON schema](https://docs.mongodb.com/manual/core/schema-validation/#json-schema) for validators in
+MongoDB collections.
 
-Some types have additional options, based on the available options from JSON schema for that data type.
+Some types have additional options, based on the available options from JSON schema for that data
+type.
 
 The following data types are available to define the schemas of your `papr` models:
 
@@ -159,8 +161,8 @@ schema({
 
 ## `decimal`
 
-Creates a IEEE 754 decimal-based 128 bit floating-point number type.
-Useful for storing monetary values, scientific computations or any other number that requires high precision.
+Creates a IEEE 754 decimal-based 128 bit floating-point number type. Useful for storing monetary
+values, scientific computations or any other number that requires high precision.
 
 **Parameters:**
 
@@ -225,18 +227,16 @@ schema({
 
 ## `null`
 
-Creates a `null` type. Use discouraged. Typically used in conjunction with
-another type when applying a schema to a collection that already contains
-`null` values in a field.
+Creates a `null` type. Use discouraged. Typically used in conjunction with another type when
+applying a schema to a collection that already contains `null` values in a field.
 
-Usage of `null` as a value in Mongo is discouraged, as it makes some
-common query patterns ambiguous: `find({ myField: null })` will match
-documents that have the `myField` value set to the literal `null` _or_
-that match `{ myField: { $exists: false } }`.
+Usage of `null` as a value in Mongo is discouraged, as it makes some common query patterns
+ambiguous: `find({ myField: null })` will match documents that have the `myField` value set to the
+literal `null` _or_ that match `{ myField: { $exists: false } }`.
 
-To match documents with a literal `null` value you must query with
-`{ myField: { $type: 10 } }` (where `10` is the [BSON null type
-constant](https://www.mongodb.com/docs/manual/reference/bson-types/))
+To match documents with a literal `null` value you must query with `{ myField: { $type: 10 } }`
+(where `10` is the
+[BSON null type constant](https://www.mongodb.com/docs/manual/reference/bson-types/))
 
 **Parameters:**
 
@@ -349,9 +349,11 @@ schema({
 
 ## `objectGeneric`
 
-Creates an object type without any upfront properties defined, instead you define only a pattern for the properties names. All properties will expect the same type as value (`TValue`).
+Creates an object type without any upfront properties defined, instead you define only a pattern for
+the properties names. All properties will expect the same type as value (`TValue`).
 
-Note: It's recommended to avoid using such a type. It might throw a TypeScript error (TS2589) in the projection logic due to the looseness of the type definition.
+Note: It's recommended to avoid using such a type. It might throw a TypeScript error (TS2589) in the
+projection logic due to the looseness of the type definition.
 
 **Parameters:**
 
@@ -463,7 +465,8 @@ schema({
 
 Creates a tuple type for the items in the supplied items array.
 
-Items passed to tuple must be readonly to preserve their order and any optional properties preceding a required property are implicitly required as well.
+Items passed to tuple must be readonly to preserve their order and any optional properties preceding
+a required property are implicitly required as well.
 
 **Parameters:**
 
@@ -486,9 +489,9 @@ schema({
 
 ## `unknown`
 
-This allows any value to be assigned, but is typed as unknown to force assertions
-before relying on the data. Like with `any`, we recommend avoiding this type.
-It only exists as an escape hatch for unknown data.
+This allows any value to be assigned, but is typed as unknown to force assertions before relying on
+the data. Like with `any`, we recommend avoiding this type. It only exists as an escape hatch for
+unknown data.
 
 **Example:**
 

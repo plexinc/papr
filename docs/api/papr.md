@@ -6,7 +6,8 @@
 
 Returns a new instance of `Papr`.
 
-It may be called with some options for before and after [hooks](api/hooks.md) and a maximum execution time for queries.
+It may be called with some options for before and after [hooks](api/hooks.md) and a maximum
+execution time for queries.
 
 **Parameters:**
 
@@ -75,9 +76,11 @@ const User = papr.model('users', userSchema);
 
 Updates the validation schema and validation options on the MongoDB collection used by a model.
 
-It uses the [`createCollection`](https://docs.mongodb.com/manual/reference/method/db.createCollection/)
-method for new collections, and the [`collMod`](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod)
-command for existing collections.
+It uses the
+[`createCollection`](https://docs.mongodb.com/manual/reference/method/db.createCollection/) method
+for new collections, and the
+[`collMod`](https://docs.mongodb.com/manual/reference/command/collMod/#dbcmd.collMod) command for
+existing collections.
 
 **Parameters:**
 
@@ -97,7 +100,8 @@ await papr.updateSchema(User);
 
 ## `updateSchemas`
 
-Updates the validation schemas and validation options on all the MongoDB collections registered by models.
+Updates the validation schemas and validation options on all the MongoDB collections registered by
+models.
 
 **Returns:**
 

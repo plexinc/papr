@@ -1,6 +1,7 @@
 # Getting Started
 
-_Prerequisites:_ [MongoDB](https://www.mongodb.com/) server (v3.6+) and [NodeJS](https://nodejs.org/) (v14+) installed.
+_Prerequisites:_ [MongoDB](https://www.mongodb.com/) server (v3.6+) and
+[NodeJS](https://nodejs.org/) (v14+) installed.
 
 ## Install
 
@@ -18,7 +19,8 @@ $ yarn add papr
 
 ## Connect
 
-Next, we need to connect to mongodb first and initialize the library instance with a mongodb database object:
+Next, we need to connect to mongodb first and initialize the library instance with a mongodb
+database object:
 
 ```ts
 // papr.ts
@@ -70,7 +72,8 @@ const User = papr.model('users', userSchema);
 export default User;
 ```
 
-This code defines a [schema](api/schema.md) for our model, exports the generated TypeScript type from the schema and exports the model instance.
+This code defines a [schema](api/schema.md) for our model, exports the generated TypeScript type
+from the schema and exports the model instance.
 
 Papr supports with a wide varity of [types](api/types.md).
 
@@ -95,7 +98,9 @@ console.log(user);
 await disconnect();
 ```
 
-The object argument used in `insertOne()` will be checked by TypeScript and verify that it matches the schema type and will flag any deviation from the expected type. At runtime, MongoDB will check the document according to the schema as well and throw any error if there are data incosistencies.
+The object argument used in `insertOne()` will be checked by TypeScript and verify that it matches
+the schema type and will flag any deviation from the expected type. At runtime, MongoDB will check
+the document according to the schema as well and throw any error if there are data incosistencies.
 
 Running this module would print out the following:
 
@@ -135,4 +140,5 @@ Running this module would result in the following:
 
 ---
 
-To understand more about `Papr` read about the [schema](schema.md) and explore the full [API](api/papr.md) and [Types](api/types.md) reference.
+To understand more about `Papr` read about the [schema](schema.md) and explore the full
+[API](api/papr.md) and [Types](api/types.md) reference.
