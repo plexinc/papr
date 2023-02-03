@@ -42,16 +42,19 @@ user?.lastName; // TypeScript error
 user?.age; // TypeScript error
 ```
 
-When this type is used in conjunction with `as const`, it allows projections with excluding fields.
+## `StrictProjectionType`
+
+This TypeScript type is stricter than ProjectionType in the way that supports projections that exclude fields.
+Please note that this type must be used in conjunction with `as const`.
 
 ```ts
-import { ProjectionType } from 'papr';
+import {StrictProjectionType } from 'papr';
 
 const projection = {
   firstName: 0,
 } as const;
 
-type UserProjected = ProjectionType<UserDocument, typeof projection>;
+type UserProjected = StrictProjectionType<UserDocument, typeof projection>;
 
 const user: UserProjected = await User.findOne({}, { projection });
 
