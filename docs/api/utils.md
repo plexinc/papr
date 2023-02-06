@@ -48,7 +48,7 @@ This TypeScript type is stricter than ProjectionType in the way that supports pr
 Please note that this type must be used in conjunction with `as const`.
 
 ```ts
-import {StrictProjectionType } from 'papr';
+import { StrictProjectionType } from 'papr';
 
 const projection = {
   firstName: 0,
