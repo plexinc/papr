@@ -111,7 +111,9 @@ export type ProjectionType<
 type FilterKeys<TObject, ValueType> = {
   [TKey in keyof TObject]: TObject[TKey] extends ValueType ? TKey : never;
 }[keyof TObject];
+
 type FilterProperties<TObject, ValueType> = Pick<TObject, FilterKeys<TObject, ValueType>>;
+
 export type StrictProjectionType<
 TSchema extends BaseSchema,
 Projection extends
