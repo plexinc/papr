@@ -190,3 +190,28 @@ const postSchema = schema(
   }
 );
 ```
+
+## Filter Types
+
+`mongodb` exposes two important TypeScript types for the most common operations you can do with the driver: the `Filter` (used for querying documents) and `UpdateFilter` (used for updating documents) types.
+
+Starting with `mongodb` v4.3.0, these types were enhanced to support dot notation field access and type checking.
+
+However, `mongodb` v5.0.0 [removed these types](https://github.com/mongodb/node-mongodb-native/blob/main/etc/notes/CHANGES_5.0.0.md#dot-notation-typescript-support-removed-by-default) as the default ones used in their methods and reverted to the old ones without dot notation support. The previous enhanced types were not removed, instead they were renamed to `StrictFilter` and `StrictUpdateFilter`, but they aren't referenced in any of their methods.
+
+Papr is using the strict types to provide type safety for all query and update filters.
+
+This comes with a caveat: whenever you need to interact with the `mongodb` driver collections, you need to cast filter types to their simple counterparts, since `Filter` is not compatible with `StrictFilter`.
+
+```ts
+import { Filter, StrictFitler } from 'mongodb';
+import User, { UserDocument } from './user';
+
+const filter: StrictFilter<UserDocument> = {
+  firstName: 'John',
+};
+
+await User.find(filter);
+
+await User.collection.find(filter as Filter<UserDocument>);
+```
