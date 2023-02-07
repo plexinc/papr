@@ -36,8 +36,29 @@ type UserProjected = ProjectionType<UserDocument, typeof projection>;
 
 const user: UserProjected = await User.findOne({}, { projection });
 
+user?._id; // value
 user?.firstName; // value
 user?.lastName; // TypeScript error
+user?.age; // TypeScript error
+```
+
+When this type is used in conjunction with `as const`, it allows projections with excluding fields.
+
+```ts
+import { ProjectionType } from 'papr';
+
+const projection = {
+  firstName: 0,
+} as const;
+
+type UserProjected = ProjectionType<UserDocument, typeof projection>;
+
+const user: UserProjected = await User.findOne({}, { projection });
+
+user?._id; // value
+user?.firstName; // TypeScript error
+user?.lastName; // value
+user?.age; // value
 ```
 
 ## `VALIDATION_ACTIONS`
