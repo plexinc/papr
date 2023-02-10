@@ -23,12 +23,11 @@ jobs:
           path: |
             .yarn
             node_modules
-          key: ${{ runner.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}-mongodb
+          key: node-${{ matrix.node }}-${{ hashFiles('package.json', 'yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/package.json') }}-
-            ${{ runner.os }}-yarn-${{ matrix.node }}-
-      - run: yarn install --immutable
+            node-${{ matrix.node }}-
       - run: node -v
+      - run: yarn install --immutable
       - run: yarn test:build
 
   lint:
@@ -41,10 +40,9 @@ jobs:
           path: |
             .yarn
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
+          key: yarn-${{ hashFiles('package.json', 'yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
-            ${{ runner.os }}-yarn-
+            yarn-
       - run: yarn install --immutable
       - run: yarn lint && yarn pretty:ci
 
@@ -58,10 +56,9 @@ jobs:
           path: |
             .yarn
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
+          key: yarn-${{ hashFiles('package.json', 'yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
-            ${{ runner.os }}-yarn-
+            yarn-
       - run: yarn install --immutable
       - run: yarn test
 
@@ -75,9 +72,8 @@ jobs:
           path: |
             .yarn
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/yarn.lock') }}
+          key: yarn-${{ hashFiles('package.json', 'yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-${{ hashFiles('**/package.json') }}-
-            ${{ runner.os }}-yarn-
+            yarn-
       - run: yarn install --immutable
       - run: yarn test:types
