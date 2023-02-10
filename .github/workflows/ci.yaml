@@ -13,12 +13,12 @@ jobs:
       matrix:
         node: [14.x, 16.x, 18.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.3.0
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: ${{ matrix.node }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v3.2.5
         with:
           path: |
             .yarn
@@ -33,9 +33,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v3.3.0
+      - uses: volta-cli/action@v4.0.0
+      - uses: actions/cache@v3.2.5
         with:
           path: |
             .yarn
@@ -49,9 +49,9 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v3.3.0
+      - uses: volta-cli/action@v4.0.0
+      - uses: actions/cache@v3.2.5
         with:
           path: |
             .yarn
@@ -65,9 +65,9 @@ jobs:
   types:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v3.3.0
+      - uses: volta-cli/action@v4.0.0
+      - uses: actions/cache@v3.2.5
         with:
           path: |
             .yarn
