@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/plexinc/papr/compare/v9.2.1...v10.0.0) (2023-02-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* `mongodb` v5 is required as a peer dependency.
+* `Filter` and `UpdateFilter` types are now using the strict counterpart types from mongodb v5.
+
+### Features
+
+* Add mongodb v5 support with strict filter types ([#422](https://github.com/plexinc/papr/issues/422)) ([547a794](https://github.com/plexinc/papr/commit/547a794dc4256e5a97f3bf13a08b4de659fd411d))
+
+
+### Bug Fixes
+
+* Util getIds accepts readonly structures ([#381](https://github.com/plexinc/papr/issues/381)) ([940d519](https://github.com/plexinc/papr/commit/940d519c9b05af42efa1b3a8c7373753abc3bc47))
+
 ### [9.2.1](https://github.com/plexinc/papr/compare/v9.2.0...v9.2.1) (2022-11-01)
 
 
