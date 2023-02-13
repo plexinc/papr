@@ -1653,10 +1653,10 @@ describe('model', () => {
       expectType<Date>(result._updatedDate);
     });
 
-    test('throws error on failure', async () => {
-      // @ts-expect-error Ignore mock value
+    test('throws error on not acknowledged result', async () => {
       (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockResolvedValue({
-        result: { ok: 0 },
+        acknowledged: false,
+        insertedId: new ObjectId(),
       });
 
       await expect(
@@ -1665,6 +1665,19 @@ describe('model', () => {
           foo: 'foo',
         })
       ).rejects.toThrow('insertOne failed');
+    });
+
+    test('throws error on failure', async () => {
+      (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockRejectedValue(
+        new Error('Test error')
+      );
+
+      await expect(
+        simpleModel.insertOne({
+          bar: 123,
+          foo: 'foo',
+        })
+      ).rejects.toThrow('Test error');
     });
   });
 
@@ -1753,7 +1766,6 @@ describe('model', () => {
     });
 
     test('timestamps schema', async () => {
-      // @ts-expect-error Ignore mock value
       (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
         acknowledged: true,
         insertedCount: 3,
@@ -1816,7 +1828,6 @@ describe('model', () => {
     });
 
     test('timestamp config schema', async () => {
-      // @ts-expect-error Ignore mock value
       (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
         acknowledged: true,
         insertedCount: 3,
@@ -1878,10 +1889,11 @@ describe('model', () => {
       }
     });
 
-    test('throws error on failure', async () => {
-      // @ts-expect-error Ignore mock function
+    test('throws error on not acknowledged result', async () => {
       (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
-        result: { ok: 0 },
+        acknowledged: false,
+        insertedCount: 0,
+        insertedIds: [],
       });
 
       await expect(
@@ -1892,6 +1904,21 @@ describe('model', () => {
           },
         ])
       ).rejects.toThrow('insertMany failed');
+    });
+
+    test('throws error on failure', async () => {
+      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockRejectedValue(
+        new Error('Test error')
+      );
+
+      await expect(
+        simpleModel.insertMany([
+          {
+            bar: 123,
+            foo: 'foo',
+          },
+        ])
+      ).rejects.toThrow('Test error');
     });
   });
 

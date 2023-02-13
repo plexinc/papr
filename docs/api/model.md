@@ -18,7 +18,7 @@ const User = papr.model('users', userSchema);
 
 ## `aggregate`
 
-Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#aggregate) method.
+Calls the MongoDB [`aggregate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#aggregate) method.
 
 The MongoDB aggregation pipeline syntax is very rich and powerful, however providing full typed support for the results is out of the scope of `papr`.
 
@@ -50,7 +50,7 @@ const results = await User.aggregate<{ age: number }>([
 
 ## `bulkWrite`
 
-Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#bulkWrite) method.
+Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#bulkWrite) method.
 
 **Parameters:**
 
@@ -61,7 +61,7 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/classes/BulkWriteResult.html)
+[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/5.0/classes/BulkWriteResult.html)
 
 **Example:**
 
@@ -88,13 +88,13 @@ const results = await User.bulkWrite([
 
 ## `countDocuments`
 
-Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#countDocuments) method.
+Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#countDocuments) method.
 
 **Parameters:**
 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
+| `filter`  | `StrictFilter<TSchema>` | required  |
 | `options` | `CountDocumentsOptions` | optional  |
 
 **Returns:**
@@ -110,18 +110,18 @@ const countWicks = await User.countDocuments({ lastName: 'Wick' });
 
 ## `deleteMany`
 
-Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteMany) method.
+Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#deleteMany) method.
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `filter`  | `Filter<TSchema>` | required  |
-| `options` | `DeleteOptions`   | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`         | optional  |
 
 **Returns:**
 
-[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/5.0/interfaces/DeleteResult.html)
 
 **Example:**
 
@@ -131,18 +131,18 @@ await User.deleteMany({ lastName: 'Wick' });
 
 ## `deleteOne`
 
-Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#deleteOne) method.
+Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#deleteOne) method.
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `filter`  | `Filter<TSchema>` | required  |
-| `options` | `DeleteOptions`   | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`         | optional  |
 
 **Returns:**
 
-[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/DeleteResult.html)
+[`Promise<DeleteResult>`](https://mongodb.github.io/node-mongodb-native/5.0/interfaces/DeleteResult.html)
 
 **Example:**
 
@@ -152,15 +152,15 @@ await User.deleteOne({ lastName: 'Wick' });
 
 ## `distinct`
 
-Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#distinct) method.
+Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#distinct) method.
 
 **Parameters:**
 
-| Name      | Type              | Attribute |
-| --------- | ----------------- | --------- |
-| `key`     | `keyof TSchema`   | required  |
-| `filter`  | `Filter<TSchema>` | optional  |
-| `options` | `DistinctOptions` | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `key`     | `keyof TSchema`         | required  |
+| `filter`  | `StrictFilter<TSchema>` | optional  |
+| `options` | `DistinctOptions`       | optional  |
 
 **Returns:**
 
@@ -180,7 +180,7 @@ Performs an optimized `find` to test for the existence of any document matching 
 
 | Name      | Type                                                                        | Attribute |
 | --------- | --------------------------------------------------------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`                                                           | required  |
+| `filter`  | `StrictFilter<TSchema>`                                                     | required  |
 | `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
 
 **Returns:**
@@ -199,16 +199,16 @@ const isAlreadyActive = await User.exists({
 
 ## `find`
 
-Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#find) method.
+Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#find) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `filter`  | `Filter<TSchema>`      | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>` | required  |
+| `options` | `FindOptions<TSchema>`  | optional  |
 
 **Returns:**
 
@@ -228,7 +228,7 @@ usersProjected[0]?.lastName; // valid
 
 ## `findById`
 
-Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
+Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOne) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
@@ -259,16 +259,16 @@ userProjected.lastName; // valid
 
 ## `findOne`
 
-Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOne) method.
+Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOne) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `filter`  | `Filter<TSchema>`      | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                    | Attribute |
+| --------- | ----------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>` | required  |
+| `options` | `FindOptions<TSchema>`  | optional  |
 
 **Returns:**
 
@@ -288,7 +288,7 @@ userProjected.lastName; // valid
 
 ## `findOneAndDelete`
 
-Calls the MongoDB [`findOneAndDelete()`](http://mongodb.github.io/node-mongodb-native/4.1/classes/collection.html#findoneanddelete) method and returns the document found before removal.
+Calls the MongoDB [`findOneAndDelete()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndDelete) method and returns the document found before removal.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
@@ -296,7 +296,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                      | Attribute |
 | --------- | ------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`         | required  |
+| `filter`  | `StrictFilter<TSchema>`   | required  |
 | `options` | `FindOneAndUpdateOptions` | optional  |
 
 **Returns:**
@@ -311,17 +311,17 @@ const user = await User.findOneAndDelete({ firstName: 'John' });
 
 ## `findOneAndUpdate`
 
-Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method.
+Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndUpdate) method.
 
 The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
 
 **Parameters:**
 
-| Name      | Type                      | Attribute |
-| --------- | ------------------------- | --------- |
-| `filter`  | `Filter<TSchema>`         | required  |
-| `update`  | `UpdateFilter<TSchema>`   | required  |
-| `options` | `FindOneAndUpdateOptions` | optional  |
+| Name      | Type                          | Attribute |
+| --------- | ----------------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>`       | required  |
+| `update`  | `StrictUpdateFilter<TSchema>` | required  |
+| `options` | `FindOneAndUpdateOptions`     | optional  |
 
 **Returns:**
 
@@ -345,7 +345,7 @@ userProjected.lastName; // valid
 
 ## `insertMany`
 
-Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertMany) method.
+Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#insertMany) method.
 
 **Parameters:**
 
@@ -369,7 +369,7 @@ const users = await User.insertMany([
 
 ## `insertOne`
 
-Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#insertOne) method.
+Calls the MongoDB [`insertOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#insertOne) method.
 
 **Parameters:**
 
@@ -393,19 +393,19 @@ const users = await User.insertOne([
 
 ## `updateMany`
 
-Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateMany) method.
+Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#updateMany) method.
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
-| `update`  | `UpdateFilter<TSchema>` | required  |
-| `options` | `UpdateOptions`         | optional  |
+| Name      | Type                          | Attribute |
+| --------- | ----------------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>`       | required  |
+| `update`  | `StrictUpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`               | optional  |
 
 **Returns:**
 
-[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/5.0/interfaces/UpdateResult.html)
 
 **Example:**
 
@@ -415,19 +415,19 @@ const result = await User.updateMany({ firstName: 'John' }, { $set: { age: 40 } 
 
 ## `updateOne`
 
-Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#updateOne) method.
+Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#updateOne) method.
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `Filter<TSchema>`       | required  |
-| `update`  | `UpdateFilter<TSchema>` | required  |
-| `options` | `UpdateOptions`         | optional  |
+| Name      | Type                          | Attribute |
+| --------- | ----------------------------- | --------- |
+| `filter`  | `StrictFilter<TSchema>`       | required  |
+| `update`  | `StrictUpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`               | optional  |
 
 **Returns:**
 
-[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/4.1/interfaces/UpdateResult.html)
+[`Promise<UpdateResult>`](https://mongodb.github.io/node-mongodb-native/5.0/interfaces/UpdateResult.html)
 
 **Example:**
 
@@ -437,14 +437,14 @@ const result = await User.updateOne({ firstName: 'John' }, { $set: { age: 40 } }
 
 ## `upsert`
 
-Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/4.1/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
+Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
 
 **Parameters:**
 
-| Name     | Type                    | Attribute |
-| -------- | ----------------------- | --------- |
-| `filter` | `Filter<TSchema>`       | required  |
-| `update` | `UpdateFilter<TSchema>` | required  |
+| Name     | Type                          | Attribute |
+| -------- | ----------------------------- | --------- |
+| `filter` | `StrictFilter<TSchema>`       | required  |
+| `update` | `StrictUpdateFilter<TSchema>` | required  |
 
 **Returns:**
 

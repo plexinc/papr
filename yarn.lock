@@ -3876,6 +3876,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bson@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "bson@npm:5.0.0"
+  checksum: d494ed47169b1d9d9cd1901cbb7080a83983ccda0df9109268602b007455d9fbbc0d3e514b8491d3cc5b7fe839ff46b001fd154318f2f6aa76ce9c9340e3b13b
+  languageName: node
+  linkType: hard
+
 "buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
@@ -8707,6 +8714,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mongodb-connection-string-url@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "mongodb-connection-string-url@npm:2.6.0"
+  dependencies:
+    "@types/whatwg-url": ^8.2.1
+    whatwg-url: ^11.0.0
+  checksum: 1d662f0ecfe96f7a400f625c244b2e52914c98f3562ee7d19941127578b5f8237624433bdcea285a654041b945b518803512989690c74548aec5860c5541c605
+  languageName: node
+  linkType: hard
+
 "mongodb-memory-server-core@npm:8.11.0":
   version: 8.11.0
   resolution: "mongodb-memory-server-core@npm:8.11.0"
@@ -8741,7 +8758,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:4.13.0, mongodb@npm:^4.13.0":
+"mongodb@npm:4.5.0":
+  version: 4.5.0
+  resolution: "mongodb@npm:4.5.0"
+  dependencies:
+    bson: ^4.6.2
+    denque: ^2.0.1
+    mongodb-connection-string-url: ^2.5.2
+    saslprep: ^1.0.3
+    socks: ^2.6.2
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  checksum: 423974a663c90e6673226a9ad691e8b445ecd43fc4e9e424343644b20c35188bd3d6692dcc2798022cc6b5c6f4391b54747c7543134b46f93cb3da428e5f9246
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:5.0.1":
+  version: 5.0.1
+  resolution: "mongodb@npm:5.0.1"
+  dependencies:
+    bson: ^5.0.0
+    mongodb-connection-string-url: ^2.6.0
+    saslprep: ^1.0.3
+    socks: ^2.7.1
+  peerDependencies:
+    "@aws-sdk/credential-providers": ^3.201.0
+    mongodb-client-encryption: ^2.3.0
+    snappy: ^7.2.2
+  dependenciesMeta:
+    saslprep:
+      optional: true
+  peerDependenciesMeta:
+    "@aws-sdk/credential-providers":
+      optional: true
+    mongodb-client-encryption:
+      optional: true
+    snappy:
+      optional: true
+  checksum: b169375e028c53b9ebcaf100bcefe3432db257232121ccf3e02814a4ad4db536178cab94087c84cb601a7e4bcaf4b0ea66e3f628cb9292042770bc263ea2cee3
+  languageName: node
+  linkType: hard
+
+"mongodb@npm:^4.13.0":
   version: 4.13.0
   resolution: "mongodb@npm:4.13.0"
   dependencies:
@@ -8756,22 +8815,6 @@ __metadata:
     saslprep:
       optional: true
   checksum: 4c30eed40f639ac64069623cf7a4954e98eab81b91d61df90e7813dd2a745259cdc698f3b60bd7f37c123242b7eb0aaae6ee4e29ff2e48f5d13f187931d51f36
-  languageName: node
-  linkType: hard
-
-"mongodb@npm:4.5.0":
-  version: 4.5.0
-  resolution: "mongodb@npm:4.5.0"
-  dependencies:
-    bson: ^4.6.2
-    denque: ^2.0.1
-    mongodb-connection-string-url: ^2.5.2
-    saslprep: ^1.0.3
-    socks: ^2.6.2
-  dependenciesMeta:
-    saslprep:
-      optional: true
-  checksum: 423974a663c90e6673226a9ad691e8b445ecd43fc4e9e424343644b20c35188bd3d6692dcc2798022cc6b5c6f4391b54747c7543134b46f93cb3da428e5f9246
   languageName: node
   linkType: hard
 
@@ -9288,7 +9331,7 @@ __metadata:
     jsdoc-api: 8.0.0
     jsdoc-parse: 6.2.0
     lint-staged: 13.1.0
-    mongodb: 4.13.0
+    mongodb: 5.0.1
     mongodb-memory-server: 8.11.0
     mongoose: 6.3.5
     pinst: 3.0.0
@@ -9298,7 +9341,7 @@ __metadata:
     ts-node: 10.9.1
     typescript: 4.9.3
   peerDependencies:
-    mongodb: ">=4.11.0"
+    mongodb: ^5.0.0
   languageName: unknown
   linkType: soft
 

@@ -6,7 +6,7 @@ import type {
   NestedPaths,
   OptionalId,
   ReplaceOneModel,
-  UpdateFilter,
+  StrictUpdateFilter,
   UpdateManyModel,
   UpdateOneModel,
   WithId,
@@ -202,9 +202,9 @@ export function getTimestampProperty<
 
 // Creates new update object so the original doesn't get mutated
 export function timestampUpdateFilter<TSchema, TOptions extends SchemaOptions<TSchema>>(
-  update: UpdateFilter<TSchema>,
+  update: StrictUpdateFilter<TSchema>,
   timestamps: TOptions['timestamps']
-): UpdateFilter<TSchema> {
+): StrictUpdateFilter<TSchema> {
   const updatedAtProperty = getTimestampProperty('updatedAt', timestamps);
 
   const $currentDate = {
@@ -332,9 +332,9 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 
 // Clean defaults if properties are present in $set, $push, $inc or $unset
 export function cleanSetOnInsert<TSchema>(
-  $setOnInsert: NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
-  update: UpdateFilter<TSchema>
-): NonNullable<UpdateFilter<TSchema>['$setOnInsert']> {
+  $setOnInsert: NonNullable<StrictUpdateFilter<TSchema>['$setOnInsert']>,
+  update: StrictUpdateFilter<TSchema>
+): NonNullable<StrictUpdateFilter<TSchema>['$setOnInsert']> {
   for (const key of Object.keys($setOnInsert)) {
     if (
       key in (update.$set || {}) ||
