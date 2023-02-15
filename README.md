@@ -46,7 +46,9 @@ Read the documentation at: [plexinc.github.io/papr](https://plexinc.github.io/pa
 
 ## Contributing
 
-This repository is following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard.
+Please read the [contributing](CONTRIBUTING.md) guidelines.
+
+Before contributing, please read the [Code of conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

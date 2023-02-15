@@ -145,7 +145,6 @@ describe('index', () => {
     });
 
     test('existing collection', async () => {
-      // @ts-expect-error Ignore collection type
       (db.collections as jest.Mocked<Db['collections']>).mockResolvedValue([collection]);
 
       const papr = new Papr();
