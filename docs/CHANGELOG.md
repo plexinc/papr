@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/plexinc/papr/compare/v10.0.0...v10.1.0) (2023-02-15)
+
+
+### Features
+
+* Support excluding fields in ProjectionType ([#360](https://github.com/plexinc/papr/issues/360)) ([086d8f1](https://github.com/plexinc/papr/commit/086d8f160d7ec6fdd78e439f3d5b8d6d94f5ace2))
+
 ## [10.0.0](https://github.com/plexinc/papr/compare/v9.2.1...v10.0.0) (2023-02-13)
 
 
