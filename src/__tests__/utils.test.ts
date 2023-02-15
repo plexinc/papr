@@ -138,6 +138,51 @@ describe('utils', () => {
     testNested.nestedObject.other;
   });
 
+  test('ProjectionType, excluding _id', () => {
+    const excluding = {
+      _id: 0,
+      bar: 1,
+      ham: 1,
+    } as const;
+
+    const testExcluding: ProjectionType<Schema, typeof excluding> = {
+      bar: 123,
+      ham: new Date(),
+    };
+
+    expectType<{
+      ham?: Date;
+    }>(testExcluding);
+    // @ts-expect-error `_id` should be undefined here
+    testExcluding._id;
+    expectType<Date | undefined>(testExcluding.ham);
+  });
+
+  test('ProjectionType, full schema except foo', () => {
+    const excludingFoo = {
+      foo: 0,
+    } as const;
+
+    const testExceptFoo: ProjectionType<Schema, typeof excludingFoo> = {
+      _id: new ObjectId(),
+      bar: 123,
+      ham: new Date(),
+      nestedList: [],
+      nestedObject: {
+        deep: {
+          deeper: 'hi',
+        },
+        direct: true,
+      },
+    };
+
+    expectType<Omit<Schema, 'foo'>>(testExceptFoo);
+    // @ts-expect-error `foo` should be undefined here
+    testExceptFoo.foo;
+    expectType<number>(testExceptFoo.bar);
+    expectType<Date | undefined>(testExceptFoo.ham);
+  });
+
   test('ProjectionType, full schema', () => {
     const testFull: ProjectionType<Schema, undefined> = {
       _id: new ObjectId(),

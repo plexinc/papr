@@ -99,17 +99,30 @@ export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>
       };
     };
 
+type FilterKeys<TObject, ValueType> = {
+  [TKey in keyof TObject]: TObject[TKey] extends ValueType ? TKey : never;
+}[keyof TObject];
+
+type FilterProperties<TObject, ValueType> = Pick<TObject, FilterKeys<TObject, ValueType>>;
+
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
-    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
+    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>>
     | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : WithId<DeepPick<TSchema, '_id' | (string & keyof Projection)>>;
+  : keyof FilterProperties<Projection, 0 | 1> extends never
+  ? WithId<DeepPick<TSchema, '_id' | (string & keyof Projection)>>
+  : keyof FilterProperties<Projection, 1> extends never
+  ? Omit<WithId<TSchema>, keyof FilterProperties<Projection, 0>>
+  : Omit<
+      WithId<DeepPick<TSchema, '_id' | (string & keyof Projection)>>,
+      keyof FilterProperties<Projection, 0>
+    >;
 
 export type Projection<TSchema> = Partial<
-  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
+  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>
 >;
 
 export type Identity<Type> = Type;
