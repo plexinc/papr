@@ -112,7 +112,7 @@ export type ProjectionType<
     | undefined
 > = undefined extends Projection
   ? WithId<TSchema>
-  : keyof FilterProperties<Projection, 0> | keyof FilterProperties<Projection, 1> extends never
+  : keyof FilterProperties<Projection, 0 | 1> extends never
   ? WithId<DeepPick<TSchema, '_id' | (string & keyof Projection)>>
   : keyof FilterProperties<Projection, 1> extends never
   ? Omit<WithId<TSchema>, keyof FilterProperties<Projection, 0>>
