@@ -94,7 +94,7 @@ Calls the MongoDB [`countDocuments()`](https://mongodb.github.io/node-mongodb-na
 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>` | required  |
+| `filter`  | `PaprFilter<TSchema>`   | required  |
 | `options` | `CountDocumentsOptions` | optional  |
 
 **Returns:**
@@ -114,10 +114,10 @@ Calls the MongoDB [`deleteMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>` | required  |
-| `options` | `DeleteOptions`         | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`       | optional  |
 
 **Returns:**
 
@@ -135,10 +135,10 @@ Calls the MongoDB [`deleteOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>` | required  |
-| `options` | `DeleteOptions`         | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `DeleteOptions`       | optional  |
 
 **Returns:**
 
@@ -156,11 +156,11 @@ Calls the MongoDB [`distinct()`](https://mongodb.github.io/node-mongodb-native/5
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `key`     | `keyof TSchema`         | required  |
-| `filter`  | `StrictFilter<TSchema>` | optional  |
-| `options` | `DistinctOptions`       | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `key`     | `keyof TSchema`       | required  |
+| `filter`  | `PaprFilter<TSchema>` | optional  |
+| `options` | `DistinctOptions`     | optional  |
 
 **Returns:**
 
@@ -180,7 +180,7 @@ Performs an optimized `find` to test for the existence of any document matching 
 
 | Name      | Type                                                                        | Attribute |
 | --------- | --------------------------------------------------------------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>`                                                     | required  |
+| `filter`  | `PaprFilter<TSchema>`                                                       | required  |
 | `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
 
 **Returns:**
@@ -205,10 +205,10 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>` | required  |
-| `options` | `FindOptions<TSchema>`  | optional  |
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`  | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
 
@@ -265,10 +265,10 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                    | Attribute |
-| --------- | ----------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>` | required  |
-| `options` | `FindOptions<TSchema>`  | optional  |
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`  | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
 
 **Returns:**
 
@@ -296,7 +296,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 | Name      | Type                      | Attribute |
 | --------- | ------------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>`   | required  |
+| `filter`  | `PaprFilter<TSchema>`     | required  |
 | `options` | `FindOneAndUpdateOptions` | optional  |
 
 **Returns:**
@@ -317,11 +317,11 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                          | Attribute |
-| --------- | ----------------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>`       | required  |
-| `update`  | `StrictUpdateFilter<TSchema>` | required  |
-| `options` | `FindOneAndUpdateOptions`     | optional  |
+| Name      | Type                        | Attribute |
+| --------- | --------------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`       | required  |
+| `update`  | `PaprUpdateFilter<TSchema>` | required  |
+| `options` | `FindOneAndUpdateOptions`   | optional  |
 
 **Returns:**
 
@@ -397,11 +397,11 @@ Calls the MongoDB [`updateMany()`](https://mongodb.github.io/node-mongodb-native
 
 **Parameters:**
 
-| Name      | Type                          | Attribute |
-| --------- | ----------------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>`       | required  |
-| `update`  | `StrictUpdateFilter<TSchema>` | required  |
-| `options` | `UpdateOptions`               | optional  |
+| Name      | Type                        | Attribute |
+| --------- | --------------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`       | required  |
+| `update`  | `PaprUpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`             | optional  |
 
 **Returns:**
 
@@ -419,11 +419,11 @@ Calls the MongoDB [`updateOne()`](https://mongodb.github.io/node-mongodb-native/
 
 **Parameters:**
 
-| Name      | Type                          | Attribute |
-| --------- | ----------------------------- | --------- |
-| `filter`  | `StrictFilter<TSchema>`       | required  |
-| `update`  | `StrictUpdateFilter<TSchema>` | required  |
-| `options` | `UpdateOptions`               | optional  |
+| Name      | Type                        | Attribute |
+| --------- | --------------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`       | required  |
+| `update`  | `PaprUpdateFilter<TSchema>` | required  |
+| `options` | `UpdateOptions`             | optional  |
 
 **Returns:**
 
@@ -441,10 +441,10 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 **Parameters:**
 
-| Name     | Type                          | Attribute |
-| -------- | ----------------------------- | --------- |
-| `filter` | `StrictFilter<TSchema>`       | required  |
-| `update` | `StrictUpdateFilter<TSchema>` | required  |
+| Name     | Type                        | Attribute |
+| -------- | --------------------------- | --------- |
+| `filter` | `PaprFilter<TSchema>`       | required  |
+| `update` | `PaprUpdateFilter<TSchema>` | required  |
 
 **Returns:**
 

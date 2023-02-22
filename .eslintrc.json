@@ -153,6 +153,7 @@
         }
       }
     ],
+    "no-use-before-define": "warn",
     "sort-keys": "warn"
   }
 }

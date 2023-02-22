@@ -1,19 +1,14 @@
+/* eslint-disable no-use-before-define */
+
 import { ObjectId } from 'mongodb';
-import type {
-  DeleteManyModel,
-  DeleteOneModel,
-  Join,
-  NestedPaths,
-  OptionalId,
-  ReplaceOneModel,
-  StrictUpdateFilter,
-  UpdateManyModel,
-  UpdateOneModel,
-  WithId,
-} from 'mongodb';
-import { DeepPick } from './DeepPick';
-import { Hooks } from './hooks';
-import { SchemaOptions, SchemaTimestampOptions } from './schema';
+import type { Join, KeysOfAType, OptionalId, WithId } from 'mongodb';
+import type { DeepPick } from './DeepPick';
+import type { Hooks } from './hooks';
+import type { PaprBulkWriteOperation, PaprUpdateFilter } from './mongodbTypes';
+import type { SchemaOptions, SchemaTimestampOptions } from './schema';
+
+// Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
+// licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md
 
 export enum VALIDATION_ACTIONS {
   ERROR = 'error',
@@ -72,38 +67,70 @@ export type DocumentForInsert<
         Partial<TimestampSchema<TOptions['timestamps']>>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
 
-export type BulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>> =
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      deleteMany: DeleteManyModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      deleteOne: DeleteOneModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      replaceOne: ReplaceOneModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      updateMany: UpdateManyModel<TSchema>;
-    }
-  | {
-      // @ts-expect-error Type expects a Document extended type, but Document is too generic
-      updateOne: UpdateOneModel<TSchema>;
-    }
-  | {
-      insertOne: {
-        document: DocumentForInsert<TSchema, TOptions>;
-      };
-    };
+export type Identity<Type> = Type;
 
-type FilterKeys<TObject, ValueType> = {
-  [TKey in keyof TObject]: TObject[TKey] extends ValueType ? TKey : never;
-}[keyof TObject];
+export type Flatten<Type extends object> = Identity<{
+  [Key in keyof Type]: Type[Key];
+}>;
 
-type FilterProperties<TObject, ValueType> = Pick<TObject, FilterKeys<TObject, ValueType>>;
+/**
+ * Returns tuple of strings (keys to be joined on '.') that represent every path into a schema
+ *
+ * https://docs.mongodb.com/manual/tutorial/query-embedded-documents/
+ *
+ * @remarks
+ * Through testing we determined that a depth of 7 is safe for the typescript compiler
+ * and provides reasonable compilation times. This number is otherwise not special and
+ * should be changed if issues are found with this level of checking. Beyond this
+ * depth any helpers that make use of NestedPaths should devolve to not asserting any
+ * type safety on the input.
+ */
+export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 7
+  ? []
+  : Type extends
+      | Buffer
+      | Date
+      | RegExp
+      | Uint8Array
+      | boolean
+      | number
+      | string
+      | ((...args: any[]) => any)
+      | {
+          _bsontype: string;
+        }
+  ? []
+  : Type extends readonly (infer ArrayType)[]
+  ? // This returns the non-indexed dot-notation path: e.g. `foo.bar`
+    | [...NestedPaths<ArrayType, [...Depth, 1]>]
+      // This returns the array parent itself: e.g. `foo`
+      | []
+      // This returns the indexed dot-notation path: e.g. `foo.0.bar`
+      | [number, ...NestedPaths<ArrayType, [...Depth, 1]>]
+      // This returns the indexed element path: e.g. `foo.0`
+      | [number]
+  : Type extends Map<string, any>
+  ? [string]
+  : Type extends object
+  ? {
+      [Key in Extract<keyof Type, string>]: Type[Key] extends readonly any[]
+        ? [Key, ...NestedPaths<Type[Key], [...Depth, 1]>] // child is not structured the same as the parent
+        : [Key, ...NestedPaths<Type[Key], [...Depth, 1]>] | [Key];
+    }[Extract<keyof Type, string>]
+  : [];
+
+/**
+ * Returns keys (strings) for every path into a schema with a value of type
+ * https://docs.mongodb.com/manual/tutorial/query-embedded-documents/
+ */
+export type NestedPathsOfType<TSchema, Type> = KeysOfAType<
+  {
+    [Property in Join<NestedPaths<TSchema, []>, '.'>]: PropertyType<TSchema, Property>;
+  },
+  Type
+>;
+
+type FilterProperties<TObject, TValue> = Pick<TObject, KeysOfAType<TObject, TValue>>;
 
 export type ProjectionType<
   TSchema extends BaseSchema,
@@ -125,11 +152,37 @@ export type Projection<TSchema> = Partial<
   Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>
 >;
 
-export type Identity<Type> = Type;
+export type PropertyNestedType<
+  Type,
+  Property extends string
+> = Property extends `${infer Key}.${infer Rest}`
+  ? Key extends `${number}`
+    ? // indexed array nested properties
+      NonNullable<Type> extends readonly (infer ArrayType)[]
+      ? PropertyType<ArrayType, Rest>
+      : unknown
+    : // object nested properties & non-indexed array nested properties
+    Key extends keyof Type
+    ? Type[Key] extends Map<string, infer MapType>
+      ? MapType
+      : PropertyType<NonNullable<Type[Key]>, Rest>
+    : unknown
+  : unknown;
 
-export type Flatten<Type extends object> = Identity<{
-  [Key in keyof Type]: Type[Key];
-}>;
+export type PropertyType<Type, Property extends string> = string extends Property
+  ? unknown
+  : // object properties
+  Property extends keyof Type
+  ? Type[Property]
+  : NonNullable<Type> extends readonly (infer ArrayType)[]
+  ? // indexed array properties
+    Property extends `${number}`
+    ? ArrayType
+    : // non-indexed array properties
+    Property extends keyof ArrayType
+    ? PropertyType<ArrayType, Property>
+    : PropertyNestedType<NonNullable<Type>, Property>
+  : PropertyNestedType<NonNullable<Type>, Property>;
 
 export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = {
   [Key in Keys]-?: Partial<Pick<TObj, Exclude<Keys, Key>>> & Required<Pick<TObj, Key>>;
@@ -236,13 +289,14 @@ export function getTimestampProperty<
 
 // Creates new update object so the original doesn't get mutated
 export function timestampUpdateFilter<TSchema, TOptions extends SchemaOptions<TSchema>>(
-  update: StrictUpdateFilter<TSchema>,
+  update: PaprUpdateFilter<TSchema>,
   timestamps: TOptions['timestamps']
-): StrictUpdateFilter<TSchema> {
+): PaprUpdateFilter<TSchema> {
   const updatedAtProperty = getTimestampProperty('updatedAt', timestamps);
 
   const $currentDate = {
     ...update.$currentDate,
+    // @ts-expect-error Ignore dynamic string property access
     ...(!update.$set?.[updatedAtProperty] &&
       !update.$unset?.[updatedAtProperty] && {
         [updatedAtProperty]: true,
@@ -258,9 +312,9 @@ export function timestampUpdateFilter<TSchema, TOptions extends SchemaOptions<TS
 
 // Creates new operation objects so the original operations don't get mutated
 export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>>(
-  operation: BulkWriteOperation<TSchema, TOptions>,
+  operation: PaprBulkWriteOperation<TSchema, TOptions>,
   timestamps: TOptions['timestamps']
-): BulkWriteOperation<TSchema, TOptions> {
+): PaprBulkWriteOperation<TSchema, TOptions> {
   const createdAtProperty = getTimestampProperty('createdAt', timestamps);
   const updatedAtProperty = getTimestampProperty('updatedAt', timestamps);
 
@@ -286,6 +340,7 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 
     const $currentDate = {
       ...update.$currentDate,
+      // @ts-expect-error Ignore dynamic string property access
       ...(!update.$set?.[updatedAtProperty] &&
         !update.$unset?.[updatedAtProperty] && {
           [updatedAtProperty]: true,
@@ -293,6 +348,7 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
+      // @ts-expect-error Ignore dynamic string property access
       ...(!update.$set?.[createdAtProperty] &&
         !update.$unset?.[createdAtProperty] && {
           [createdAtProperty]: new Date(),
@@ -322,6 +378,7 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 
     const $currentDate = {
       ...update.$currentDate,
+      // @ts-expect-error Ignore dynamic string property access
       ...(!update.$set?.[updatedAtProperty] &&
         !update.$unset?.[updatedAtProperty] && {
           [updatedAtProperty]: true,
@@ -329,6 +386,7 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
     };
     const $setOnInsert = {
       ...update.$setOnInsert,
+      // @ts-expect-error Ignore dynamic string property access
       ...(!update.$set?.[createdAtProperty] &&
         !update.$unset?.[createdAtProperty] && {
           [createdAtProperty]: new Date(),
@@ -365,10 +423,12 @@ export function timestampBulkWriteOperation<TSchema, TOptions extends SchemaOpti
 }
 
 // Clean defaults if properties are present in $set, $push, $inc or $unset
+// Note: typing the `$setOnInsert` parameter as `NonNullable<PaprUpdateFilter<TSchema>['$setOnInsert']>`
+// triggers a stack overflow error in `tsc`, so we choose a simple `Record` type here.
 export function cleanSetOnInsert<TSchema>(
-  $setOnInsert: NonNullable<StrictUpdateFilter<TSchema>['$setOnInsert']>,
-  update: StrictUpdateFilter<TSchema>
-): NonNullable<StrictUpdateFilter<TSchema>['$setOnInsert']> {
+  $setOnInsert: Record<string, unknown>,
+  update: PaprUpdateFilter<TSchema>
+): NonNullable<PaprUpdateFilter<TSchema>['$setOnInsert']> {
   for (const key of Object.keys($setOnInsert)) {
     if (
       key in (update.$set || {}) ||
@@ -377,8 +437,9 @@ export function cleanSetOnInsert<TSchema>(
       key in (update.$unset || {})
     ) {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete $setOnInsert[key as keyof typeof $setOnInsert];
+      delete $setOnInsert[key];
     }
   }
-  return $setOnInsert;
+
+  return $setOnInsert as NonNullable<PaprUpdateFilter<TSchema>['$setOnInsert']>;
 }

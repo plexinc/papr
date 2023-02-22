@@ -3,9 +3,9 @@ import { Collection, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
 import { abstract, build, Model } from '../model';
+import { PaprBulkWriteOperation } from '../mongodbTypes';
 import schema from '../schema';
 import Types from '../types';
-import { BulkWriteOperation } from '../utils';
 
 describe('model', () => {
   let collection: Collection;
@@ -219,7 +219,7 @@ describe('model', () => {
 
   describe('bulkWrite', () => {
     test('simple schema', async () => {
-      const operations: BulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
+      const operations: PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
         {
           insertOne: {
             document: {
@@ -273,7 +273,7 @@ describe('model', () => {
     });
 
     test('schema with defaults', async () => {
-      const operations: BulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
+      const operations: PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
         {
           insertOne: {
             document: {
