@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/plexinc/papr/compare/v10.1.0...v11.0.0) (2023-02-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* Papr is using new internal stricter types for query filters and update
+filters: `PaprFilter` and `PaprUpdateFilter`.
+
+### Features
+
+* Adopt filter types from mongodb and enhance strictness ([#430](https://github.com/plexinc/papr/issues/430)) ([b54ef0b](https://github.com/plexinc/papr/commit/b54ef0b76ee899d1a6d7e0fae9b90e3063775eaf))
+
 ## [10.1.0](https://github.com/plexinc/papr/compare/v10.0.0...v10.1.0) (2023-02-15)
 
 
