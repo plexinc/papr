@@ -35,6 +35,12 @@ describe('mongodb types', () => {
       direct: boolean;
       other?: number;
     };
+    genericObject: Record<
+      string,
+      {
+        id: number;
+      }
+    >;
     binary: Binary;
     bsonSymbol: BSONSymbol;
     dbRef: DBRef;
@@ -137,6 +143,11 @@ describe('mongodb types', () => {
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 'foo' });
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 123 });
 
+        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 123 });
+        expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': 123 });
+
+        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 123 } });
+
         // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#use-the-array-index-to-query-for-a-field-in-the-embedded-document
         expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 'foo' });
         expectType<PaprFilter<TestDocument>>({ 'list.1.other': 123 });
@@ -163,6 +174,14 @@ describe('mongodb types', () => {
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 123 });
         // @ts-expect-error Type mismatch
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 'foo' });
+
+        // @ts-expect-error Type mismatch
+        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 'foo' });
+        // @ts-expect-error Type mismatch
+        expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': true });
+
+        // Support for this type-check is not available yet
+        // expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 'foo' } });
 
         // @ts-expect-error Type mismatch
         expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 123 });
@@ -252,6 +271,9 @@ describe('mongodb types', () => {
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': { $in: ['foo'] } });
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': { $gte: 123 } });
 
+          expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': { $gte: 123 } });
+          expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': { $in: [123, 456] } });
+
           // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#use-the-array-index-to-query-for-a-field-in-the-embedded-document
           expectType<PaprFilter<TestDocument>>({ 'list.0.direct': { $ne: 'foo' } });
           expectType<PaprFilter<TestDocument>>({ 'list.1.other': { $ne: 123 } });
@@ -283,6 +305,11 @@ describe('mongodb types', () => {
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': { $in: [123] } });
           // @ts-expect-error Type mismatch
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': { $gte: 'foo' } });
+
+          // @ts-expect-error Type mismatch
+          expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': { $eq: 'foo' } });
+          // @ts-expect-error Type mismatch
+          expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': { $in: ['foo'] } });
 
           // @ts-expect-error Type mismatch
           expectType<PaprFilter<TestDocument>>({ 'list.0.direct': { $ne: 123 } });
@@ -502,53 +529,78 @@ describe('mongodb types', () => {
             },
           });
         });
+      });
 
-        describe('existing nested keys using dot notation', () => {
-          test('valid types', () => {
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.direct': true } });
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.other': 123 } });
-
-            expectType<PaprUpdateFilter<TestDocument>>({
-              $set: { 'nestedObject.deep': { deeper: 'foo' } },
-            });
-            expectType<PaprUpdateFilter<TestDocument>>({
-              $set: { 'nestedObject.deep.deeper': 'foo' },
-            });
-            expectType<PaprUpdateFilter<TestDocument>>({
-              $set: { 'nestedObject.deep.other': 123 },
-            });
-
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'tags.0': 'foo' } });
-
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.0.direct': 'foo' } });
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.1.other': 123 } });
-
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.direct': 'foo' } });
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.other': 123 } });
+      describe('existing nested keys using dot notation', () => {
+        test('valid types', () => {
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.direct': true },
+          });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.other': 123 },
           });
 
-          test('invalid types', () => {
-            // @ts-expect-error Type mismatch
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.direct': 'foo' } });
-            // @ts-expect-error Type mismatch
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.other': 'foo' } });
-            expectType<PaprUpdateFilter<TestDocument>>({
-              // @ts-expect-error Type mismatch
-              $set: { 'nestedObject.deep.deeper': 123 },
-            });
-            expectType<PaprUpdateFilter<TestDocument>>({
-              // @ts-expect-error Type mismatch
-              $set: { 'nestedObject.deep.other': 'foo' },
-            });
-
-            // @ts-expect-error Type mismatch
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'tags.0': 123 } });
-
-            // @ts-expect-error Type mismatch
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.0.direct': 123 } });
-            // @ts-expect-error Type mismatch
-            expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.1.other': 'foo' } });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.deep': { deeper: 'foo' } },
           });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.deep.deeper': 'foo' },
+          });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.deep.other': 123 },
+          });
+
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'genericObject.foo.id': 123 } });
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'genericObject.bar.id': 123 } });
+
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'genericObject.foo': { id: 123 } },
+          });
+
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'tags.0': 'foo' } });
+
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.0.direct': 'foo' } });
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.1.other': 123 } });
+
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.direct': 'foo' } });
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.other': 123 } });
+        });
+
+        test('invalid types', () => {
+          // @ts-expect-error Type mismatch
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.direct': 'foo' } });
+          // @ts-expect-error Type mismatch
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'nestedObject.other': 'foo' } });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            $set: { 'nestedObject.deep.deeper': 123 },
+          });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            $set: { 'nestedObject.deep.other': 'foo' },
+          });
+
+          expectType<PaprUpdateFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            $set: { 'genericObject.foo.id': 'foo' },
+          });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            $set: { 'genericObject.bar.id': true },
+          });
+
+          // Support for this type-check is not available yet
+          // expectType<PaprUpdateFilter<TestDocument>>({
+          //   $set: { 'genericObject.foo': { id: 'foo' } },
+          // });
+
+          // @ts-expect-error Type mismatch
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'tags.0': 123 } });
+
+          // @ts-expect-error Type mismatch
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.0.direct': 123 } });
+          // @ts-expect-error Type mismatch
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.1.other': 'foo' } });
         });
       });
 
