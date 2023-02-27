@@ -3890,10 +3890,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "bson@npm:5.0.0"
-  checksum: d494ed47169b1d9d9cd1901cbb7080a83983ccda0df9109268602b007455d9fbbc0d3e514b8491d3cc5b7fe839ff46b001fd154318f2f6aa76ce9c9340e3b13b
+"bson@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "bson@npm:5.0.1"
+  checksum: c8b028cdad57ab967d8deb4895d1341d84cd350c20137e9949ebd7924e408e81921fa5fcd17e07bc3aa3bca99a49208e95f0ab9606686b980af2eaf798b56e1f
   languageName: node
   linkType: hard
 
@@ -8778,11 +8778,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:5.0.1":
-  version: 5.0.1
-  resolution: "mongodb@npm:5.0.1"
+"mongodb@npm:5.1.0":
+  version: 5.1.0
+  resolution: "mongodb@npm:5.1.0"
   dependencies:
-    bson: ^5.0.0
+    bson: ^5.0.1
     mongodb-connection-string-url: ^2.6.0
     saslprep: ^1.0.3
     socks: ^2.7.1
@@ -8800,7 +8800,7 @@ __metadata:
       optional: true
     snappy:
       optional: true
-  checksum: b169375e028c53b9ebcaf100bcefe3432db257232121ccf3e02814a4ad4db536178cab94087c84cb601a7e4bcaf4b0ea66e3f628cb9292042770bc263ea2cee3
+  checksum: 993c14299ade84d4aadb06f16dccf31502b1018bf7a813d2477bf7a465854d3545a8950372e4410cd549c4426cf02b5d18cc4467eba35d031b46536e5cc79e3f
   languageName: node
   linkType: hard
 
@@ -9335,7 +9335,7 @@ __metadata:
     jsdoc-api: 8.0.0
     jsdoc-parse: 6.2.0
     lint-staged: 13.1.0
-    mongodb: 5.0.1
+    mongodb: 5.1.0
     mongodb-memory-server: 8.11.0
     mongoose: 6.3.5
     pinst: 3.0.0
