@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.1.0](https://github.com/plexinc/papr/compare/v11.0.0...v11.1.0) (2023-02-28)
+
+
+### Features
+
+* Type check nested objects in generic objects ([#439](https://github.com/plexinc/papr/issues/439)) ([3a142f3](https://github.com/plexinc/papr/commit/3a142f333d95c7a4145db2e4deff022655862e6e))
+
 ## [11.0.0](https://github.com/plexinc/papr/compare/v10.1.0...v11.0.0) (2023-02-22)
 
 
