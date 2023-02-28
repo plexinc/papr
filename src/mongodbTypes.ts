@@ -12,6 +12,7 @@ import type {
   Document,
   IntegerType,
   Join,
+  KeysOfAType,
   NumericType,
   OnlyFieldsOfType,
   PullAllOperator,
@@ -25,7 +26,7 @@ import type {
   WithId,
 } from 'mongodb';
 import { SchemaOptions } from './schema';
-import { DocumentForInsert, NestedPaths, NestedPathsOfType, PropertyType } from './utils';
+import { DocumentForInsert, NestedPaths, PropertyType } from './utils';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md
@@ -141,17 +142,28 @@ export interface PaprFilterOperators<TValue> {
   $rand?: Record<string, never>;
 }
 
-export type PaprMatchKeysAndValues<TSchema> = {
-  [Property in `${NestedPathsOfType<TSchema, any[]>}.$${'' | `[${string}]`}`]?: ArrayElement<
-    PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
-  >;
-} & {
-  [Property in `${NestedPathsOfType<TSchema, Record<string, any>[]>}.$${
-    | ''
-    | `[${string}]`}.${string}`]?: any;
-} & {
+export type PaprAllProperties<TSchema> = {
   [Property in Join<NestedPaths<TSchema, []>, '.'>]?: PropertyType<TSchema, Property>;
 };
+
+export type PaprArrayElementsProperties<TSchema> = {
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${
+    | ''
+    | `[${string}]`}`]?: ArrayElement<
+    PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
+  >;
+};
+
+export type PaprArrayNestedProperties<TSchema> = {
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
+    | ''
+    | `[${string}]`}.${string}`]?: any;
+};
+
+/* eslint-disable-next-line */
+export type PaprMatchKeysAndValues<TSchema> = PaprAllProperties<TSchema> &
+  PaprArrayElementsProperties<TSchema> &
+  PaprArrayNestedProperties<TSchema>;
 
 export interface PaprUpdateFilter<TSchema> {
   $currentDate?: OnlyFieldsOfType<

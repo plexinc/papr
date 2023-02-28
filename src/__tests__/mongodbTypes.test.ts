@@ -33,6 +33,18 @@ describe('mongodb types', () => {
         other?: number;
       };
       direct: boolean;
+      level2?: {
+        level3: {
+          level4: {
+            level5: {
+              level6ID: string;
+              level6: {
+                level7ID: string;
+              };
+            };
+          };
+        };
+      };
       other?: number;
     };
     genericObject: Record<
@@ -142,6 +154,9 @@ describe('mongodb types', () => {
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': 123 });
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 'foo' });
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 123 });
+        expectType<PaprFilter<TestDocument>>({
+          'nestedObject.level2.level3.level4.level5.level6ID': 'foo',
+        });
 
         expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 123 });
         expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': 123 });
@@ -174,6 +189,14 @@ describe('mongodb types', () => {
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 123 });
         // @ts-expect-error Type mismatch
         expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 'foo' });
+        expectType<PaprFilter<TestDocument>>({
+          // @ts-expect-error Type mismatch
+          'nestedObject.level2.level3.level4.level5.level6': 123,
+        });
+        expectType<PaprFilter<TestDocument>>({
+          // @ts-expect-error Nesting level too deep
+          'nestedObject.level2.level3.level4.level5.level6.level7ID': 'foo',
+        });
 
         // @ts-expect-error Type mismatch
         expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 'foo' });
@@ -219,6 +242,10 @@ describe('mongodb types', () => {
       expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.inexistent': 'foo' });
       // @ts-expect-error Invalid key
       expectType<PaprFilter<TestDocument>>({ 'nestedObject.inexistent.deeper': 'foo' });
+      expectType<PaprFilter<TestDocument>>({
+        // @ts-expect-error Invalid key
+        'nestedObject.level2.level3.level4.level5.inexistent': 'foo',
+      });
 
       // @ts-expect-error Invalid key
       expectType<PaprFilter<TestDocument>>({ 'list.0.inexistent': 'foo' });
@@ -270,6 +297,9 @@ describe('mongodb types', () => {
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': { $lt: 123 } });
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': { $in: ['foo'] } });
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': { $gte: 123 } });
+          expectType<PaprFilter<TestDocument>>({
+            'nestedObject.level2.level3.level4.level5.level6ID': { $in: ['foo'] },
+          });
 
           expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': { $gte: 123 } });
           expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': { $in: [123, 456] } });
@@ -305,6 +335,10 @@ describe('mongodb types', () => {
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': { $in: [123] } });
           // @ts-expect-error Type mismatch
           expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': { $gte: 'foo' } });
+          expectType<PaprFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            'nestedObject.level2.level3.level4.level5.level6ID': { $in: [123] },
+          });
 
           // @ts-expect-error Type mismatch
           expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': { $eq: 'foo' } });
@@ -549,6 +583,9 @@ describe('mongodb types', () => {
           expectType<PaprUpdateFilter<TestDocument>>({
             $set: { 'nestedObject.deep.other': 123 },
           });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            $set: { 'nestedObject.level2.level3.level4.level5.level6ID': 'foo' },
+          });
 
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'genericObject.foo.id': 123 } });
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'genericObject.bar.id': 123 } });
@@ -578,6 +615,10 @@ describe('mongodb types', () => {
           expectType<PaprUpdateFilter<TestDocument>>({
             // @ts-expect-error Type mismatch
             $set: { 'nestedObject.deep.other': 'foo' },
+          });
+          expectType<PaprUpdateFilter<TestDocument>>({
+            // @ts-expect-error Type mismatch
+            $set: { 'nestedObject.level2.level3.level4.level5.level6ID': 123 },
           });
 
           expectType<PaprUpdateFilter<TestDocument>>({
@@ -781,6 +822,9 @@ describe('mongodb types', () => {
             expectType<PaprUpdateFilter<TestDocument>>({
               $setOnInsert: { 'nestedObject.deep.other': 123 },
             });
+            expectType<PaprUpdateFilter<TestDocument>>({
+              $setOnInsert: { 'nestedObject.level2.level3.level4.level5.level6ID': 'foo' },
+            });
 
             expectType<PaprUpdateFilter<TestDocument>>({ $setOnInsert: { 'tags.0': 'foo' } });
 
@@ -809,6 +853,10 @@ describe('mongodb types', () => {
             expectType<PaprUpdateFilter<TestDocument>>({
               // @ts-expect-error Type mismatch
               $setOnInsert: { 'nestedObject.deep.other': 'foo' },
+            });
+            expectType<PaprUpdateFilter<TestDocument>>({
+              // @ts-expect-error Type mismatch
+              $setOnInsert: { 'nestedObject.level2.level3.level4.level5.level6ID': 123 },
             });
 
             // @ts-expect-error Type mismatch
@@ -910,6 +958,9 @@ describe('mongodb types', () => {
             });
             expectType<PaprUpdateFilter<TestDocument>>({
               $unset: { 'nestedObject.deep.other': 1 },
+            });
+            expectType<PaprUpdateFilter<TestDocument>>({
+              $unset: { 'nestedObject.level2.level3.level4.level5.level6ID': 1 },
             });
 
             expectType<PaprUpdateFilter<TestDocument>>({ $unset: { 'tags.0': 1 } });
