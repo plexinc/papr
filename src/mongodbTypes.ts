@@ -142,10 +142,33 @@ export interface PaprFilterOperators<TValue> {
   $rand?: Record<string, never>;
 }
 
+/**
+ * Returns all dot-notation properties of a schema with their corresponding types.
+ *
+ * @example
+ * {
+ *   foo: string;
+ *   'nested.field': number;
+ * }
+ */
 export type PaprAllProperties<TSchema> = {
   [Property in Join<NestedPaths<TSchema, []>, '.'>]?: PropertyType<TSchema, Property>;
 };
 
+/**
+ * Returns all array-specific element dot-notation properties of a schema with their corresponding types.
+ *
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional/#update-values-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-all/#update-all-elements-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-filtered/#update-all-array-elements-that-match-arrayfilters
+ *
+ * @example
+ * {
+ *   'numbersList.$': number;
+ *   'numbersList.$[]': number;
+ *   'numbersList.$[element]': number;
+ * }
+ */
 export type PaprArrayElementsProperties<TSchema> = {
   [Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${
     | ''
@@ -154,13 +177,28 @@ export type PaprArrayElementsProperties<TSchema> = {
   >;
 };
 
+/**
+ * Returns all array-specific nested dot-notation properties of a schema without type lookup.
+ *
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional/#update-documents-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-all/#update-all-documents-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-filtered/#update-all-documents-that-match-arrayfilters-in-an-array
+ *
+ * @example
+ * {
+ *   'objectList.$.foo': any;
+ *   'objectList.$[].foo': any;
+ *   'objectList.$[element].foo': any;
+ * }
+ */
 export type PaprArrayNestedProperties<TSchema> = {
   [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
     | ''
     | `[${string}]`}.${string}`]?: any;
 };
 
-/* eslint-disable-next-line */
+// We want the most common case (`PaprAllProperties`) to be the first member in this union,
+// since it's faster to compute and check against.
 export type PaprMatchKeysAndValues<TSchema> = PaprAllProperties<TSchema> &
   PaprArrayElementsProperties<TSchema> &
   PaprArrayNestedProperties<TSchema>;
