@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.0.0](https://github.com/plexinc/papr/compare/v11.1.0...v12.0.0) (2023-03-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Nested properties after 6 levels of nesting are no longer type checked.
+
+* Improve update filter types check times ([#440](https://github.com/plexinc/papr/issues/440)) ([15d1ba9](https://github.com/plexinc/papr/commit/15d1ba903d3d7ecba3522d5b8908014ad2b5355d))
+
 ## [11.1.0](https://github.com/plexinc/papr/compare/v11.0.0...v11.1.0) (2023-02-28)
 
 
