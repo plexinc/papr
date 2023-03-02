@@ -79,13 +79,13 @@ export type Flatten<Type extends object> = Identity<{
  * https://docs.mongodb.com/manual/tutorial/query-embedded-documents/
  *
  * @remarks
- * Through testing we determined that a depth of 7 is safe for the typescript compiler
+ * Through testing we determined that a depth of 6 is safe for the typescript compiler
  * and provides reasonable compilation times. This number is otherwise not special and
  * should be changed if issues are found with this level of checking. Beyond this
  * depth any helpers that make use of NestedPaths should devolve to not asserting any
  * type safety on the input.
  */
-export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 7
+export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 6
   ? []
   : Type extends
       | Buffer
@@ -118,17 +118,6 @@ export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 
         : [Key, ...NestedPaths<Type[Key], [...Depth, 1]>] | [Key];
     }[Extract<keyof Type, string>]
   : [];
-
-/**
- * Returns keys (strings) for every path into a schema with a value of type
- * https://docs.mongodb.com/manual/tutorial/query-embedded-documents/
- */
-export type NestedPathsOfType<TSchema, Type> = KeysOfAType<
-  {
-    [Property in Join<NestedPaths<TSchema, []>, '.'>]: PropertyType<TSchema, Property>;
-  },
-  Type
->;
 
 type FilterProperties<TObject, TValue> = Pick<TObject, KeysOfAType<TObject, TValue>>;
 

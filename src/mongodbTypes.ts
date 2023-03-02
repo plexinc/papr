@@ -12,6 +12,7 @@ import type {
   Document,
   IntegerType,
   Join,
+  KeysOfAType,
   NumericType,
   OnlyFieldsOfType,
   PullAllOperator,
@@ -25,7 +26,7 @@ import type {
   WithId,
 } from 'mongodb';
 import { SchemaOptions } from './schema';
-import { DocumentForInsert, NestedPaths, NestedPathsOfType, PropertyType } from './utils';
+import { DocumentForInsert, NestedPaths, PropertyType } from './utils';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md
@@ -141,17 +142,66 @@ export interface PaprFilterOperators<TValue> {
   $rand?: Record<string, never>;
 }
 
-export type PaprMatchKeysAndValues<TSchema> = {
-  [Property in `${NestedPathsOfType<TSchema, any[]>}.$${'' | `[${string}]`}`]?: ArrayElement<
-    PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
-  >;
-} & {
-  [Property in `${NestedPathsOfType<TSchema, Record<string, any>[]>}.$${
-    | ''
-    | `[${string}]`}.${string}`]?: any;
-} & {
+/**
+ * Returns all dot-notation properties of a schema with their corresponding types.
+ *
+ * @example
+ * {
+ *   foo: string;
+ *   'nested.field': number;
+ * }
+ */
+export type PaprAllProperties<TSchema> = {
   [Property in Join<NestedPaths<TSchema, []>, '.'>]?: PropertyType<TSchema, Property>;
 };
+
+/**
+ * Returns all array-specific element dot-notation properties of a schema with their corresponding types.
+ *
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional/#update-values-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-all/#update-all-elements-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-filtered/#update-all-array-elements-that-match-arrayfilters
+ *
+ * @example
+ * {
+ *   'numbersList.$': number;
+ *   'numbersList.$[]': number;
+ *   'numbersList.$[element]': number;
+ * }
+ */
+export type PaprArrayElementsProperties<TSchema> = {
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${
+    | ''
+    | `[${string}]`}`]?: ArrayElement<
+    PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
+  >;
+};
+
+/**
+ * Returns all array-specific nested dot-notation properties of a schema without type lookup.
+ *
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional/#update-documents-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-all/#update-all-documents-in-an-array
+ * https://www.mongodb.com/docs/v5.3/reference/operator/update/positional-filtered/#update-all-documents-that-match-arrayfilters-in-an-array
+ *
+ * @example
+ * {
+ *   'objectList.$.foo': any;
+ *   'objectList.$[].foo': any;
+ *   'objectList.$[element].foo': any;
+ * }
+ */
+export type PaprArrayNestedProperties<TSchema> = {
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
+    | ''
+    | `[${string}]`}.${string}`]?: any;
+};
+
+// We want the most common case (`PaprAllProperties`) to be the first member in this union,
+// since it's faster to compute and check against.
+export type PaprMatchKeysAndValues<TSchema> = PaprAllProperties<TSchema> &
+  PaprArrayElementsProperties<TSchema> &
+  PaprArrayNestedProperties<TSchema>;
 
 export interface PaprUpdateFilter<TSchema> {
   $currentDate?: OnlyFieldsOfType<
