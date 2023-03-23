@@ -102,6 +102,21 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
+  forEach: <
+    TProjection extends Projection<TSchema> | undefined,
+    TItem = TProjection extends undefined ? TSchema : ProjectionType<TSchema, TProjection>
+  >(
+    ...args:
+      | [
+          PaprFilter<TSchema>,
+          Omit<FindOptions<TSchema>, 'projection'> & {
+            projection?: TProjection;
+          },
+          (item: TItem) => boolean | void
+        ]
+      | [PaprFilter<TSchema>, (item: TItem) => boolean | void]
+  ) => Promise<void>;
+
   insertOne: (
     doc: DocumentForInsert<TSchema, TOptions>,
     options?: InsertOneOptions
@@ -161,6 +176,7 @@ export function abstract<TSchema extends BaseSchema, TOptions extends SchemaOpti
     findOne: abstractMethod,
     findOneAndDelete: abstractMethod,
     findOneAndUpdate: abstractMethod,
+    forEach: abstractMethod,
     insertMany: abstractMethod,
     insertOne: abstractMethod,
     schema,
@@ -801,6 +817,67 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
 
     throw new Error('findOneAndUpdate failed');
   });
+
+  /**
+   * @description
+   * Iterates over a result set, passing each found row into the iterator
+   * function.
+   *
+   * Useful when you want to process many rows without loading them all into
+   * memory at once.
+   *
+   * If the iterator function returns `false`, no more rows will be processed.
+   *
+   * @param filter {PaprFilter<TSchema>}
+   * @param [options] {FindOptions<TSchema>}
+   * @param iterator {function} - A callback of type `(row: TItem) => boolean | void`
+   *
+   * @example
+   * User.forEach(
+   *   { active: true, email: { $exists: true } },
+   *   { projection: { email: 1 } },
+   *   (row) => notify(row.email)
+   * )
+   */
+  model.forEach = wrap(
+    model,
+    async function forEach<
+      TProjection extends Projection<TSchema> | undefined,
+      TItem = TProjection extends undefined ? TSchema : ProjectionType<TSchema, TProjection>
+    >(
+      ...args:
+        | [
+            PaprFilter<TSchema>,
+            Omit<FindOptions<TSchema>, 'projection'> & {
+              projection?: TProjection;
+            },
+            (item: TItem) => boolean | void
+          ]
+        | [PaprFilter<TSchema>, (item: TItem) => boolean | void]
+    ): Promise<void> {
+      const filter = args[0];
+      let options: FindOptions<TSchema> = {};
+      let iterator: (item: TItem) => boolean | void;
+
+      if (args.length === 2) {
+        iterator = args[1];
+      } else if (args.length === 3) {
+        options = args[1];
+        iterator = args[2];
+      } else {
+        throw Error('Invalid argument shape supplied to forEach');
+      }
+
+      const cursor = model.collection.find(
+        filter as Filter<TSchema>,
+        {
+          ...model.defaultOptions,
+          ...options,
+        } as FindOptions<TSchema>
+      );
+      return cursor.forEach((result) => iterator(result as unknown as TItem));
+    }
+  );
 
   /**
    * @description

@@ -125,6 +125,8 @@ describe('model', () => {
       // @ts-expect-error Ignore mock function
       find: jest.fn().mockReturnValue({
         // @ts-expect-error Ignore mock function
+        forEach: jest.fn().mockResolvedValue(undefined),
+        // @ts-expect-error Ignore mock function
         toArray: jest.fn().mockResolvedValue(docs),
       }),
       // @ts-expect-error Ignore mock function
@@ -1392,6 +1394,35 @@ describe('model', () => {
           }
         );
       });
+    });
+  });
+
+  describe('forEach', () => {
+    test('default', async () => {
+      await simpleModel.forEach({}, (row) => {
+        expectType<SimpleDocument>(row);
+      });
+    });
+
+    test('with projection', async () => {
+      await simpleModel.forEach({}, { projection }, (row) => {
+        expectType<{
+          _id: ObjectId;
+          foo: string;
+          ham?: Date;
+        }>(row);
+        // @ts-expect-error `bar` is undefined here
+        row.bar;
+      });
+    });
+
+    test('throws error with invalid argument shape', async () => {
+      await expect(
+        // @ts-expect-error avoid type error here to force runtime error
+        simpleModel.forEach({}, {}, {}, (row) => {
+          expectType<SimpleDocument>(row);
+        })
+      ).rejects.toThrow('Invalid argument shape supplied to forEach');
     });
   });
 

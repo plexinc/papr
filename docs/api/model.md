@@ -343,6 +343,32 @@ userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
 
+## `forEach`
+
+Iterates over a result set, passing each found row into the iterator
+function.
+
+Useful when you want to process many rows without loading them all into
+memory at once.
+
+If the iterator function returns `false`, no more rows will be processed.
+
+**Parameters:**
+
+| Name       | Type                   | Attribute |
+| ---------- | ---------------------- | --------- |
+| `filter`   | `PaprFilter<TSchema>`  | required  |
+| `options`  | `FindOptions<TSchema>` | optional  |
+| `iterator` | `function`             | required  |
+
+**Example:**
+
+```ts
+User.forEach({ active: true, email: { $exists: true } }, { projection: { email: 1 } }, (row) =>
+  notify(row.email)
+);
+```
+
 ## `insertMany`
 
 Calls the MongoDB [`insertMany()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#insertMany) method.
