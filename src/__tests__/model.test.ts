@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals';
-import { Collection, MongoError, ObjectId } from 'mongodb';
+import { Collection, FindCursor, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
 import { abstract, build, Model } from '../model';
@@ -899,6 +899,37 @@ describe('model', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       results = testProjected(results);
+    });
+  });
+
+  describe('findCursor', () => {
+    test('default', async () => {
+      const cursor = await simpleModel.findCursor({});
+
+      expectType<FindCursor<SimpleDocument>>(cursor);
+    });
+
+    test('with projection', async () => {
+      const cursor = await simpleModel.findCursor(
+        {},
+        {
+          projection: {
+            ...projection,
+            'nested.direct': 1,
+          },
+        }
+      );
+
+      expectType<
+        FindCursor<{
+          _id: ObjectId;
+          foo: string;
+          ham?: Date;
+          nested?: {
+            direct: string;
+          };
+        }>
+      >(cursor);
     });
   });
 

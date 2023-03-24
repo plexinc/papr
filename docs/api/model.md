@@ -260,6 +260,33 @@ userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
 ```
 
+## `findCursor`
+
+Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#find) method and returns the cursor.
+
+Useful when you want to process many records without loading them all into
+memory at once.
+
+**Parameters:**
+
+| Name      | Type                   | Attribute |
+| --------- | ---------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`  | required  |
+| `options` | `FindOptions<TSchema>` | optional  |
+
+**Example:**
+
+```ts
+const cursor = await User.findCursor(
+  { active: true, email: { $exists: true } },
+  { projection: { email: 1 } }
+);
+
+for await (const user of cursor) {
+  await notify(user.email);
+}
+```
+
 ## `findOne`
 
 Calls the MongoDB [`findOne()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOne) method.
