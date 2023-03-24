@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.0.0](https://github.com/plexinc/papr/compare/v12.0.0...v13.0.0) (2023-03-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* The return type of `bulkWrite` now includes also `void`
+
+### Features
+
+* Add `findCursor` model method ([#454](https://github.com/plexinc/papr/issues/454)) ([3b65525](https://github.com/plexinc/papr/commit/3b6552593403d4fd4f2c382f53021e4b5666406e))
+
+
+* Perform no-op on `bulkWrite` when no operations provided ([#455](https://github.com/plexinc/papr/issues/455)) ([d56a0f6](https://github.com/plexinc/papr/commit/d56a0f67e00de30e13b1be814a5f33bb455f0004))
+
 ## [12.0.0](https://github.com/plexinc/papr/compare/v11.1.0...v12.0.0) (2023-03-02)
 
 
