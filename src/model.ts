@@ -10,6 +10,7 @@ import type {
   DeleteResult,
   DistinctOptions,
   Filter,
+  FindCursor,
   FindOneAndDeleteOptions,
   FindOneAndUpdateOptions,
   FindOptions,
@@ -86,6 +87,11 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
+  findCursor: <TProjection extends Projection<TSchema> | undefined>(
+    filter: PaprFilter<TSchema>,
+    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+  ) => Promise<FindCursor<ProjectionType<TSchema, TProjection>>>;
+
   findOne: <TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
@@ -158,6 +164,7 @@ export function abstract<TSchema extends BaseSchema, TOptions extends SchemaOpti
     deleteOne: abstractMethod,
     find: abstractMethod,
     findById: abstractMethod,
+    findCursor: abstractMethod,
     findOne: abstractMethod,
     findOneAndDelete: abstractMethod,
     findOneAndUpdate: abstractMethod,
@@ -667,6 +674,40 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       ) as unknown as ProjectionType<TSchema, TProjection> | null;
     }
   );
+
+  /**
+   * @description
+   * Calls the MongoDB [`find()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#find) method and returns the cursor.
+   *
+   * Useful when you want to process many records without loading them all into
+   * memory at once.
+   *
+   * @param filter {PaprFilter<TSchema>}
+   * @param [options] {FindOptions<TSchema>}
+   *
+   * @example
+   * const cursor = await User.findCursor(
+   *   { active: true, email: { $exists: true } },
+   *   { projection: { email: 1 } }
+   * )
+   *
+   * for await (const user of cursor) {
+   *   await notify(user.email);
+   * }
+   */
+  model.findCursor = wrap(model, async function findCursor<
+    TProjection extends Projection<TSchema> | undefined
+  >(filter: PaprFilter<TSchema>, options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }): Promise<
+    FindCursor<ProjectionType<TSchema, TProjection>>
+  > {
+    return model.collection.find(
+      filter as Filter<TSchema>,
+      {
+        ...model.defaultOptions,
+        ...options,
+      } as FindOptions<TSchema>
+    ) as FindCursor<ProjectionType<TSchema, TProjection>>;
+  });
 
   /**
    * @description
