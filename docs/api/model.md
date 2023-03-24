@@ -52,6 +52,9 @@ const results = await User.aggregate<{ age: number }>([
 
 Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#bulkWrite) method.
 
+If no operations are provided this method acts as a no-op and return
+nothing.
+
 **Parameters:**
 
 | Name         | Type                                           | Attribute |
@@ -61,7 +64,7 @@ Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/
 
 **Returns:**
 
-[`Promise<BulkWriteResult>`](https://mongodb.github.io/node-mongodb-native/5.0/classes/BulkWriteResult.html)
+[`Promise<(BulkWriteResult | void)>`](https://mongodb.github.io/node-mongodb-native/5.0/classes/BulkWriteResult.html)
 
 **Example:**
 

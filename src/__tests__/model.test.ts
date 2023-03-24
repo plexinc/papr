@@ -800,6 +800,12 @@ describe('model', () => {
         },
       ]);
     });
+
+    test('with empty operations array', async () => {
+      await simpleModel.bulkWrite([]);
+
+      expect(collection.bulkWrite).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('distinct', () => {

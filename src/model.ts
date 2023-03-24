@@ -57,7 +57,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   bulkWrite: (
     operations: PaprBulkWriteOperation<TSchema, TOptions>[],
     options?: BulkWriteOptions
-  ) => Promise<BulkWriteResult>;
+  ) => Promise<BulkWriteResult | void>;
 
   countDocuments: (filter: PaprFilter<TSchema>, options?: CountDocumentsOptions) => Promise<number>;
 
@@ -336,10 +336,13 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#bulkWrite) method.
    *
+   * If no operations are provided this method acts as a no-op and return
+   * nothing.
+   *
    * @param operations {Array<BulkWriteOperation<TSchema, TOptions>>}
    * @param [options] {BulkWriteOptions}
    *
-   * @returns {Promise<BulkWriteResult>} https://mongodb.github.io/node-mongodb-native/5.0/classes/BulkWriteResult.html
+   * @returns {Promise<BulkWriteResult | void>} https://mongodb.github.io/node-mongodb-native/5.0/classes/BulkWriteResult.html
    *
    * @example
    * const results = await User.bulkWrite([
@@ -366,7 +369,10 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     async function bulkWrite(
       operations: PaprBulkWriteOperation<TSchema, TOptions>[],
       options?: BulkWriteOptions
-    ): Promise<BulkWriteResult> {
+    ): Promise<BulkWriteResult | void> {
+      if (operations.length === 0) {
+        return;
+      }
       const finalOperations = operations.map((op) => {
         let operation = op;
         if ('insertOne' in op) {
