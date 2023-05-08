@@ -8,7 +8,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import Papr, { schema, types } from 'papr';
 
 const COLLECTION = 'samples';
-const DB = 'nodenext';
+const DB = 'ts-nodenext';
 
 let connection: MongoClient;
 let papr: Papr;

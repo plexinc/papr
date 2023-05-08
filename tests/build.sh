@@ -33,7 +33,7 @@ npm install
 node ./dist/index.js
 cd ../..
 
-cd ../nodenext/
+cd ../ts-nodenext/
 rm -f package-lock.json
 rm -f ./dist/*
 node -v
