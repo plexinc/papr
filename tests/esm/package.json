@@ -3,9 +3,5 @@
   "dependencies": {
     "papr": "file:../../build/package",
     "mongodb": "5.0.1"
-  },
-  "volta": {
-    "node": "14.16.0",
-    "yarn": "1.22.10"
   }
 }
