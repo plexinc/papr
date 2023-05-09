@@ -29,7 +29,6 @@ rm -f package-lock.json
 rm -f ./dist/*
 node -v
 npm install
-npm -v
-./node_modules/.bin/tsc --project ./tsconfig.json
+npm exec -c 'tsc --project ./tsconfig.json'
 node ./dist/index.js
 cd ../..
