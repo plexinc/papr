@@ -1,6 +1,6 @@
 // This test does not use Jest because we want to test
 // that the output of the build process works under native Node.js ESM syntax
-// At this moment Jest does not support ESM syntax without transpiling
+// On May 2023, Jest (29.5.0) does not support ESM syntax without transpiling
 import assert from 'assert';
 import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';

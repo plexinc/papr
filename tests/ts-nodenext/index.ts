@@ -1,6 +1,6 @@
 // This test does not use Jest because we want to test
 // that the output of the build process works under native Node.js ESM syntax
-// At this moment Jest does not support ESM syntax without transpiling
+// On May 2023, Jest (29.5.0) does not support ESM syntax without transpiling
 import assert from 'assert';
 import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -14,7 +14,7 @@ let connection: MongoClient;
 let papr: Papr;
 let mongoServer: MongoMemoryServer;
 
-async function setup() {
+async function setup(): Promise<void> {
   mongoServer = await MongoMemoryServer.create();
 
   const uri = mongoServer.getUri();
@@ -30,7 +30,7 @@ async function setup() {
   papr.initialize(db);
 }
 
-async function run() {
+async function run(): Promise<void> {
   const sampleSchema = schema(
     {
       age: types.number(),
@@ -81,7 +81,7 @@ async function run() {
   assert.strictEqual(docs[1]._id.toString(), doc1._id.toString());
 }
 
-async function teardown() {
+async function teardown(): Promise<void> {
   await connection.close();
   await mongoServer.stop();
 }
