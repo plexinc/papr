@@ -14,8 +14,18 @@ cd tests/esm/
 rm -f package-lock.json
 npm install
 node ./index.js
+cd ../..
 
-cd ../cjs/
+cd tests/cjs/
 rm -f package-lock.json
 npm install
 node ./index.js
+cd ../..
+
+cd tests/ts/
+rm -f package-lock.json
+rm -f ./dist/*
+npm install
+tsc --project ./tsconfig.json
+node ./dist/index.js
+cd ../..

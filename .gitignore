@@ -3,6 +3,7 @@
 /esm
 /tmp
 node_modules
+tests/*/dist
 tests/*/package-lock.json
 tests/*/yarn.lock
 yarn-error.log
