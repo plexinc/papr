@@ -26,6 +26,6 @@ cd tests/ts/
 rm -f package-lock.json
 rm -f ./dist/*
 npm install
-tsc --project ./tsconfig.json
+$(npm bin)/tsc --project ./tsconfig.json
 node ./dist/index.js
 cd ../..
