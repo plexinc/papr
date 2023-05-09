@@ -6,7 +6,6 @@ node_modules
 tests/*/dist
 tests/*/package-lock.json
 tests/*/yarn.lock
-tests/*/dist
 yarn-error.log
 
 # Yarn ignores
