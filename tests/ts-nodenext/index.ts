@@ -5,6 +5,7 @@
 import assert from 'assert';
 import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { expectType } from 'ts-expect';
 // eslint-disable-next-line
 import Papr, { schema, types } from 'papr';
 
@@ -65,6 +66,16 @@ async function run(): Promise<void> {
   assert.strictEqual(doc1.firstName, 'John');
   assert.strictEqual(doc1.lastName, 'Wick');
 
+  expectType<{
+    _id: ObjectId;
+    age?: number;
+    city?: string;
+    createdAt: Date;
+    firstName: string;
+    lastName: string;
+    updatedAt: Date;
+  }>(doc1);
+
   const doc2 = await Sample.insertOne({
     firstName: 'John',
     lastName: 'Doe',
@@ -80,6 +91,18 @@ async function run(): Promise<void> {
   // The documents are sorted by their last name
   assert.strictEqual(docs[0]._id.toString(), doc2._id.toString());
   assert.strictEqual(docs[1]._id.toString(), doc1._id.toString());
+
+  expectType<
+    {
+      _id: ObjectId;
+      age?: number;
+      city?: string;
+      createdAt: Date;
+      firstName: string;
+      lastName: string;
+      updatedAt: Date;
+    }[]
+  >(docs);
 }
 
 async function teardown(): Promise<void> {
