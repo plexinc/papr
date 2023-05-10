@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.1.0](https://github.com/plexinc/papr/compare/v13.0.0...v13.1.0) (2023-05-10)
+
+
+### Features
+
+* Support TypeScript moduleResolution nodenext option ([#460](https://github.com/plexinc/papr/issues/460)) ([14791f6](https://github.com/plexinc/papr/commit/14791f671e652db1814c618afc67face19271c08))
+
 ## [13.0.0](https://github.com/plexinc/papr/compare/v12.0.0...v13.0.0) (2023-03-24)
 
 
