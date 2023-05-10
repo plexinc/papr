@@ -10,7 +10,7 @@ import { expectType } from 'ts-expect';
 import Papr, { schema, types } from 'papr';
 
 const COLLECTION = 'samples';
-const DB = 'esm';
+const DB = 'ts';
 
 let connection: MongoClient;
 let papr: Papr;

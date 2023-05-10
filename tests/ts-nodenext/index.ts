@@ -1,20 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 // This test does not use Jest because we want to test
 // that the output of the build process works under native Node.js ESM syntax
 // On May 2023, Jest (29.5.0) does not support ESM syntax without transpiling
 import assert from 'assert';
 import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { expectType } from 'ts-expect';
 // eslint-disable-next-line
 import Papr, { schema, types } from 'papr';
 
 const COLLECTION = 'samples';
-const DB = 'esm';
+const DB = 'ts-nodenext';
 
-let connection;
-let papr;
-let mongoServer;
+let connection: MongoClient;
+let papr: Papr;
+let mongoServer: MongoMemoryServer;
 
-async function setup() {
+async function setup(): Promise<void> {
   mongoServer = await MongoMemoryServer.create();
 
   const uri = mongoServer.getUri();
@@ -30,7 +32,7 @@ async function setup() {
   papr.initialize(db);
 }
 
-async function run() {
+async function run(): Promise<void> {
   const sampleSchema = schema(
     {
       age: types.number(),
@@ -64,6 +66,16 @@ async function run() {
   assert.strictEqual(doc1.firstName, 'John');
   assert.strictEqual(doc1.lastName, 'Wick');
 
+  expectType<{
+    _id: ObjectId;
+    age?: number;
+    city?: string;
+    createdAt: Date;
+    firstName: string;
+    lastName: string;
+    updatedAt: Date;
+  }>(doc1);
+
   const doc2 = await Sample.insertOne({
     firstName: 'John',
     lastName: 'Doe',
@@ -79,9 +91,21 @@ async function run() {
   // The documents are sorted by their last name
   assert.strictEqual(docs[0]._id.toString(), doc2._id.toString());
   assert.strictEqual(docs[1]._id.toString(), doc1._id.toString());
+
+  expectType<
+    {
+      _id: ObjectId;
+      age?: number;
+      city?: string;
+      createdAt: Date;
+      firstName: string;
+      lastName: string;
+      updatedAt: Date;
+    }[]
+  >(docs);
 }
 
-async function teardown() {
+async function teardown(): Promise<void> {
   await connection.close();
   await mongoServer.stop();
 }
