@@ -1,6 +1,6 @@
 # Getting Started
 
-_Prerequisites:_ [MongoDB](https://www.mongodb.com/) server (v3.6+) and [NodeJS](https://nodejs.org/) (v14+) installed.
+_Prerequisites:_ [MongoDB](https://www.mongodb.com/) server (v3.6+) and [NodeJS](https://nodejs.org/) (v16+) installed.
 
 ## Install
 
