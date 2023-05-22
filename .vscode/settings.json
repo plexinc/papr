@@ -1,3 +1,7 @@
 {
+  "search.exclude": {
+    ".yarn/releases/*": true,
+    "yarn.lock": true
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
