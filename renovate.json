@@ -3,41 +3,77 @@
   "commitMessageAction": "Upgrade",
   "commitMessagePrefix": "chore:",
   "commitMessageTopic": "{{depName}}",
-  "extends": ["config:base"],
-  "labels": ["dependencies"],
+  "extends": [
+    "config:base"
+  ],
+  "internalChecksAsSuccess": true,
+  "labels": [
+    "dependencies"
+  ],
   "packageRules": [
     {
       "groupName": "@babel packages",
-      "matchPackagePrefixes": ["@babel/"],
-      "matchUpdateTypes": ["major", "minor", "patch"]
+      "matchPackagePrefixes": [
+        "@babel/"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ]
     },
     {
-      "schedule": ["before 6am on Monday"],
-      "excludePackagePrefixes": ["@types/", "@babel/"],
-      "excludePackageNames": ["@types/node", "node"],
-      "matchUpdateTypes": ["patch"]
+      "schedule": [
+        "before 6am on Monday"
+      ],
+      "excludePackagePrefixes": [
+        "@types/",
+        "@babel/"
+      ],
+      "excludePackageNames": [
+        "@types/node",
+        "node"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ]
     },
     {
       "enabled": false,
       "groupName": "Skip major Node.js versions",
-      "matchPackageNames": ["@types/node", "node"],
-      "matchUpdateTypes": ["major"]
+      "matchPackageNames": [
+        "@types/node",
+        "node"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
     },
     {
       "enabled": false,
       "groupName": "Skip certain packages",
-      "matchPackageNames": ["mongoose"]
+      "matchPackageNames": [
+        "mongoose"
+      ]
     }
   ],
-  "postUpdateOptions": ["yarnDedupeHighest"],
+  "postUpdateOptions": [
+    "yarnDedupeHighest"
+  ],
   "prCreation": "not-pending",
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
-  "rebaseWhen": "auto",
-  "reviewers": ["avaly", "ejmartin504"],
+  "prNotPendingHours": 240,
+  "rebaseWhen": "conflicted",
+  "reviewers": [
+    "avaly",
+    "ejmartin504"
+  ],
   "stabilityDays": 3,
   "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
-    "labels": ["security"]
+    "labels": [
+      "security"
+    ]
   }
 }
