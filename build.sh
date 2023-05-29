@@ -4,7 +4,7 @@ set -euxo pipefail
 
 # ESM
 
-yarn tsc --project ./tsconfig-esm.json
+pnpm tsc --project ./tsconfig-esm.json
 
 # https://stackoverflow.com/a/22084103
 # This works in Linux and MacOS
@@ -15,6 +15,6 @@ rm ./esm/*.d.ts.backup
 
 # CommonJS
 
-yarn tsc --project ./tsconfig-cjs.json
+pnpm tsc --project ./tsconfig-cjs.json
 
 echo "{\"type\":\"commonjs\"}" > ./cjs/package.json

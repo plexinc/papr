@@ -58,7 +58,7 @@
     }
   ],
   "postUpdateOptions": [
-    "yarnDedupeHighest"
+    "pnpmDedupe"
   ],
   "prCreation": "not-pending",
   "prConcurrentLimit": 3,

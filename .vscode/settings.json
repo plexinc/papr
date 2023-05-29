@@ -1,7 +1,6 @@
 {
   "search.exclude": {
-    ".yarn/releases/*": true,
-    "yarn.lock": true
+    "pnpm-lock.yaml": true
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

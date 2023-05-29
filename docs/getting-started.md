@@ -13,6 +13,12 @@ $ npm install --save papr
 or
 
 ```
+$ pnpm add papr
+```
+
+or
+
+```
 $ yarn add papr
 ```
 

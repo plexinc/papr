@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-yarn build
+pnpm build
 
 npm pack
 
