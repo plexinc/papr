@@ -14,7 +14,7 @@ This section will walk you through how to get started working with the code.
 
 Verify that node.js is [installed](https://nodejs.org/en/download/).
 
-Verify that pNPM is [installed](https://pnpm.io/installation).
+Verify that `pnpm` is [installed](https://pnpm.io/installation).
 
 Alternatively, we recommend you install [Volta](https://volta.sh) to run the correct node.js and package manager versions for this project.
 
