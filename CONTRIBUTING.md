@@ -14,7 +14,7 @@ This section will walk you through how to get started working with the code.
 
 Verify that node.js is [installed](https://nodejs.org/en/download/).
 
-Verify that Yarn v1 is [installed](https://classic.yarnpkg.com/en/docs/install).
+Verify that `pnpm` is [installed](https://pnpm.io/installation).
 
 Alternatively, we recommend you install [Volta](https://volta.sh) to run the correct node.js and package manager versions for this project.
 
@@ -29,7 +29,7 @@ Then, run:
 ```sh
 $ git clone https://github.com/<your-github-username>/papr
 $ cd papr
-$ yarn
+$ pnpm install
 ```
 
 ### Running tests
@@ -37,26 +37,26 @@ $ yarn
 Unit tests:
 
 ```sh
-$ yarn test
+$ pnpm test
 ```
 
 TypeScript tests:
 
 ```sh
-$ yarn test:types
+$ pnpm test:types
 ```
 
 Linting tests:
 
 ```sh
-$ yarn lint
+$ pnpm lint
 ```
 
 Running tests in watch mode:
 
 ```sh
-$ yarn watch
-$ yarn watch:types
+$ pnpm watch
+$ pnpm watch:types
 ```
 
 ### Commit messages

@@ -40,11 +40,11 @@
   "scripts": {
     "build": "./build.sh",
     "docs": "node docs/build.js && docsify serve ./docs",
-    "benchmark": "yarn build && node --experimental-specifier-resolution=node ./benchmark/run.js",
+    "benchmark": "pnpm build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint": "eslint --ext .js,.mjs,.ts .",
     "postinstall": "husky install",
     "postpack": "pinst --enable",
-    "prepack": "pinst --disable && yarn build",
+    "prepack": "pinst --disable && pnpm build",
     "pretty": "prettier '**/*.{js,md,ts}' --write",
     "pretty:ci": "prettier '**/*.{js,md,ts}' --check",
     "release": "standard-version --infile docs/CHANGELOG.md",
@@ -122,7 +122,7 @@
   },
   "volta": {
     "node": "16.20.0",
-    "yarn": "1.22.19"
+    "pnpm": "8.5.0"
   },
-  "packageManager": "yarn@3.3.1"
+  "packageManager": "pnpm@8.5.0"
 }

@@ -105,7 +105,7 @@ async function run(): Promise<void> {
   >(docs);
 }
 
-async function teardown() {
+async function teardown(): Promise<void> {
   await connection.close();
   await mongoServer.stop();
 }

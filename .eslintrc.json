@@ -18,7 +18,11 @@
       ],
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["./tsconfig.json", "./tests/ts/tsconfig.json", "./tests/ts-nodenext/tsconfig.json"],
+        "project": [
+          "./tsconfig.json",
+          "./tests/ts/tsconfig.json",
+          "./tests/ts-nodenext/tsconfig.json"
+        ],
         "sourceType": "module",
         "tsconfigRootDir": "."
       },
@@ -139,6 +143,14 @@
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/unbound-method": "off",
         "no-unused-expressions": "off"
+      }
+    },
+    {
+      "files": ["tests/**"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off"
       }
     }
   ],

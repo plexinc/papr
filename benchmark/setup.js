@@ -7,7 +7,7 @@ import Papr from '../esm/index.js';
 const help = `
   USAGE
 
-    yarn benchmark --option arg
+    pnpm benchmark --option arg
 
   OPTIONS
 

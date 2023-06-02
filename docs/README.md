@@ -83,7 +83,7 @@ The benchmark numbers are from a benchmark with:
 - `papr` v4.0.0
 - `mongoose` v6.3.5
 
-This benchmark can be run locally with `yarn benchmark`. Run `yarn benchmark --help` for more information on available arguments.
+This benchmark can be run locally with `pnpm benchmark`. Run `pnpm benchmark --help` for more information on available arguments.
 
 ---
 
