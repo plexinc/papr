@@ -71,8 +71,8 @@ devDependencies:
     specifier: 13.2.0
     version: 13.2.0
   mongodb:
-    specifier: 5.1.0
-    version: 5.1.0
+    specifier: 5.5.0
+    version: 5.5.0
   mongodb-memory-server:
     specifier: 8.12.0
     version: 8.12.0
@@ -7060,12 +7060,12 @@ packages:
       saslprep: 1.0.3
     dev: true
 
-  /mongodb@5.1.0:
-    resolution: {integrity: sha512-qgKb7y+EI90y4weY3z5+lIgm8wmexbonz0GalHkSElQXVKtRuwqXuhXKccyvIjXCJVy9qPV82zsinY0W1FBnJw==}
+  /mongodb@5.5.0:
+    resolution: {integrity: sha512-XgrkUgAAdfnZKQfk5AsYL8j7O99WHd4YXPxYxnh8dZxD+ekYWFRA3JktUsBnfg+455Smf75/+asoU/YLwNGoQQ==}
     engines: {node: '>=14.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.201.0
-      mongodb-client-encryption: ^2.3.0
+      mongodb-client-encryption: '>=2.3.0 <3'
       snappy: ^7.2.2
     peerDependenciesMeta:
       '@aws-sdk/credential-providers':
