@@ -124,5 +124,5 @@
     "node": "16.20.0",
     "pnpm": "8.5.0"
   },
-  "packageManager": "pnpm@8.5.0"
+  "packageManager": "pnpm@8.6.0"
 }
