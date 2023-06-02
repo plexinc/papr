@@ -1,10 +1,9 @@
-/build
 /cjs
 /esm
 /tmp
 node_modules
 tests/*/dist
-tests/*/package-lock.json
+tests/*/pnpm-lock.yaml
 
 # Webstorm
 .idea
