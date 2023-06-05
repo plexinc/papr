@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - uses: actions/cache@v3.3.0
+      - uses: actions/cache@v3.3.1
         with:
           path: |
             node_modules
@@ -42,7 +42,7 @@ jobs:
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 8
-      - uses: actions/cache@v3.3.0
+      - uses: actions/cache@v3.3.1
         with:
           path: |
             node_modules
@@ -60,7 +60,7 @@ jobs:
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 8
-      - uses: actions/cache@v3.3.0
+      - uses: actions/cache@v3.3.1
         with:
           path: |
             node_modules
@@ -78,7 +78,7 @@ jobs:
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 8
-      - uses: actions/cache@v3.3.0
+      - uses: actions/cache@v3.3.1
         with:
           path: |
             node_modules
