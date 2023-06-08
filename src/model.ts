@@ -581,7 +581,6 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const key: keyof TSchema = Object.keys(filter)[0] || '_id';
     const result = await model.findOne(filter, {
-      // @ts-expect-error The `_id` attribute is not found via Mongo's NestedPaths helper?
       projection: { _id: 0, [key]: 1 } as const,
       ...options,
     });
