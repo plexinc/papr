@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3.7.9
+        with:
+          changelog-path: docs/CHANGELOG.md
+          package-name: papr
+          pull-request-title-pattern: 'chore${scope}: Release${component} ${version}'
+          release-type: node
