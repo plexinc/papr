@@ -14,7 +14,7 @@ jobs:
       matrix:
         node: [16.x, 18.x, 20.x]
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 8
@@ -37,7 +37,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: volta-cli/action@v4.0.0
       - uses: pnpm/action-setup@v2.2.4
         with:
@@ -55,7 +55,7 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: volta-cli/action@v4.0.0
       - uses: pnpm/action-setup@v2.2.4
         with:
@@ -73,7 +73,7 @@ jobs:
   types:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
       - uses: volta-cli/action@v4.0.0
       - uses: pnpm/action-setup@v2.2.4
         with:
