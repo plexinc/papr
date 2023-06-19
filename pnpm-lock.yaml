@@ -72,8 +72,8 @@ devDependencies:
     specifier: 6.2.0
     version: 6.2.0
   lint-staged:
-    specifier: 13.2.0
-    version: 13.2.0
+    specifier: 13.2.2
+    version: 13.2.2
   mongodb:
     specifier: 5.6.0
     version: 5.6.0
@@ -6593,8 +6593,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /lint-staged@13.2.0:
-    resolution: {integrity: sha512-GbyK5iWinax5Dfw5obm2g2ccUiZXNGtAS4mCbJ0Lv4rq6iEtfBSjOYdcbOtAIFtM114t0vdpViDDetjVTSd8Vw==}
+  /lint-staged@13.2.2:
+    resolution: {integrity: sha512-71gSwXKy649VrSU09s10uAT0rWCcY3aewhMaHyl2N84oBk4Xs9HgxvUp3AYu+bNsK4NrOYYxvSgg7FyGJ+jGcA==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
