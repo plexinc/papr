@@ -9,6 +9,7 @@ enum TEST_ENUM {
   FOO = 'foo',
   BAR = 'bar',
 }
+const READONLY_CONST_VALUES = ['qux', 'baz'] as const;
 
 describe('schema', () => {
   test('simple', () => {
@@ -465,6 +466,7 @@ describe('schema', () => {
         decimalOptional: types.decimal(),
         decimalRequired: types.decimal({ required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
+        enumReadonly: types.enum(READONLY_CONST_VALUES),
         enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
         nullOptional: types.null(),
         nullRequired: types.null({ required: true }),
@@ -595,6 +597,9 @@ describe('schema', () => {
         },
         enumOptional: {
           enum: ['foo', 'bar', null],
+        },
+        enumReadonly: {
+          enum: ['qux', 'baz'],
         },
         enumRequired: {
           enum: ['foo', 'bar'],
@@ -736,6 +741,7 @@ describe('schema', () => {
       decimalOptional?: Decimal128;
       decimalRequired: Decimal128;
       enumOptional?: TEST_ENUM | null;
+      enumReadonly?: 'qux' | 'baz';
       enumRequired: TEST_ENUM;
       nullOptional?: null;
       nullRequired: null;
