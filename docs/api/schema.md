@@ -45,8 +45,8 @@ const userSchema = schema({
   lastName: types.string({ required: true }),
 });
 
-export type UserDocument = typeof userSchema[0];
-export type UserOptions = typeof userSchema[1];
+export type UserDocument = (typeof userSchema)[0];
+export type UserOptions = (typeof userSchema)[1];
 
 const orderSchema = schema(
   {
@@ -62,6 +62,6 @@ const orderSchema = schema(
   }
 );
 
-export type OrderDocument = typeof orderSchema[0];
-export type OrderOptions = typeof orderSchema[1];
+export type OrderDocument = (typeof orderSchema)[0];
+export type OrderOptions = (typeof orderSchema)[1];
 ```
