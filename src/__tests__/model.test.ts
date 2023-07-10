@@ -84,14 +84,14 @@ describe('model', () => {
     }
   );
 
-  type SimpleDocument = typeof simpleSchema[0];
-  type SimpleOptions = typeof simpleSchema[1];
-  type TimestampsDocument = typeof timestampsSchema[0];
-  type TimestampsOptions = typeof timestampsSchema[1];
-  type TimestampConfigDocument = typeof timestampConfigSchema[0];
-  type TimestampConfigOptions = typeof timestampConfigSchema[1];
-  type NumericIdDocument = typeof numericIdSchema[0];
-  type NumericIdOptions = typeof numericIdSchema[1];
+  type SimpleDocument = (typeof simpleSchema)[0];
+  type SimpleOptions = (typeof simpleSchema)[1];
+  type TimestampsDocument = (typeof timestampsSchema)[0];
+  type TimestampsOptions = (typeof timestampsSchema)[1];
+  type TimestampConfigDocument = (typeof timestampConfigSchema)[0];
+  type TimestampConfigOptions = (typeof timestampConfigSchema)[1];
+  type NumericIdDocument = (typeof numericIdSchema)[0];
+  type NumericIdOptions = (typeof numericIdSchema)[1];
 
   let simpleModel: Model<SimpleDocument, SimpleOptions>;
   let timestampsModel: Model<TimestampsDocument, TimestampsOptions>;

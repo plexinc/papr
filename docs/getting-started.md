@@ -69,7 +69,7 @@ const userSchema = schema({
   lastName: types.string({ required: true }),
 });
 
-export type UserDocument = typeof userSchema[0];
+export type UserDocument = (typeof userSchema)[0];
 
 const User = papr.model('users', userSchema);
 
