@@ -150,7 +150,7 @@ function constant<Value, Options extends GenericOptions>(
 }
 
 function enumType<Enum, Options extends GenericOptions>(
-  values: Enum[],
+  values: readonly Enum[],
   options?: Options
 ): GetType<Enum, Options> {
   return {
