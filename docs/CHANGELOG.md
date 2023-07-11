@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.0.0](https://github.com/plexinc/papr/compare/v13.1.0...v14.0.0) (2023-07-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js v14 is not supported.
+
+### Features
+
+* Allow const enums ([#497](https://github.com/plexinc/papr/issues/497)) ([194e505](https://github.com/plexinc/papr/commit/194e505ae0837fc53cc746330ca003f7a106e8a0))
+
+
+### Code Refactoring
+
+* Remove node.js v14 support ([#464](https://github.com/plexinc/papr/issues/464)) ([935b331](https://github.com/plexinc/papr/commit/935b33162aa41356779131182767630f8776b1c4))
+
 ## [13.1.0](https://github.com/plexinc/papr/compare/v13.0.0...v13.1.0) (2023-05-10)
 
 
