@@ -10,7 +10,7 @@ type UnionKeyOf<Type> = Type extends infer T ? keyof T : never;
 type HeadPaths<Paths extends string> = Paths extends `${infer Head}.${string}` ? Head : Paths;
 
 type InnerKeys<HeadKey extends string, Paths extends string> = [
-  Extract<Paths, `${HeadKey}.${string}`>
+  Extract<Paths, `${HeadKey}.${string}`>,
 ] extends [`${HeadKey}.${infer RestKey}`]
   ? RestKey
   : never;

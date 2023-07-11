@@ -26,7 +26,7 @@ type TimestampsOptions = Required<Pick<SchemaOptions<unknown>, 'timestamps'>>;
 
 export type SchemaType<
   TProperties extends Record<string, unknown>,
-  TOptions extends SchemaOptions<unknown>
+  TOptions extends SchemaOptions<unknown>,
 > = TOptions extends TimestampsOptions
   ? ObjectType<TimestampSchema<TOptions['timestamps']> & WithId<TProperties>>
   : ObjectType<WithId<TProperties>>;
@@ -110,7 +110,7 @@ function sanitize(value: any): void {
  */
 export default function schema<
   TProperties extends Record<string, unknown>,
-  TOptions extends SchemaOptions<TProperties>
+  TOptions extends SchemaOptions<TProperties>,
 >(properties: TProperties, options?: TOptions): [SchemaType<TProperties, TOptions>, TOptions] {
   const {
     defaults,

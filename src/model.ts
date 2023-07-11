@@ -695,7 +695,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * }
    */
   model.findCursor = wrap(model, async function findCursor<
-    TProjection extends Projection<TSchema> | undefined
+    TProjection extends Projection<TSchema> | undefined,
   >(filter: PaprFilter<TSchema>, options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }): Promise<
     FindCursor<ProjectionType<TSchema, TProjection>>
   > {

@@ -172,7 +172,7 @@ function number<Options extends NumberOptions>(options?: Options): GetType<numbe
 export function object<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Properties extends Record<string, any>,
-  Options extends ObjectOptions
+  Options extends ObjectOptions,
 >(properties: Properties, options?: Options): GetType<ObjectType<Properties>, Options> {
   const { required, ...otherOptions } = options || {};
 
