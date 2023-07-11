@@ -44,7 +44,7 @@ describe('schema', () => {
           bar: number;
         },
         // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
+        {},
       ]
     >(value);
     expectType<ObjectId>(value[0]?._id);
@@ -100,7 +100,7 @@ describe('schema', () => {
         },
         {
           defaults: { foo: boolean };
-        }
+        },
       ]
     >(value);
     expectType<ObjectId>(value[0]?._id);
@@ -158,7 +158,7 @@ describe('schema', () => {
             createdAt: Date;
             updatedAt: Date;
           },
-          { timestamps: boolean }
+          { timestamps: boolean },
         ]
       >(value);
       expectType<ObjectId>(value[0]?._id);
@@ -205,7 +205,7 @@ describe('schema', () => {
             _id: ObjectId;
             foo?: boolean;
           },
-          { timestamps: boolean }
+          { timestamps: boolean },
         ]
       >(value);
       expectType<ObjectId>(value[0]?._id);
@@ -270,7 +270,7 @@ describe('schema', () => {
               createdAt: string;
               updatedAt: string;
             };
-          }
+          },
         ]
       >(value);
       expectType<ObjectId>(value[0]?._id);
@@ -338,7 +338,7 @@ describe('schema', () => {
             timestamps: {
               createdAt: string;
             };
-          }
+          },
         ]
       >(value);
       expectType<ObjectId>(value[0]?._id);
@@ -385,7 +385,7 @@ describe('schema', () => {
           foo: number;
         },
         // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
+        {},
       ]
     >(value);
     expectType<string>(value[0]?._id);
@@ -428,7 +428,7 @@ describe('schema', () => {
           foo: string;
         },
         // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
+        {},
       ]
     >(value);
     expectType<number>(value[0]?._id);
@@ -799,7 +799,7 @@ describe('schema', () => {
           bar: number;
         },
         // eslint-disable-next-line @typescript-eslint/ban-types
-        {}
+        {},
       ]
     >(value);
     expectType<ObjectId>(value[0]?._id);

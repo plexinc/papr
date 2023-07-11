@@ -94,7 +94,7 @@ function getReturns(returns) {
   return isURL ? `[${value}](${description})` : `${value} ${description}`;
 }
 
-DOCS.forEach((doc) => {
+for (const doc of DOCS) {
   const source = fs.readFileSync(doc.input, 'utf-8');
 
   const sourceTranspiled = transpileTS(source);
@@ -128,9 +128,9 @@ DOCS.forEach((doc) => {
 
   fs.writeFileSync(
     doc.output,
-    prettier.format(result, {
+    await prettier.format(result, {
       ...PKG.prettier,
       filepath: doc.output,
     })
   );
-});
+}

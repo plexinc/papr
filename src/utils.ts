@@ -27,7 +27,7 @@ export interface BaseSchema {
 
 type TimestampSchemaProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
-  TOptions extends SchemaTimestampOptions | undefined
+  TOptions extends SchemaTimestampOptions | undefined,
 > = TOptions extends object
   ? TOptions[TProperty] extends string
     ? TOptions[TProperty]
@@ -56,7 +56,7 @@ export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<
 export type DocumentForInsert<
   TSchema,
   TOptions extends SchemaOptions<TSchema>,
-  TDefaults extends NonNullable<TOptions['defaults']> = NonNullable<TOptions['defaults']>
+  TDefaults extends NonNullable<TOptions['defaults']> = NonNullable<TOptions['defaults']>,
 > = TOptions['timestamps'] extends SchemaTimestampOptions
   ? TOptions['timestamps'] extends false
     ? DocumentForInsertWithoutDefaults<TSchema, TDefaults>
@@ -125,7 +125,7 @@ export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
     | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>>
-    | undefined
+    | undefined,
 > = undefined extends Projection
   ? WithId<TSchema>
   : keyof FilterProperties<Projection, 0 | 1> extends never
@@ -143,7 +143,7 @@ export type Projection<TSchema> = Partial<
 
 export type PropertyNestedType<
   Type,
-  Property extends string
+  Property extends string,
 > = Property extends `${infer Key}.${infer Rest}`
   ? Key extends `${number}`
     ? // indexed array nested properties
@@ -272,7 +272,7 @@ export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): Objec
 // Returns either the default timestamp property or the value supplied in timestamp options
 export function getTimestampProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
-  TOptions extends SchemaTimestampOptions | undefined
+  TOptions extends SchemaTimestampOptions | undefined,
 >(property: TProperty, options: TOptions): string | keyof Exclude<SchemaTimestampOptions, boolean> {
   if (typeof options === 'object') {
     return options[property] ?? property;
