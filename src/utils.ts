@@ -95,6 +95,7 @@ export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 
       | boolean
       | number
       | string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       | ((...args: any[]) => any)
       | {
           _bsontype: string;
@@ -109,10 +110,12 @@ export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 
       | [number, ...NestedPaths<ArrayType, [...Depth, 1]>]
       // This returns the indexed element path: e.g. `foo.0`
       | [number]
-  : Type extends Map<string, any>
+  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Type extends Map<string, any>
   ? [string]
   : Type extends object
   ? {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [Key in Extract<keyof Type, string>]: Type[Key] extends readonly any[]
         ? [Key, ...NestedPaths<Type[Key], [...Depth, 1]>] // child is not structured the same as the parent
         : [Key, ...NestedPaths<Type[Key], [...Depth, 1]>] | [Key];
@@ -124,7 +127,7 @@ type FilterProperties<TObject, TValue> = Pick<TObject, KeysOfAType<TObject, TVal
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
-    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>>
+    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
     | undefined,
 > = undefined extends Projection
   ? WithId<TSchema>
@@ -138,7 +141,7 @@ export type ProjectionType<
     >;
 
 export type Projection<TSchema> = Partial<
-  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number | 0 | 1>
+  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
 >;
 
 export type PropertyNestedType<
@@ -162,7 +165,8 @@ export type PropertyType<Type, Property extends string> = string extends Propert
   ? unknown
   : // object properties
   Property extends keyof Type
-  ? Type extends Record<string, any>
+  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Type extends Record<string, any>
     ? Property extends `${string}.${string}`
       ? PropertyNestedType<NonNullable<Type>, Property>
       : Type[Property]
@@ -273,9 +277,9 @@ export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): Objec
 export function getTimestampProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
   TOptions extends SchemaTimestampOptions | undefined,
->(property: TProperty, options: TOptions): string | keyof Exclude<SchemaTimestampOptions, boolean> {
+>(property: TProperty, options: TOptions): keyof Exclude<SchemaTimestampOptions, boolean> {
   if (typeof options === 'object') {
-    return options[property] ?? property;
+    return (options[property] ?? property) as keyof Exclude<SchemaTimestampOptions, boolean>;
   }
   return property;
 }
