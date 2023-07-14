@@ -13,7 +13,7 @@
     {
       "extends": [
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:import/typescript"
       ],
       "files": ["*.ts"],
@@ -93,7 +93,6 @@
         "@typescript-eslint/no-extraneous-class": "error",
         "@typescript-eslint/no-extra-parens": ["error", "functions"],
         "@typescript-eslint/no-extra-semi": "error",
-        "@typescript-eslint/no-parameter-properties": "error",
         "@typescript-eslint/no-unused-expressions": "error",
         "@typescript-eslint/no-unused-vars": [
           "warn",
@@ -129,7 +128,6 @@
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/semi": "error",
         "@typescript-eslint/sort-type-constituents": "error",
-        "@typescript-eslint/sort-type-union-intersection-members": "error",
         "@typescript-eslint/type-annotation-spacing": "error",
         "@typescript-eslint/unified-signatures": "error",
         "indent": "off"
