@@ -80,7 +80,7 @@
     "lint-staged": "13.2.3",
     "mongodb": "5.7.0",
     "mongodb-memory-server": "8.13.0",
-    "mongoose": "6.3.5",
+    "mongoose": "6.11.3",
     "pinst": "3.0.0",
     "prettier": "3.0.0",
     "standard-version": "9.5.0",
