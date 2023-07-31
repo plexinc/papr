@@ -216,3 +216,10 @@ await User.find(filter);
 
 await User.collection.find(filter as Filter<UserDocument>);
 ```
+
+## Integrations
+
+There are community-maintained integrations with popular frameworks:
+
+- [NestJS integration](https://github.com/vitaliy-grusha/nestjs-papr)
+- [Fastify integration](https://github.com/inaiat/fastify-papr)
