@@ -20,14 +20,14 @@ The options are exported as a result type (the second value in the return tuple)
 
 **Parameters:**
 
-| Name                       | Type                      | Attribute |
-| -------------------------- | ------------------------- | --------- |
-| `properties`               | `Record<string, unknown>` | required  |
-| `options`                  | `SchemaOptions`           | optional  |
-| `options.defaults`         | `Partial<TProperties>`    | optional  |
-| `options.timestamps`       | `TimestampSchemaOptions`  | optional  |
-| `options.validationAction` | `VALIDATION_ACTIONS`      | optional  |
-| `options.validationLevel`  | `VALIDATION_LEVEL`        | optional  |
+| Name                       | Type                          | Attribute |
+| -------------------------- | ----------------------------- | --------- |
+| `properties`               | `Record<string, unknown>`     | required  |
+| `options`                  | `SchemaOptions`               | optional  |
+| `options.defaults`         | `DefaultsOption<TProperties>` | optional  |
+| `options.timestamps`       | `TimestampSchemaOptions`      | optional  |
+| `options.validationAction` | `VALIDATION_ACTIONS`          | optional  |
+| `options.validationLevel`  | `VALIDATION_LEVEL`            | optional  |
 
 **Returns:**
 

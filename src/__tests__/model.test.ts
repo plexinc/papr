@@ -84,6 +84,23 @@ describe('model', () => {
     }
   );
 
+  const dynamicDefaultsSchema = schema(
+    {
+      bar: Types.number({ required: true }),
+      foo: Types.string({ required: true }),
+      ham: Types.date(),
+      nested: Types.object({
+        direct: Types.string({ required: true }),
+        other: Types.number(),
+      }),
+    },
+    {
+      defaults: () => ({
+        bar: new Date().getTime(),
+      }),
+    }
+  );
+
   type SimpleDocument = (typeof simpleSchema)[0];
   type SimpleOptions = (typeof simpleSchema)[1];
   type TimestampsDocument = (typeof timestampsSchema)[0];
@@ -92,11 +109,14 @@ describe('model', () => {
   type TimestampConfigOptions = (typeof timestampConfigSchema)[1];
   type NumericIdDocument = (typeof numericIdSchema)[0];
   type NumericIdOptions = (typeof numericIdSchema)[1];
+  type DynamicDefaultsDocument = (typeof dynamicDefaultsSchema)[0];
+  type DynamicDefaultsOptions = (typeof dynamicDefaultsSchema)[1];
 
   let simpleModel: Model<SimpleDocument, SimpleOptions>;
   let timestampsModel: Model<TimestampsDocument, TimestampsOptions>;
   let timestampConfigModel: Model<TimestampConfigDocument, TimestampConfigOptions>;
   let numericIdModel: Model<NumericIdDocument, NumericIdOptions>;
+  let dynamicDefaultsModel: Model<DynamicDefaultsDocument, DynamicDefaultsOptions>;
 
   let doc: SimpleDocument;
   let docs: SimpleDocument[];
@@ -187,6 +207,11 @@ describe('model', () => {
     numericIdModel = abstract(numericIdSchema);
     // @ts-expect-error Ignore schema types
     build(numericIdSchema, numericIdModel, collection);
+
+    // @ts-expect-error Ignore abstract assignment
+    dynamicDefaultsModel = abstract(dynamicDefaultsSchema);
+    // @ts-expect-error Ignore schema types
+    build(dynamicDefaultsSchema, dynamicDefaultsModel, collection);
   });
 
   describe('aggregate', () => {
@@ -350,6 +375,174 @@ describe('model', () => {
       ];
 
       await simpleModel.bulkWrite(operations);
+
+      expect(collection.bulkWrite).toHaveBeenCalledWith(
+        [
+          {
+            insertOne: {
+              document: {
+                bar: 123,
+                foo: 'foo',
+              },
+            },
+          },
+          {
+            insertOne: {
+              document: {
+                bar: 123456,
+                foo: 'foo',
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+                $setOnInsert: {},
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $inc: {
+                  bar: 123,
+                },
+                $set: {
+                  foo: 'foo',
+                },
+                $setOnInsert: {},
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+                $setOnInsert: {
+                  bar: 123456,
+                },
+              },
+              upsert: true,
+            },
+          },
+        ],
+        { ignoreUndefined: true }
+      );
+    });
+
+    test('schema with dynamic defaults', async () => {
+      jest.useFakeTimers({ now: 123456 });
+
+      const operations: PaprBulkWriteOperation<DynamicDefaultsDocument, DynamicDefaultsOptions>[] =
+        [
+          {
+            insertOne: {
+              document: {
+                bar: 123,
+                foo: 'foo',
+              },
+            },
+          },
+          {
+            insertOne: {
+              document: {
+                foo: 'foo',
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+              },
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  bar: 123,
+                  foo: 'foo',
+                },
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $inc: {
+                  bar: 123,
+                },
+                $set: {
+                  foo: 'foo',
+                },
+              },
+              upsert: true,
+            },
+          },
+          {
+            updateOne: {
+              filter: {},
+              update: {
+                $set: {
+                  foo: 'foo',
+                },
+              },
+              upsert: true,
+            },
+          },
+        ];
+
+      await dynamicDefaultsModel.bulkWrite(operations);
 
       expect(collection.bulkWrite).toHaveBeenCalledWith(
         [
@@ -1690,6 +1883,33 @@ describe('model', () => {
       expectType<Date>(result._updatedDate);
     });
 
+    test('dynamic defaults schema, inserts defaults', async () => {
+      jest.useFakeTimers({ now: 123456 });
+
+      const result = await dynamicDefaultsModel.insertOne({
+        foo: 'foo',
+      });
+
+      expect(collection.insertOne).toHaveBeenCalledWith(
+        {
+          bar: 123456,
+          foo: 'foo',
+        },
+        { ignoreUndefined: true }
+      );
+
+      expectType<DynamicDefaultsDocument>(result);
+
+      expectType<ObjectId>(result._id);
+      expectType<string>(result.foo);
+      expectType<number>(result.bar);
+      expectType<Date | undefined>(result.ham);
+      // @ts-expect-error `createdAt` is undefined here
+      result.createdAt;
+      // @ts-expect-error `updatedAt` is undefined here
+      result.updatedAt;
+    });
+
     test('throws error on not acknowledged result', async () => {
       (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockResolvedValue({
         acknowledged: false,
@@ -1923,6 +2143,46 @@ describe('model', () => {
         expectType<Date | undefined>(item.ham);
         expectType<Date>(item._createdDate);
         expectType<Date>(item._updatedDate);
+      }
+    });
+
+    test('dynamic defaults schema, inserts defaults', async () => {
+      jest.useFakeTimers({ now: 123456 });
+
+      const result = await dynamicDefaultsModel.insertMany([
+        {
+          foo: 'foo',
+        },
+        {
+          foo: 'bar',
+        },
+      ]);
+
+      expect(collection.insertMany).toHaveBeenCalledWith(
+        [
+          {
+            bar: 123456,
+            foo: 'foo',
+          },
+          {
+            bar: 123456,
+            foo: 'bar',
+          },
+        ],
+        { ignoreUndefined: true }
+      );
+
+      expectType<SimpleDocument[]>(result);
+
+      for (const item of result) {
+        expectType<ObjectId>(item._id);
+        expectType<string>(item.foo);
+        expectType<number>(item.bar);
+        expectType<Date | undefined>(item.ham);
+        // @ts-expect-error `createdAt` is undefined here
+        item.createdAt;
+        // @ts-expect-error `updatedAt` is undefined here
+        item.updatedAt;
       }
     });
 
@@ -2194,8 +2454,9 @@ describe('model', () => {
   });
 
   describe('upsert', () => {
-    test('default', async () => {
-      const result = await simpleModel.upsert({ foo: 'foo' }, { $set: { bar: 123 } });
+    test('static defaults', async () => {
+      const date = new Date();
+      const result = await simpleModel.upsert({ foo: 'foo' }, { $set: { ham: date } });
 
       expectType<SimpleDocument>(result);
 
@@ -2211,7 +2472,39 @@ describe('model', () => {
       expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
         { foo: 'foo' },
         {
-          $set: { bar: 123 },
+          $set: { ham: date },
+          $setOnInsert: { bar: 123456 },
+        },
+        {
+          ignoreUndefined: true,
+          returnDocument: 'after',
+          upsert: true,
+        }
+      );
+    });
+
+    test('dynamic defaults', async () => {
+      jest.useFakeTimers({ now: 123456 });
+
+      const date = new Date();
+      const result = await dynamicDefaultsModel.upsert({ foo: 'foo' }, { $set: { ham: date } });
+
+      expectType<SimpleDocument>(result);
+
+      expectType<ObjectId>(result._id);
+      expectType<string>(result.foo);
+      expectType<number>(result.bar);
+      expectType<Date | undefined>(result.ham);
+      // @ts-expect-error `createdAt` is undefined here
+      result.createdAt;
+      // @ts-expect-error `updatedAt` is undefined here
+      result.updatedAt;
+
+      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        { foo: 'foo' },
+        {
+          $set: { ham: date },
+          $setOnInsert: { bar: 123456 },
         },
         {
           ignoreUndefined: true,
