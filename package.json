@@ -79,7 +79,7 @@
     "jsdoc-parse": "6.2.0",
     "lint-staged": "13.2.3",
     "mongodb": "5.7.0",
-    "mongodb-memory-server": "8.13.0",
+    "mongodb-memory-server": "8.14.0",
     "mongoose": "6.3.5",
     "pinst": "3.0.0",
     "prettier": "3.0.0",
