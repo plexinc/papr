@@ -61,7 +61,7 @@
     "@byu-oit/bar-chart": "1.4.3",
     "@commitlint/cli": "17.6.7",
     "@commitlint/config-conventional": "17.6.7",
-    "@types/node": "16.18.39",
+    "@types/node": "16.18.40",
     "@typescript-eslint/eslint-plugin": "6.3.0",
     "@typescript-eslint/parser": "6.3.0",
     "arg": "5.0.2",
@@ -121,7 +121,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "16.20.1",
+    "node": "16.20.2",
     "pnpm": "8.6.12"
   },
   "packageManager": "pnpm@8.6.12"
