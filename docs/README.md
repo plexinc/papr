@@ -57,31 +57,25 @@ The JSON Schema validation feature is available in MongoDB server since version 
 
 Due to its bare feature set and validation run in the MongoDB server, Papr is _fast_.
 
-```
-mongodb.insert ~ 748.81 ops/sec
-papr.insert ~ 711.09 ops/sec
-mongoose.insert ~ 530.22 ops/sec
----
-mongodb.find ~ 598.82 ops/sec
-papr.find ~ 589.31 ops/sec
-mongoose.find ~ 478.46 ops/sec
----
-mongodb.update ~ 755.38 ops/sec
-papr.update ~ 696.47 ops/sec
-mongoose.update ~ 598.28 ops/sec
+```charty
+{{&benchmark.charts.insert}}
 ```
 
-![](benchmark.svg)
+```charty
+{{&benchmark.charts.find}}
+```
 
-The chart represents operations per second.
+```charty
+{{&benchmark.charts.update}}
+```
 
-The benchmark numbers are from a benchmark with:
+```
+{{&benchmark.results}}
+```
 
-- Node.js 14.19.3
-- MongoDB server v5.0.2
-- `mongodb` v4.6.0
-- `papr` v4.0.0
-- `mongoose` v6.3.5
+The benchmark results are generated on {{benchmark.date}} from a benchmark with:
+
+{{benchmark.configuration}}
 
 This benchmark can be run locally with `pnpm benchmark`. Run `pnpm benchmark --help` for more information on available arguments.
 

@@ -1,0 +1,42 @@
+name: Benchmark
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 8
+      - uses: actions/setup-node@v3.7.0
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - uses: supercharge/mongodb-github-action@v1.10.0
+        with:
+          mongodb-version: 6.0
+      - id: date
+        run: |
+          echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+      - run: node -v
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm benchmark
+      - id: create-pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: docs/data.json
+          base: main
+          body: 'Automated benchmark results generated on ${{ steps.date.outputs.date }}'
+          branch: docs/benchmark-${{ steps.date.outputs.date }}
+          commit-message: 'docs: Benchmark results ${{ steps.date.outputs.date }}'
+          delete-branch: true
+          reviewers: avaly
+          title: 'docs: Benchmark results ${{ steps.date.outputs.date }}'
+      - if: ${{ steps.create-pr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.create-pr.outputs.pull-request-url }}"
