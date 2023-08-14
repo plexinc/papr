@@ -87,7 +87,13 @@ const exampleSchema = schema(
 
 ### Default Values
 
-Papr does not support dynamic default values, but static default values can be used. Unlike Mongoose where default values are defined in the individual property options, Papr defines defaults in the schema options. An example of this can be seen below.
+Unlike Mongoose where default values are defined in the individual property options, Papr defines defaults in the schema options.
+
+Note: Default values are only applied to paths where no value is set at the time of insert.
+
+#### Static Default Values
+
+To set defaults you can supply an object in your schema with static values.
 
 ```js
 import mongoose from 'mongoose';
@@ -109,6 +115,34 @@ const exampleSchema = schema(
     defaults: {
       switch: false,
     },
+  }
+);
+```
+
+#### Dynamic Default Values
+
+Rather than supplying an object with your default values you can supply a function which will be executed at the time of insert and the returned values used as defaults.
+
+```js
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+const exampleSchema = new Schema({
+  birthday: { type: Date, default: Date.now, required: true },
+});
+```
+
+```ts
+import { schema, types } from 'papr';
+
+const exampleSchema = schema(
+  {
+    birthday: types.date({ required: true }),
+  },
+  {
+    defaults: () => ({
+      birthday: new Date(),
+    }),
   }
 );
 ```

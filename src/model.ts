@@ -25,11 +25,12 @@ import type {
 } from 'mongodb';
 import { serializeArguments } from './hooks';
 import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes';
-import { SchemaOptions, SchemaTimestampOptions } from './schema';
+import { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema';
 import {
   BaseSchema,
   cleanSetOnInsert,
   DocumentForInsert,
+  getDefaultValues,
   getTimestampProperty,
   ModelOptions,
   Projection,
@@ -40,7 +41,7 @@ import {
 
 export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>> {
   collection: Collection<TSchema>;
-  defaults?: Partial<TSchema>;
+  defaults?: DefaultsOption<TSchema>;
   defaultOptions: {
     ignoreUndefined?: boolean;
     maxTimeMS?: number;
@@ -272,7 +273,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
 
   // @ts-expect-error We're accessing runtime property on the schema
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  model.defaults = schema.$defaults || {};
+  model.defaults = schema.$defaults;
   model.collection = collection;
 
   // @ts-expect-error We're accessing runtime property on the schema
@@ -386,7 +387,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
           operation = {
             insertOne: {
               document: {
-                ...model.defaults,
+                ...getDefaultValues(model.defaults),
                 ...op.insertOne.document,
               },
             },
@@ -404,7 +405,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
                 ...update,
                 $setOnInsert: cleanSetOnInsert(
                   {
-                    ...model.defaults,
+                    ...getDefaultValues(model.defaults),
                     ...update.$setOnInsert,
                   },
                   update
@@ -823,7 +824,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     };
 
     const $setOnInsert = cleanSetOnInsert({
-      ...(model.defaults || {}),
+      ...getDefaultValues(model.defaults),
       ...finalUpdate.$setOnInsert,
       ...created,
     }, finalUpdate);
@@ -875,7 +876,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
             [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
             [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
           }),
-          ...(model.defaults || {}),
+          ...getDefaultValues(model.defaults),
           ...doc,
         };
       });
@@ -925,7 +926,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
           [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
           [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
         }),
-        ...(model.defaults || {}),
+        ...getDefaultValues(model.defaults),
         ...doc,
       };
 

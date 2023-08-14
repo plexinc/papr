@@ -15,8 +15,10 @@ export type SchemaTimestampOptions =
     }>
   | boolean;
 
+export type DefaultsOption<TProperties> = Partial<TProperties> | (() => Partial<TProperties>);
+
 export interface SchemaOptions<TProperties> {
-  defaults?: Partial<TProperties>;
+  defaults?: DefaultsOption<TProperties>;
   timestamps?: SchemaTimestampOptions;
   validationAction?: VALIDATION_ACTIONS;
   validationLevel?: VALIDATION_LEVEL;
@@ -74,7 +76,7 @@ function sanitize(value: any): void {
  *
  * @param properties {Record<string, unknown>}
  * @param [options] {SchemaOptions}
- * @param [options.defaults] {Partial<TProperties>}
+ * @param [options.defaults] {DefaultsOption<TProperties>}
  * @param [options.timestamps=false] {TimestampSchemaOptions}
  * @param [options.validationAction=VALIDATION_ACTIONS.ERROR] {VALIDATION_ACTIONS}
  * @param [options.validationLevel=VALIDATION_LEVEL.STRICT] {VALIDATION_LEVEL}

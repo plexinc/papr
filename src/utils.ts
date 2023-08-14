@@ -5,7 +5,7 @@ import type { Join, KeysOfAType, OptionalId, WithId } from 'mongodb';
 import type { DeepPick } from './DeepPick';
 import type { Hooks } from './hooks';
 import type { PaprBulkWriteOperation, PaprUpdateFilter } from './mongodbTypes';
-import type { SchemaOptions, SchemaTimestampOptions } from './schema';
+import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md
@@ -53,10 +53,17 @@ export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<
 > &
   Partial<Pick<TSchema, keyof TDefaults & keyof TSchema>>;
 
+export type SchemaDefaultValues<
+  TSchema,
+  TOptions extends SchemaOptions<TSchema>,
+> = TOptions['defaults'] extends () => infer ReturnDefaults ? ReturnDefaults : TOptions['defaults'];
+
 export type DocumentForInsert<
   TSchema,
   TOptions extends SchemaOptions<TSchema>,
-  TDefaults extends NonNullable<TOptions['defaults']> = NonNullable<TOptions['defaults']>,
+  TDefaults extends NonNullable<SchemaDefaultValues<TSchema, TOptions>> = NonNullable<
+    SchemaDefaultValues<TSchema, TOptions>
+  >,
 > = TOptions['timestamps'] extends SchemaTimestampOptions
   ? TOptions['timestamps'] extends false
     ? DocumentForInsertWithoutDefaults<TSchema, TDefaults>
@@ -272,6 +279,20 @@ export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): Objec
  * }
  * ```
  */
+
+// Checks the type of the model defaults property and if a function, returns
+// the result of the function call, otherwise returns the object
+export function getDefaultValues<TSchema extends BaseSchema>(
+  defaults?: DefaultsOption<TSchema>
+): Partial<TSchema> {
+  if (typeof defaults === 'function') {
+    return defaults();
+  }
+  if (typeof defaults === 'object') {
+    return defaults;
+  }
+  return {};
+}
 
 // Returns either the default timestamp property or the value supplied in timestamp options
 export function getTimestampProperty<

@@ -1,7 +1,8 @@
 import { describe, expect, test } from '@jest/globals';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { NestedPaths, ProjectionType, getIds, PropertyType } from '../utils';
+import { DefaultsOption } from '../schema';
+import { NestedPaths, ProjectionType, getIds, PropertyType, getDefaultValues } from '../utils';
 
 describe('utils', () => {
   interface TestDocument {
@@ -325,20 +326,47 @@ describe('utils', () => {
     });
   });
 
-  test.each([
-    ['strings', ['123456789012345678900001', '123456789012345678900002']],
-    [
-      'objectIds',
-      [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
-    ],
-    ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
-  ])('getIds %s', (_name, input) => {
-    const result = getIds(input);
+  describe('getDefaultValues', () => {
+    test('static values', () => {
+      const defaults: DefaultsOption<TestDocument> = {
+        bar: 1,
+        foo: 'test',
+      };
 
-    expect(result).toHaveLength(2);
-    expect(result[0] instanceof ObjectId).toBeTruthy();
-    expect(result[0].toHexString()).toBe('123456789012345678900001');
-    expect(result[1] instanceof ObjectId).toBeTruthy();
-    expect(result[1].toHexString()).toBe('123456789012345678900002');
+      const result = getDefaultValues(defaults);
+      expectType<Partial<TestDocument>>(result);
+      expect(result).toStrictEqual(defaults);
+    });
+
+    test('dynamic values', () => {
+      const defaults: DefaultsOption<TestDocument> = () => ({
+        bar: 1,
+        foo: 'test',
+        ham: new Date(),
+      });
+
+      const result = getDefaultValues(defaults);
+      expectType<Partial<TestDocument>>(result);
+      expect(result.ham instanceof Date).toBeTruthy();
+    });
+  });
+
+  describe('getIds', () => {
+    test.each([
+      ['strings', ['123456789012345678900001', '123456789012345678900002']],
+      [
+        'objectIds',
+        [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
+      ],
+      ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
+    ])('%s', (_name, input) => {
+      const result = getIds(input);
+
+      expect(result).toHaveLength(2);
+      expect(result[0] instanceof ObjectId).toBeTruthy();
+      expect(result[0].toHexString()).toBe('123456789012345678900001');
+      expect(result[1] instanceof ObjectId).toBeTruthy();
+      expect(result[1].toHexString()).toBe('123456789012345678900002');
+    });
   });
 });
