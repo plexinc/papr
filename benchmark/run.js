@@ -1,13 +1,10 @@
 import fs from 'fs';
-import barChart from '@byu-oit/bar-chart';
 import { ObjectId, Decimal128 } from 'mongodb';
 import mongoose from 'mongoose';
 import SampleMongoose from './mongoose.js';
 import SamplePapr from './papr.js';
 import setup, { db, teardown } from './setup.js';
 
-const CHART_LABELS = ['insert', 'find', 'update'];
-const CHART_LEGEND_LABELS = ['mongodb', 'papr', 'mongoose'];
 const INSERT_COUNT = 10000;
 const FIND_COUNT = 10000;
 const UPDATE_COUNT = 10000;
@@ -34,6 +31,12 @@ const TIMES = {
   },
 };
 const NS_PER_S = 1e9;
+const RESULTS = [];
+
+function printResult(line) {
+  RESULTS.push(line);
+  console.log(line);
+}
 
 function timer() {
   const start = process.hrtime.bigint();
@@ -49,10 +52,12 @@ function random(max) {
   return Math.floor(Math.random() * max);
 }
 
-function randomDecimal(max) {
+function randomDecimal(max, type) {
   const cents = random(99);
   const dollars = random(max);
-  return Decimal128(`${dollars}.${cents}`);
+  return type === 'mongoose'
+    ? new mongoose.Types.Decimal128(`${dollars}.${cents}`)
+    : new Decimal128(`${dollars}.${cents}`);
 }
 
 function randomURL() {
@@ -75,7 +80,7 @@ function randomDocument(source, type) {
       { score: random(10) },
       { score: random(10) },
     ],
-    salary: randomDecimal(100000),
+    salary: randomDecimal(100000, type),
     scores: [random(100), random(100)],
     ...(source && { source }),
     url: randomURL(),
@@ -109,9 +114,9 @@ async function test(library, name, operations, action) {
   const time = testTimer();
   const ops = (operations / time).toFixed(2);
 
-  TIMES[library][name] = ops;
+  TIMES[library][name] = operations / time;
 
-  console.log(`${library}.${name} ~ ${ops} ops/sec`);
+  printResult(`${library}.${name} ~ ${ops} ops/sec`);
 }
 
 async function run() {
@@ -130,7 +135,7 @@ async function run() {
     IDS.mongoose.push(doc._id);
   });
 
-  console.log('---');
+  printResult('---');
 
   await test('mongodb', 'find', FIND_COUNT, async () => {
     await mongodb.find(randomQueryList('mongodb')).toArray();
@@ -142,7 +147,7 @@ async function run() {
     await SampleMongoose.find(randomQueryList('mongoose'));
   });
 
-  console.log('---');
+  printResult('---');
 
   await test('mongodb', 'update', UPDATE_COUNT, async () => {
     await mongodb.updateOne(randomQueryID('mongodb'), { $set: { age: random(100) } });
@@ -153,27 +158,110 @@ async function run() {
   await test('mongoose', 'update', UPDATE_COUNT, async () => {
     await SampleMongoose.updateOne(randomQueryID('mongoose'), { age: random(100) });
   });
+}
 
-  const chart = barChart({
-    colors: ['#13aa52', '#e5a00d', '#800'],
-    data: [
-      [TIMES.mongodb.insert, TIMES.papr.insert, TIMES.mongoose.insert],
-      [TIMES.mongodb.find, TIMES.papr.find, TIMES.mongoose.find],
-      [TIMES.mongodb.update, TIMES.papr.update, TIMES.mongoose.update],
-    ],
-    labels: CHART_LABELS,
-    legendLabels: CHART_LEGEND_LABELS,
-  })
-    .replace('<rect x="0" y="0" width="100" height="60" fill="url(#bgGradient)" />', '')
-    .replace('stroke: #ccc;', 'stroke: #555;')
-    .replace(
-      'font-family: "Helvetica Nue", Arial, sans-serif;',
-      'font-family: "Helvetica Nue", Arial, sans-serif; fill: #fff;'
-    );
+async function save() {
+  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-  fs.writeFileSync('docs/benchmark.svg', chart);
+  const data = {
+    benchmark: {
+      charts: {
+        find: JSON.stringify({
+          caption: 'Operations per second',
+          data: [
+            {
+              colour: '#13aa52',
+              label: 'mongodb',
+              value: TIMES.mongodb.find,
+            },
+            {
+              colour: '#e5a00d',
+              label: 'papr',
+              value: TIMES.papr.find,
+            },
+            {
+              colour: '#800',
+              label: 'mongoose',
+              value: TIMES.mongoose.find,
+            },
+          ],
+          options: {
+            labels: true,
+          },
+          title: 'Finds',
+          type: 'review',
+        }),
+        insert: JSON.stringify({
+          caption: 'Operations per second',
+          data: [
+            {
+              colour: '#13aa52',
+              label: 'mongodb',
+              value: TIMES.mongodb.insert,
+            },
+            {
+              colour: '#e5a00d',
+              label: 'papr',
+              value: TIMES.papr.insert,
+            },
+            {
+              colour: '#800',
+              label: 'mongoose',
+              value: TIMES.mongoose.insert,
+            },
+          ],
+          options: {
+            labels: true,
+          },
+          title: 'Inserts',
+          type: 'review',
+        }),
+        update: JSON.stringify({
+          caption: 'Operations per second',
+          data: [
+            {
+              colour: '#13aa52',
+              label: 'mongodb',
+              value: TIMES.mongodb.update,
+            },
+            {
+              colour: '#e5a00d',
+              label: 'papr',
+              value: TIMES.papr.update,
+            },
+            {
+              colour: '#800',
+              label: 'mongoose',
+              value: TIMES.mongoose.update,
+            },
+          ],
+          options: {
+            labels: true,
+          },
+          title: 'Updates',
+          type: 'review',
+        }),
+      },
+      configuration: [
+        `- node.js ${process.version}`,
+        `- mongodb v${pkg.devDependencies.mongodb}`,
+        `- papr v${pkg.version}`,
+        `- mongoose v${pkg.devDependencies.mongoose}`,
+        '- MongoDB server v6.0',
+      ].join('\n'),
+      date: new Date().toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }),
+      results: RESULTS.join('\n'),
+    },
+  };
+
+  fs.writeFileSync('docs/data.json', JSON.stringify(data, null, 2));
 }
 
 await setup();
 await run();
+await save();
 await teardown();
