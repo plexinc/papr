@@ -31,17 +31,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.3
-      - uses: volta-cli/action@v4.0.1
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/cache@v3.3.1
+      - uses: actions/setup-node@v3.7.0
         with:
-          path: |
-            node_modules
-          key: deps-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          restore-keys: |
-            deps-
+          node-version-file: 'package.json'
+          cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint && pnpm pretty:ci
 
@@ -49,17 +45,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.3
-      - uses: volta-cli/action@v4.0.1
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/cache@v3.3.1
+      - uses: actions/setup-node@v3.7.0
         with:
-          path: |
-            node_modules
-          key: deps-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          restore-keys: |
-            deps-
+          node-version-file: 'package.json'
+          cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
@@ -67,16 +59,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.5.3
-      - uses: volta-cli/action@v4.0.1
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
-      - uses: actions/cache@v3.3.1
+      - uses: actions/setup-node@v3.7.0
         with:
-          path: |
-            node_modules
-          key: deps-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          restore-keys: |
-            deps-
+          node-version-file: 'package.json'
+          cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:types
