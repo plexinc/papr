@@ -1,12 +1,12 @@
 {
   "benchmark": {
     "charts": {
-      "find": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":1221.2944081578396},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":1209.2683725764568},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":694.8904378671256}],\"options\":{\"labels\":true},\"title\":\"Finds\",\"type\":\"review\"}",
-      "insert": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":1886.3811302721006},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":1744.912101799529},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":667.4490545420884}],\"options\":{\"labels\":true},\"title\":\"Inserts\",\"type\":\"review\"}",
-      "update": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":2055.281583289144},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":1897.693633241675},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":1538.476437304046}],\"options\":{\"labels\":true},\"title\":\"Updates\",\"type\":\"review\"}"
+      "find": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":905.6972772837971},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":850.1479379195673},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":502.8165592121089}],\"options\":{\"labels\":true},\"title\":\"Finds\",\"type\":\"review\"}",
+      "insert": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":1340.4214855446278},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":1265.5310454624798},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":496.07237024953986}],\"options\":{\"labels\":true},\"title\":\"Inserts\",\"type\":\"review\"}",
+      "update": "{\"caption\":\"Operations per second\",\"data\":[{\"colour\":\"#13aa52\",\"label\":\"mongodb\",\"value\":1526.9887963883748},{\"colour\":\"#e5a00d\",\"label\":\"papr\",\"value\":1401.0284424971117},{\"colour\":\"#800\",\"label\":\"mongoose\",\"value\":1170.6003942756547}],\"options\":{\"labels\":true},\"title\":\"Updates\",\"type\":\"review\"}"
     },
     "configuration": "- node.js v18.17.0\n- mongodb v5.7.0\n- papr v14.0.0\n- mongoose v6.3.5\n- MongoDB server v6.0",
     "date": "August 18, 2023",
-    "results": "mongodb.insert ~ 1886.38 ops/sec\npapr.insert ~ 1744.91 ops/sec\nmongoose.insert ~ 667.45 ops/sec\n---\nmongodb.find ~ 1221.29 ops/sec\npapr.find ~ 1209.27 ops/sec\nmongoose.find ~ 694.89 ops/sec\n---\nmongodb.update ~ 2055.28 ops/sec\npapr.update ~ 1897.69 ops/sec\nmongoose.update ~ 1538.48 ops/sec"
+    "results": "mongodb.insert ~ 1340.42 ops/sec\npapr.insert ~ 1265.53 ops/sec\nmongoose.insert ~ 496.07 ops/sec\n---\nmongodb.find ~ 905.70 ops/sec\npapr.find ~ 850.15 ops/sec\nmongoose.find ~ 502.82 ops/sec\n---\nmongodb.update ~ 1526.99 ops/sec\npapr.update ~ 1401.03 ops/sec\nmongoose.update ~ 1170.60 ops/sec"
   }
 }
