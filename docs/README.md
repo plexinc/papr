@@ -73,7 +73,7 @@ Due to its bare feature set and validation run in the MongoDB server, Papr is _f
 {{&benchmark.results}}
 ```
 
-The benchmark results are generated on {{benchmark.date}} from a benchmark with:
+The benchmark results were generated on {{benchmark.date}} from a benchmark with:
 
 {{benchmark.configuration}}
 
