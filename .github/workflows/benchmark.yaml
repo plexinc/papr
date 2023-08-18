@@ -2,7 +2,7 @@ name: Benchmark
 
 on:
   schedule:
-    - cron: '30 5 * * *'
+    - cron: '30 5 15 * *'
 
 jobs:
   benchmark:
@@ -25,12 +25,22 @@ jobs:
       - run: node -v
       - run: pnpm install --frozen-lockfile
       - run: pnpm benchmark
+      - uses: actions/github-script@v6.4.1
+        id: results
+        with:
+          script: |
+            core.setOutput('results', require('./docs/data.json').benchmark.results);
       - id: create-pr
         uses: peter-evans/create-pull-request@v5
         with:
           add-paths: docs/data.json
           base: main
-          body: 'Automated benchmark results generated on ${{ steps.date.outputs.date }}'
+          body: |
+            Automated benchmark results generated on ${{ steps.date.outputs.date }}
+
+            ```
+            ${{ steps.results.outputs.results }}
+            ```
           branch: docs/benchmark-${{ steps.date.outputs.date }}
           commit-message: 'docs: Benchmark results ${{ steps.date.outputs.date }}'
           delete-branch: true
