@@ -113,7 +113,7 @@ const exampleSchema = schema(
   },
   {
     defaults: {
-      hidde: false,
+      hidden: false,
     },
   }
 );
