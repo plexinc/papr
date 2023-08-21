@@ -109,11 +109,11 @@ import { schema, types } from 'papr';
 
 const exampleSchema = schema(
   {
-    switch: types.boolean({ required: true }),
+    hidden: types.boolean({ required: true }),
   },
   {
     defaults: {
-      switch: false,
+      hidden: false,
     },
   }
 );
