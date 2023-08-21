@@ -75,8 +75,8 @@ devDependencies:
     specifier: 5.7.0
     version: 5.7.0
   mongodb-memory-server:
-    specifier: 8.15.0
-    version: 8.15.0
+    specifier: 8.15.1
+    version: 8.15.1
   mongoose:
     specifier: 6.3.5
     version: 6.3.5
@@ -6774,8 +6774,8 @@ packages:
       whatwg-url: 11.0.0
     dev: true
 
-  /mongodb-memory-server-core@8.15.0:
-    resolution: {integrity: sha512-rwNNhqj7gAF82M+MSVZZ/rgIBRS/HC/gc29yWKNVn7bzv48LK+V6gZQ7Kz51evgsZgpxpgjg9V5YOIyNWlaL9Q==}
+  /mongodb-memory-server-core@8.15.1:
+    resolution: {integrity: sha512-U6ntro5DvUD71C2juKCzzc2Hul0qLYUpQLiXcXDcvtNDbGMoJgwKScdvptQkzQwUdICeZUfvZo8By7Mc09Umog==}
     engines: {node: '>=12.22.0'}
     dependencies:
       async-mutex: 0.3.2
@@ -6798,12 +6798,12 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb-memory-server@8.15.0:
-    resolution: {integrity: sha512-R2JmtkmnMglzVVa6ucF4qZpNm0IS+6gRgCH3uRf09AXETBuxjWLN08SKTh4IU4kfFEyKfa39a5oD9JtzNe1yPw==}
+  /mongodb-memory-server@8.15.1:
+    resolution: {integrity: sha512-nqIbM5oh1s46VV4InhqQdNFu5szx+xi6qT//87beQ10JCZHLG1nZ/SUMsXkKLNn9wvs19OAf5HwI60enK9ZOuA==}
     engines: {node: '>=12.22.0'}
     requiresBuild: true
     dependencies:
-      mongodb-memory-server-core: 8.15.0
+      mongodb-memory-server-core: 8.15.1
       tslib: 2.6.1
     transitivePeerDependencies:
       - aws-crt
