@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.1.0](https://github.com/plexinc/papr/compare/v14.0.0...v14.1.0) (2023-08-21)
+
+
+### Features
+
+* Support dynamic default values ([#527](https://github.com/plexinc/papr/issues/527)) ([34d0434](https://github.com/plexinc/papr/commit/34d043423f79a541b622053e10793dc22313cb01))
+
 ## [14.0.0](https://github.com/plexinc/papr/compare/v13.1.0...v14.0.0) (2023-07-11)
 
 
