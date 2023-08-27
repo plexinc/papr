@@ -581,10 +581,16 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     // @ts-expect-error Ignore `string` type mismatched to `keyof TSchema`
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const key: keyof TSchema = Object.keys(filter)[0] || '_id';
+
     const result = await model.findOne(filter, {
-      projection: { _id: 0, [key]: 1 } as const,
+      projection: {
+        // @ts-expect-error `_id` is not found in the projection type
+        _id: 0,
+        [key]: 1,
+      } as const,
       ...options,
     });
+
     return !!result;
   };
 
