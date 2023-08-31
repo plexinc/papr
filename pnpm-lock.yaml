@@ -72,8 +72,8 @@ devDependencies:
     specifier: 14.0.0
     version: 14.0.0
   mongodb:
-    specifier: 5.8.0
-    version: 5.8.0
+    specifier: 5.8.1
+    version: 5.8.1
   mongodb-memory-server:
     specifier: 8.15.1
     version: 8.15.1
@@ -6856,8 +6856,8 @@ packages:
       saslprep: 1.0.3
     dev: true
 
-  /mongodb@5.8.0:
-    resolution: {integrity: sha512-xx4CXmxcj3bNe7iGBlhntVrUqrNARYhUZteXaz4epEESv4oXD/FONAovcyoCaEffdYlw25Yz284OxMfpnPLlgQ==}
+  /mongodb@5.8.1:
+    resolution: {integrity: sha512-wKyh4kZvm6NrCPH8AxyzXm3JBoEf4Xulo0aUWh3hCgwgYJxyQ1KLST86ZZaSWdj6/kxYUA3+YZuyADCE61CMSg==}
     engines: {node: '>=14.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0

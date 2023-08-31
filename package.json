@@ -77,7 +77,7 @@
     "jsdoc-api": "8.0.0",
     "jsdoc-parse": "6.2.0",
     "lint-staged": "14.0.0",
-    "mongodb": "5.8.0",
+    "mongodb": "5.8.1",
     "mongodb-memory-server": "8.15.1",
     "mongoose": "6.3.5",
     "pinst": "3.0.0",
