@@ -95,7 +95,7 @@ describe('mongodb types', () => {
         });
 
         // all BSON types can be used as query values
-        expectType<PaprFilter<TestDocument>>({ binary: new Binary('', 2) });
+        expectType<PaprFilter<TestDocument>>({ binary: new Binary([], 2) });
         expectType<PaprFilter<TestDocument>>({ bsonSymbol: new BSONSymbol('hi') });
         expectType<PaprFilter<TestDocument>>({ code: new Code(() => true) });
         expectType<PaprFilter<TestDocument>>({ double: new Double(123.45) });
@@ -509,7 +509,7 @@ describe('mongodb types', () => {
           });
 
           // all BSON types can be used as update values
-          expectType<PaprUpdateFilter<TestDocument>>({ $set: { binary: new Binary('', 2) } });
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { binary: new Binary([], 2) } });
           expectType<PaprUpdateFilter<TestDocument>>({
             $set: { bsonSymbol: new BSONSymbol('hi') },
           });

@@ -779,11 +779,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       } as FindOneAndDeleteOptions
     );
 
-    if (result.ok === 1) {
-      return result.value as ProjectionType<TSchema, TProjection>;
-    }
-
-    throw new Error('findOneAndDelete failed');
+    return result as ProjectionType<TSchema, TProjection>;
   });
 
   /**
@@ -848,11 +844,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       } as FindOneAndUpdateOptions
     );
 
-    if (result.ok === 1) {
-      return result.value as ProjectionType<TSchema, TProjection>;
-    }
-
-    throw new Error('findOneAndUpdate failed');
+    return result as ProjectionType<TSchema, TProjection>;
   });
 
   /**

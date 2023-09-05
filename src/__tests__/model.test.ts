@@ -150,15 +150,9 @@ describe('model', () => {
       // @ts-expect-error Ignore mock function
       findOne: jest.fn().mockResolvedValue(doc),
       // @ts-expect-error Ignore mock function
-      findOneAndDelete: jest.fn().mockResolvedValue({
-        ok: 1,
-        value: doc,
-      }),
+      findOneAndDelete: jest.fn().mockResolvedValue(doc),
       // @ts-expect-error Ignore mock function
-      findOneAndUpdate: jest.fn().mockResolvedValue({
-        ok: 1,
-        value: doc,
-      }),
+      findOneAndUpdate: jest.fn().mockResolvedValue(doc),
       // @ts-expect-error Ignore mock function
       insertMany: jest.fn().mockResolvedValue({
         acknowledged: true,
@@ -1235,11 +1229,9 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndDelete as jest.Mocked<Collection['findOneAndDelete']>)
-        // @ts-expect-error Ignore mock value
-        .mockResolvedValue({
-          ok: 0,
-        });
+      (
+        collection.findOneAndDelete as jest.Mocked<Collection['findOneAndDelete']>
+      ).mockRejectedValueOnce(new Error('findOneAndDelete failed'));
 
       await expect(simpleModel.findOneAndDelete({ foo: 'bar' })).rejects.toThrow(
         'findOneAndDelete failed'
@@ -1288,9 +1280,9 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>)
-        // @ts-expect-error Ignore mock value
-        .mockResolvedValue({ ok: 0 });
+      (
+        collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>
+      ).mockRejectedValueOnce(new Error('findOneAndUpdate failed'));
 
       await expect(
         simpleModel.findOneAndUpdate({ foo: 'bar' }, { $set: { bar: 123 } })
@@ -2515,9 +2507,9 @@ describe('model', () => {
     });
 
     test('throws error on failure', async () => {
-      (collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>)
-        // @ts-expect-error Ignore mock function
-        .mockResolvedValue({ ok: false });
+      (
+        collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>
+      ).mockRejectedValueOnce(new Error('findOneAndUpdate failed'));
 
       await expect(simpleModel.upsert({ foo: 'foo' }, { $set: { bar: 123 } })).rejects.toThrow(
         'findOneAndUpdate failed'
