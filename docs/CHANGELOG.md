@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.0.0](https://github.com/plexinc/papr/compare/v14.1.0...v15.0.0) (2023-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* `node` minimum version is now v16.20.1
+
+### Features
+
+* Upgrade mongodb to v6.0.0 ([#569](https://github.com/plexinc/papr/issues/569)) ([a95bfb4](https://github.com/plexinc/papr/commit/a95bfb45c11d6bcaf48d5ed51f0f7299814776a2))
+
 ## [14.1.0](https://github.com/plexinc/papr/compare/v14.0.0...v14.1.0) (2023-08-21)
 
 
