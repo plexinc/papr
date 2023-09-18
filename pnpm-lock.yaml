@@ -78,8 +78,8 @@ devDependencies:
     specifier: 8.15.1
     version: 8.15.1
   mongoose:
-    specifier: 6.3.5
-    version: 6.3.5
+    specifier: 7.5.2
+    version: 7.5.2
   pinst:
     specifier: 3.0.0
     version: 3.0.0
@@ -3582,6 +3582,11 @@ packages:
       buffer: 5.7.1
     dev: true
 
+  /bson@5.5.0:
+    resolution: {integrity: sha512-B+QB4YmDx9RStKv8LLSl/aVIEV3nYJc3cJNNTK2Cd1TL+7P+cNpw9mAPeCgc5K+j01Dv6sxUzcITXDx7ZU3F0w==}
+    engines: {node: '>=14.20.1'}
+    dev: true
+
   /bson@6.1.0:
     resolution: {integrity: sha512-yiQ3KxvpVoRpx1oD1uPz4Jit9tAVTJgjdmjDKtUErkOoL9VNoF8Dd58qtAOL5E40exx2jvAT9sqdRSK/r+SHlA==}
     engines: {node: '>=16.20.1'}
@@ -4308,11 +4313,6 @@ packages:
     dependencies:
       has-property-descriptors: 1.0.0
       object-keys: 1.1.1
-    dev: true
-
-  /denque@2.1.0:
-    resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
-    engines: {node: '>=0.10'}
     dev: true
 
   /depd@2.0.0:
@@ -6399,8 +6399,9 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
-  /kareem@2.3.5:
-    resolution: {integrity: sha512-qxCyQtp3ioawkiRNQr/v8xw9KIviMSSNmy+63Wubj7KmMn3g7noRXIZB4vPCAP+ETi2SR8eH6CvmlKZuGpoHOg==}
+  /kareem@2.5.1:
+    resolution: {integrity: sha512-7jFxRVm+jD+rkq3kY0iZDJfsO2/t4BBPeEb2qKn2lR/9KhuksYk5hxzfRYWMPV8P/x2d0kHD306YyWLzjjH+uA==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /keyv@3.1.0:
@@ -6879,16 +6880,32 @@ packages:
       - aws-crt
     dev: true
 
-  /mongodb@4.5.0:
-    resolution: {integrity: sha512-A2l8MjEpKojnhbCM0MK3+UOGUSGvTNNSv7AkP1fsT7tkambrkkqN/5F2y+PhzsV0Nbv58u04TETpkaSEdI2zKA==}
-    engines: {node: '>=12.9.0'}
+  /mongodb@5.8.1:
+    resolution: {integrity: sha512-wKyh4kZvm6NrCPH8AxyzXm3JBoEf4Xulo0aUWh3hCgwgYJxyQ1KLST86ZZaSWdj6/kxYUA3+YZuyADCE61CMSg==}
+    engines: {node: '>=14.20.1'}
+    peerDependencies:
+      '@aws-sdk/credential-providers': ^3.188.0
+      '@mongodb-js/zstd': ^1.0.0
+      kerberos: ^1.0.0 || ^2.0.0
+      mongodb-client-encryption: '>=2.3.0 <3'
+      snappy: ^7.2.2
+    peerDependenciesMeta:
+      '@aws-sdk/credential-providers':
+        optional: true
+      '@mongodb-js/zstd':
+        optional: true
+      kerberos:
+        optional: true
+      mongodb-client-encryption:
+        optional: true
+      snappy:
+        optional: true
     dependencies:
-      bson: 4.7.2
-      denque: 2.1.0
+      bson: 5.5.0
       mongodb-connection-string-url: 2.6.0
       socks: 2.7.1
     optionalDependencies:
-      saslprep: 1.0.3
+      '@mongodb-js/saslprep': 1.1.0
     dev: true
 
   /mongodb@6.1.0:
@@ -6923,18 +6940,23 @@ packages:
       mongodb-connection-string-url: 2.6.0
     dev: true
 
-  /mongoose@6.3.5:
-    resolution: {integrity: sha512-Ho3b/MK3lFyb87NjzyVwrjCqQ5DuLsIPSMFYDuZjaIJNhZfHNPQIcUDR1RLZ0/l+uznwo0VBu3WSwdu8EfAZTA==}
-    engines: {node: '>=12.0.0'}
+  /mongoose@7.5.2:
+    resolution: {integrity: sha512-yEkmI1jfiog7QUvMWz3eB/XoA3/5DrVvSz+z3V5hnq8VtZIHC7ujEV0RKzRXwr8QNMOs+OTB7+aK7R/N/V3yXA==}
+    engines: {node: '>=14.20.1'}
     dependencies:
-      bson: 4.7.2
-      kareem: 2.3.5
-      mongodb: 4.5.0
+      bson: 5.5.0
+      kareem: 2.5.1
+      mongodb: 5.8.1
       mpath: 0.9.0
-      mquery: 4.0.3
+      mquery: 5.0.0
       ms: 2.1.3
-      sift: 16.0.0
+      sift: 16.0.1
     transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
       - supports-color
     dev: true
 
@@ -6943,9 +6965,9 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: true
 
-  /mquery@4.0.3:
-    resolution: {integrity: sha512-J5heI+P08I6VJ2Ky3+33IpCdAvlYGTSUjwTPxkAr8i8EoduPMBX2OY/wa3IKZIQl7MU4SbFk8ndgSKyB/cl1zA==}
-    engines: {node: '>=12.0.0'}
+  /mquery@5.0.0:
+    resolution: {integrity: sha512-iQMncpmEK8R8ncT8HJGsGc9Dsp8xcgYMVSbs5jgnm1lFHTZqMJTUWTDx1LBO8+mK3tPNZWFLBghQEIOULSTHZg==}
+    engines: {node: '>=14.0.0'}
     dependencies:
       debug: 4.3.4
     transitivePeerDependencies:
@@ -7854,8 +7876,8 @@ packages:
       object-inspect: 1.12.3
     dev: true
 
-  /sift@16.0.0:
-    resolution: {integrity: sha512-ILTjdP2Mv9V1kIxWMXeMTIRbOBrqKc4JAXmFMnFq3fKeyQ2Qwa3Dw1ubcye3vR+Y6ofA0b9gNDr/y2t6eUeIzQ==}
+  /sift@16.0.1:
+    resolution: {integrity: sha512-Wv6BjQ5zbhW7VFefWusVP33T/EM0vYikCaQ2qR8yULbsilAT8/wQaXvuQ3ptGLpoKx+lihJE3y2UTgKDyyNHZQ==}
     dev: true
 
   /signal-exit@3.0.7:
