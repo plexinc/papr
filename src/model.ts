@@ -344,7 +344,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * Calls the MongoDB [`bulkWrite()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#bulkWrite) method.
    *
-   * If no operations are provided this method acts as a no-op and return
+   * If no operations are provided this method acts as a no-op and returns
    * nothing.
    *
    * @param operations {Array<BulkWriteOperation<TSchema, TOptions>>}
