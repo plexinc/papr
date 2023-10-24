@@ -72,8 +72,8 @@ devDependencies:
     specifier: 15.0.0
     version: 15.0.0
   mongodb:
-    specifier: 6.1.0
-    version: 6.1.0
+    specifier: 6.2.0
+    version: 6.2.0
   mongodb-memory-server:
     specifier: 9.0.0
     version: 9.0.0
@@ -2638,8 +2638,8 @@ packages:
     engines: {node: '>=14.20.1'}
     dev: true
 
-  /bson@6.1.0:
-    resolution: {integrity: sha512-yiQ3KxvpVoRpx1oD1uPz4Jit9tAVTJgjdmjDKtUErkOoL9VNoF8Dd58qtAOL5E40exx2jvAT9sqdRSK/r+SHlA==}
+  /bson@6.2.0:
+    resolution: {integrity: sha512-ID1cI+7bazPDyL9wYy9GaQ8gEEohWvcUl/Yf0dIdutJxnmInEEyCsb4awy/OiBfall7zBA179Pahi3vCdFze3Q==}
     engines: {node: '>=16.20.1'}
     dev: true
 
@@ -5984,8 +5984,8 @@ packages:
       '@mongodb-js/saslprep': 1.1.0
     dev: true
 
-  /mongodb@6.1.0:
-    resolution: {integrity: sha512-AvzNY0zMkpothZ5mJAaIo2bGDjlJQqqAbn9fvtVgwIIUPEfdrqGxqNjjbuKyrgQxg2EvCmfWdjq+4uj96c0YPw==}
+  /mongodb@6.2.0:
+    resolution: {integrity: sha512-d7OSuGjGWDZ5usZPqfvb36laQ9CPhnWkAGHT61x5P95p/8nMVeH8asloMwW6GcYFeB0Vj4CB/1wOTDG2RA9BFA==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -6012,7 +6012,7 @@ packages:
         optional: true
     dependencies:
       '@mongodb-js/saslprep': 1.1.0
-      bson: 6.1.0
+      bson: 6.2.0
       mongodb-connection-string-url: 2.6.0
     dev: true
 
