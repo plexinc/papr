@@ -75,8 +75,8 @@ devDependencies:
     specifier: 6.2.0
     version: 6.2.0
   mongodb-memory-server:
-    specifier: 9.0.0
-    version: 9.0.0
+    specifier: 9.0.1
+    version: 9.0.1
   mongoose:
     specifier: 7.5.2
     version: 7.5.2
@@ -5922,8 +5922,8 @@ packages:
       whatwg-url: 11.0.0
     dev: true
 
-  /mongodb-memory-server-core@9.0.0:
-    resolution: {integrity: sha512-rEB328vrwpafplU8rxUizJ4JdazTEkVuoqBeXef3si2HjFXdTl19VfenxSEuEpLDiTkEDlwr05ZqGCT3cRBrHw==}
+  /mongodb-memory-server-core@9.0.1:
+    resolution: {integrity: sha512-+dGsBoviujeAiDiU4O0zUXQ33pLsjQhDuWA8HucLfwgm0d+xdfOhSe5Xz/6uQjE1MNutpwExBvFyVKXaVuNkYg==}
     engines: {node: '>=14.20.1'}
     dependencies:
       async-mutex: 0.4.0
@@ -5947,12 +5947,12 @@ packages:
       - supports-color
     dev: true
 
-  /mongodb-memory-server@9.0.0:
-    resolution: {integrity: sha512-bbRJoKfUZuP2OqMgwbnBOAH/MzQt9rBVa+H6T6a+hqAxCV/9IajVIGZwHlyB4WmZiivXsUepMZD/FtSEmhE26A==}
+  /mongodb-memory-server@9.0.1:
+    resolution: {integrity: sha512-Qqph8PoJHtHjvP8JynWMx9K9N4Eh0GDj+bexL/vB6jtvzw1nUcARnxidPvaKFzU+hDULz9sgTUqYJmjqowmXTQ==}
     engines: {node: '>=14.20.1'}
     requiresBuild: true
     dependencies:
-      mongodb-memory-server-core: 9.0.0
+      mongodb-memory-server-core: 9.0.1
       tslib: 2.6.2
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
