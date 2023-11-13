@@ -60,7 +60,7 @@
     "@babel/preset-typescript": "7.23.2",
     "@commitlint/cli": "18.2.0",
     "@commitlint/config-conventional": "18.1.0",
-    "@types/node": "18.18.8",
+    "@types/node": "18.18.9",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "arg": "5.0.2",
