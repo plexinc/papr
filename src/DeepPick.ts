@@ -26,5 +26,5 @@ type Primitive = boolean | number | string | symbol | null | undefined;
 export type DeepPick<Type, Paths extends string> = Type extends Binary | Date | ObjectId | Primitive
   ? Type
   : Type extends (infer ArrayItem)[]
-  ? DeepPick<ArrayItem, ArrayItemKeys<Paths>>[]
-  : Pick<InnerPick<Type, Paths>, HeadPaths<Paths> & UnionKeyOf<Type>>;
+    ? DeepPick<ArrayItem, ArrayItemKeys<Paths>>[]
+    : Pick<InnerPick<Type, Paths>, HeadPaths<Paths> & UnionKeyOf<Type>>;

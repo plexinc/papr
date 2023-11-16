@@ -14,8 +14,8 @@ type TupleSplit<
 > = Result['length'] extends Position
   ? Result
   : Items extends readonly [infer First, ...infer Rest]
-  ? TupleSplit<readonly [...Rest], Position, [...Result, NonNullable<First>]>
-  : Result;
+    ? TupleSplit<readonly [...Rest], Position, [...Result, NonNullable<First>]>
+    : Result;
 
 export type TupleItems<
   Type extends readonly unknown[],
