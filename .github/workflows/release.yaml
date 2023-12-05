@@ -15,7 +15,4 @@ jobs:
     steps:
       - uses: google-github-actions/release-please-action@v4.0.0
         with:
-          changelog-path: docs/CHANGELOG.md
-          package-name: papr
-          pull-request-title-pattern: 'chore${scope}: Release${component} ${version}'
           release-type: node
