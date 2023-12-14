@@ -382,13 +382,15 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       if (operations.length === 0) {
         return;
       }
-      const finalOperations = operations.map((op) => {
+
+      const finalOperations = [];
+      for (const op of operations) {
         let operation = op;
         if ('insertOne' in op) {
           operation = {
             insertOne: {
               document: {
-                ...getDefaultValues(model.defaults),
+                ...(await getDefaultValues(model.defaults)),
                 ...op.insertOne.document,
               },
             },
@@ -406,7 +408,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
                 ...update,
                 $setOnInsert: cleanSetOnInsert(
                   {
-                    ...getDefaultValues(model.defaults),
+                    ...(await getDefaultValues(model.defaults)),
                     ...update.$setOnInsert,
                   },
                   update
@@ -415,10 +417,11 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
             },
           };
         }
-        return model.timestamps
-          ? timestampBulkWriteOperation(operation, model.timestamps)
-          : operation;
-      });
+
+        finalOperations.push(
+          model.timestamps ? timestampBulkWriteOperation(operation, model.timestamps) : operation
+        );
+      }
 
       const result = await model.collection.bulkWrite(
         finalOperations as AnyBulkWriteOperation<TSchema>[],
@@ -827,7 +830,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     };
 
     const $setOnInsert = cleanSetOnInsert({
-      ...getDefaultValues(model.defaults),
+      ...await getDefaultValues(model.defaults),
       ...finalUpdate.$setOnInsert,
       ...created,
     }, finalUpdate);
@@ -869,16 +872,17 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       docs: DocumentForInsert<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<TSchema[]> {
-      const documents = docs.map((doc) => {
-        return {
+      const documents = [];
+      for (const doc of docs) {
+        documents.push({
           ...(model.timestamps && {
             [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
             [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
           }),
-          ...getDefaultValues(model.defaults),
+          ...(await getDefaultValues(model.defaults)),
           ...doc,
-        };
-      });
+        });
+      }
 
       const result = await model.collection.insertMany(
         documents as unknown as OptionalUnlessRequiredId<TSchema>[],
@@ -925,7 +929,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
           [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
           [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
         }),
-        ...getDefaultValues(model.defaults),
+        ...(await getDefaultValues(model.defaults)),
         ...doc,
       };
 
