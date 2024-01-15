@@ -43,13 +43,13 @@ devDependencies:
     version: 9.1.0(eslint@8.56.0)
   eslint-config-standard:
     specifier: 17.1.0
-    version: 17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.0)(eslint-plugin-promise@6.1.1)(eslint@8.56.0)
+    version: 17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.2)(eslint-plugin-promise@6.1.1)(eslint@8.56.0)
   eslint-plugin-import:
     specifier: 2.29.1
     version: 2.29.1(@typescript-eslint/parser@6.18.0)(eslint@8.56.0)
   eslint-plugin-n:
-    specifier: 16.6.0
-    version: 16.6.0(eslint@8.56.0)
+    specifier: 16.6.2
+    version: 16.6.2(eslint@8.56.0)
   eslint-plugin-prettier:
     specifier: 5.1.2
     version: 5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.0)
@@ -3661,7 +3661,7 @@ packages:
       eslint: 8.56.0
     dev: true
 
-  /eslint-config-standard@17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.0)(eslint-plugin-promise@6.1.1)(eslint@8.56.0):
+  /eslint-config-standard@17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.2)(eslint-plugin-promise@6.1.1)(eslint@8.56.0):
     resolution: {integrity: sha512-IwHwmaBNtDK4zDHQukFDW5u/aTb8+meQWZvNFWkiGmbWjD6bqyuSSBxxXKkCftCUzc1zwCH2m/baCNDLGmuO5Q==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -3672,7 +3672,7 @@ packages:
     dependencies:
       eslint: 8.56.0
       eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.18.0)(eslint@8.56.0)
-      eslint-plugin-n: 16.6.0(eslint@8.56.0)
+      eslint-plugin-n: 16.6.2(eslint@8.56.0)
       eslint-plugin-promise: 6.1.1(eslint@8.56.0)
     dev: true
 
@@ -3762,8 +3762,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-n@16.6.0(eslint@8.56.0):
-    resolution: {integrity: sha512-Ag3tYFF90lYU8JdHEl9qSSpeLYbVnO+Oj7sgPUarWUacv1mPL3d5h5yG4Bv3tLe71hrcxmgTi7oByYwKXaVatw==}
+  /eslint-plugin-n@16.6.2(eslint@8.56.0):
+    resolution: {integrity: sha512-6TyDmZ1HXoFQXnhCTUjVFULReoBPOAjpuiKELMkeP40yffI/1ZRO+d9ug/VC6fqISo2WkuIBk3cvuRPALaWlOQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       eslint: '>=7.0.0'
