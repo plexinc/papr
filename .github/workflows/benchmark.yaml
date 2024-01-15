@@ -1,6 +1,8 @@
 name: Benchmark
 
 on:
+  push:
+    branches: [test/benchmark-async-defaults]
   schedule:
     - cron: '30 5 15 * *'
 
