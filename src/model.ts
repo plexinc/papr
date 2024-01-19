@@ -78,32 +78,32 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
   ) => Promise<boolean>;
 
-  find: <TProjection extends Projection<TSchema> | undefined>(
+  find: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
-  findById: <TProjection extends Projection<TSchema> | undefined>(
+  findById: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     id: TSchema['_id'] | string,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findCursor: <TProjection extends Projection<TSchema> | undefined>(
+  findCursor: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<FindCursor<ProjectionType<TSchema, TProjection>>>;
 
-  findOne: <TProjection extends Projection<TSchema> | undefined>(
+  findOne: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findOneAndDelete: <TProjection extends Projection<TSchema> | undefined>(
+  findOneAndDelete: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
-  findOneAndUpdate: <TProjection extends Projection<TSchema> | undefined>(
+  findOneAndUpdate: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
@@ -131,7 +131,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
-  upsert: <TProjection extends Projection<TSchema> | undefined>(
+  upsert: <TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }
@@ -622,7 +622,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   // prettier-ignore
   model.find = wrap(
     model,
-    async function find<TProjection extends Projection<TSchema> | undefined>(
+    async function find<TProjection extends Projection<TProjection, TSchema> | undefined>(
       filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection>[]> {
@@ -664,7 +664,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   // prettier-ignore
   model.findById = wrap(
     model,
-    async function findById<TProjection extends Projection<TSchema> | undefined>(
+    async function findById<TProjection extends Projection<TProjection, TSchema> | undefined>(
       id: TSchema['_id'] | string,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
@@ -703,7 +703,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * }
    */
   model.findCursor = wrap(model, async function findCursor<
-    TProjection extends Projection<TSchema> | undefined,
+    TProjection extends Projection<TProjection, TSchema> | undefined,
   >(filter: PaprFilter<TSchema>, options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }): Promise<
     FindCursor<ProjectionType<TSchema, TProjection>>
   > {
@@ -742,7 +742,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   // prettier-ignore
   model.findOne = wrap(
     model,
-    async function findOne<TProjection extends Projection<TSchema> | undefined>(
+    async function findOne<TProjection extends Projection<TProjection, TSchema> | undefined>(
       filter: PaprFilter<TSchema>,
       options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
@@ -768,7 +768,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * const user = await User.findOneAndDelete({ firstName: 'John' });
    */
   // prettier-ignore
-  model.findOneAndDelete = wrap(model, async function findOneAndDelete<TProjection extends Projection<TSchema> | undefined>(
+  model.findOneAndDelete = wrap(model, async function findOneAndDelete<TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     options?: Omit<FindOneAndDeleteOptions, 'projection'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection> | null> {
@@ -812,7 +812,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * userProjected.lastName; // valid
    */
   // prettier-ignore
-  model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<TProjection extends Projection<TSchema> | undefined>(
+  model.findOneAndUpdate = wrap(model, async function findOneAndUpdate<TProjection extends Projection<TProjection, TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
     update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection'> & { projection?: TProjection }
@@ -1051,7 +1051,9 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * userProjected.firstName; // TypeScript error
    * userProjected.lastName; // valid
    */
-  model.upsert = async function upsert<TProjection extends Projection<TSchema> | undefined>(
+  model.upsert = async function upsert<
+    TProjection extends Projection<TProjection, TSchema> | undefined,
+  >(
     filter: PaprFilter<TSchema>,
     update: PaprUpdateFilter<TSchema>,
     options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }

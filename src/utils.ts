@@ -134,7 +134,7 @@ type FilterProperties<TObject, TValue> = Pick<TObject, KeysOfAType<TObject, TVal
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
-    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
+    | ExactPartial<Projection, Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
     | undefined,
 > = undefined extends Projection
   ? WithId<TSchema>
@@ -147,9 +147,19 @@ export type ProjectionType<
           keyof FilterProperties<Projection, 0>
         >;
 
-export type Projection<TSchema> = Partial<
-  Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>
->;
+type ExactPartial<Subset, BaseObject> = {
+  [K in keyof Subset]: K extends keyof BaseObject
+    ? BaseObject[K] extends Record<number | string | symbol, unknown>
+      ? ExactPartial<Subset[K], BaseObject[K]>
+      : BaseObject[K]
+    : never;
+};
+
+export type Projection<
+  TProjection,
+  TSchema,
+  TPaths = Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>,
+> = ExactPartial<TProjection, TPaths>;
 
 export type PropertyNestedType<
   Type,

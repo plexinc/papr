@@ -1075,6 +1075,18 @@ describe('model', () => {
       }
     });
 
+    test('with invalid projection', async () => {
+      await simpleModel.find(
+        {},
+        {
+          projection: {
+            // @ts-expect-error `nested.baz` is not present on the schema
+            'nested.baz': 1,
+          },
+        }
+      );
+    });
+
     test('with projection, re-assignable to Pick type', async () => {
       let results = await simpleModel.find({}, { projection });
 
