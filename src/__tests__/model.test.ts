@@ -2506,6 +2506,41 @@ describe('model', () => {
       );
     });
 
+    test('with projection', async () => {
+      const date = new Date();
+      const result = await simpleModel.upsert(
+        { foo: 'foo' },
+        { $set: { ham: date } },
+        { projection }
+      );
+
+      expect(result).toBe(doc);
+      expectType<{
+        _id: ObjectId;
+        foo: string;
+        ham?: Date;
+      }>(result);
+
+      expectType<string>(result.foo);
+      // @ts-expect-error `bar` is undefined here
+      result.bar;
+      expectType<Date | undefined>(result.ham);
+
+      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        { foo: 'foo' },
+        {
+          $set: { ham: date },
+          $setOnInsert: { bar: 123456 },
+        },
+        {
+          ignoreUndefined: true,
+          projection,
+          returnDocument: 'after',
+          upsert: true,
+        }
+      );
+    });
+
     test('throws error on failure', async () => {
       (
         collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>
