@@ -956,6 +956,34 @@ describe('types', () => {
         expectType<typeof value>(true);
         expectType<typeof value>('foo');
       });
+
+      test('nullable', () => {
+        const value = types.oneOf([types.string(), types.null()], { required: true });
+
+        expect(value).toEqual(
+          expect.objectContaining({
+            $required: true,
+            oneOf: [
+              {
+                $required: true,
+                type: 'string',
+              },
+              {
+                $required: true,
+                type: 'null',
+              },
+            ],
+          })
+        );
+
+        expectType<string | null>(value);
+        // @ts-expect-error `value` should not be `number`
+        expectType<number>(value);
+        // @ts-expect-error `value` should not be `undefined`
+        expectType<undefined>(value);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(null);
+      });
     });
   });
 });
