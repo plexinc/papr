@@ -1,7 +1,8 @@
 {
   "packages": {
     ".": {
-      "changelog-path": "docs/CHANGELOG.md"
+      "changelog-path": "docs/CHANGELOG.md",
+      "release-type": "node"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} ${version}"
