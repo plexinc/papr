@@ -383,45 +383,46 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
         return;
       }
 
-      const finalOperations = [];
-      for (const op of operations) {
-        let operation = op;
-        if ('insertOne' in op) {
-          operation = {
-            insertOne: {
-              document: {
-                ...(await getDefaultValues(model.defaults)),
-                ...op.insertOne.document,
+      const finalOperations = await Promise.all(
+        operations.map(async (op) => {
+          let operation = op;
+          if ('insertOne' in op) {
+            operation = {
+              insertOne: {
+                document: {
+                  ...(await getDefaultValues(model.defaults)),
+                  ...op.insertOne.document,
+                },
               },
-            },
-          };
-        } else if (
-          'updateOne' in op &&
-          op.updateOne.upsert &&
-          !Array.isArray(op.updateOne.update)
-        ) {
-          const { update } = op.updateOne;
-          operation = {
-            updateOne: {
-              ...op.updateOne,
-              update: {
-                ...update,
-                $setOnInsert: cleanSetOnInsert(
-                  {
-                    ...(await getDefaultValues(model.defaults)),
-                    ...update.$setOnInsert,
-                  },
-                  update
-                ) as NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
+            };
+          } else if (
+            'updateOne' in op &&
+            op.updateOne.upsert &&
+            !Array.isArray(op.updateOne.update)
+          ) {
+            const { update } = op.updateOne;
+            operation = {
+              updateOne: {
+                ...op.updateOne,
+                update: {
+                  ...update,
+                  $setOnInsert: cleanSetOnInsert(
+                    {
+                      ...(await getDefaultValues(model.defaults)),
+                      ...update.$setOnInsert,
+                    },
+                    update
+                  ) as NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
+                },
               },
-            },
-          };
-        }
+            };
+          }
 
-        finalOperations.push(
-          model.timestamps ? timestampBulkWriteOperation(operation, model.timestamps) : operation
-        );
-      }
+          return model.timestamps
+            ? timestampBulkWriteOperation(operation, model.timestamps)
+            : operation;
+        })
+      );
 
       const result = await model.collection.bulkWrite(
         finalOperations as AnyBulkWriteOperation<TSchema>[],
