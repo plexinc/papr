@@ -1,0 +1,38 @@
+name: Notify Plex
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  notify-plex:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.head_ref, 'renovate') }}
+    steps:
+      - uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "New Papr PR: ${{ github.event.pull_request.html_url }}",
+              "attachments": [
+                {
+                  "text": "",
+                  "fallback": "Test Papr PR",
+                  "callback_id": "trigger_workflow",
+                  "actions": [
+                    {
+                      "name": "papr_pr",
+                      "text": "Test Papr PR",
+                      "type": "button",
+                      "value": "${{ github.event.pull_request.number }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_PAPR_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
