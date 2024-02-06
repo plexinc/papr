@@ -162,7 +162,7 @@ function sanitize(value: any): void {
  * export type UserDocument = (typeof userSchema)[0];
  * export type UserOptions = (typeof userSchema)[1];
  */
-export default function schema<
+export function schema<
   TProperties extends Record<string, unknown>,
   TOptions extends SchemaOptions<TProperties>,
 >(properties: TProperties, options?: TOptions): [SchemaType<TProperties, TOptions>, TOptions] {
