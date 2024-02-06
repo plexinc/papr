@@ -47,11 +47,7 @@ const userSchema = schema({
 
 export type UserDocument = (typeof userSchema)[0];
 export type UserOptions = (typeof userSchema)[1];
-```
 
-**Example with static defaults, timestamps and validation options:**
-
-```ts
 const orderSchema = schema(
   {
     _id: types.number({ required: true }),
@@ -68,52 +64,4 @@ const orderSchema = schema(
 
 export type OrderDocument = (typeof orderSchema)[0];
 export type OrderOptions = (typeof orderSchema)[1];
-```
-
-**Example with dynamic defaults:**
-
-```ts
-import { schema, types } from 'papr';
-
-const userSchema = schema({
-  active: types.boolean(),
-  birthDate: types.date(),
-  firstName: types.string({ required: true }),
-  lastName: types.string({ required: true }),
-}, {
-  defaults: () => ({
-    birthDate: new Date();
-  })
-});
-
-export type UserDocument = (typeof userSchema)[0];
-export type UserOptions = (typeof userSchema)[1];
-```
-
-**Example with async dynamic defaults:**
-
-```ts
-import { schema, types } from 'papr';
-
-function getDateAsync(): Promise<Date> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(new Date());
-    }, 2000);
-  });
-}
-
-const userSchema = schema({
-  active: types.boolean(),
-  birthDate: types.date(),
-  firstName: types.string({ required: true }),
-  lastName: types.string({ required: true }),
-}, {
-  defaults: async () => ({
-    birthDate: await getDateAsync();
-  })
-});
-
-export type UserDocument = (typeof userSchema)[0];
-export type UserOptions = (typeof userSchema)[1];
 ```
