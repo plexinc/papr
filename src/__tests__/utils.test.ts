@@ -355,7 +355,7 @@ describe('utils', () => {
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(new Date());
-          }, 2000);
+          }, 10);
         });
       }
 
