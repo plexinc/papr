@@ -471,10 +471,11 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 **Parameters:**
 
-| Name     | Type                        | Attribute |
-| -------- | --------------------------- | --------- |
-| `filter` | `PaprFilter<TSchema>`       | required  |
-| `update` | `PaprUpdateFilter<TSchema>` | required  |
+| Name      | Type                        | Attribute |
+| --------- | --------------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`       | required  |
+| `update`  | `PaprUpdateFilter<TSchema>` | required  |
+| `options` | `FindOneAndUpdateOptions`   | optional  |
 
 **Returns:**
 
@@ -484,4 +485,12 @@ Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-
 
 ```ts
 const user = await User.upsert({ firstName: 'John', lastName: 'Wick' }, { $set: { age: 40 } });
+
+const userProjected = await User.upsert(
+  { firstName: 'John', lastName: 'Wick' },
+  { $set: { age: 40 } },
+  { projection: { lastName: 1 } }
+);
+userProjected.firstName; // TypeScript error
+userProjected.lastName; // valid
 ```

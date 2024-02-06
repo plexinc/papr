@@ -213,7 +213,7 @@ export function objectGeneric<Property, Options extends ObjectOptions>(
 export function oneOf<Types extends any[], Options extends GenericOptions>(
   types: Types,
   options?: Options
-): GetType<NonNullable<Types[number]>, Options> {
+): GetType<Exclude<Types[number], undefined>, Options> {
   const { required } = options || {};
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -226,7 +226,7 @@ export function oneOf<Types extends any[], Options extends GenericOptions>(
           $required: true,
         }))
       : types,
-  } as unknown as GetType<NonNullable<Types[number]>, Options>;
+  } as unknown as GetType<Exclude<Types[number], undefined>, Options>;
 }
 
 function createSimpleType<Type>(type: BSONType) {

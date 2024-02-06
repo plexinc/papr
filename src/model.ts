@@ -131,10 +131,11 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
-  upsert: (
+  upsert: <TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
-    update: PaprUpdateFilter<TSchema>
-  ) => Promise<WithId<TSchema>>;
+    update: PaprUpdateFilter<TSchema>,
+    options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }
+  ) => Promise<ProjectionType<TSchema, TProjection>>;
 }
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -1036,6 +1037,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *
    * @param filter {PaprFilter<TSchema>}
    * @param update {PaprUpdateFilter<TSchema>}
+   * @param [options] {FindOneAndUpdateOptions}
    *
    * @returns {Promise<TSchema>}
    *
@@ -1044,12 +1046,22 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    *   { firstName: 'John', lastName: 'Wick' },
    *   { $set: { age: 40 } }
    * );
+   *
+   * const userProjected = await User.upsert(
+   *   { firstName: 'John', lastName: 'Wick' },
+   *   { $set: { age: 40 } },
+   *   { projection: { lastName: 1 } }
+   * );
+   * userProjected.firstName; // TypeScript error
+   * userProjected.lastName; // valid
    */
-  model.upsert = async function upsert(
+  model.upsert = async function upsert<TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
-    update: PaprUpdateFilter<TSchema>
-  ): Promise<WithId<TSchema>> {
+    update: PaprUpdateFilter<TSchema>,
+    options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }
+  ): Promise<ProjectionType<TSchema, TProjection>> {
     const item = await model.findOneAndUpdate(filter, update, {
+      ...options,
       upsert: true,
     });
 
@@ -1057,6 +1069,6 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       throw new Error('upsert failed');
     }
 
-    return item as unknown as WithId<TSchema>;
+    return item;
   };
 }
