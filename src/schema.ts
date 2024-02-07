@@ -75,6 +75,8 @@ function sanitize(value: any): void {
  *
  * The options are exported as a result type (the second value in the return tuple).
  *
+ * The `defaults` option can be a static object, a function that returns an object or an async function that returns an object.
+ *
  * @name schema
  *
  * @param properties {Record<string, unknown>}
@@ -87,7 +89,7 @@ function sanitize(value: any): void {
  * @returns {Array} The return type is `[TSchema, TOptions]`
  *
  * @example
- * import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
+ * import { schema, types } from 'papr';
  *
  * const userSchema = schema({
  *   active: types.boolean(),
@@ -98,6 +100,11 @@ function sanitize(value: any): void {
  *
  * export type UserDocument = typeof userSchema[0];
  * export type UserOptions = typeof userSchema[1];
+ *
+ * @example
+ * // Example with static defaults, timestamps and validation options
+ *
+ * import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
  *
  * const orderSchema = schema({
  *   _id: types.number({ required: true }),
@@ -112,6 +119,48 @@ function sanitize(value: any): void {
  *
  * export type OrderDocument = typeof orderSchema[0];
  * export type OrderOptions = typeof orderSchema[1];
+ *
+ * @example
+ * // Example with dynamic defaults
+ *
+ * import { schema, types } from 'papr';
+ *
+ * const userSchema = schema({
+ *   active: types.boolean(),
+ *   birthDate: types.date(),
+ *   firstName: types.string({ required: true }),
+ *   lastName: types.string({ required: true }),
+ * }, {
+ *   defaults: () => ({
+ *     birthDate: new Date();
+ *   })
+ * });
+ *
+ * export type UserDocument = (typeof userSchema)[0];
+ * export type UserOptions = (typeof userSchema)[1];
+ *
+ * @example
+ * // Example with async dynamic defaults
+ *
+ * import { schema, types } from 'papr';
+ *
+ * function getDateAsync(): Promise<Date> {
+ *   return Promise.resolve(new Date());
+ * }
+ *
+ * const userSchema = schema({
+ *   active: types.boolean(),
+ *   birthDate: types.date(),
+ *   firstName: types.string({ required: true }),
+ *   lastName: types.string({ required: true }),
+ * }, {
+ *   defaults: async () => ({
+ *     birthDate: await getDateAsync();
+ *   })
+ * });
+ *
+ * export type UserDocument = (typeof userSchema)[0];
+ * export type UserOptions = (typeof userSchema)[1];
  */
 export default function schema<
   TProperties extends Record<string, unknown>,

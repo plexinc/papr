@@ -18,6 +18,8 @@ While the default `_id` property is added with an `ObjectId` type, its type can 
 
 The options are exported as a result type (the second value in the return tuple).
 
+The `defaults` option can be a static object, a function that returns an object or an async function that returns an object.
+
 **Parameters:**
 
 | Name                       | Type                          | Attribute |
@@ -36,7 +38,7 @@ The options are exported as a result type (the second value in the return tuple)
 **Example:**
 
 ```ts
-import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
+import { schema, types } from 'papr';
 
 const userSchema = schema({
   active: types.boolean(),
@@ -47,6 +49,14 @@ const userSchema = schema({
 
 export type UserDocument = (typeof userSchema)[0];
 export type UserOptions = (typeof userSchema)[1];
+```
+
+**Example:**
+
+```ts
+// Example with static defaults, timestamps and validation options
+
+import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
 
 const orderSchema = schema(
   {
@@ -64,4 +74,52 @@ const orderSchema = schema(
 
 export type OrderDocument = (typeof orderSchema)[0];
 export type OrderOptions = (typeof orderSchema)[1];
+```
+
+**Example:**
+
+```ts
+// Example with dynamic defaults
+
+import { schema, types } from 'papr';
+
+const userSchema = schema({
+  active: types.boolean(),
+  birthDate: types.date(),
+  firstName: types.string({ required: true }),
+  lastName: types.string({ required: true }),
+}, {
+  defaults: () => ({
+    birthDate: new Date();
+  })
+});
+
+export type UserDocument = (typeof userSchema)[0];
+export type UserOptions = (typeof userSchema)[1];
+```
+
+**Example:**
+
+```ts
+// Example with async dynamic defaults
+
+import { schema, types } from 'papr';
+
+function getDateAsync(): Promise<Date> {
+  return Promise.resolve(new Date());
+}
+
+const userSchema = schema({
+  active: types.boolean(),
+  birthDate: types.date(),
+  firstName: types.string({ required: true }),
+  lastName: types.string({ required: true }),
+}, {
+  defaults: async () => ({
+    birthDate: await getDateAsync();
+  })
+});
+
+export type UserDocument = (typeof userSchema)[0];
+export type UserOptions = (typeof userSchema)[1];
 ```

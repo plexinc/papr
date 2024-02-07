@@ -116,7 +116,9 @@ for (const doc of DOCS) {
         params?.length > 0 ? `**Parameters:**\n\n${getParameters(params)}\n\n` : '';
       const returns = item.returns ? `**Returns:**\n\n${getReturns(item.returns[0])}\n\n` : '';
       const examples = item.examples
-        ? `**Example:**\n\n\`\`\`ts\n${item.examples.join('\n')}\n\`\`\`\n`
+        ? item.examples
+            .map((example) => `**Example:**\n\n\`\`\`ts\n${example}\n\`\`\`\n`)
+            .join('\n\n')
         : '';
       const types = item.type ? `**Type:**\`${type(item.type.names)}\`\n\n` : '';
 
