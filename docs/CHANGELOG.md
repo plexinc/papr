@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [15.2.0](https://github.com/plexinc/papr/compare/v15.1.0...v15.2.0) (2024-02-07)
+
+
+### Features
+
+* Support asynchronous dynamic defaults ([#678](https://github.com/plexinc/papr/issues/678)) ([125f207](https://github.com/plexinc/papr/commit/125f2074b8bb0e2963a1ba173b68ee6b0d285377))
+
 ## [15.1.0](https://github.com/plexinc/papr/compare/v15.0.0...v15.1.0) (2024-01-23)
 
 
