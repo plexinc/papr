@@ -382,43 +382,47 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       if (operations.length === 0) {
         return;
       }
-      const finalOperations = operations.map((op) => {
-        let operation = op;
-        if ('insertOne' in op) {
-          operation = {
-            insertOne: {
-              document: {
-                ...getDefaultValues(model.defaults),
-                ...op.insertOne.document,
+
+      const finalOperations = await Promise.all(
+        operations.map(async (op) => {
+          let operation = op;
+          if ('insertOne' in op) {
+            operation = {
+              insertOne: {
+                document: {
+                  ...(await getDefaultValues(model.defaults)),
+                  ...op.insertOne.document,
+                },
               },
-            },
-          };
-        } else if (
-          'updateOne' in op &&
-          op.updateOne.upsert &&
-          !Array.isArray(op.updateOne.update)
-        ) {
-          const { update } = op.updateOne;
-          operation = {
-            updateOne: {
-              ...op.updateOne,
-              update: {
-                ...update,
-                $setOnInsert: cleanSetOnInsert(
-                  {
-                    ...getDefaultValues(model.defaults),
-                    ...update.$setOnInsert,
-                  },
-                  update
-                ) as NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
+            };
+          } else if (
+            'updateOne' in op &&
+            op.updateOne.upsert &&
+            !Array.isArray(op.updateOne.update)
+          ) {
+            const { update } = op.updateOne;
+            operation = {
+              updateOne: {
+                ...op.updateOne,
+                update: {
+                  ...update,
+                  $setOnInsert: cleanSetOnInsert(
+                    {
+                      ...(await getDefaultValues(model.defaults)),
+                      ...update.$setOnInsert,
+                    },
+                    update
+                  ) as NonNullable<UpdateFilter<TSchema>['$setOnInsert']>,
+                },
               },
-            },
-          };
-        }
-        return model.timestamps
-          ? timestampBulkWriteOperation(operation, model.timestamps)
-          : operation;
-      });
+            };
+          }
+
+          return model.timestamps
+            ? timestampBulkWriteOperation(operation, model.timestamps)
+            : operation;
+        })
+      );
 
       const result = await model.collection.bulkWrite(
         finalOperations as AnyBulkWriteOperation<TSchema>[],
@@ -827,7 +831,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     };
 
     const $setOnInsert = cleanSetOnInsert({
-      ...getDefaultValues(model.defaults),
+      ...await getDefaultValues(model.defaults),
       ...finalUpdate.$setOnInsert,
       ...created,
     }, finalUpdate);
@@ -869,16 +873,18 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       docs: DocumentForInsert<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<TSchema[]> {
-      const documents = docs.map((doc) => {
-        return {
-          ...(model.timestamps && {
-            [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
-            [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
-          }),
-          ...getDefaultValues(model.defaults),
-          ...doc,
-        };
-      });
+      const documents = await Promise.all(
+        docs.map(async (doc) => {
+          return {
+            ...(model.timestamps && {
+              [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
+              [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
+            }),
+            ...(await getDefaultValues(model.defaults)),
+            ...doc,
+          };
+        })
+      );
 
       const result = await model.collection.insertMany(
         documents as unknown as OptionalUnlessRequiredId<TSchema>[],
@@ -925,7 +931,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
           [getTimestampProperty('createdAt', model.timestamps)]: new Date(),
           [getTimestampProperty('updatedAt', model.timestamps)]: new Date(),
         }),
-        ...getDefaultValues(model.defaults),
+        ...(await getDefaultValues(model.defaults)),
         ...doc,
       };
 

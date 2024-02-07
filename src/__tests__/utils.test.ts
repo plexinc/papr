@@ -327,25 +327,45 @@ describe('utils', () => {
   });
 
   describe('getDefaultValues', () => {
-    test('static values', () => {
+    test('static values', async () => {
       const defaults: DefaultsOption<TestDocument> = {
         bar: 1,
         foo: 'test',
       };
 
-      const result = getDefaultValues(defaults);
+      const result = await getDefaultValues(defaults);
       expectType<Partial<TestDocument>>(result);
       expect(result).toStrictEqual(defaults);
     });
 
-    test('dynamic values', () => {
+    test('dynamic values', async () => {
       const defaults: DefaultsOption<TestDocument> = () => ({
         bar: 1,
         foo: 'test',
         ham: new Date(),
       });
 
-      const result = getDefaultValues(defaults);
+      const result = await getDefaultValues(defaults);
+      expectType<Partial<TestDocument>>(result);
+      expect(result.ham instanceof Date).toBeTruthy();
+    });
+
+    test('dynamic values with async function', async () => {
+      function getDateAsync(): Promise<Date> {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(new Date());
+          }, 10);
+        });
+      }
+
+      const defaults: DefaultsOption<TestDocument> = async () => ({
+        bar: 1,
+        foo: 'test',
+        ham: await getDateAsync(),
+      });
+
+      const result = await getDefaultValues(defaults);
       expectType<Partial<TestDocument>>(result);
       expect(result.ham instanceof Date).toBeTruthy();
     });

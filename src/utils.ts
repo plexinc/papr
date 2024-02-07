@@ -56,7 +56,9 @@ export type DocumentForInsertWithoutDefaults<TSchema, TDefaults extends Partial<
 export type SchemaDefaultValues<
   TSchema,
   TOptions extends SchemaOptions<TSchema>,
-> = TOptions['defaults'] extends () => infer ReturnDefaults ? ReturnDefaults : TOptions['defaults'];
+> = TOptions['defaults'] extends () => infer ReturnDefaults
+  ? Awaited<ReturnDefaults>
+  : TOptions['defaults'];
 
 export type DocumentForInsert<
   TSchema,
@@ -282,11 +284,11 @@ export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): Objec
 
 // Checks the type of the model defaults property and if a function, returns
 // the result of the function call, otherwise returns the object
-export function getDefaultValues<TSchema extends BaseSchema>(
+export async function getDefaultValues<TSchema extends BaseSchema>(
   defaults?: DefaultsOption<TSchema>
-): Partial<TSchema> {
+): Promise<Partial<TSchema>> {
   if (typeof defaults === 'function') {
-    return defaults();
+    return await defaults();
   }
   if (typeof defaults === 'object') {
     return defaults;
