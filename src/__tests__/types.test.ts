@@ -1,4 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
+import { deepStrictEqual } from 'node:assert';
+import { describe, test } from 'node:test';
 import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
 import types from '../types';
@@ -14,23 +15,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.boolean();
 
-        expect(value).toEqual({
-          type: 'boolean',
-        });
         expectType<boolean | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          type: 'boolean',
+        });
       });
 
       test('required', () => {
         const value = types.boolean({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          type: 'boolean',
-        });
         expectType<boolean>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          type: 'boolean',
+        });
       });
 
       test('options', () => {
@@ -45,23 +48,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.date();
 
-        expect(value).toEqual({
-          bsonType: 'date',
-        });
         expectType<Date | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          bsonType: 'date',
+        });
       });
 
       test('required', () => {
         const value = types.date({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          bsonType: 'date',
-        });
         expectType<Date>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          bsonType: 'date',
+        });
       });
 
       test('options', () => {
@@ -76,23 +81,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.decimal();
 
-        expect(value).toEqual({
-          bsonType: 'decimal',
-        });
         expectType<Decimal128 | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          bsonType: 'decimal',
+        });
       });
 
       test('required', () => {
         const value = types.decimal({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          bsonType: 'decimal',
-        });
         expectType<Decimal128>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          bsonType: 'decimal',
+        });
       });
 
       test('options', () => {
@@ -105,23 +112,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.null();
 
-        expect(value).toEqual({
-          type: 'null',
-        });
         expectType<null | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          type: 'null',
+        });
       });
 
       test('required', () => {
         const value = types.null({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          type: 'null',
-        });
         expectType<null>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          type: 'null',
+        });
       });
 
       test('options', () => {
@@ -136,23 +145,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.number();
 
-        expect(value).toEqual({
-          type: 'number',
-        });
         expectType<number | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          type: 'number',
+        });
       });
 
       test('required', () => {
         const value = types.number({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          type: 'number',
-        });
         expectType<number>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          type: 'number',
+        });
       });
 
       test('options', () => {
@@ -171,26 +182,28 @@ describe('types', () => {
       test('default', () => {
         const value = types.enum(Object.values(TEST_ENUM));
 
-        expect(value).toEqual({
-          enum: ['foo', 'bar'],
-        });
         expectType<TEST_ENUM | undefined>(value);
         expectType<typeof value>(TEST_ENUM.FOO);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          enum: ['foo', 'bar'],
+        });
       });
 
       test('required', () => {
         const value = types.enum([...Object.values(TEST_ENUM), null], { required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          enum: ['foo', 'bar', null],
-        });
         expectType<TEST_ENUM | null>(value);
         expectType<typeof value>(TEST_ENUM.FOO);
         expectType<typeof value>(null);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          enum: ['foo', 'bar', null],
+        });
       });
 
       test('options', () => {
@@ -203,13 +216,14 @@ describe('types', () => {
       test('const array', () => {
         const value = types.enum(['a', 'b'] as const);
 
-        expect(value).toEqual({
-          enum: ['a', 'b'],
-        });
         expectType<typeof value>('a');
         // @ts-expect-error `value` can not be c
         expectType<typeof value>('c');
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          enum: ['a', 'b'],
+        });
       });
     });
 
@@ -217,23 +231,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.objectId();
 
-        expect(value).toEqual({
-          bsonType: 'objectId',
-        });
         expectType<ObjectId | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          bsonType: 'objectId',
+        });
       });
 
       test('required', () => {
         const value = types.objectId({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          bsonType: 'objectId',
-        });
         expectType<ObjectId>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          bsonType: 'objectId',
+        });
       });
 
       test('options', () => {
@@ -246,23 +262,25 @@ describe('types', () => {
       test('default', () => {
         const value = types.binary();
 
-        expect(value).toEqual({
-          bsonType: 'binData',
-        });
         expectType<Binary | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          bsonType: 'binData',
+        });
       });
 
       test('required', () => {
         const value = types.binary({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          bsonType: 'binData',
-        });
         expectType<Binary>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          bsonType: 'binData',
+        });
       });
 
       test('options', () => {
@@ -275,34 +293,37 @@ describe('types', () => {
       test('default', () => {
         const value = types.string();
 
-        expect(value).toEqual({
-          type: 'string',
-        });
         expectType<string | undefined>(value);
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          type: 'string',
+        });
       });
 
       test('pattern', () => {
         const value = types.string({ pattern: '^foo' });
 
-        expect(value).toEqual({
+        expectType<string | undefined>(value);
+        expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
           pattern: '^foo',
           type: 'string',
         });
-        expectType<string | undefined>(value);
-        expectType<typeof value>(undefined);
       });
 
       test('required', () => {
         const value = types.string({ required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          type: 'string',
-        });
         expectType<string>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          type: 'string',
+        });
       });
 
       test('options', () => {
@@ -324,7 +345,13 @@ describe('types', () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const value = types.any();
 
-        expect(value).toEqual({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expectType<any>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+
+        deepStrictEqual(value, {
           bsonType: [
             'array',
             'binData',
@@ -338,18 +365,19 @@ describe('types', () => {
             'string',
           ],
         });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expectType<any>(value);
-        expectType<typeof value>(undefined);
-        expectType<typeof value>('foo');
-        expectType<typeof value>(123);
       });
 
       test('required', () => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const value = types.any({ required: true });
 
-        expect(value).toEqual({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expectType<any>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+
+        deepStrictEqual(value, {
           $required: true,
           bsonType: [
             'array',
@@ -364,11 +392,6 @@ describe('types', () => {
             'string',
           ],
         });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expectType<any>(value);
-        expectType<typeof value>(undefined);
-        expectType<typeof value>('foo');
-        expectType<typeof value>(123);
       });
 
       test('options', () => {
@@ -383,30 +406,32 @@ describe('types', () => {
       test('default', () => {
         const value = types.array(types.boolean({ required: true }));
 
-        expect(value).toEqual({
+        expectType<boolean[] | undefined>(value);
+        expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
           items: {
             $required: true,
             type: 'boolean',
           },
           type: 'array',
         });
-        expectType<boolean[] | undefined>(value);
-        expectType<typeof value>(undefined);
       });
 
       test('required', () => {
         const value = types.array(types.string(), { required: true });
 
-        expect(value).toEqual({
+        expectType<(string | undefined)[]>(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
           $required: true,
           items: {
             type: 'string',
           },
           type: 'array',
         });
-        expectType<(string | undefined)[]>(value);
-        // @ts-expect-error `value` should not be undefined
-        expectType<typeof value>(undefined);
       });
 
       test('options', () => {
@@ -415,7 +440,9 @@ describe('types', () => {
           minItems: 1,
         });
 
-        expect(value).toEqual({
+        expectType<(number | undefined)[] | undefined>(value);
+
+        deepStrictEqual(value, {
           items: {
             type: 'number',
           },
@@ -423,7 +450,6 @@ describe('types', () => {
           minItems: 1,
           type: 'array',
         });
-        expectType<(number | undefined)[] | undefined>(value);
       });
 
       test('with object items', () => {
@@ -437,7 +463,9 @@ describe('types', () => {
           { required: true }
         );
 
-        expect(value).toEqual({
+        expectType<{ foo?: string }[]>(value);
+
+        deepStrictEqual(value, {
           $required: true,
           items: {
             $required: true,
@@ -451,7 +479,6 @@ describe('types', () => {
           },
           type: 'array',
         });
-        expectType<{ foo?: string }[]>(value);
       });
     });
 
@@ -459,22 +486,24 @@ describe('types', () => {
       test('default', () => {
         const value = types.constant('foo' as const);
 
-        expect(value).toEqual({
+        expectType<'foo' | undefined>(value);
+
+        deepStrictEqual(value, {
           enum: ['foo'],
         });
-        expectType<'foo' | undefined>(value);
       });
 
       test('required', () => {
         const value = types.constant('foo' as const, { required: true });
 
-        expect(value).toEqual({
-          $required: true,
-          enum: ['foo'],
-        });
         expectType<'foo'>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          enum: ['foo'],
+        });
       });
     });
 
@@ -485,22 +514,6 @@ describe('types', () => {
           foo: types.boolean(),
         });
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            additionalProperties: false,
-            properties: {
-              bar: {
-                $required: true,
-                type: 'number',
-              },
-              foo: {
-                type: 'boolean',
-              },
-            },
-            required: ['bar'],
-            type: 'object',
-          })
-        );
         expectType<
           | {
               foo?: boolean;
@@ -517,6 +530,21 @@ describe('types', () => {
           bar: 123,
         });
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          additionalProperties: false,
+          properties: {
+            bar: {
+              $required: true,
+              type: 'number',
+            },
+            foo: {
+              type: 'boolean',
+            },
+          },
+          required: ['bar'],
+          type: 'object',
+        });
       });
 
       test('required', () => {
@@ -527,21 +555,20 @@ describe('types', () => {
           { required: true }
         );
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            $required: true,
-            additionalProperties: false,
-            properties: {
-              foo: {
-                type: 'boolean',
-              },
-            },
-            type: 'object',
-          })
-        );
         expectType<{ foo?: boolean }>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          additionalProperties: false,
+          properties: {
+            foo: {
+              type: 'boolean',
+            },
+          },
+          type: 'object',
+        });
       });
 
       test('options', () => {
@@ -556,25 +583,24 @@ describe('types', () => {
           }
         );
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            additionalProperties: true,
-            maxProperties: 3,
-            minProperties: 1,
-            properties: {
-              foo: {
-                type: 'boolean',
-              },
-            },
-            type: 'object',
-          })
-        );
         expectType<
           | {
               foo?: boolean;
             }
           | undefined
         >(value);
+
+        deepStrictEqual(value, {
+          additionalProperties: true,
+          maxProperties: 3,
+          minProperties: 1,
+          properties: {
+            foo: {
+              type: 'boolean',
+            },
+          },
+          type: 'object',
+        });
       });
     });
 
@@ -590,29 +616,6 @@ describe('types', () => {
           )
         );
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            additionalProperties: false,
-            patternProperties: {
-              '.+': {
-                $required: true,
-                additionalProperties: false,
-                properties: {
-                  bar: {
-                    $required: true,
-                    type: 'number',
-                  },
-                  foo: {
-                    type: 'boolean',
-                  },
-                },
-                required: ['bar'],
-                type: 'object',
-              },
-            },
-            type: 'object',
-          })
-        );
         expectType<
           | Record<
               string,
@@ -634,26 +637,47 @@ describe('types', () => {
           bar: 123,
         });
         expectType<typeof item>(undefined);
+
+        deepStrictEqual(value, {
+          additionalProperties: false,
+          patternProperties: {
+            '.+': {
+              $required: true,
+              additionalProperties: false,
+              properties: {
+                bar: {
+                  $required: true,
+                  type: 'number',
+                },
+                foo: {
+                  type: 'boolean',
+                },
+              },
+              required: ['bar'],
+              type: 'object',
+            },
+          },
+          type: 'object',
+        });
       });
 
       test('required', () => {
         const value = types.objectGeneric(types.number(), '^(foo|bar)$', { required: true });
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            $required: true,
-            additionalProperties: false,
-            patternProperties: {
-              '^(foo|bar)$': {
-                type: 'number',
-              },
-            },
-            type: 'object',
-          })
-        );
         expectType<Record<string, number | undefined>>(value);
         // @ts-expect-error `value` should not be undefined
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          $required: true,
+          additionalProperties: false,
+          patternProperties: {
+            '^(foo|bar)$': {
+              type: 'number',
+            },
+          },
+          type: 'object',
+        });
       });
 
       test('options', () => {
@@ -663,20 +687,19 @@ describe('types', () => {
           minProperties: 1,
         });
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            additionalProperties: true,
-            maxProperties: 3,
-            minProperties: 1,
-            patternProperties: {
-              '.+': {
-                type: 'boolean',
-              },
-            },
-            type: 'object',
-          })
-        );
         expectType<Record<string, boolean | undefined> | undefined>(value);
+
+        deepStrictEqual(value, {
+          additionalProperties: true,
+          maxProperties: 3,
+          minProperties: 1,
+          patternProperties: {
+            '.+': {
+              type: 'boolean',
+            },
+          },
+          type: 'object',
+        });
       });
     });
 
@@ -690,7 +713,18 @@ describe('types', () => {
           types.date(),
         ] as const);
 
-        expect(value).toEqual({
+        expectType<
+          | []
+          | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
+          | [string, number]
+          | [string]
+          | undefined
+        >(value);
+        expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
           additionalItems: false,
           items: [
             {
@@ -712,16 +746,6 @@ describe('types', () => {
           minItems: 0,
           type: 'array',
         });
-        expectType<
-          | []
-          | [string, number, boolean, ObjectId, Date]
-          | [string, number, boolean, ObjectId]
-          | [string, number, boolean]
-          | [string, number]
-          | [string]
-          | undefined
-        >(value);
-        expectType<typeof value>(undefined);
       });
 
       test('required', () => {
@@ -736,7 +760,18 @@ describe('types', () => {
           { required: true }
         );
 
-        expect(value).toEqual({
+        expectType<
+          | []
+          | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
+          | [string, number]
+          | [string]
+        >(value);
+        // @ts-expect-error `value` should not be undefined
+        expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
           $required: true,
           additionalItems: false,
           items: [
@@ -759,16 +794,6 @@ describe('types', () => {
           minItems: 0,
           type: 'array',
         });
-        expectType<
-          | []
-          | [string, number, boolean, ObjectId, Date]
-          | [string, number, boolean, ObjectId]
-          | [string, number, boolean]
-          | [string, number]
-          | [string]
-        >(value);
-        // @ts-expect-error `value` should not be undefined
-        expectType<typeof value>(undefined);
       });
 
       test('with required properties', () => {
@@ -783,7 +808,13 @@ describe('types', () => {
           { required: true }
         );
 
-        expect(value).toEqual({
+        expectType<
+          | [string, number, boolean, ObjectId, Date]
+          | [string, number, boolean, ObjectId]
+          | [string, number, boolean]
+        >(value);
+
+        deepStrictEqual(value, {
           $required: true,
           additionalItems: false,
           items: [
@@ -800,11 +831,6 @@ describe('types', () => {
           minItems: 3,
           type: 'array',
         });
-        expectType<
-          | [string, number, boolean, ObjectId, Date]
-          | [string, number, boolean, ObjectId]
-          | [string, number, boolean]
-        >(value);
       });
 
       test('with required properties and preceding optional properties', () => {
@@ -819,7 +845,11 @@ describe('types', () => {
           { required: true }
         );
 
-        expect(value).toEqual({
+        expectType<[string, number, boolean, ObjectId, Date] | [string, number, boolean, ObjectId]>(
+          value
+        );
+
+        deepStrictEqual(value, {
           $required: true,
           additionalItems: false,
           items: [
@@ -840,9 +870,6 @@ describe('types', () => {
           minItems: 4,
           type: 'array',
         });
-        expectType<[string, number, boolean, ObjectId, Date] | [string, number, boolean, ObjectId]>(
-          value
-        );
       });
     });
 
@@ -850,7 +877,12 @@ describe('types', () => {
       test('default', () => {
         const value = types.unknown();
 
-        expect(value).toEqual({
+        expectType<unknown>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+
+        deepStrictEqual(value, {
           bsonType: [
             'array',
             'binData',
@@ -864,17 +896,17 @@ describe('types', () => {
             'string',
           ],
         });
-
-        expectType<unknown>(value);
-        expectType<typeof value>(undefined);
-        expectType<typeof value>('foo');
-        expectType<typeof value>(123);
       });
 
       test('required', () => {
         const value = types.unknown({ required: true });
 
-        expect(value).toEqual({
+        expectType<unknown>(value);
+        expectType<typeof value>(undefined);
+        expectType<typeof value>('foo');
+        expectType<typeof value>(123);
+
+        deepStrictEqual(value, {
           $required: true,
           bsonType: [
             'array',
@@ -889,11 +921,6 @@ describe('types', () => {
             'string',
           ],
         });
-
-        expectType<unknown>(value);
-        expectType<typeof value>(undefined);
-        expectType<typeof value>('foo');
-        expectType<typeof value>(123);
       });
 
       test('options', () => {
@@ -910,44 +937,28 @@ describe('types', () => {
       test('default', () => {
         const value = types.oneOf([types.number(), types.string()]);
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            oneOf: [
-              {
-                type: 'number',
-              },
-              {
-                type: 'string',
-              },
-            ],
-          })
-        );
         expectType<number | string | undefined>(value);
         // @ts-expect-error `value` should not be `boolean`
         expectType<boolean>(value);
         expectType<typeof value>(123);
         expectType<typeof value>('foo');
         expectType<typeof value>(undefined);
+
+        deepStrictEqual(value, {
+          oneOf: [
+            {
+              type: 'number',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        });
       });
 
       test('required', () => {
         const value = types.oneOf([types.boolean(), types.string()], { required: true });
 
-        expect(value).toEqual(
-          expect.objectContaining({
-            $required: true,
-            oneOf: [
-              {
-                $required: true,
-                type: 'boolean',
-              },
-              {
-                $required: true,
-                type: 'string',
-              },
-            ],
-          })
-        );
         expectType<boolean | string>(value);
         // @ts-expect-error `value` should not be `number`
         expectType<number>(value);
@@ -955,26 +966,24 @@ describe('types', () => {
         expectType<undefined>(value);
         expectType<typeof value>(true);
         expectType<typeof value>('foo');
+
+        deepStrictEqual(value, {
+          $required: true,
+          oneOf: [
+            {
+              $required: true,
+              type: 'boolean',
+            },
+            {
+              $required: true,
+              type: 'string',
+            },
+          ],
+        });
       });
 
       test('nullable', () => {
         const value = types.oneOf([types.string(), types.null()], { required: true });
-
-        expect(value).toEqual(
-          expect.objectContaining({
-            $required: true,
-            oneOf: [
-              {
-                $required: true,
-                type: 'string',
-              },
-              {
-                $required: true,
-                type: 'null',
-              },
-            ],
-          })
-        );
 
         expectType<string | null>(value);
         // @ts-expect-error `value` should not be `number`
@@ -983,6 +992,20 @@ describe('types', () => {
         expectType<undefined>(value);
         expectType<typeof value>('foo');
         expectType<typeof value>(null);
+
+        deepStrictEqual(value, {
+          $required: true,
+          oneOf: [
+            {
+              $required: true,
+              type: 'string',
+            },
+            {
+              $required: true,
+              type: 'null',
+            },
+          ],
+        });
       });
     });
   });

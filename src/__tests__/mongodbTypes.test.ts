@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, test } from 'node:test';
 import {
   Binary,
   BSONSymbol,
@@ -69,8 +69,6 @@ describe('mongodb types', () => {
   describe('PaprFilter', () => {
     describe('existing top-level keys', () => {
       test('valid types', () => {
-        expect(true).toBeTruthy();
-
         expectType<PaprFilter<TestDocument>>({ _id: new ObjectId() });
 
         expectType<PaprFilter<TestDocument>>({ foo: 'foo' });
@@ -109,8 +107,6 @@ describe('mongodb types', () => {
       });
 
       test('invalid types', () => {
-        expect(true).toBeTruthy();
-
         // @ts-expect-error Type mismatch
         expectType<PaprFilter<TestDocument>>({ _id: '577fa2d90c4cc47e31cf4b6f' });
 
@@ -275,8 +271,6 @@ describe('mongodb types', () => {
     describe('filter operators', () => {
       describe('logical filter operators', () => {
         test('valid types on existing top-level keys', () => {
-          expect(true).toBeTruthy();
-
           expectType<PaprFilter<TestDocument>>({ _id: { $in: [new ObjectId()] } });
 
           expectType<PaprFilter<TestDocument>>({ foo: { $eq: 'foo' } });

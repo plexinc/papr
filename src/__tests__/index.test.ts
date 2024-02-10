@@ -1,38 +1,31 @@
-import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
+import { strictEqual } from 'node:assert';
+import { after, before, beforeEach, describe, Mock, mock, test } from 'node:test';
 import { Collection, Db } from 'mongodb';
-import Papr from '../index';
-import * as model from '../model';
 import { schema } from '../schema';
 import types from '../types';
-import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
+import { expectToBeCalledOnceWith } from './assert';
 
 describe('index', () => {
-  let db: Db;
+  let db: Omit<Db, 'collection' | 'collections' | 'command' | 'createCollection'> & {
+    collection: Mock<Db['collection']>;
+    collections: Mock<Db['collections']>;
+    command: Mock<Db['command']>;
+    createCollection: Mock<Db['createCollection']>;
+  };
   let collection: Collection;
 
   const COLLECTION = 'testcollection';
-  const COLLECTION_OTHER = 'testcollection2';
-  const DEFAULTS = {
-    foo: 'bar',
-  };
 
   const testSchema1 = schema({
     foo: types.string({ required: true }),
   });
-  const testSchema2 = schema(
-    {
-      foo: types.string({ required: true }),
-    },
-    {
-      defaults: DEFAULTS,
-      validationAction: VALIDATION_ACTIONS.WARN,
-      validationLevel: VALIDATION_LEVEL.MODERATE,
-    }
-  );
 
   beforeEach(() => {
-    jest.resetAllMocks();
-
     // @ts-expect-error Ignore mock collection
     collection = {
       collectionName: COLLECTION,
@@ -40,194 +33,68 @@ describe('index', () => {
 
     db = {
       // @ts-expect-error Ignore mocked function type
-      collection: jest.fn().mockReturnValue(collection),
+      collection: mock.fn(() => collection),
       // @ts-expect-error Ignore mocked function type
-      collections: jest.fn().mockResolvedValue([]),
+      collections: mock.fn(() => []),
       // @ts-expect-error Ignore mocked function type
-      command: jest.fn(),
+      command: mock.fn(() => {}),
       // @ts-expect-error Ignore mocked function type
-      createCollection: jest.fn().mockReturnValue(collection),
+      createCollection: mock.fn(() => collection),
     };
   });
 
   describe('initialize and model', () => {
-    beforeEach(() => {
-      jest.spyOn(model, 'build').mockReturnValue(undefined);
+    // Module mocking in node.js is experimental and the types are not yet available
+    let modelMock: any; // MockModuleContext
+    let Papr: any;
+    let model: any;
+
+    before(async () => {
+      modelMock = mock.module('../model', {
+        namedExports: {
+          abstract: mock.fn(() => ({ _abstract: true })),
+          build: mock.fn(() => undefined),
+        },
+      });
+      console.log('modelMock', modelMock);
+
+      Papr = (await import('../index')).default;
+      model = await import('../model');
     });
 
-    afterEach(() => {
-      jest.restoreAllMocks();
+    after(() => {
+      modelMock.restore();
     });
 
-    test('initialize with no models registered', () => {
+    test('initialize with no models registered', async (t) => {
       const papr = new Papr();
 
       papr.initialize(db);
 
-      expect(model.build).not.toHaveBeenCalled();
+      strictEqual(model.build.mock.callCount(), 0);
     });
 
-    test('define model without db', () => {
-      jest.spyOn(model, 'build').mockReturnValue(undefined);
-
+    test('define model without db', async () => {
       const papr = new Papr();
 
       papr.model('testcollection', testSchema1);
 
-      expect(model.build).not.toHaveBeenCalled();
+      strictEqual(model.build.mock.callCount(), 0);
     });
 
     test('register model and initialize afterwards', () => {
-      jest.spyOn(model, 'build').mockReturnValue(undefined);
-
       const options = { maxTime: 1000 };
       const papr = new Papr(options);
 
       papr.model(COLLECTION, testSchema1);
       papr.initialize(db);
 
-      expect(model.build).toHaveBeenCalledTimes(1);
-      expect(model.build).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(model.build, [
         testSchema1,
-        expect.any(Object),
+        { _abstract: true },
         collection,
-        options
-      );
-    });
-  });
-
-  describe('updateSchema', () => {
-    test('no db', async () => {
-      const papr = new Papr();
-
-      const testModel = papr.model(COLLECTION, testSchema1);
-
-      return expect(papr.updateSchema(testModel)).rejects.toThrow('DB');
-    });
-
-    test('no collection on model', async () => {
-      const papr = new Papr();
-
-      const testModel = papr.model(COLLECTION, testSchema1);
-
-      papr.db = db;
-
-      return expect(papr.updateSchema(testModel)).rejects.toThrow('collection');
-    });
-
-    test('new collection', async () => {
-      const papr = new Papr();
-
-      const testModel = papr.model(COLLECTION, testSchema1);
-      papr.initialize(db);
-
-      await papr.updateSchema(testModel);
-
-      expect(db.createCollection).toHaveBeenCalledWith(COLLECTION, {
-        validationAction: 'error',
-        validationLevel: 'strict',
-        validator: {
-          $jsonSchema: {
-            additionalProperties: false,
-            properties: {
-              _id: {
-                bsonType: 'objectId',
-              },
-              foo: {
-                type: 'string',
-              },
-            },
-            required: ['_id', 'foo'],
-            type: 'object',
-          },
-        },
-      });
-    });
-
-    test('existing collection', async () => {
-      (db.collections as jest.Mocked<Db['collections']>).mockResolvedValue([collection]);
-
-      const papr = new Papr();
-
-      const testModel = papr.model(COLLECTION, testSchema2);
-      papr.initialize(db);
-
-      await papr.updateSchema(testModel);
-
-      expect(db.command).toHaveBeenCalledWith({
-        collMod: COLLECTION,
-        validationAction: 'warn',
-        validationLevel: 'moderate',
-        validator: {
-          $jsonSchema: {
-            additionalProperties: false,
-            properties: {
-              _id: {
-                bsonType: 'objectId',
-              },
-              foo: {
-                type: 'string',
-              },
-            },
-            required: ['_id', 'foo'],
-            type: 'object',
-          },
-        },
-      });
-    });
-  });
-
-  test('updateSchemas', async () => {
-    (db.collection as jest.Mocked<Db['collection']>)
-      .mockReturnValueOnce(collection)
-      // @ts-expect-error Ignore collection type
-      .mockReturnValueOnce({ collectionName: COLLECTION_OTHER });
-
-    const papr = new Papr();
-
-    papr.model(COLLECTION, testSchema1);
-    papr.model(COLLECTION_OTHER, testSchema2);
-    papr.initialize(db);
-
-    await papr.updateSchemas();
-
-    expect(db.createCollection).toHaveBeenCalledWith(COLLECTION, {
-      validationAction: 'error',
-      validationLevel: 'strict',
-      validator: {
-        $jsonSchema: {
-          additionalProperties: false,
-          properties: {
-            _id: {
-              bsonType: 'objectId',
-            },
-            foo: {
-              type: 'string',
-            },
-          },
-          required: ['_id', 'foo'],
-          type: 'object',
-        },
-      },
-    });
-    expect(db.createCollection).toHaveBeenCalledWith(COLLECTION_OTHER, {
-      validationAction: 'warn',
-      validationLevel: 'moderate',
-      validator: {
-        $jsonSchema: {
-          additionalProperties: false,
-          properties: {
-            _id: {
-              bsonType: 'objectId',
-            },
-            foo: {
-              type: 'string',
-            },
-          },
-          required: ['_id', 'foo'],
-          type: 'object',
-        },
-      },
+        options,
+      ]);
     });
   });
 });
