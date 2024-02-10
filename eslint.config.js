@@ -176,10 +176,9 @@ export default typescriptEslint.config(
   {
     files: ['**/*.js', '**/*.mjs', '**/*.ts'],
     languageOptions: {
-      ecmaVersion: 2022,
+      ecmaVersion: 2024,
       globals: {
         ...globals.node,
-        ...globals.jest,
       },
       sourceType: 'module',
     },
@@ -193,6 +192,7 @@ export default typescriptEslint.config(
   {
     files: ['**/__tests__/*.test.ts'],
     rules: {
+      '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/unbound-method': 'off',
       'no-unused-expressions': 'off',

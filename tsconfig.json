@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
-    "noErrorTruncation": false,
+    "noErrorTruncation": true,
     "noImplicitReturns": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -13,7 +13,7 @@
     "strict": true,
     "strictFunctionTypes": false,
     "target": "ESNext",
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": ["./example", "./src"]
 }
