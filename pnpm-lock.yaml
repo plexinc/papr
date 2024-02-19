@@ -66,8 +66,8 @@ devDependencies:
     specifier: 8.0.0
     version: 8.0.0
   jsdoc-parse:
-    specifier: 6.2.0
-    version: 6.2.0
+    specifier: 6.2.1
+    version: 6.2.1
   lint-staged:
     specifier: 15.2.0
     version: 15.2.0
@@ -5354,13 +5354,12 @@ packages:
       walk-back: 5.1.0
     dev: true
 
-  /jsdoc-parse@6.2.0:
-    resolution: {integrity: sha512-Afu1fQBEb7QHt6QWX/6eUWvYHJofB90Fjx7FuJYF7mnG9z5BkAIpms1wsnvYLytfmqpEENHs/fax9p8gvMj7dw==}
+  /jsdoc-parse@6.2.1:
+    resolution: {integrity: sha512-9viGRUUtWOk/G4V0+nQ6rfLucz5plxh5I74WbNSNm9h9NWugCDVX4jbG8hZP9QqKGpdTPDE+qJXzaYNos3wqTA==}
     engines: {node: '>=12'}
     dependencies:
       array-back: 6.2.2
       lodash.omit: 4.5.0
-      lodash.pick: 4.4.0
       reduce-extract: 1.0.0
       sort-array: 4.1.5
       test-value: 3.0.0
@@ -5636,10 +5635,6 @@ packages:
 
   /lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
-    dev: true
-
-  /lodash.pick@4.4.0:
-    resolution: {integrity: sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==}
     dev: true
 
   /lodash.snakecase@4.1.1:
