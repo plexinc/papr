@@ -1,7 +1,4 @@
 {
-  "env": {
-    "jest": true
-  },
   "extends": [
     "eslint:recommended",
     "standard",
@@ -136,6 +133,7 @@
     {
       "files": ["**.test.ts"],
       "rules": {
+        "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",

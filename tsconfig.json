@@ -13,7 +13,7 @@
     "strict": true,
     "strictFunctionTypes": false,
     "target": "ESNext",
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": ["./example", "./src"]
 }

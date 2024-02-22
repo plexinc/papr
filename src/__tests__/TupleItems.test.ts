@@ -1,4 +1,4 @@
-import { test } from '@jest/globals';
+import { test } from 'node:test';
 import { expectType, TypeEqual } from 'ts-expect';
 
 import type { TupleItems } from '../TupleItems';

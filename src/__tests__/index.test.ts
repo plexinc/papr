@@ -1,4 +1,7 @@
-import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+import { equal } from 'node:assert/strict';
+import { afterEach, beforeEach, describe, mock, test } from 'node:test';
 import { Collection, Db } from 'mongodb';
 import Papr from '../index';
 import * as model from '../model';
@@ -31,8 +34,6 @@ describe('index', () => {
   );
 
   beforeEach(() => {
-    jest.resetAllMocks();
-
     // @ts-expect-error Ignore mock collection
     collection = {
       collectionName: COLLECTION,
@@ -40,13 +41,13 @@ describe('index', () => {
 
     db = {
       // @ts-expect-error Ignore mocked function type
-      collection: jest.fn().mockReturnValue(collection),
+      collection: mock.fn(() => collection),
       // @ts-expect-error Ignore mocked function type
-      collections: jest.fn().mockResolvedValue([]),
+      collections: mock.fn(() => []),
       // @ts-expect-error Ignore mocked function type
-      command: jest.fn(),
+      command: mock.fn(() => {}),
       // @ts-expect-error Ignore mocked function type
-      createCollection: jest.fn().mockReturnValue(collection),
+      createCollection: mock.fn(() => collection),
     };
   });
 
@@ -59,12 +60,15 @@ describe('index', () => {
       jest.restoreAllMocks();
     });
 
-    test('initialize with no models registered', () => {
+    test('initialize with no models registered', (t) => {
+      t.mock.method(model, 'build');
+
       const papr = new Papr();
 
       papr.initialize(db);
 
-      expect(model.build).not.toHaveBeenCalled();
+      equal(model.build.mock.callCount(), 0);
+      // expect(model.build).not.toHaveBeenCalled();
     });
 
     test('define model without db', () => {

@@ -1,4 +1,7 @@
-import { beforeEach, describe, expect, jest, test } from '@jest/globals';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+
+import { equal } from 'node:assert/strict';
+import { afterEach, beforeEach, describe, mock, test } from 'node:test';
 import { Collection, FindCursor, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
