@@ -4,7 +4,7 @@ import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
 import { abstract, build, Model } from '../model';
 import { PaprBulkWriteOperation } from '../mongodbTypes';
-import schema from '../schema';
+import { schema } from '../schema';
 import Types from '../types';
 
 describe('model', () => {

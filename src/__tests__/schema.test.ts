@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
-import schema from '../schema';
+import { schema } from '../schema';
 import types from '../types';
 import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
 

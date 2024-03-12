@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 import { abstract, build, Model } from './model';
-import schema, { SchemaOptions } from './schema';
+import { SchemaOptions } from './schema';
 import types from './types';
 import { BaseSchema, ModelOptions } from './utils';
 
@@ -175,7 +175,7 @@ export default class Papr {
   }
 }
 
-export { schema, types, types as Types };
+export { types, types as Types };
 export * from './hooks';
 export * from './model';
 export * from './mongodbTypes';

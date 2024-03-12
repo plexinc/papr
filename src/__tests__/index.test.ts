@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globa
 import { Collection, Db } from 'mongodb';
 import Papr from '../index';
 import * as model from '../model';
-import schema from '../schema';
+import { schema } from '../schema';
 import types from '../types';
 import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
 
