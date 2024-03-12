@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [15.2.1](https://github.com/plexinc/papr/compare/v15.2.0...v15.2.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* Export schema only once ([#736](https://github.com/plexinc/papr/issues/736)) ([fee69db](https://github.com/plexinc/papr/commit/fee69dba93d512d4b25eb6d989aebe72c9ebd45a))
+
 ## [15.2.0](https://github.com/plexinc/papr/compare/v15.1.0...v15.2.0) (2024-02-07)
 
 
