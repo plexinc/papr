@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.head_ref, 'renovate') }}
     steps:
-      - run: "echo 'URL:${{ vars.SLACK_PAPR_WEBHOOK_URL }}'"
-
       - uses: slackapi/slack-github-action@v1.25.0
         with:
           payload: |
