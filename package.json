@@ -60,7 +60,7 @@
     "@babel/preset-typescript": "7.24.1",
     "@commitlint/cli": "19.2.1",
     "@commitlint/config-conventional": "19.1.0",
-    "@types/node": "20.12.2",
+    "@types/node": "20.12.4",
     "@typescript-eslint/eslint-plugin": "7.5.0",
     "@typescript-eslint/parser": "7.5.0",
     "arg": "5.0.2",
@@ -120,7 +120,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "20.12.0",
+    "node": "20.12.1",
     "pnpm": "8.15.1"
   },
   "packageManager": "pnpm@8.15.1"
