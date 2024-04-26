@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !contains(github.head_ref, 'renovate') }}
     steps:
-      - uses: slackapi/slack-github-action@v1.25.0
+      - uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: |
             {
