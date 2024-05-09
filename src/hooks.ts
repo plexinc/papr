@@ -67,7 +67,6 @@ export interface Hooks {
  * });
  */
 export function logHook<TArgs>(log: Log): Hook<TArgs> {
-  // eslint-disable-next-line @typescript-eslint/require-await
   return async function logHookMethod(params: {
     args: TArgs[];
     collectionName: string;
