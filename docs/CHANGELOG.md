@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [15.2.2](https://github.com/plexinc/papr/compare/v15.2.1...v15.2.2) (2024-05-20)
+
+
+### Bug Fixes
+
+* Run husky on prepare life-cycle script ([#813](https://github.com/plexinc/papr/issues/813)) ([7c4eb98](https://github.com/plexinc/papr/commit/7c4eb988aa7719f172efc4d12c2b78df733fca3d))
+
 ## [15.2.1](https://github.com/plexinc/papr/compare/v15.2.0...v15.2.1) (2024-03-12)
 
 
