@@ -104,7 +104,6 @@ export type ObjectType<Properties> = Flatten<
 export function any<Options extends GenericOptions>(options?: Options): any {
   const { required, ...otherOptions } = options || {};
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...(required ? { $required: true } : {}),
     // bsonType uses `bool` instead of the native JSON schema `boolean` type

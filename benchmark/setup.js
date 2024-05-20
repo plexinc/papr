@@ -1,7 +1,6 @@
 import arg from 'arg';
 import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
-// eslint-disable-next-line
 import Papr from '../esm/index.js';
 
 const help = `

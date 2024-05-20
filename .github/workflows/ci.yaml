@@ -42,7 +42,7 @@ jobs:
           node-version-file: 'package.json'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm lint && pnpm pretty:ci
+      - run: pnpm lint:ci && pnpm pretty:ci
 
   unit:
     runs-on: ubuntu-latest

@@ -584,7 +584,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     // key, `_id` (which will override the earlier exclusion).
     //
     // @ts-expect-error Ignore `string` type mismatched to `keyof TSchema`
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
     const key: keyof TSchema = Object.keys(filter)[0] || '_id';
 
     const result = await model.findOne(filter, {
