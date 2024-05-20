@@ -11,7 +11,7 @@ cd ../..
 
 cd tests/cjs/
 node -v
-pnpm install
+node ./index.js
 cd ../..
 
 cd tests/ts/
