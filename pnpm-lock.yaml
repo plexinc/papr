@@ -50,9 +50,6 @@ importers:
       eslint-plugin-import:
         specifier: 2.29.1
         version: 2.29.1(@typescript-eslint/parser@7.9.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)
-      eslint-plugin-n:
-        specifier: 17.4.0
-        version: 17.4.0(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: 5.1.2
         version: 5.1.2(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.2.5)
