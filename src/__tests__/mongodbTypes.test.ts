@@ -68,44 +68,119 @@ describe('mongodb types', () => {
 
   describe('PaprFilter', () => {
     describe('existing top-level keys', () => {
-      test('valid types', () => {
-        expect(true).toBeTruthy();
-
-        expectType<PaprFilter<TestDocument>>({ _id: new ObjectId() });
-
-        expectType<PaprFilter<TestDocument>>({ foo: 'foo' });
-        // string fields can be queried by regexp
-        expectType<PaprFilter<TestDocument>>({ foo: /foo/ });
-
-        expectType<PaprFilter<TestDocument>>({ bar: 123 });
-
-        expectType<PaprFilter<TestDocument>>({ ham: new Date() });
-
-        // array fields can be queried by exact match
-        expectType<PaprFilter<TestDocument>>({ tags: ['foo'] });
-        // array fields can be queried by element type
-        expectType<PaprFilter<TestDocument>>({ tags: 'foo' });
-        expectType<PaprFilter<TestDocument>>({ tags: /foo/ });
-
-        expectType<PaprFilter<TestDocument>>({
-          nestedObject: {
-            deep: { deeper: 'foo' },
-            direct: true,
-          },
+      describe('valid types', () => {
+        test('ObjectId', () => {
+          const filter = { _id: new ObjectId() } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
         });
 
-        // all BSON types can be used as query values
-        expectType<PaprFilter<TestDocument>>({ binary: new Binary([], 2) });
-        expectType<PaprFilter<TestDocument>>({ bsonSymbol: new BSONSymbol('hi') });
-        expectType<PaprFilter<TestDocument>>({ code: new Code(() => true) });
-        expectType<PaprFilter<TestDocument>>({ double: new Double(123.45) });
-        expectType<PaprFilter<TestDocument>>({ dbRef: new DBRef('collection', new ObjectId()) });
-        expectType<PaprFilter<TestDocument>>({ decimal: new Decimal128('123.45') });
-        expectType<PaprFilter<TestDocument>>({ int32: new Int32('123') });
-        expectType<PaprFilter<TestDocument>>({ long: new Long('123', 45) });
-        expectType<PaprFilter<TestDocument>>({ maxKey: new MaxKey() });
-        expectType<PaprFilter<TestDocument>>({ minKey: new MinKey() });
-        expectType<PaprFilter<TestDocument>>({ regexp: /foo/ });
+        test('string', () => {
+          const filter = { foo: 'foo' } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('string queried by regexp', () => {
+          const filter = { foo: /foo/ } as const;
+          // string fields can be queried by regexp
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('number', () => {
+          const filter = { bar: 123 } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('Date', () => {
+          const filter = { ham: new Date() } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('array-of-strings queried by exact match', () => {
+          // array fields can be queried by exact match
+          const filter = { tags: ['foo'] } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('array-of-strings queried by string', () => {
+          // array fields can be queried by element type
+          const filter = { tags: 'foo' } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('array-of-strings queried by regexp', () => {
+          const filter = { tags: /foo/ } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        test('nested object', () => {
+          const filter = {
+            nestedObject: {
+              deep: { deeper: 'foo' },
+              direct: true,
+            },
+          } as const;
+          expectType<PaprFilter<TestDocument>>(filter);
+        });
+
+        describe('BSON types', () => {
+          // all BSON types can be used as query values
+          test('binary', () => {
+            const filter = { binary: new Binary([], 2) } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('BSONSymbol', () => {
+            const filter = { bsonSymbol: new BSONSymbol('hi') } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('Code', () => {
+            const filter = { code: new Code(() => true) } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('Double', () => {
+            const filter = { double: new Double(123.45) } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('DBRef', () => {
+            const filter = {
+              dbRef: new DBRef('collection', new ObjectId()),
+            } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('Decimal128', () => {
+            const filter = { decimal: new Decimal128('123.45') } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('Int32', () => {
+            const filter = { int32: new Int32('123') } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('Long', () => {
+            const filter = { long: new Long('123', 45) } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('MaxKey', () => {
+            const filter = { maxKey: new MaxKey() } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('MinKey', () => {
+            const filter = { minKey: new MinKey() } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('regexp', () => {
+            const filter = { regexp: /foo/ } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+        });
       });
 
       test('invalid types', () => {
@@ -148,68 +223,143 @@ describe('mongodb types', () => {
     });
 
     describe('existing nested keys using dot notation', () => {
-      test('valid types', () => {
-        // https://www.mongodb.com/docs/manual/tutorial/query-embedded-documents/#query-on-nested-field
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.direct': true });
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': 123 });
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 'foo' });
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 123 });
-        expectType<PaprFilter<TestDocument>>({
-          'nestedObject.level2.level3.level4.level5.level6ID': 'foo',
+      describe('valid types', () => {
+        describe('nested object', () => {
+          test('boolean addressed by name', () => {
+            const filter = { 'nestedObject.direct': true } as const;
+            // https://www.mongodb.com/docs/manual/tutorial/query-embedded-documents/#query-on-nested-field
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('number addressed by name', () => {
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': 123 });
+          });
+
+          test('string addressed by nested name', () => {
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 'foo' });
+          });
+
+          test('number addressed by nested name', () => {
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 123 });
+          });
+
+          test('string addressed by deeply-nested name', () => {
+            expectType<PaprFilter<TestDocument>>({
+              'nestedObject.level2.level3.level4.level5.level6ID': 'foo',
+            });
+          });
         });
 
-        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 123 });
-        expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': 123 });
+        describe('generic object', () => {
+          test('number addressed by arbitrary nested name', () => {
+            expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 123 });
+            expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': 123 });
+          });
 
-        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 123 } });
+          test('number addressed by nested object with valid property', () => {
+            expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 123 } });
+          });
+        });
 
-        // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#use-the-array-index-to-query-for-a-field-in-the-embedded-document
-        expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 'foo' });
-        expectType<PaprFilter<TestDocument>>({ 'list.1.other': 123 });
-        // it works with some extreme indexes
-        expectType<PaprFilter<TestDocument>>({ 'list.4294967295.other': 123 });
-        expectType<PaprFilter<TestDocument>>({ 'list.9999999999999999999.other': 123 });
+        test('string addressed by index + property in array-of-objects', () => {
+          // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#use-the-array-index-to-query-for-a-field-in-the-embedded-document
+          expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 'foo' });
+        });
 
-        expectType<PaprFilter<TestDocument>>({ 'tags.0': 'foo' });
+        test('number addressed by index + property in array-of-objects', () => {
+          expectType<PaprFilter<TestDocument>>({ 'list.1.other': 123 });
+        });
 
-        // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#specify-a-query-condition-on-a-field-embedded-in-an-array-of-documents
-        expectType<PaprFilter<TestDocument>>({ 'list.direct': 'foo' });
-        expectType<PaprFilter<TestDocument>>({ 'list.other': 123 });
+        test('number addressed by large index + property in array-of-objects', () => {
+          // it works with some extreme indexes
+          expectType<PaprFilter<TestDocument>>({ 'list.4294967295.other': 123 });
+        });
+
+        test('number addressed by super-large index + property in array-of-objects', () => {
+          expectType<PaprFilter<TestDocument>>({ 'list.9999999999999999999.other': 123 });
+        });
+
+        test('string addressed by property in array-of-objects', () => {
+          // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/#specify-a-query-condition-on-a-field-embedded-in-an-array-of-documents
+          expectType<PaprFilter<TestDocument>>({ 'list.direct': 'foo' });
+        });
+
+        test('number addressed by property in array-of-objects', () => {
+          expectType<PaprFilter<TestDocument>>({ 'list.other': 123 });
+        });
+
+        test('string addressed by index in array-of-strings', () => {
+          expectType<PaprFilter<TestDocument>>({ 'tags.0': 'foo' });
+        });
       });
 
-      test('invalid types', () => {
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'tags.0': 123 });
-
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.direct': 'foo' });
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': 'foo' });
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 123 });
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 'foo' });
-        expectType<PaprFilter<TestDocument>>({
+      describe('invalid types', () => {
+        test('number substituted for string at array numeric index', () => {
           // @ts-expect-error Type mismatch
-          'nestedObject.level2.level3.level4.level5.level6': 123,
-        });
-        expectType<PaprFilter<TestDocument>>({
-          // @ts-expect-error Nesting level too deep
-          'nestedObject.level2.level3.level4.level5.level6.level7ID': 'foo',
+          expectType<PaprFilter<TestDocument>>({ 'tags.0': 123 });
         });
 
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'genericObject.foo.id': 'foo' });
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': true });
+        describe('nested objects', () => {
+          test('string substituted for object at nested object property', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.direct': 'foo' });
+          });
 
-        // Support for this type-check is not available yet
-        // expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 'foo' } });
+          test('string substituted for number at shallow nested object property', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.other': 'foo' });
+          });
 
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 123 });
-        // @ts-expect-error Type mismatch
-        expectType<PaprFilter<TestDocument>>({ 'list.1.other': 'foo' });
+          test('number substituted for string at nested object property', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.deeper': 123 });
+          });
+
+          test('string substituted for number at deep nested object property', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'nestedObject.deep.other': 'foo' });
+          });
+
+          test('number substituted for object at deeply nested property (level6)', () => {
+            const filter = {
+              'nestedObject.level2.level3.level4.level5.level6': 123,
+            } as const;
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+
+          test('number substituted for string at deeply nested property (level7) nesting error, not type error', () => {
+            const filter = {
+              'nestedObject.level2.level3.level4.level5.level6.level7ID': 123,
+            } as const;
+            expectType<PaprFilter<TestDocument>>(filter);
+          });
+        });
+
+        describe('generic objects', () => {
+          test('string substituted for number on generic object field', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': '123' });
+          });
+
+          test('boolean substituted for number on generic object field', () => {
+            // @ts-expect-error Type mismatch
+            expectType<PaprFilter<TestDocument>>({ 'genericObject.bar.id': true });
+          });
+        });
+
+        test('number substituted for required string on array-of-objects', () => {
+          // Support for this type-check is not available yet
+          // expectType<PaprFilter<TestDocument>>({ 'genericObject.foo': { id: 'foo' } });
+
+          // @ts-expect-error Type mismatch
+          expectType<PaprFilter<TestDocument>>({ 'list.0.direct': 123 });
+        });
+
+        test('string substituted for optional number on array-of-objects', () => {
+          // @ts-expect-error Type mismatch
+          expectType<PaprFilter<TestDocument>>({ 'list.1.other': 'foo' });
+        });
       });
     });
 
@@ -429,11 +579,22 @@ describe('mongodb types', () => {
 
   describe('PaprUpdateFilter', () => {
     describe('$currentDate', () => {
-      test('valid types', () => {
-        expectType<PaprUpdateFilter<TestDocument>>({ $currentDate: { ham: true } });
-        expectType<PaprUpdateFilter<TestDocument>>({ $currentDate: { ham: { $type: 'date' } } });
-        expectType<PaprUpdateFilter<TestDocument>>({
-          $currentDate: { ham: { $type: 'timestamp' } },
+      describe('valid types', () => {
+        test('object', () => {
+          const filter = { $currentDate: { ham: true } } as const;
+          expectType<PaprUpdateFilter<TestDocument>>(filter);
+        });
+
+        test('object with $type date', () => {
+          const filter = { $currentDate: { ham: { $type: 'date' } } } as const;
+          expectType<PaprUpdateFilter<TestDocument>>(filter);
+        });
+
+        test('object with $type timestamp', () => {
+          const filter = {
+            $currentDate: { ham: { $type: 'timestamp' } },
+          } as const;
+          expectType<PaprUpdateFilter<TestDocument>>(filter);
         });
       });
 
