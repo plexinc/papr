@@ -42,7 +42,7 @@ import { DocumentForInsert, NestedPaths, PropertyType } from './utils';
 // We've adopted these types in this repository and made some improvements to them.
 // See: https://github.com/plexinc/papr/issues/410
 
-// These buik operation types need our own `PaprFilter` and `PaprUpdateFilter` in their definition
+// These bulk operation types need our own `PaprFilter` and `PaprUpdateFilter` in their definition
 export type PaprBulkWriteOperation<TSchema, TOptions extends SchemaOptions<TSchema>> =
   | {
       // @ts-expect-error Type expects a Document extended type, but Document is too generic

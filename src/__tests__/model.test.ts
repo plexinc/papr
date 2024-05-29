@@ -291,8 +291,93 @@ describe('model', () => {
       });
     });
 
+    test('simple schema with inline operations', async () => {
+      await simpleModel.bulkWrite([
+        {
+          insertOne: {
+            document: {
+              bar: 123,
+              foo: 'foo',
+            },
+          },
+        },
+      ]);
+
+      expect(collection.bulkWrite).toHaveBeenCalledWith(
+        [
+          {
+            insertOne: {
+              document: {
+                bar: 123,
+                foo: 'foo',
+              },
+            },
+          },
+        ],
+        {
+          ignoreUndefined: true,
+        }
+      );
+    });
+
+    test('simple schema with readonly operations', async () => {
+      const operations = [
+        {
+          insertOne: {
+            document: {
+              bar: 123,
+              foo: 'foo',
+            },
+          },
+        },
+        {
+          updateOne: {
+            filter: { foo: 'foo' },
+            update: {
+              $set: { bar: 123 },
+            },
+          },
+        },
+        {
+          updateMany: {
+            filter: { foo: 'foo' },
+            update: {
+              $set: { bar: 123 },
+            },
+          },
+        },
+        {
+          replaceOne: {
+            filter: { foo: 'foo' },
+            replacement: {
+              bar: 123,
+              foo: 'foo',
+            },
+          },
+        },
+        {
+          deleteOne: {
+            filter: { foo: 'foo' },
+          },
+        },
+        {
+          deleteMany: {
+            filter: { foo: 'foo' },
+          },
+        },
+      ] as const;
+
+      expectType<readonly PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[]>(operations);
+
+      await simpleModel.bulkWrite(operations);
+
+      expect(collection.bulkWrite).toHaveBeenCalledWith(operations, {
+        ignoreUndefined: true,
+      });
+    });
+
     test('schema with defaults', async () => {
-      const operations: PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
+      const operations = [
         {
           insertOne: {
             document: {
@@ -366,7 +451,9 @@ describe('model', () => {
             upsert: true,
           },
         },
-      ];
+      ] as const;
+
+      expectType<readonly PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[]>(operations);
 
       await simpleModel.bulkWrite(operations);
 
