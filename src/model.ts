@@ -57,7 +57,7 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<TResult[]>;
 
   bulkWrite: (
-    operations: PaprBulkWriteOperation<TSchema, TOptions>[],
+    operations: readonly PaprBulkWriteOperation<TSchema, TOptions>[],
     options?: BulkWriteOptions
   ) => Promise<BulkWriteResult | void>;
 
@@ -376,7 +376,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
   model.bulkWrite = wrap(
     model,
     async function bulkWrite(
-      operations: PaprBulkWriteOperation<TSchema, TOptions>[],
+      operations: readonly PaprBulkWriteOperation<TSchema, TOptions>[],
       options?: BulkWriteOptions
     ): Promise<BulkWriteResult | void> {
       if (operations.length === 0) {
