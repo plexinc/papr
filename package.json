@@ -122,7 +122,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "20.13.1",
+    "node": "20.14.0",
     "pnpm": "9.1.0"
   },
   "packageManager": "pnpm@9.1.0"
