@@ -75,8 +75,8 @@ importers:
         specifier: 15.2.5
         version: 15.2.5
       mongodb:
-        specifier: 6.7.0
-        version: 6.7.0(socks@2.7.1)
+        specifier: 6.8.0
+        version: 6.8.0(socks@2.7.1)
       mongodb-memory-server:
         specifier: 9.4.0
         version: 9.4.0
@@ -3083,8 +3083,8 @@ packages:
       snappy:
         optional: true
 
-  mongodb@6.7.0:
-    resolution: {integrity: sha512-TMKyHdtMcO0fYBNORiYdmM25ijsHs+Njs963r4Tro4OQZzqYigAzYQouwWRg4OIaiLRUEGUh/1UAcH5lxdSLIA==}
+  mongodb@6.8.0:
+    resolution: {integrity: sha512-HGQ9NWDle5WvwMnrvUxsFYPd3JEbqD3RgABHBQRuoCEND0qzhsd0iH5ypHsf1eJ+sXmvmyKpP+FLOKY8Il7jMw==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -7978,7 +7978,7 @@ snapshots:
     optionalDependencies:
       '@mongodb-js/saslprep': 1.1.5
 
-  mongodb@6.7.0(socks@2.7.1):
+  mongodb@6.8.0(socks@2.7.1):
     dependencies:
       '@mongodb-js/saslprep': 1.1.5
       bson: 6.7.0
