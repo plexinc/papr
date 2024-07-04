@@ -165,19 +165,9 @@ export default typescriptEslint.config(
   //   }
   // },
 
-  // This plugin does not support the flat config yet
-  // https://github.com/eslint-community/eslint-plugin-promise/issues/449
   {
     files: ['**/*.js', '**/*.mjs', '**/*.ts'],
-    plugins: {
-      promise: promisePlugin,
-    },
-    rules: {
-      ...promisePlugin.configs.recommended.rules,
-      'promise/no-promise-in-callback': 'off',
-      'promise/no-return-in-callback': 'off',
-      'promise/no-return-wrap': 'off',
-    },
+    ...promisePlugin.configs['flat/recommended'],
   },
 
   ...compat.extends('eslint-config-prettier'),
