@@ -22,7 +22,7 @@ jobs:
           filter: tree:0
       - uses: pnpm/action-setup@v4.0.0
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v4.0.1
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
@@ -37,7 +37,7 @@ jobs:
         with:
           filter: tree:0
       - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.3
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
@@ -51,7 +51,7 @@ jobs:
         with:
           filter: tree:0
       - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.3
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
@@ -65,7 +65,7 @@ jobs:
         with:
           filter: tree:0
       - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.3
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
