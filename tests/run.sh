@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+export MONGOMS_VERSION=${MONGOMS_VERSION:-6.0.16}
+
 ./tests/build.sh
 
 cd tests/esm/
