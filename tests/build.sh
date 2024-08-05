@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-pnpm build
-
 npm pack
 
 mkdir ./build 2>/dev/null || true

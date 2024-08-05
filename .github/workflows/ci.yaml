@@ -16,6 +16,9 @@ jobs:
           - 18.x
           - 20.x
           - 22.x
+        mongodb:
+          - 6.0.16
+          - 7.0.12
     steps:
       - uses: actions/checkout@v4.1.6
         with:
@@ -29,6 +32,8 @@ jobs:
       - run: node -v
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:build
+        env:
+          MONGOMS_VERSION: ${{ matrix.mongodb }}
 
   lint:
     runs-on: ubuntu-latest
