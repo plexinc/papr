@@ -9,6 +9,7 @@ function isValidUrl(value) {
     // eslint-disable-next-line no-new
     new URL(value);
     return true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return false;
   }

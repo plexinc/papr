@@ -138,15 +138,14 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
   ) => Promise<ProjectionType<TSchema, TProjection>>;
 }
 
-/* eslint-disable @typescript-eslint/ban-types */
 type ModelMethodsNames = NonNullable<
   {
-    [P in keyof Model<BaseSchema, Object>]: Model<BaseSchema, Object>[P] extends Function
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    [P in keyof Model<BaseSchema, object>]: Model<BaseSchema, object>[P] extends Function
       ? P
       : never;
-  }[keyof Model<BaseSchema, Object>]
+  }[keyof Model<BaseSchema, object>]
 >;
-/* eslint-enable @typescript-eslint/ban-types */
 
 // `upsert` is a custom method, which is not wrapped with hooks.
 export type HookMethodsNames = Exclude<ModelMethodsNames, 'upsert'>;
