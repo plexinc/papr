@@ -39,6 +39,14 @@
       ]
     },
     {
+      "extends": [
+        "schedule:monthly"
+      ],
+      "matchPackageNames": [
+        "@types/node"
+      ]
+    },
+    {
       "enabled": false,
       "groupName": "Skip major Node.js versions",
       "matchPackageNames": [
