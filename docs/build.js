@@ -99,7 +99,7 @@ for (const doc of DOCS) {
 
   const sourceTranspiled = transpileTS(source);
 
-  const jsdoc = jsdocApi.explainSync({ source: sourceTranspiled });
+  const jsdoc = await jsdocApi.explain({ source: sourceTranspiled });
   const parsed = jsdocParse(jsdoc);
 
   const intro = parsed.find((item) => item.kind === 'module' && item.name === 'intro');

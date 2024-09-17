@@ -35,6 +35,20 @@ jobs:
         env:
           MONGOMS_VERSION: ${{ matrix.mongodb }}
 
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.6
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.0.0
+      - uses: actions/setup-node@v4.0.1
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:docs && git diff
+
   lint:
     runs-on: ubuntu-latest
     steps:
