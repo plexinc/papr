@@ -39,7 +39,8 @@
   },
   "scripts": {
     "build": "./build.sh",
-    "docs": "node docs/build.js && docsify serve ./docs",
+    "build:docs": "node docs/build.js",
+    "docs": "pnpm build:docs && docsify serve ./docs",
     "benchmark": "pnpm build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint:ci": "./tests/build.sh && eslint .",
     "lint": "eslint .",
