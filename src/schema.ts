@@ -121,6 +121,28 @@ function sanitize(value: any): void {
  * export type OrderOptions = typeof orderSchema[1];
  *
  * @example
+ * // Example with static defaults of const enums
+ *
+ * import { schema, types, VALIDATION_ACTIONS, VALIDATION_LEVEL } from 'papr';
+ *
+ * const statuses = ['processing', 'shipped'] as const;
+ * type Status = (typeof statuses)[number];
+ *
+ * const orderSchema = schema({
+ *   _id: types.number({ required: true }),
+ *   user: types.objectId({ required: true }),
+ *   status: types.enum(statuses, { required: true })
+ * }, {
+ *   defaults: {
+ *     // const enums require the full type cast in defaults
+ *     status: 'processing' as Status
+ *   }
+ * });
+ *
+ * export type OrderDocument = typeof orderSchema[0];
+ * export type OrderOptions = typeof orderSchema[1];
+ *
+ * @example
  * // Example with dynamic defaults
  *
  * import { schema, types } from 'papr';

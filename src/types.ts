@@ -397,12 +397,14 @@ export default {
   decimal: createSimpleType<Decimal128>('decimal'),
 
   /**
-   * With `enum` you can create an enum type either:
+   * With `enum` you can create an enum type based on either:
    *
-   * - based on a TypeScript `enum` structure
-   * - based on an array of `const`
+   * - a TypeScript `enum` structure
+   * - a readonly/const array (`as const`)
    *
    * Enum types may contain `null` as well.
+   *
+   * Const enums require a full type cast when used in the schema `defaults`.
    *
    * @param values {Array<TValue>}
    * @param [options] {GenericOptions}
@@ -416,7 +418,7 @@ export default {
    *   bar = 'bar'
    * }
    *
-   * const SampleArray = ['foo' as const, 'bar' as const];
+   * const SampleConstArray = ['foo', 'bar'] as const;
    *
    * schema({
    *   // type: SampleEnum
@@ -426,9 +428,9 @@ export default {
    *   // type: SampleEnum | null | undefined
    *   optionalEnumWithNull: types.enum([...Object.values(SampleEnum), null]),
    *   // type: 'foo' | 'bar'
-   *   requiredEnumAsConstArray: types.enum(SampleArray, { required: true }),
+   *   requiredEnumAsConstArray: types.enum(SampleConstArray, { required: true }),
    *   // type: 'foo' | 'bar' | undefined
-   *   optionalEnumAsConstArray: types.enum(SampleArray),
+   *   optionalEnumAsConstArray: types.enum(SampleConstArray),
    * });
    */
   enum: enumType,
