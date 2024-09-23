@@ -200,8 +200,8 @@ describe('types', () => {
         types.enum(Object.values(TEST_ENUM), { maxLength: 1 });
       });
 
-      test('array of const', () => {
-        const value = types.enum(['a' as const, 'b' as const]);
+      test('const array', () => {
+        const value = types.enum(['a', 'b'] as const);
 
         expect(value).toEqual({
           enum: ['a', 'b'],
