@@ -57,8 +57,8 @@ importers:
         specifier: 7.1.0
         version: 7.1.0(eslint@9.11.0(jiti@1.20.0))
       globals:
-        specifier: 15.9.0
-        version: 15.9.0
+        specifier: 15.10.0
+        version: 15.10.0
       husky:
         specifier: 9.1.4
         version: 9.1.4
@@ -2277,8 +2277,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.9.0:
-    resolution: {integrity: sha512-SmSKyLLKFbSr6rptvP8izbyxJL4ILwqO9Jg23UA0sDlGlu58V59D1//I3vlc0KJphVdUR7vMjHIplYnzBxorQA==}
+  globals@15.10.0:
+    resolution: {integrity: sha512-tqFIbz83w4Y5TCbtgjZjApohbuh7K9BxGYFm7ifwDR240tvdb7P9x+/9VvUKlmkPoiknoJtanI8UOrqxS3a7lQ==}
     engines: {node: '>=18'}
 
   globalthis@1.0.3:
@@ -6684,7 +6684,7 @@ snapshots:
       eslint: 9.11.0(jiti@1.20.0)
       eslint-plugin-es-x: 7.5.0(eslint@9.11.0(jiti@1.20.0))
       get-tsconfig: 4.7.0
-      globals: 15.9.0
+      globals: 15.10.0
       ignore: 5.3.1
       minimatch: 9.0.4
       semver: 7.6.3
@@ -7040,7 +7040,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.9.0: {}
+  globals@15.10.0: {}
 
   globalthis@1.0.3:
     dependencies:
