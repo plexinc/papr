@@ -171,7 +171,7 @@ export type PaprAllProperties<TSchema> = {
  * }
  */
 export type PaprArrayElementsProperties<TSchema> = {
-  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, readonly any[]>}.$${
     | ''
     | `[${string}]`}`]?: ArrayElement<
     PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
@@ -193,7 +193,7 @@ export type PaprArrayElementsProperties<TSchema> = {
  * }
  */
 export type PaprArrayNestedProperties<TSchema> = {
-  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
+  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, readonly Readonly<Record<string, any>>[]>}.$${
     | ''
     | `[${string}]`}.${string}`]?: any;
 };
