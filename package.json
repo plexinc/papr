@@ -57,9 +57,9 @@
     "watch:types": "tsc --watch"
   },
   "devDependencies": {
-    "@babel/core": "7.25.7",
-    "@babel/preset-env": "7.25.7",
-    "@babel/preset-typescript": "7.25.7",
+    "@babel/core": "7.26.0",
+    "@babel/preset-env": "7.26.0",
+    "@babel/preset-typescript": "7.26.0",
     "@commitlint/cli": "19.5.0",
     "@commitlint/config-conventional": "19.5.0",
     "@eslint/eslintrc": "3.1.0",
