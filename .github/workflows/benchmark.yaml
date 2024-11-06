@@ -8,11 +8,11 @@ jobs:
   benchmark:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.2.1
         with:
           filter: tree:0
       - uses: pnpm/action-setup@v4.0.0
-      - uses: actions/setup-node@v4.0.1
+      - uses: actions/setup-node@v4.0.4
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
@@ -31,7 +31,7 @@ jobs:
           script: |
             core.setOutput('results', require('./docs/data.json').benchmark.results);
       - id: create-pr
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           add-paths: docs/data.json
           base: main

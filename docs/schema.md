@@ -23,7 +23,7 @@ const userSchema = schema({
 To interact with your collection using this schema, create two important derived types, the model type and the document type:
 
 ```ts
-const UserDocument = typeof userSchema[0];
+type UserDocument = (typeof userSchema)[0];
 const UserModel = papr.model('users', userSchema);
 ```
 

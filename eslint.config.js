@@ -46,7 +46,6 @@ export default typescriptEslint.config(
           'ts-nocheck': false,
         },
       ],
-      '@typescript-eslint/ban-types': 'warn',
       '@typescript-eslint/brace-style': [
         'error',
         '1tbs',
@@ -96,6 +95,7 @@ export default typescriptEslint.config(
       '@typescript-eslint/no-extra-parens': ['error', 'functions'],
       '@typescript-eslint/no-extra-semi': 'error',
       '@typescript-eslint/no-extraneous-class': 'error',
+      '@typescript-eslint/no-restricted-types': 'warn',
       '@typescript-eslint/no-unnecessary-type-arguments': 'error',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-unsafe-assignment': 'warn',
@@ -165,19 +165,9 @@ export default typescriptEslint.config(
   //   }
   // },
 
-  // This plugin does not support the flat config yet
-  // https://github.com/eslint-community/eslint-plugin-promise/issues/449
   {
     files: ['**/*.js', '**/*.mjs', '**/*.ts'],
-    plugins: {
-      promise: promisePlugin,
-    },
-    rules: {
-      ...promisePlugin.configs.recommended.rules,
-      'promise/no-promise-in-callback': 'off',
-      'promise/no-return-in-callback': 'off',
-      'promise/no-return-wrap': 'off',
-    },
+    ...promisePlugin.configs['flat/recommended'],
   },
 
   ...compat.extends('eslint-config-prettier'),
@@ -213,6 +203,7 @@ export default typescriptEslint.config(
   {
     files: ['tests/cjs/*.js'],
     rules: {
+      '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-var-requires': 'off',
     },
   },

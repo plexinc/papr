@@ -19,7 +19,7 @@ async function setup(): Promise<void> {
 
   const uri = mongoServer.getUri();
 
-  console.log(`Testing with ${uri}${DB}`);
+  console.log(`Testing with MongoDB v${process.env.MONGOMS_VERSION} on ${uri}${DB}`);
 
   connection = await MongoClient.connect(uri);
   const db = connection.db(DB);

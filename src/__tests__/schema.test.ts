@@ -9,7 +9,7 @@ enum TEST_ENUM {
   FOO = 'foo',
   BAR = 'bar',
 }
-const READONLY_CONST_VALUES = ['qux', 'baz'] as const;
+const CONST_ENUM = ['ham', 'baz'] as const;
 
 describe('schema', () => {
   test('simple', () => {
@@ -44,7 +44,7 @@ describe('schema', () => {
           foo?: boolean;
           bar: number;
         },
-        // eslint-disable-next-line @typescript-eslint/ban-types
+        // eslint-disable-next-line @typescript-eslint/no-empty-object-type
         {},
       ]
     >(value);
@@ -114,6 +114,86 @@ describe('schema', () => {
     expectType<(typeof value)[0]>({
       _id: new ObjectId(),
       bar: 123,
+    });
+  });
+
+  test('with enums & defaults', () => {
+    const value = schema(
+      {
+        enumConstOptional: types.enum(CONST_ENUM),
+        enumConstRequired: types.enum(CONST_ENUM, { required: true }),
+        enumOptional: types.enum(Object.values(TEST_ENUM)),
+        enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
+      },
+      {
+        defaults: {
+          enumConstOptional: 'ham' as (typeof CONST_ENUM)[number],
+          enumConstRequired: 'baz' as (typeof CONST_ENUM)[number],
+          enumOptional: TEST_ENUM.FOO,
+          enumRequired: TEST_ENUM.BAR,
+        },
+      }
+    );
+
+    expect(value).toEqual({
+      $defaults: {
+        enumConstOptional: 'ham',
+        enumConstRequired: 'baz',
+        enumOptional: 'foo',
+        enumRequired: 'bar',
+      },
+      $validationAction: 'error',
+      $validationLevel: 'strict',
+      additionalProperties: false,
+      properties: {
+        _id: {
+          bsonType: 'objectId',
+        },
+        enumConstOptional: {
+          enum: ['ham', 'baz'],
+        },
+        enumConstRequired: {
+          enum: ['ham', 'baz'],
+        },
+        enumOptional: {
+          enum: ['foo', 'bar'],
+        },
+        enumRequired: {
+          enum: ['foo', 'bar'],
+        },
+      },
+      required: ['_id', 'enumConstRequired', 'enumRequired'],
+      type: 'object',
+    });
+
+    expectType<
+      [
+        {
+          _id: ObjectId;
+          enumConstOptional?: 'baz' | 'ham';
+        },
+        {
+          defaults: {
+            enumConstOptional?: 'baz' | 'ham';
+            enumOptional?: TEST_ENUM;
+          };
+        },
+      ]
+    >(value);
+    expectType<ObjectId>(value[0]?._id);
+    expectType<'baz' | 'ham' | undefined>(value[0]?.enumConstOptional);
+    expectType<'baz' | 'ham'>(value[0]?.enumConstRequired);
+    expectType<(typeof value)[0]>({
+      _id: new ObjectId(),
+      enumConstOptional: 'ham',
+      enumConstRequired: 'baz',
+      enumOptional: TEST_ENUM.FOO,
+      enumRequired: TEST_ENUM.BAR,
+    });
+    expectType<(typeof value)[0]>({
+      _id: new ObjectId(),
+      enumConstRequired: 'baz',
+      enumRequired: TEST_ENUM.BAR,
     });
   });
 
@@ -385,7 +465,7 @@ describe('schema', () => {
           _id: string;
           foo: number;
         },
-        // eslint-disable-next-line @typescript-eslint/ban-types
+        // eslint-disable-next-line @typescript-eslint/no-empty-object-type
         {},
       ]
     >(value);
@@ -428,7 +508,7 @@ describe('schema', () => {
           _id: number;
           foo: string;
         },
-        // eslint-disable-next-line @typescript-eslint/ban-types
+        // eslint-disable-next-line @typescript-eslint/no-empty-object-type
         {},
       ]
     >(value);
@@ -465,8 +545,9 @@ describe('schema', () => {
         dateRequired: types.date({ required: true }),
         decimalOptional: types.decimal(),
         decimalRequired: types.decimal({ required: true }),
+        enumConstOptional: types.enum(CONST_ENUM),
+        enumConstRequired: types.enum(CONST_ENUM, { required: true }),
         enumOptional: types.enum([...Object.values(TEST_ENUM), null]),
-        enumReadonly: types.enum(READONLY_CONST_VALUES),
         enumRequired: types.enum(Object.values(TEST_ENUM), { required: true }),
         nullOptional: types.null(),
         nullRequired: types.null({ required: true }),
@@ -493,7 +574,9 @@ describe('schema', () => {
         stringRequired: types.string({ required: true }),
       },
       {
-        defaults: { stringOptional: 'foo' },
+        defaults: {
+          stringOptional: 'foo',
+        },
         timestamps: true,
         validationAction: VALIDATION_ACTIONS.WARN,
         validationLevel: VALIDATION_LEVEL.MODERATE,
@@ -595,11 +678,14 @@ describe('schema', () => {
         decimalRequired: {
           bsonType: 'decimal',
         },
+        enumConstOptional: {
+          enum: ['ham', 'baz'],
+        },
+        enumConstRequired: {
+          enum: ['ham', 'baz'],
+        },
         enumOptional: {
           enum: ['foo', 'bar', null],
-        },
-        enumReadonly: {
-          enum: ['qux', 'baz'],
         },
         enumRequired: {
           enum: ['foo', 'bar'],
@@ -704,6 +790,7 @@ describe('schema', () => {
         'constantRequired',
         'dateRequired',
         'decimalRequired',
+        'enumConstRequired',
         'enumRequired',
         'nullRequired',
         'nullableOneOfRequired',
@@ -740,8 +827,9 @@ describe('schema', () => {
       dateRequired: Date;
       decimalOptional?: Decimal128;
       decimalRequired: Decimal128;
+      enumConstOptional?: 'ham' | 'baz';
+      enumConstRequired: 'ham' | 'baz';
       enumOptional?: TEST_ENUM | null;
-      enumReadonly?: 'qux' | 'baz';
       enumRequired: TEST_ENUM;
       nullOptional?: null;
       nullRequired: null;
@@ -804,7 +892,7 @@ describe('schema', () => {
           foo?: boolean;
           bar: number;
         },
-        // eslint-disable-next-line @typescript-eslint/ban-types
+        // eslint-disable-next-line @typescript-eslint/no-empty-object-type
         {},
       ]
     >(value);

@@ -10,9 +10,6 @@ import Types from '../types';
 describe('model', () => {
   let collection: Collection;
 
-  const DEFAULTS = {
-    bar: 123456,
-  };
   const projection = {
     foo: 1,
     ham: 1,
@@ -30,7 +27,9 @@ describe('model', () => {
       }),
     },
     {
-      defaults: DEFAULTS,
+      defaults: {
+        bar: 123456,
+      },
     }
   );
 
@@ -45,7 +44,9 @@ describe('model', () => {
       }),
     },
     {
-      defaults: DEFAULTS,
+      defaults: {
+        bar: 123456,
+      },
       timestamps: true,
     }
   );
@@ -61,7 +62,9 @@ describe('model', () => {
       }),
     },
     {
-      defaults: DEFAULTS,
+      defaults: {
+        bar: 123456,
+      },
       timestamps: {
         createdAt: '_createdDate' as const,
         updatedAt: '_updatedDate' as const,
@@ -81,7 +84,9 @@ describe('model', () => {
       }),
     },
     {
-      defaults: DEFAULTS,
+      defaults: {
+        bar: 123456,
+      },
     }
   );
 
@@ -1606,7 +1611,7 @@ describe('model', () => {
           { upsert: true }
         );
 
-        expectType<SimpleDocument | null>(result);
+        expectType<TimestampsDocument | null>(result);
 
         if (result) {
           expectType<ObjectId>(result._id);
@@ -1677,7 +1682,7 @@ describe('model', () => {
           { upsert: true }
         );
 
-        expectType<SimpleDocument | null>(result);
+        expectType<TimestampConfigDocument | null>(result);
 
         if (result) {
           expectType<ObjectId>(result._id);
