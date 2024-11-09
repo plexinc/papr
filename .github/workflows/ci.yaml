@@ -17,8 +17,9 @@ jobs:
           - 20.x
           - 22.x
         mongodb:
-          - 6.0.16
-          - 7.0.12
+          - 6.0.19
+          - 7.0.15
+          - 8.0.3
     steps:
       - uses: actions/checkout@v4.2.1
         with:
