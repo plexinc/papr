@@ -66,8 +66,8 @@ importers:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@types/node@20.16.13)(typescript@5.6.2))
       jsdoc-api:
-        specifier: 9.3.1
-        version: 9.3.1
+        specifier: 9.3.4
+        version: 9.3.4
       jsdoc-parse:
         specifier: 6.2.4
         version: 6.2.4
@@ -2742,8 +2742,8 @@ packages:
   js2xmlparser@4.0.2:
     resolution: {integrity: sha512-6n4D8gLlLf1n5mNLQPRfViYzu9RATblzPEtm1SthMX1Pjao0r9YI9nw7ZIfRxQMERS87mcswrg+r/OYrPRX6jA==}
 
-  jsdoc-api@9.3.1:
-    resolution: {integrity: sha512-pgZ5nrLnzF8Swxbv5OV8RYAoM/S3Cbf1UHncNYMRCQwU4KlCfg5bz5/VZlg0a1EATSHclIBf9Hm55GkXz0VItA==}
+  jsdoc-api@9.3.4:
+    resolution: {integrity: sha512-di8lggLACEttpyAZ6WjKKafUP4wC4prAGjt40nMl7quDpp2nD7GmLt6/WxhRu9Q6IYoAAySsNeidBXYVAMwlqg==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@75lb/nature': latest
@@ -2755,8 +2755,8 @@ packages:
     resolution: {integrity: sha512-MQA+lCe3ioZd0uGbyB3nDCDZcKgKC7m/Ivt0LgKZdUoOlMJxUWJQ3WI6GeyHp9ouznKaCjlp7CU9sw5k46yZTw==}
     engines: {node: '>=12'}
 
-  jsdoc@4.0.3:
-    resolution: {integrity: sha512-Nu7Sf35kXJ1MWDZIMAuATRQTg1iIPdzh7tqJ6jjvaU/GfDf+qi5UV8zJR3Mo+/pYFvm8mzay4+6O5EWigaQBQw==}
+  jsdoc@4.0.4:
+    resolution: {integrity: sha512-zeFezwyXeG4syyYHbvh1A967IAqq/67yXtXvuL5wnqCkFZe8I0vKfm+EO+YEvLguo6w9CDUbrAXVtJSHh2E8rw==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -7590,13 +7590,13 @@ snapshots:
     dependencies:
       xmlcreate: 2.0.4
 
-  jsdoc-api@9.3.1:
+  jsdoc-api@9.3.4:
     dependencies:
       array-back: 6.2.2
       cache-point: 3.0.0
       current-module-paths: 1.1.2
       file-set: 5.2.2
-      jsdoc: 4.0.3
+      jsdoc: 4.0.4
       object-to-spawn-args: 2.0.1
       walk-back: 5.1.1
 
@@ -7609,7 +7609,7 @@ snapshots:
     transitivePeerDependencies:
       - '@75lb/nature'
 
-  jsdoc@4.0.3:
+  jsdoc@4.0.4:
     dependencies:
       '@babel/parser': 7.26.1
       '@jsdoc/salty': 0.2.5
