@@ -192,6 +192,7 @@ export type PaprArrayElementsProperties<TSchema> = {
  *   'objectList.$[element].foo': any;
  * }
  */
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export type PaprArrayNestedProperties<TSchema> = {
   [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
     | ''

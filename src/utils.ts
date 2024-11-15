@@ -36,11 +36,10 @@ type TimestampSchemaProperty<
     ? never
     : TProperty;
 
-export type TimestampSchema<TOptions extends SchemaTimestampOptions | undefined> = {
-  [key in
-    | TimestampSchemaProperty<'createdAt', TOptions>
-    | TimestampSchemaProperty<'updatedAt', TOptions>]: Date;
-};
+export type TimestampSchema<TOptions extends SchemaTimestampOptions | undefined> = Record<
+  TimestampSchemaProperty<'createdAt', TOptions> | TimestampSchemaProperty<'updatedAt', TOptions>,
+  Date
+>;
 
 export interface ModelOptions {
   hooks?: Hooks;
