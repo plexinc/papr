@@ -1,5 +1,5 @@
 {
-  "branchConcurrentLimit": 10,
+  "branchConcurrentLimit": 3,
   "commitMessageAction": "Upgrade",
   "commitMessagePrefix": "chore:",
   "commitMessageTopic": "{{depName}}",
@@ -47,6 +47,17 @@
       ]
     },
     {
+      "extends": [
+        "schedule:monthly"
+      ],
+      "matchPackageNames": [
+        "mongoose"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
       "enabled": false,
       "groupName": "Skip major Node.js versions",
       "matchPackageNames": [
@@ -59,9 +70,13 @@
     },
     {
       "enabled": false,
-      "groupName": "Skip certain packages",
+      "groupName": "Skip non-major Mongoose versions",
       "matchPackageNames": [
         "mongoose"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
       ]
     }
   ],
@@ -77,7 +92,7 @@
     "avaly",
     "ejmartin504"
   ],
-  "stabilityDays": 3,
+  "stabilityDays": 7,
   "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
     "labels": [
