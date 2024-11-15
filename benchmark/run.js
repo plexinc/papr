@@ -247,7 +247,7 @@ async function save() {
         `- mongodb v${pkg.devDependencies.mongodb}`,
         `- papr v${pkg.version}`,
         `- mongoose v${pkg.devDependencies.mongoose}`,
-        '- MongoDB server v6.0',
+        '- MongoDB server v8.0',
       ].join('\n'),
       date: new Date().toLocaleDateString('en-US', {
         day: 'numeric',
