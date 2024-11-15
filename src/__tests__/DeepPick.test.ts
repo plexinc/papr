@@ -1,4 +1,3 @@
-import { test } from '@jest/globals';
 import type { ObjectId } from 'mongodb';
 import { expectType, TypeEqual } from 'ts-expect';
 
@@ -30,7 +29,3 @@ expectType<TypeEqual<DeepPick<{ a: { b: 0; c: 0 }[] }, 'a.0.b'>, { a: { b: 0 }[]
 // custom primitives
 expectType<TypeEqual<DeepPick<{ a: Date; b: 0 }, 'a'>, { a: Date }>>(true);
 expectType<TypeEqual<DeepPick<{ a: ObjectId; b: 0 }, 'a'>, { a: ObjectId }>>(true);
-
-test('ignore empty test for jest', () => {
-  // ignore
-});

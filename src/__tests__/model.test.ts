@@ -1,4 +1,6 @@
-import { beforeEach, describe, expect, jest, test } from '@jest/globals';
+// import { expect } from 'expect';
+import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
+import { afterEach, beforeEach, describe, Mock, mock, test } from 'node:test';
 import { Collection, FindCursor, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { Hooks } from '../hooks';
@@ -6,9 +8,35 @@ import { abstract, build, Model } from '../model';
 import { PaprBulkWriteOperation } from '../mongodbTypes';
 import { schema } from '../schema';
 import Types from '../types';
+import { expectToBeCalledOnceWith } from './assert';
+
+const MOCK_DATE = new Date(1234567890000);
 
 describe('model', () => {
-  let collection: Collection;
+  let collection: Omit<
+    Collection,
+    | 'aggregate'
+    | 'bulkWrite'
+    | 'distinct'
+    | 'find'
+    | 'findOneAndDelete'
+    | 'findOneAndUpdate'
+    | 'insertMany'
+    | 'insertOne'
+    | 'updateMany'
+    | 'updateOne'
+  > & {
+    aggregate: Mock<Collection['aggregate']>;
+    bulkWrite: Mock<Collection['bulkWrite']>;
+    distinct: Mock<Collection['distinct']>;
+    find: Mock<Collection['find']>;
+    findOneAndDelete: Mock<Collection['findOneAndDelete']>;
+    findOneAndUpdate: Mock<Collection['findOneAndUpdate']>;
+    insertOne: Mock<Collection['insertOne']>;
+    insertMany: Mock<Collection['insertMany']>;
+    updateMany: Mock<Collection['updateMany']>;
+    updateOne: Mock<Collection['updateOne']>;
+  };
 
   const projection = {
     foo: 1,
@@ -136,55 +164,59 @@ describe('model', () => {
 
     collection = {
       // @ts-expect-error Ignore mock function
-      aggregate: jest.fn().mockReturnValue({
-        // @ts-expect-error Ignore mock function
-        toArray: jest.fn().mockResolvedValue(docs),
-      }),
+      aggregate: mock.fn(() => ({
+        toArray: mock.fn(() => Promise.resolve(docs)),
+      })),
       // @ts-expect-error Ignore mock function
-      bulkWrite: jest.fn().mockResolvedValue({
-        result: true,
-      }),
+      bulkWrite: mock.fn(() =>
+        Promise.resolve({
+          result: true,
+        })
+      ),
       collectionName: 'testcollection',
+      distinct: mock.fn(() => Promise.resolve(['FOO', 'BAR'])),
       // @ts-expect-error Ignore mock function
-      distinct: jest.fn().mockResolvedValue(['FOO', 'BAR']),
+      find: mock.fn(() => ({
+        toArray: mock.fn(() => Promise.resolve(docs)),
+      })),
+      findOne: mock.fn(() => Promise.resolve(doc)),
       // @ts-expect-error Ignore mock function
-      find: jest.fn().mockReturnValue({
-        // @ts-expect-error Ignore mock function
-        toArray: jest.fn().mockResolvedValue(docs),
-      }),
+      findOneAndDelete: mock.fn(() => Promise.resolve(doc)),
       // @ts-expect-error Ignore mock function
-      findOne: jest.fn().mockResolvedValue(doc),
+      findOneAndUpdate: mock.fn(() => Promise.resolve(doc)),
+      insertMany: mock.fn(() =>
+        Promise.resolve({
+          acknowledged: true,
+          insertedCount: 2,
+          insertedIds: [new ObjectId(), new ObjectId()],
+        })
+      ),
+      insertOne: mock.fn(() =>
+        Promise.resolve({
+          acknowledged: true,
+          insertedId: new ObjectId(),
+        })
+      ),
       // @ts-expect-error Ignore mock function
-      findOneAndDelete: jest.fn().mockResolvedValue(doc),
+      updateMany: mock.fn(() =>
+        Promise.resolve({
+          modifiedCount: 1,
+          result: {
+            n: 1,
+            ok: 1,
+          },
+        })
+      ),
       // @ts-expect-error Ignore mock function
-      findOneAndUpdate: jest.fn().mockResolvedValue(doc),
-      // @ts-expect-error Ignore mock function
-      insertMany: jest.fn().mockResolvedValue({
-        acknowledged: true,
-        insertedCount: 2,
-        insertedIds: [new ObjectId(), new ObjectId()],
-      }),
-      // @ts-expect-error Ignore mock function
-      insertOne: jest.fn().mockResolvedValue({
-        acknowledged: true,
-        insertedId: new ObjectId(),
-      }),
-      // @ts-expect-error Ignore mock function
-      updateMany: jest.fn().mockResolvedValue({
-        modifiedCount: 1,
-        result: {
-          n: 1,
-          ok: 1,
-        },
-      }),
-      // @ts-expect-error Ignore mock function
-      updateOne: jest.fn().mockResolvedValue({
-        modifiedCount: 1,
-        result: {
-          n: 1,
-          ok: 1,
-        },
-      }),
+      updateOne: mock.fn(() =>
+        Promise.resolve({
+          modifiedCount: 1,
+          result: {
+            n: 1,
+            ok: 1,
+          },
+        })
+      ),
     };
 
     // @ts-expect-error Ignore abstract assignment
@@ -211,6 +243,15 @@ describe('model', () => {
     dynamicDefaultsModel = abstract(dynamicDefaultsSchema);
     // @ts-expect-error Ignore schema types
     build(dynamicDefaultsSchema, dynamicDefaultsModel, collection);
+
+    mock.timers.enable({
+      apis: ['Date'],
+      now: 1234567890000,
+    });
+  });
+
+  afterEach(() => {
+    mock.timers.reset();
   });
 
   describe('aggregate', () => {
@@ -243,7 +284,7 @@ describe('model', () => {
 
   describe('bulkWrite', () => {
     test('simple schema', async () => {
-      const operations: PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
+      const operations: readonly PaprBulkWriteOperation<SimpleDocument, SimpleOptions>[] = [
         {
           insertOne: {
             document: {
@@ -291,9 +332,8 @@ describe('model', () => {
 
       await simpleModel.bulkWrite(operations);
 
-      expect(collection.bulkWrite).toHaveBeenCalledWith(operations, {
-        ignoreUndefined: true,
-      });
+      // @ts-expect-error `operations` type is more restricted in Papr
+      expectToBeCalledOnceWith(collection.bulkWrite, [operations, { ignoreUndefined: true }]);
     });
 
     test('simple schema with inline operations', async () => {
@@ -308,7 +348,7 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.bulkWrite).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.bulkWrite, [
         [
           {
             insertOne: {
@@ -321,8 +361,8 @@ describe('model', () => {
         ],
         {
           ignoreUndefined: true,
-        }
-      );
+        },
+      ]);
     });
 
     test('simple schema with readonly operations', async () => {
@@ -376,9 +416,12 @@ describe('model', () => {
 
       await simpleModel.bulkWrite(operations);
 
-      expect(collection.bulkWrite).toHaveBeenCalledWith(operations, {
-        ignoreUndefined: true,
-      });
+      expectToBeCalledOnceWith(collection.bulkWrite, [
+        operations,
+        {
+          ignoreUndefined: true,
+        },
+      ]);
     });
 
     test('schema with defaults', async () => {
@@ -462,7 +505,7 @@ describe('model', () => {
 
       await simpleModel.bulkWrite(operations);
 
-      expect(collection.bulkWrite).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.bulkWrite, [
         [
           {
             insertOne: {
@@ -544,13 +587,11 @@ describe('model', () => {
             },
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('schema with dynamic defaults', async () => {
-      jest.useFakeTimers({ now: 123456 });
-
       const operations: PaprBulkWriteOperation<DynamicDefaultsDocument, DynamicDefaultsOptions>[] =
         [
           {
@@ -630,7 +671,7 @@ describe('model', () => {
 
       await dynamicDefaultsModel.bulkWrite(operations);
 
-      expect(collection.bulkWrite).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.bulkWrite, [
         [
           {
             insertOne: {
@@ -643,7 +684,7 @@ describe('model', () => {
           {
             insertOne: {
               document: {
-                bar: 123456,
+                bar: 1234567890000,
                 foo: 'foo',
               },
             },
@@ -705,15 +746,15 @@ describe('model', () => {
                   foo: 'foo',
                 },
                 $setOnInsert: {
-                  bar: 123456,
+                  bar: 1234567890000,
                 },
               },
               upsert: true,
             },
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema', async () => {
@@ -796,25 +837,20 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.bulkWrite).toHaveBeenCalledTimes(1);
-      expect(
-        (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock.calls[0][1]
-      ).toEqual({
-        ignoreUndefined: true,
-      });
+      strictEqual(collection.bulkWrite.mock.callCount(), 1);
+      deepStrictEqual(collection.bulkWrite.mock.calls[0].arguments[1], { ignoreUndefined: true });
 
-      const operations = (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock
-        .calls[0][0];
+      const [operations] = collection.bulkWrite.mock.calls[0].arguments;
 
-      expect(operations).toHaveLength(10);
-      expect(operations).toEqual([
+      strictEqual(operations.length, 10);
+      deepStrictEqual(operations, [
         {
           insertOne: {
             document: {
               bar: 123,
-              createdAt: expect.any(Date),
+              createdAt: MOCK_DATE,
               foo: 'foo',
-              updatedAt: expect.any(Date),
+              updatedAt: MOCK_DATE,
             },
           },
         },
@@ -824,7 +860,7 @@ describe('model', () => {
             update: {
               $currentDate: { updatedAt: true },
               $set: { bar: 123 },
-              $setOnInsert: { createdAt: expect.any(Date) },
+              $setOnInsert: { createdAt: MOCK_DATE },
             },
           },
         },
@@ -834,7 +870,7 @@ describe('model', () => {
             update: {
               $currentDate: { updatedAt: true },
               $set: { bar: 123 },
-              $setOnInsert: { createdAt: expect.any(Date) },
+              $setOnInsert: { createdAt: MOCK_DATE },
             },
           },
         },
@@ -843,9 +879,9 @@ describe('model', () => {
             filter: { foo: 'foo' },
             replacement: {
               bar: 123,
-              createdAt: expect.any(Date),
+              createdAt: MOCK_DATE,
               foo: 'foo',
-              updatedAt: expect.any(Date),
+              updatedAt: MOCK_DATE,
             },
           },
         },
@@ -864,7 +900,7 @@ describe('model', () => {
             filter: { foo: 'createdAt in $set' },
             update: {
               $currentDate: { updatedAt: true },
-              $set: { createdAt: expect.any(Date) },
+              $set: { createdAt: MOCK_DATE },
             },
           },
         },
@@ -881,7 +917,7 @@ describe('model', () => {
           updateOne: {
             filter: { foo: 'updatedAt in $unset' },
             update: {
-              $setOnInsert: { createdAt: expect.any(Date) },
+              $setOnInsert: { createdAt: MOCK_DATE },
               $unset: { updatedAt: 1 },
             },
           },
@@ -890,8 +926,8 @@ describe('model', () => {
           updateMany: {
             filter: { foo: 'updatedAt in $set' },
             update: {
-              $set: { updatedAt: expect.any(Date) },
-              $setOnInsert: { createdAt: expect.any(Date) },
+              $set: { updatedAt: MOCK_DATE },
+              $setOnInsert: { createdAt: MOCK_DATE },
             },
           },
         },
@@ -978,23 +1014,18 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.bulkWrite).toHaveBeenCalledTimes(1);
-      expect(
-        (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock.calls[0][1]
-      ).toEqual({
-        ignoreUndefined: true,
-      });
+      strictEqual(collection.bulkWrite.mock.callCount(), 1);
+      deepStrictEqual(collection.bulkWrite.mock.calls[0].arguments[1], { ignoreUndefined: true });
 
-      const operations = (collection.bulkWrite as jest.Mocked<Collection['bulkWrite']>).mock
-        .calls[0][0];
+      const [operations] = collection.bulkWrite.mock.calls[0].arguments;
 
-      expect(operations).toHaveLength(10);
-      expect(operations).toEqual([
+      strictEqual(operations.length, 10);
+      deepStrictEqual(operations, [
         {
           insertOne: {
             document: {
-              _createdDate: expect.any(Date),
-              _updatedDate: expect.any(Date),
+              _createdDate: MOCK_DATE,
+              _updatedDate: MOCK_DATE,
               bar: 123,
               foo: 'foo',
             },
@@ -1006,7 +1037,7 @@ describe('model', () => {
             update: {
               $currentDate: { _updatedDate: true },
               $set: { bar: 123 },
-              $setOnInsert: { _createdDate: expect.any(Date) },
+              $setOnInsert: { _createdDate: MOCK_DATE },
             },
           },
         },
@@ -1016,7 +1047,7 @@ describe('model', () => {
             update: {
               $currentDate: { _updatedDate: true },
               $set: { bar: 123 },
-              $setOnInsert: { _createdDate: expect.any(Date) },
+              $setOnInsert: { _createdDate: MOCK_DATE },
             },
           },
         },
@@ -1024,8 +1055,8 @@ describe('model', () => {
           replaceOne: {
             filter: { foo: 'foo' },
             replacement: {
-              _createdDate: expect.any(Date),
-              _updatedDate: expect.any(Date),
+              _createdDate: MOCK_DATE,
+              _updatedDate: MOCK_DATE,
               bar: 123,
               foo: 'foo',
             },
@@ -1046,7 +1077,7 @@ describe('model', () => {
             filter: { foo: '_createdDate in $set' },
             update: {
               $currentDate: { _updatedDate: true },
-              $set: { _createdDate: expect.any(Date) },
+              $set: { _createdDate: MOCK_DATE },
             },
           },
         },
@@ -1063,7 +1094,7 @@ describe('model', () => {
           updateOne: {
             filter: { foo: '_updatedDate in $unset' },
             update: {
-              $setOnInsert: { _createdDate: expect.any(Date) },
+              $setOnInsert: { _createdDate: MOCK_DATE },
               $unset: { _updatedDate: 1 },
             },
           },
@@ -1072,8 +1103,8 @@ describe('model', () => {
           updateMany: {
             filter: { foo: '_updatedDate in $set' },
             update: {
-              $set: { _updatedDate: expect.any(Date) },
-              $setOnInsert: { _createdDate: expect.any(Date) },
+              $set: { _updatedDate: MOCK_DATE },
+              $setOnInsert: { _createdDate: MOCK_DATE },
             },
           },
         },
@@ -1083,7 +1114,7 @@ describe('model', () => {
     test('with empty operations array', async () => {
       await simpleModel.bulkWrite([]);
 
-      expect(collection.bulkWrite).toHaveBeenCalledTimes(0);
+      strictEqual(collection.bulkWrite.mock.calls.length, 0);
     });
   });
 
@@ -1092,7 +1123,7 @@ describe('model', () => {
       const results = await simpleModel.distinct('foo', {});
 
       expectType<string[]>(results);
-      expect(results).toEqual(['FOO', 'BAR']);
+      deepStrictEqual(results, ['FOO', 'BAR']);
 
       if (results.length) {
         expectType<string>(results[0]);
@@ -1288,7 +1319,6 @@ describe('model', () => {
     test('simple schema', async () => {
       const result = await simpleModel.findOneAndDelete({ foo: 'bar' });
 
-      expect(result).toBe(doc);
       expectType<SimpleDocument | null>(result);
 
       if (result) {
@@ -1300,12 +1330,13 @@ describe('model', () => {
         // @ts-expect-error `updatedAt` is undefined here
         result.updatedAt;
       }
+
+      deepStrictEqual(result, doc);
     });
 
     test('with projection', async () => {
       const result = await simpleModel.findOneAndDelete({ foo: 'bar' }, { projection });
 
-      expect(result).toBe(doc);
       expectType<{
         _id: ObjectId;
         foo: string;
@@ -1318,16 +1349,16 @@ describe('model', () => {
         result.bar;
         expectType<Date | undefined>(result.ham);
       }
+
+      deepStrictEqual(result, doc);
     });
 
     test('throws error on failure', async () => {
-      (
-        collection.findOneAndDelete as jest.Mocked<Collection['findOneAndDelete']>
-      ).mockRejectedValueOnce(new Error('findOneAndDelete failed'));
+      collection.findOneAndDelete = mock.fn(() => {
+        throw new Error('findOneAndDelete failed');
+      });
 
-      await expect(simpleModel.findOneAndDelete({ foo: 'bar' })).rejects.toThrow(
-        'findOneAndDelete failed'
-      );
+      await rejects(simpleModel.findOneAndDelete({ foo: 'bar' }), /findOneAndDelete failed/);
     });
   });
 
@@ -1335,7 +1366,7 @@ describe('model', () => {
     test('simple schema', async () => {
       const result = await simpleModel.findOneAndUpdate({ foo: 'bar' }, { $set: { bar: 123 } });
 
-      expect(result).toBe(doc);
+      deepStrictEqual(result, doc);
       expectType<SimpleDocument | null>(result);
 
       if (result) {
@@ -1356,29 +1387,30 @@ describe('model', () => {
         { projection }
       );
 
-      expect(result).toBe(doc);
       expectType<{
         _id: ObjectId;
         foo: string;
         ham?: Date;
       } | null>(result);
-
       if (result) {
         expectType<string>(result.foo);
         // @ts-expect-error `bar` is undefined here
         result.bar;
         expectType<Date | undefined>(result.ham);
       }
+
+      deepStrictEqual(result, doc);
     });
 
     test('throws error on failure', async () => {
-      (
-        collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>
-      ).mockRejectedValueOnce(new Error('findOneAndUpdate failed'));
+      collection.findOneAndUpdate = mock.fn(() => {
+        throw new Error('findOneAndUpdate failed');
+      });
 
-      await expect(
-        simpleModel.findOneAndUpdate({ foo: 'bar' }, { $set: { bar: 123 } })
-      ).rejects.toThrow('findOneAndUpdate failed');
+      await rejects(
+        simpleModel.findOneAndUpdate({ foo: 'bar' }, { $set: { bar: 123 } }),
+        /findOneAndUpdate failed/
+      );
     });
 
     test('timestamps schema', async () => {
@@ -1390,7 +1422,8 @@ describe('model', () => {
         }
       );
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         {
           foo: 'bar',
         },
@@ -1402,8 +1435,8 @@ describe('model', () => {
         {
           ignoreUndefined: true,
           returnDocument: 'after',
-        }
-      );
+        },
+      ]);
 
       expectType<TimestampsDocument | null>(result);
 
@@ -1426,7 +1459,8 @@ describe('model', () => {
         }
       );
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         {
           foo: 'bar',
         },
@@ -1438,8 +1472,8 @@ describe('model', () => {
         {
           ignoreUndefined: true,
           returnDocument: 'after',
-        }
-      );
+        },
+      ]);
 
       expectType<TimestampsDocument | null>(result);
 
@@ -1462,7 +1496,8 @@ describe('model', () => {
         }
       );
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         {
           foo: 'bar',
         },
@@ -1474,8 +1509,8 @@ describe('model', () => {
         {
           ignoreUndefined: true,
           returnDocument: 'after',
-        }
-      );
+        },
+      ]);
 
       expectType<TimestampConfigDocument | null>(result);
 
@@ -1492,7 +1527,8 @@ describe('model', () => {
     test('simple schema empty update', async () => {
       const result = await simpleModel.findOneAndUpdate({ foo: 'bar' }, {});
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         {
           foo: 'bar',
         },
@@ -1500,8 +1536,8 @@ describe('model', () => {
         {
           ignoreUndefined: true,
           returnDocument: 'after',
-        }
-      );
+        },
+      ]);
 
       expectType<SimpleDocument | null>(result);
 
@@ -1523,7 +1559,8 @@ describe('model', () => {
 
         expectType<SimpleDocument | null>(result);
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $set: { foo: 'bar' },
@@ -1533,8 +1570,8 @@ describe('model', () => {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('simple schema, upsert skips defaults that are present in $set', async () => {
@@ -1546,7 +1583,8 @@ describe('model', () => {
 
         expectType<SimpleDocument | null>(result);
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $set: { bar: 123 },
@@ -1555,8 +1593,8 @@ describe('model', () => {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('simple schema, skips defaults that are present in $inc', async () => {
@@ -1568,7 +1606,8 @@ describe('model', () => {
 
         expectType<SimpleDocument | null>(result);
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $inc: { bar: 1 },
@@ -1577,8 +1616,8 @@ describe('model', () => {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('simple schema, skips defaults that are present in $unset', async () => {
@@ -1590,7 +1629,8 @@ describe('model', () => {
 
         expectType<SimpleDocument | null>(result);
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $unset: { bar: 1 },
@@ -1599,8 +1639,8 @@ describe('model', () => {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('timestamps schema', async () => {
@@ -1621,19 +1661,20 @@ describe('model', () => {
           expectType<Date>(result.updatedAt);
         }
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $currentDate: { updatedAt: true },
             $set: { bar: 123 },
-            $setOnInsert: { createdAt: expect.any(Date) },
+            $setOnInsert: { createdAt: MOCK_DATE },
           },
           {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('timestamps schema, without $set', async () => {
@@ -1654,7 +1695,8 @@ describe('model', () => {
           expectType<Date>(result.updatedAt);
         }
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $currentDate: {
@@ -1663,15 +1705,15 @@ describe('model', () => {
             },
             $setOnInsert: {
               bar: 123456,
-              createdAt: expect.any(Date),
+              createdAt: MOCK_DATE,
             },
           },
           {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
 
       test('timestamp config schema', async () => {
@@ -1692,19 +1734,20 @@ describe('model', () => {
           expectType<Date>(result._updatedDate);
         }
 
-        expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+        // @ts-expect-error Args are not inferred correctly here
+        expectToBeCalledOnceWith(collection.findOneAndUpdate, [
           { foo: 'foo' },
           {
             $currentDate: { _updatedDate: true },
             $set: { bar: 123 },
-            $setOnInsert: { _createdDate: expect.any(Date) },
+            $setOnInsert: { _createdDate: MOCK_DATE },
           },
           {
             ignoreUndefined: true,
             returnDocument: 'after',
             upsert: true,
-          }
-        );
+          },
+        ]);
       });
     });
   });
@@ -1715,9 +1758,10 @@ describe('model', () => {
 
     beforeEach(() => {
       hooks = {
-        after: [jest.fn(() => Promise.resolve())],
+        after: [mock.fn(() => Promise.resolve())],
         before: [
-          jest.fn(({ args, collectionName, context, error, methodName }) => {
+          mock.fn(({ args, collectionName, context, error, methodName }) => {
+            // @ts-expect-error Ignore mock type
             context.id = 'mock';
             return Promise.resolve();
           }),
@@ -1735,61 +1779,71 @@ describe('model', () => {
 
       expectType<SimpleDocument[]>(results);
 
-      expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
       // The context is actually populated in `before` hook calls,
       // but since we're checking it afterwards we need to list it here as the input argument
-      expect(hooks.before?.[0]).toHaveBeenCalledWith({
-        args: [{ foo: 'bar' }],
-        collectionName: 'testcollection',
-        context: {
-          id: 'mock',
+      // @ts-expect-error Ignore type mismatch between Hook & Mock
+      expectToBeCalledOnceWith(hooks.before?.[0], [
+        {
+          args: [{ foo: 'bar' }],
+          collectionName: 'testcollection',
+          context: {
+            id: 'mock',
+          },
+          methodName: 'find',
         },
-        methodName: 'find',
-      });
+      ]);
 
-      expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith({
-        args: [{ foo: 'bar' }],
-        collectionName: 'testcollection',
-        context: {
-          id: 'mock',
+      // @ts-expect-error Ignore type mismatch between Hook & Mock
+      expectToBeCalledOnceWith(hooks.after?.[0], [
+        {
+          args: [{ foo: 'bar' }],
+          collectionName: 'testcollection',
+          context: {
+            id: 'mock',
+          },
+          methodName: 'find',
+          result: results,
         },
-        methodName: 'find',
-        result: results,
-      });
+      ]);
     });
 
     test('find throws error', async () => {
       const err = new Error('Test');
-      (collection.find as jest.Mocked<Collection['find']>).mockReturnValue({
-        // @ts-expect-error Ignore mock function
-        toArray: jest.fn().mockRejectedValue(err),
-      });
+      // @ts-expect-error Ignore mock function
+      collection.find = mock.fn(() => ({
+        toArray: mock.fn(() => {
+          throw err;
+        }),
+      }));
 
-      await expect(hooksModel.find({ foo: 'bar' })).rejects.toThrow('Test');
+      await rejects(hooksModel.find({ foo: 'bar' }), /Test/);
 
-      expect(hooks.before?.[0]).toHaveBeenCalledTimes(1);
       // The context is actually populated in `before` hook calls,
       // but since we're checking it afterwards we need to list it here as the input argument
-      expect(hooks.before?.[0]).toHaveBeenCalledWith({
-        args: [{ foo: 'bar' }],
-        collectionName: 'testcollection',
-        context: {
-          id: 'mock',
+      // @ts-expect-error Ignore type mismatch between Hook & Mock
+      expectToBeCalledOnceWith(hooks.before?.[0], [
+        {
+          args: [{ foo: 'bar' }],
+          collectionName: 'testcollection',
+          context: {
+            id: 'mock',
+          },
+          methodName: 'find',
         },
-        methodName: 'find',
-      });
+      ]);
 
-      expect(hooks.after?.[0]).toHaveBeenCalledTimes(1);
-      expect(hooks.after?.[0]).toHaveBeenCalledWith({
-        args: [{ foo: 'bar' }],
-        collectionName: 'testcollection',
-        context: {
-          id: 'mock',
+      // @ts-expect-error Ignore type mismatch between Hook & Mock
+      expectToBeCalledOnceWith(hooks.after?.[0], [
+        {
+          args: [{ foo: 'bar' }],
+          collectionName: 'testcollection',
+          context: {
+            id: 'mock',
+          },
+          error: err,
+          methodName: 'find',
         },
-        error: err,
-        methodName: 'find',
-      });
+      ]);
     });
   });
 
@@ -1800,13 +1854,13 @@ describe('model', () => {
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           bar: 123,
           foo: 'foo',
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<SimpleDocument>(result);
 
@@ -1825,13 +1879,13 @@ describe('model', () => {
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           bar: 123456,
           foo: 'foo',
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<SimpleDocument>(result);
 
@@ -1861,15 +1915,15 @@ describe('model', () => {
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           bar: 123,
-          createdAt: expect.any(Date),
+          createdAt: MOCK_DATE,
           foo: 'foo',
-          updatedAt: expect.any(Date),
+          updatedAt: MOCK_DATE,
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampsDocument>(result);
 
@@ -1891,15 +1945,15 @@ describe('model', () => {
         updatedAt: date,
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           bar: 123,
           createdAt: date,
           foo: 'foo',
           updatedAt: date,
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampsDocument>(result);
 
@@ -1917,15 +1971,15 @@ describe('model', () => {
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
-          _createdDate: expect.any(Date),
-          _updatedDate: expect.any(Date),
+          _createdDate: MOCK_DATE,
+          _updatedDate: MOCK_DATE,
           bar: 123,
           foo: 'foo',
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampConfigDocument>(result);
 
@@ -1947,15 +2001,15 @@ describe('model', () => {
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           _createdDate: date,
           _updatedDate: date,
           bar: 123,
           foo: 'foo',
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampConfigDocument>(result);
 
@@ -1968,19 +2022,17 @@ describe('model', () => {
     });
 
     test('dynamic defaults schema, inserts defaults', async () => {
-      jest.useFakeTimers({ now: 123456 });
-
       const result = await dynamicDefaultsModel.insertOne({
         foo: 'foo',
       });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
-          bar: 123456,
+          bar: 1234567890000,
           foo: 'foo',
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<DynamicDefaultsDocument>(result);
 
@@ -1995,30 +2047,32 @@ describe('model', () => {
     });
 
     test('throws error on not acknowledged result', async () => {
-      (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockResolvedValue({
-        acknowledged: false,
-        insertedId: new ObjectId(),
-      });
+      collection.insertOne = mock.fn(() =>
+        Promise.resolve({
+          acknowledged: false,
+          insertedId: new ObjectId(),
+        })
+      );
 
-      await expect(
+      await rejects(
         simpleModel.insertOne({
           bar: 123,
           foo: 'foo',
-        })
-      ).rejects.toThrow('insertOne failed');
+        }),
+        /insertOne failed/
+      );
     });
 
     test('throws error on failure', async () => {
-      (collection.insertOne as jest.Mocked<Collection['insertOne']>).mockRejectedValue(
-        new Error('Test error')
-      );
+      collection.insertOne = mock.fn(() => Promise.reject(new Error('Test error')));
 
-      await expect(
+      await rejects(
         simpleModel.insertOne({
           bar: 123,
           foo: 'foo',
-        })
-      ).rejects.toThrow('Test error');
+        }),
+        /Test error/
+      );
     });
   });
 
@@ -2035,7 +2089,7 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.insertMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertMany, [
         [
           {
             bar: 123,
@@ -2046,8 +2100,8 @@ describe('model', () => {
             foo: 'bar',
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<SimpleDocument[]>(result);
 
@@ -2073,7 +2127,7 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.insertMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertMany, [
         [
           {
             bar: 123456,
@@ -2084,8 +2138,8 @@ describe('model', () => {
             foo: 'bar',
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<SimpleDocument[]>(result);
 
@@ -2107,11 +2161,13 @@ describe('model', () => {
     });
 
     test('timestamps schema', async () => {
-      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
-        acknowledged: true,
-        insertedCount: 3,
-        insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
-      });
+      collection.insertMany = mock.fn(() =>
+        Promise.resolve({
+          acknowledged: true,
+          insertedCount: 3,
+          insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
+        })
+      );
 
       const date = new Date('2020-01-01T12:00:00');
       const result = await timestampsModel.insertMany([
@@ -2132,19 +2188,19 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.insertMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertMany, [
         [
           {
             bar: 123,
-            createdAt: expect.any(Date),
+            createdAt: MOCK_DATE,
             foo: 'foo',
-            updatedAt: expect.any(Date),
+            updatedAt: MOCK_DATE,
           },
           {
             bar: 456,
             createdAt: date,
             foo: 'bar',
-            updatedAt: expect.any(Date),
+            updatedAt: MOCK_DATE,
           },
           {
             bar: 789,
@@ -2153,8 +2209,8 @@ describe('model', () => {
             updatedAt: date,
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampsDocument[]>(result);
 
@@ -2169,11 +2225,13 @@ describe('model', () => {
     });
 
     test('timestamp config schema', async () => {
-      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
-        acknowledged: true,
-        insertedCount: 3,
-        insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
-      });
+      collection.insertMany = mock.fn(() =>
+        Promise.resolve({
+          acknowledged: true,
+          insertedCount: 3,
+          insertedIds: [new ObjectId(), new ObjectId(), new ObjectId()],
+        })
+      );
 
       const date = new Date('2020-01-01T12:00:00');
       const result = await timestampConfigModel.insertMany([
@@ -2194,17 +2252,17 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.insertMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertMany, [
         [
           {
-            _createdDate: expect.any(Date),
-            _updatedDate: expect.any(Date),
+            _createdDate: MOCK_DATE,
+            _updatedDate: MOCK_DATE,
             bar: 123,
             foo: 'foo',
           },
           {
             _createdDate: date,
-            _updatedDate: expect.any(Date),
+            _updatedDate: MOCK_DATE,
             bar: 456,
             foo: 'bar',
           },
@@ -2215,8 +2273,8 @@ describe('model', () => {
             foo: 'ham',
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<TimestampConfigDocument[]>(result);
 
@@ -2231,8 +2289,6 @@ describe('model', () => {
     });
 
     test('dynamic defaults schema, inserts defaults', async () => {
-      jest.useFakeTimers({ now: 123456 });
-
       const result = await dynamicDefaultsModel.insertMany([
         {
           foo: 'foo',
@@ -2242,19 +2298,19 @@ describe('model', () => {
         },
       ]);
 
-      expect(collection.insertMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertMany, [
         [
           {
-            bar: 123456,
+            bar: 1234567890000,
             foo: 'foo',
           },
           {
-            bar: 123456,
+            bar: 1234567890000,
             foo: 'bar',
           },
         ],
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
 
       expectType<SimpleDocument[]>(result);
 
@@ -2271,35 +2327,37 @@ describe('model', () => {
     });
 
     test('throws error on not acknowledged result', async () => {
-      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockResolvedValue({
-        acknowledged: false,
-        insertedCount: 0,
-        insertedIds: [],
-      });
+      collection.insertMany = mock.fn(() =>
+        Promise.resolve({
+          acknowledged: false,
+          insertedCount: 0,
+          insertedIds: [],
+        })
+      );
 
-      await expect(
+      await rejects(
         simpleModel.insertMany([
           {
             bar: 123,
             foo: 'foo',
           },
-        ])
-      ).rejects.toThrow('insertMany failed');
+        ]),
+        /insertMany failed/
+      );
     });
 
     test('throws error on failure', async () => {
-      (collection.insertMany as jest.Mocked<Collection['insertMany']>).mockRejectedValue(
-        new Error('Test error')
-      );
+      collection.insertMany = mock.fn(() => Promise.reject(new Error('Test error')));
 
-      await expect(
+      await rejects(
         simpleModel.insertMany([
           {
             bar: 123,
             foo: 'foo',
           },
-        ])
-      ).rejects.toThrow('Test error');
+        ]),
+        /Test error/
+      );
     });
   });
 
@@ -2316,7 +2374,7 @@ describe('model', () => {
     test('insertOne', async () => {
       await maxTimeModel.insertOne({ foo: 'bar' });
 
-      expect(collection.insertOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.insertOne, [
         {
           bar: 123456,
           foo: 'bar',
@@ -2324,33 +2382,36 @@ describe('model', () => {
         {
           ignoreUndefined: true,
           maxTimeMS: 1000,
-        }
-      );
+        },
+      ]);
     });
 
     test('find with projection', async () => {
       await maxTimeModel.find({ foo: 'bar' }, { projection: { bar: 1 } });
 
-      expect(collection.find).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.find, [
         { foo: 'bar' },
         {
           ignoreUndefined: true,
           maxTimeMS: 1000,
           projection: { bar: 1 },
-        }
-      );
+        },
+      ]);
     });
 
     test('find error on maxTimeMS', async () => {
       const err = new MongoError('Test error');
       err.code = 50;
-      (collection.find as jest.Mocked<Collection['find']>).mockReturnValue({
-        // @ts-expect-error Ignore mock function
-        toArray: jest.fn().mockRejectedValue(err),
-      });
+      // @ts-expect-error Ignore mock function
+      collection.find = mock.fn(() => ({
+        toArray: mock.fn(() => {
+          throw err;
+        }),
+      }));
 
-      await expect(simpleModel.find({ foo: 'bar' })).rejects.toThrowError(
-        `Query exceeded maxTime: testcollection.find({ foo: 'bar' })`
+      await rejects(
+        simpleModel.find({ foo: 'bar' }),
+        /Query exceeded maxTime: testcollection.find\({ foo: 'bar' }\)/
       );
     });
   });
@@ -2359,25 +2420,25 @@ describe('model', () => {
     test('simple schema', async () => {
       await simpleModel.updateMany({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('simple schema, without $set', async () => {
       await simpleModel.updateMany({ foo: 'foo' }, { $inc: { bar: 123 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $inc: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test.todo('simple schema, uses defaults');
@@ -2385,64 +2446,69 @@ describe('model', () => {
     test('timestamps schema', async () => {
       await timestampsModel.updateMany({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $currentDate: { updatedAt: true },
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, without $set', async () => {
       await timestampsModel.updateMany({ foo: 'foo' }, { $inc: { bar: 123 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $currentDate: { updatedAt: true },
           $inc: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, updatedAt in $set', async () => {
-      await timestampsModel.updateMany({ foo: 'foo' }, { $set: { updatedAt: new Date() } });
-
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      await timestampsModel.updateMany(
         { foo: 'foo' },
         {
-          $set: { updatedAt: expect.any(Date) },
-        },
-        { ignoreUndefined: true }
+          $set: { updatedAt: new Date() },
+        }
       );
+
+      expectToBeCalledOnceWith(collection.updateMany, [
+        { foo: 'foo' },
+        {
+          $set: { updatedAt: MOCK_DATE },
+        },
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, updatedAt in $unset', async () => {
       await timestampsModel.updateMany({ foo: 'foo' }, { $unset: { updatedAt: 1 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $unset: { updatedAt: 1 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamp config schema', async () => {
       await timestampConfigModel.updateMany({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateMany).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateMany, [
         { foo: 'foo' },
         {
           $currentDate: { _updatedDate: true },
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
   });
 
@@ -2450,25 +2516,25 @@ describe('model', () => {
     test('simple schema', async () => {
       await simpleModel.updateOne({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('simple schema, without $set', async () => {
       await simpleModel.updateOne({ foo: 'foo' }, { $inc: { bar: 123 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $inc: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test.todo('simple schema, uses defaults');
@@ -2476,64 +2542,69 @@ describe('model', () => {
     test('timestamps schema', async () => {
       await timestampsModel.updateOne({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $currentDate: { updatedAt: true },
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, without $set', async () => {
       await timestampsModel.updateOne({ foo: 'foo' }, { $inc: { bar: 123 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $currentDate: { updatedAt: true },
           $inc: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, updatedAt in $set', async () => {
-      await timestampsModel.updateOne({ foo: 'foo' }, { $set: { updatedAt: new Date() } });
-
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      await timestampsModel.updateOne(
         { foo: 'foo' },
         {
-          $set: { updatedAt: expect.any(Date) },
-        },
-        { ignoreUndefined: true }
+          $set: { updatedAt: new Date() },
+        }
       );
+
+      expectToBeCalledOnceWith(collection.updateOne, [
+        { foo: 'foo' },
+        {
+          $set: { updatedAt: MOCK_DATE },
+        },
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamps schema, updatedAt in $unset', async () => {
       await timestampsModel.updateOne({ foo: 'foo' }, { $unset: { updatedAt: 1 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $unset: { updatedAt: 1 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
 
     test('timestamp config schema', async () => {
       await timestampConfigModel.updateOne({ foo: 'foo' }, { $set: { bar: 123 } });
 
-      expect(collection.updateOne).toHaveBeenCalledWith(
+      expectToBeCalledOnceWith(collection.updateOne, [
         { foo: 'foo' },
         {
           $currentDate: { _updatedDate: true },
           $set: { bar: 123 },
         },
-        { ignoreUndefined: true }
-      );
+        { ignoreUndefined: true },
+      ]);
     });
   });
 
@@ -2553,7 +2624,8 @@ describe('model', () => {
       // @ts-expect-error `updatedAt` is undefined here
       result.updatedAt;
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         { foo: 'foo' },
         {
           $set: { ham: date },
@@ -2563,13 +2635,11 @@ describe('model', () => {
           ignoreUndefined: true,
           returnDocument: 'after',
           upsert: true,
-        }
-      );
+        },
+      ]);
     });
 
     test('dynamic defaults', async () => {
-      jest.useFakeTimers({ now: 123456 });
-
       const date = new Date();
       const result = await dynamicDefaultsModel.upsert({ foo: 'foo' }, { $set: { ham: date } });
 
@@ -2584,18 +2654,19 @@ describe('model', () => {
       // @ts-expect-error `updatedAt` is undefined here
       result.updatedAt;
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         { foo: 'foo' },
         {
           $set: { ham: date },
-          $setOnInsert: { bar: 123456 },
+          $setOnInsert: { bar: 1234567890000 },
         },
         {
           ignoreUndefined: true,
           returnDocument: 'after',
           upsert: true,
-        }
-      );
+        },
+      ]);
     });
 
     test('with projection', async () => {
@@ -2606,7 +2677,6 @@ describe('model', () => {
         { projection }
       );
 
-      expect(result).toBe(doc);
       expectType<{
         _id: ObjectId;
         foo: string;
@@ -2618,7 +2688,10 @@ describe('model', () => {
       result.bar;
       expectType<Date | undefined>(result.ham);
 
-      expect(collection.findOneAndUpdate).toHaveBeenCalledWith(
+      deepStrictEqual(result, doc);
+
+      // @ts-expect-error Args are not inferred correctly here
+      expectToBeCalledOnceWith(collection.findOneAndUpdate, [
         { foo: 'foo' },
         {
           $set: { ham: date },
@@ -2629,18 +2702,14 @@ describe('model', () => {
           projection,
           returnDocument: 'after',
           upsert: true,
-        }
-      );
+        },
+      ]);
     });
 
     test('throws error on failure', async () => {
-      (
-        collection.findOneAndUpdate as jest.Mocked<Collection['findOneAndUpdate']>
-      ).mockRejectedValueOnce(new Error('findOneAndUpdate failed'));
-
-      await expect(simpleModel.upsert({ foo: 'foo' }, { $set: { bar: 123 } })).rejects.toThrow(
-        'findOneAndUpdate failed'
-      );
+      collection.findOneAndUpdate = mock.fn(() => {
+        throw new Error('findOneAndUpdate failed');
+      });
     });
   });
 });
