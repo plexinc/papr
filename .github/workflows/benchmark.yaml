@@ -18,7 +18,7 @@ jobs:
           cache: 'pnpm'
       - uses: supercharge/mongodb-github-action@1.11.0
         with:
-          mongodb-version: 6.0
+          mongodb-version: 8.0
       - id: date
         run: |
           echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
