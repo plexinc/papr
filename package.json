@@ -81,7 +81,7 @@
     "lint-staged": "15.2.9",
     "mongodb": "6.10.0",
     "mongodb-memory-server": "10.1.2",
-    "mongoose": "7.5.2",
+    "mongoose": "8.8.1",
     "pinst": "3.0.0",
     "prettier": "3.3.2",
     "standard-version": "9.5.0",
