@@ -81,8 +81,8 @@ importers:
         specifier: 10.1.2
         version: 10.1.2(socks@2.7.1)
       mongoose:
-        specifier: 8.8.1
-        version: 8.8.1(socks@2.7.1)
+        specifier: 8.8.3
+        version: 8.8.3(socks@2.7.1)
       pinst:
         specifier: 3.0.0
         version: 3.0.0
@@ -3092,8 +3092,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.8.1:
-    resolution: {integrity: sha512-l7DgeY1szT98+EKU8GYnga5WnyatAu+kOQ2VlVX1Mxif6A0Umt0YkSiksCiyGxzx8SPhGe9a53ND1GD4yVDrPA==}
+  mongoose@8.8.3:
+    resolution: {integrity: sha512-/I4n/DcXqXyIiLRfAmUIiTjj3vXfeISke8dt4U4Y8Wfm074Wa6sXnQrXN49NFOFf2mM1kUdOXryoBvkuCnr+Qw==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -7906,7 +7906,7 @@ snapshots:
     optionalDependencies:
       socks: 2.7.1
 
-  mongoose@8.8.1(socks@2.7.1):
+  mongoose@8.8.3(socks@2.7.1):
     dependencies:
       bson: 6.7.0
       kareem: 2.6.3
