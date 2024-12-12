@@ -372,21 +372,41 @@ describe('utils', () => {
   });
 
   describe('getIds', () => {
-    test.each([
-      ['strings', ['123456789012345678900001', '123456789012345678900002']],
+    test.each<[string, readonly (ObjectId | string)[], readonly ObjectId[]]>([
       [
-        'objectIds',
+        'strings',
+        ['123456789012345678900001', '123456789012345678900002'],
         [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
       ],
-      ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
-    ])('%s', (_name, input) => {
-      const result = getIds(input);
+      [
+        'objectIds',
+        [new ObjectId('123456789012345678900099'), new ObjectId('123456789012345678900022')],
+        [new ObjectId('123456789012345678900099'), new ObjectId('123456789012345678900022')],
+      ],
+      [
+        'mixed',
+        ['123456789012345678900014', new ObjectId('123456789012345678900088')],
+        [new ObjectId('123456789012345678900014'), new ObjectId('123456789012345678900088')],
+      ],
+    ])('%s', (_name, input, expected) => {
+      expect.assertions(4);
 
-      expect(result).toHaveLength(2);
-      expect(result[0] instanceof ObjectId).toBeTruthy();
-      expect(result[0].toHexString()).toBe('123456789012345678900001');
-      expect(result[1] instanceof ObjectId).toBeTruthy();
-      expect(result[1].toHexString()).toBe('123456789012345678900002');
+      // Given
+      expect(expected.length).toBeLessThanOrEqual(input.length);
+
+      // When
+      const actual = getIds(input);
+
+      // Then
+      expect(actual).toEqual(expected);
+
+      const isEveryObjectId = actual.every((id) => id instanceof ObjectId);
+      expect(isEveryObjectId).toBeTruthy();
+
+      const isEveryHexEquivalent = actual.every(
+        (id, index) => id.toHexString() === expected[index].toHexString()
+      );
+      expect(isEveryHexEquivalent).toBeTruthy();
     });
   });
 });
