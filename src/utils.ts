@@ -195,13 +195,23 @@ export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = {
   Pick<TObj, Exclude<keyof TObj, Keys>>;
 
 export type ObjectIdConstructorParameter = ConstructorParameters<typeof ObjectId>[0];
-export function getIds(ids: Iterable<ObjectIdConstructorParameter>): ObjectId[] {
+export interface GetIdsOptions {
+  filterInvalid?: boolean;
+}
+export function getIds(
+  ids: Iterable<ObjectIdConstructorParameter>,
+  options?: GetIdsOptions
+): ObjectId[] {
   return Array.from(ids).flatMap((id) => {
     try {
       return new ObjectId(id);
-    } catch {
-      return [];
+    } catch (error) {
+      if (!options?.filterInvalid) {
+        throw error;
+      }
     }
+
+    return [];
   });
 }
 

@@ -9,6 +9,7 @@ import {
   PropertyType,
   getDefaultValues,
   ObjectIdConstructorParameter,
+  GetIdsOptions,
 } from '../utils';
 
 describe('utils', () => {
@@ -379,44 +380,78 @@ describe('utils', () => {
   });
 
   describe('getIds', () => {
-    // prettier-ignore
-    test.each<[string, readonly ObjectIdConstructorParameter[], readonly ObjectId[]]>([
+    test.each<
+      [
+        string,
+        {
+          input: readonly ObjectIdConstructorParameter[];
+          options?: GetIdsOptions;
+          expected: readonly ObjectId[];
+        },
+      ]
+    >([
       [
         'strings',
-        ['123456789012345678900001', '123456789012345678900002'],
-        [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
+        {
+          input: ['123456789012345678900001', '123456789012345678900002'],
+          expected: [
+            new ObjectId('123456789012345678900001'),
+            new ObjectId('123456789012345678900002'),
+          ],
+        },
       ],
       [
-        'objectIds',
-        [new ObjectId('123456789012345678900099'), new ObjectId('123456789012345678900022')],
-        [new ObjectId('123456789012345678900099'), new ObjectId('123456789012345678900022')],
+        'ObjectIds',
+        {
+          input: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+          expected: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+        },
       ],
       [
-        'Uint8Array',
-        [
-          new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-          new Uint8Array([13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24])
-        ],
-        [new ObjectId('0102030405060708090a0b0c'), new ObjectId('0d0e0f101112131415161718')],
+        'Uint8Arrays',
+        {
+          input: [
+            new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+            new Uint8Array([13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]),
+          ],
+          expected: [
+            new ObjectId('0102030405060708090a0b0c'),
+            new ObjectId('0d0e0f101112131415161718'),
+          ],
+        },
       ],
       [
         'mixed',
-        ['123456789012345678900014', new ObjectId('123456789012345678900088')],
-        [new ObjectId('123456789012345678900014'), new ObjectId('123456789012345678900088')],
+        {
+          input: ['123456789012345678900014', new ObjectId('123456789012345678900088')],
+          expected: [
+            new ObjectId('123456789012345678900014'),
+            new ObjectId('123456789012345678900088'),
+          ],
+        },
       ],
       [
-        'invalid',
-        ['123', '123456789012345678900021'],
-        [new ObjectId('123456789012345678900021')]
+        'invalid values, when filterInvalid is true',
+        {
+          input: ['123', '123456789012345678900021'],
+          options: { filterInvalid: true },
+          expected: [new ObjectId('123456789012345678900021')],
+        },
       ],
-    ])('%s', (_name, input, expected) => {
+    ])('should return ObjectIds from %s', (_name, { input, options, expected }) => {
       expect.assertions(4);
 
       // Given
       expect(expected.length).toBeLessThanOrEqual(input.length);
 
       // When
-      const actual = getIds(input);
+      const actual = getIds(input, options);
 
       // Then
       expect(actual).toEqual(expected);
@@ -428,6 +463,18 @@ describe('utils', () => {
         (id, index) => id.toHexString() === expected[index].toHexString()
       );
       expect(isEveryHexEquivalent).toBeTruthy();
+    });
+
+    test('should throw on invalid values, when filterInvalid is unspecified', () => {
+      expect.assertions(1);
+
+      // Given
+      const input = ['123', '123456789012345678900021'];
+
+      // When/Then
+      expect(() => getIds(input)).toThrowErrorMatchingInlineSnapshot(
+        '"input must be a 24 character hex string, 12 byte Uint8Array, or an integer"'
+      );
     });
   });
 });
