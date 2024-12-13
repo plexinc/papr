@@ -9,7 +9,6 @@ import {
   PropertyType,
   getDefaultValues,
   ObjectIdConstructorParameter,
-  GetIdsOptions,
 } from '../utils';
 
 describe('utils', () => {
@@ -385,7 +384,6 @@ describe('utils', () => {
         string,
         {
           input: readonly ObjectIdConstructorParameter[];
-          options?: GetIdsOptions;
           expected: readonly ObjectId[];
         },
       ]
@@ -440,18 +438,17 @@ describe('utils', () => {
         'invalid values, when filterInvalid is true',
         {
           input: ['123', '123456789012345678900021'],
-          options: { filterInvalid: true },
           expected: [new ObjectId('123456789012345678900021')],
         },
       ],
-    ])('should return ObjectIds from %s', (_name, { input, options, expected }) => {
+    ])('should return ObjectIds from %s', (_name, { input, expected }) => {
       expect.assertions(4);
 
       // Given
       expect(expected.length).toBeLessThanOrEqual(input.length);
 
       // When
-      const actual = getIds(input, options);
+      const actual = getIds(input);
 
       // Then
       expect(actual).toEqual(expected);
@@ -463,18 +460,6 @@ describe('utils', () => {
         (id, index) => id.toHexString() === expected[index].toHexString()
       );
       expect(isEveryHexEquivalent).toBeTruthy();
-    });
-
-    test('should throw on invalid values, when filterInvalid is unspecified', () => {
-      expect.assertions(1);
-
-      // Given
-      const input = ['123', '123456789012345678900021'];
-
-      // When/Then
-      expect(() => getIds(input)).toThrowErrorMatchingInlineSnapshot(
-        '"input must be a 24 character hex string, 12 byte Uint8Array, or an integer"'
-      );
     });
   });
 });
