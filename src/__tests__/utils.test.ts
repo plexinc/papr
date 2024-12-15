@@ -2,7 +2,14 @@ import { describe, expect, test } from '@jest/globals';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { DefaultsOption } from '../schema';
-import { NestedPaths, ProjectionType, getIds, PropertyType, getDefaultValues } from '../utils';
+import {
+  NestedPaths,
+  ProjectionType,
+  getIds,
+  PropertyType,
+  getDefaultValues,
+  ObjectIdConstructorParameter,
+} from '../utils';
 
 describe('utils', () => {
   interface TestDocument {
@@ -372,21 +379,87 @@ describe('utils', () => {
   });
 
   describe('getIds', () => {
-    test.each([
-      ['strings', ['123456789012345678900001', '123456789012345678900002']],
+    test.each<
       [
-        'objectIds',
-        [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
+        string,
+        {
+          input: readonly ObjectIdConstructorParameter[];
+          expected: readonly ObjectId[];
+        },
+      ]
+    >([
+      [
+        'strings',
+        {
+          input: ['123456789012345678900001', '123456789012345678900002'],
+          expected: [
+            new ObjectId('123456789012345678900001'),
+            new ObjectId('123456789012345678900002'),
+          ],
+        },
       ],
-      ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
-    ])('%s', (_name, input) => {
-      const result = getIds(input);
+      [
+        'ObjectIds',
+        {
+          input: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+          expected: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+        },
+      ],
+      [
+        'Uint8Arrays',
+        {
+          input: [
+            new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+            new Uint8Array([13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]),
+          ],
+          expected: [
+            new ObjectId('0102030405060708090a0b0c'),
+            new ObjectId('0d0e0f101112131415161718'),
+          ],
+        },
+      ],
+      [
+        'mixed',
+        {
+          input: ['123456789012345678900014', new ObjectId('123456789012345678900088')],
+          expected: [
+            new ObjectId('123456789012345678900014'),
+            new ObjectId('123456789012345678900088'),
+          ],
+        },
+      ],
+      [
+        'invalid values, when filterInvalid is true',
+        {
+          input: ['123', '123456789012345678900021'],
+          expected: [new ObjectId('123456789012345678900021')],
+        },
+      ],
+    ])('should return ObjectIds from %s', (_name, { input, expected }) => {
+      expect.assertions(4);
 
-      expect(result).toHaveLength(2);
-      expect(result[0] instanceof ObjectId).toBeTruthy();
-      expect(result[0].toHexString()).toBe('123456789012345678900001');
-      expect(result[1] instanceof ObjectId).toBeTruthy();
-      expect(result[1].toHexString()).toBe('123456789012345678900002');
+      // Given
+      expect(expected.length).toBeLessThanOrEqual(input.length);
+
+      // When
+      const actual = getIds(input);
+
+      // Then
+      expect(actual).toEqual(expected);
+
+      const isEveryObjectId = actual.every((id) => id instanceof ObjectId);
+      expect(isEveryObjectId).toBeTruthy();
+
+      const isEveryHexEquivalent = actual.every(
+        (id, index) => id.toHexString() === expected[index].toHexString()
+      );
+      expect(isEveryHexEquivalent).toBeTruthy();
     });
   });
 });
