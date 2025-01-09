@@ -96,6 +96,7 @@ export default typescriptEslint.config(
       '@typescript-eslint/no-extra-semi': 'error',
       '@typescript-eslint/no-extraneous-class': 'error',
       '@typescript-eslint/no-restricted-types': 'warn',
+      '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/no-unnecessary-type-arguments': 'error',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-unsafe-assignment': 'warn',

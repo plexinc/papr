@@ -267,6 +267,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
 ): void {
   // Sanity check for already built models
   // @ts-expect-error Ignore type mismatch error
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (model.collection && model.aggregate !== abstractMethod) {
     return;
   }
