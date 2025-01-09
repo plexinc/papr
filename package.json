@@ -43,7 +43,7 @@
     "docs": "pnpm build:docs && docsify serve ./docs",
     "benchmark": "pnpm build && node --experimental-specifier-resolution=node ./benchmark/run.js",
     "lint:ci": "./tests/build.sh && eslint .",
-    "lint": "eslint .",
+    "lint": "eslint --report-unused-disable-directives .",
     "postpack": "pinst --enable",
     "prepack": "pinst --disable && pnpm build",
     "prepare": "husky",

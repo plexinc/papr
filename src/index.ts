@@ -60,7 +60,6 @@ export default class Papr {
     // If we have models defined before initializing a database, we build them now
     for (const [collectionName, collectionSchema] of this.schemas.entries()) {
       const model = this.models.get(collectionName);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (model && !model.collection) {
         build(collectionSchema, model, this.db.collection(collectionName), this.options);
       }
@@ -114,7 +113,6 @@ export default class Papr {
     if (!this.db) {
       throw new Error('The DB is not connected');
     }
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!model.collection) {
       throw new Error('The model collection is not initialized');
     }

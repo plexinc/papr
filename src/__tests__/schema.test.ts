@@ -48,8 +48,8 @@ describe('schema', () => {
         {},
       ]
     >(value);
-    expectType<ObjectId>(value[0]._id);
-    expectType<boolean | undefined>(value[0].foo);
+    expectType<ObjectId>(value[0]?._id);
+    expectType<boolean | undefined>(value[0]?.foo);
     expectType<(typeof value)[0]>({
       _id: new ObjectId(),
       bar: 123,
@@ -104,8 +104,8 @@ describe('schema', () => {
         },
       ]
     >(value);
-    expectType<ObjectId>(value[0]._id);
-    expectType<boolean | undefined>(value[0].foo);
+    expectType<ObjectId>(value[0]?._id);
+    expectType<boolean | undefined>(value[0]?.foo);
     expectType<(typeof value)[0]>({
       _id: new ObjectId(),
       bar: 123,
@@ -180,9 +180,9 @@ describe('schema', () => {
         },
       ]
     >(value);
-    expectType<ObjectId>(value[0]._id);
-    expectType<'baz' | 'ham' | undefined>(value[0].enumConstOptional);
-    expectType<'baz' | 'ham'>(value[0].enumConstRequired);
+    expectType<ObjectId>(value[0]?._id);
+    expectType<'baz' | 'ham' | undefined>(value[0]?.enumConstOptional);
+    expectType<'baz' | 'ham'>(value[0]?.enumConstRequired);
     expectType<(typeof value)[0]>({
       _id: new ObjectId(),
       enumConstOptional: 'ham',
@@ -242,10 +242,10 @@ describe('schema', () => {
           { timestamps: boolean },
         ]
       >(value);
-      expectType<ObjectId>(value[0]._id);
-      expectType<boolean | undefined>(value[0].foo);
-      expectType<Date>(value[0].createdAt);
-      expectType<Date>(value[0].updatedAt);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?.createdAt);
+      expectType<Date>(value[0]?.updatedAt);
       expectType<(typeof value)[0]>({
         _id: new ObjectId(),
         createdAt: new Date(),
@@ -289,10 +289,10 @@ describe('schema', () => {
           { timestamps: boolean },
         ]
       >(value);
-      expectType<ObjectId>(value[0]._id);
-      expectType<boolean | undefined>(value[0].foo);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
       // @ts-expect-error `createdAt` is undefined here
-      value[0].createdAt;
+      value[0]?.createdAt;
       expectType<(typeof value)[0]>({
         _id: new ObjectId(),
         foo: true,
@@ -354,14 +354,14 @@ describe('schema', () => {
           },
         ]
       >(value);
-      expectType<ObjectId>(value[0]._id);
-      expectType<boolean | undefined>(value[0].foo);
-      expectType<Date>(value[0]._createdDate);
-      expectType<Date>(value[0]._updatedDate);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?._createdDate);
+      expectType<Date>(value[0]?._updatedDate);
       // @ts-expect-error `createdAt` is undefined here
-      value[0].createdAt;
+      value[0]?.createdAt;
       // @ts-expect-error `updatedAt` is undefined here
-      value[0].updatedAt;
+      value[0]?.updatedAt;
       expectType<(typeof value)[0]>({
         _createdDate: new Date(),
         _id: new ObjectId(),
@@ -422,12 +422,12 @@ describe('schema', () => {
           },
         ]
       >(value);
-      expectType<ObjectId>(value[0]._id);
-      expectType<boolean | undefined>(value[0].foo);
-      expectType<Date>(value[0]._createdDate);
-      expectType<Date>(value[0].updatedAt);
+      expectType<ObjectId>(value[0]?._id);
+      expectType<boolean | undefined>(value[0]?.foo);
+      expectType<Date>(value[0]?._createdDate);
+      expectType<Date>(value[0]?.updatedAt);
       // @ts-expect-error `createdAt` is undefined here
-      value[0].createdAt;
+      value[0]?.createdAt;
       expectType<(typeof value)[0]>({
         _createdDate: new Date(),
         _id: new ObjectId(),
@@ -469,7 +469,7 @@ describe('schema', () => {
         {},
       ]
     >(value);
-    expectType<string>(value[0]._id);
+    expectType<string>(value[0]?._id);
     expectType<(typeof value)[0]>({
       _id: 'first',
       foo: 123,
@@ -512,7 +512,7 @@ describe('schema', () => {
         {},
       ]
     >(value);
-    expectType<number>(value[0]._id);
+    expectType<number>(value[0]?._id);
     expectType<(typeof value)[0]>({
       _id: 123,
       foo: 'first',
@@ -857,7 +857,7 @@ describe('schema', () => {
       validationAction: typeof VALIDATION_ACTIONS.WARN;
       validationLevel: typeof VALIDATION_LEVEL.MODERATE;
     }>(value[1]);
-    expectType<ObjectId>(value[0]._id);
+    expectType<ObjectId>(value[0]?._id);
   });
 
   test('explicit optional - simple', () => {
@@ -896,8 +896,8 @@ describe('schema', () => {
         {},
       ]
     >(value);
-    expectType<ObjectId>(value[0]._id);
-    expectType<boolean | undefined>(value[0].foo);
+    expectType<ObjectId>(value[0]?._id);
+    expectType<boolean | undefined>(value[0]?.foo);
     expectType<(typeof value)[0]>({
       _id: new ObjectId(),
       bar: 123,
@@ -1219,6 +1219,6 @@ describe('schema', () => {
       validationAction: typeof VALIDATION_ACTIONS.WARN;
       validationLevel: typeof VALIDATION_LEVEL.MODERATE;
     }>(value[1]);
-    expectType<ObjectId>(value[0]._id);
+    expectType<ObjectId>(value[0]?._id);
   });
 });
