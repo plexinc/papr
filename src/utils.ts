@@ -177,7 +177,7 @@ export type PropertyType<Type, Property extends string> = string extends Propert
       Type extends Record<string, any>
       ? Property extends `${string}.${string}`
         ? PropertyNestedType<NonNullable<Type>, Property>
-        : Type[Property]
+        : Readonly<Type[Property]>
       : Type[Property]
     : Type extends readonly (infer ArrayType)[]
       ? // indexed array properties
