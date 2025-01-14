@@ -1,4 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
+import { deepStrictEqual, equal, ok } from 'node:assert/strict';
+import { describe, test } from 'node:test';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { DefaultsOption } from '../schema';
@@ -334,8 +335,10 @@ describe('utils', () => {
       };
 
       const result = await getDefaultValues(defaults);
+
       expectType<Partial<TestDocument>>(result);
-      expect(result).toStrictEqual(defaults);
+
+      deepStrictEqual(result, defaults);
     });
 
     test('dynamic values', async () => {
@@ -346,8 +349,10 @@ describe('utils', () => {
       });
 
       const result = await getDefaultValues(defaults);
+
       expectType<Partial<TestDocument>>(result);
-      expect(result.ham instanceof Date).toBeTruthy();
+
+      ok(result.ham instanceof Date);
     });
 
     test('dynamic values with async function', async () => {
@@ -366,27 +371,28 @@ describe('utils', () => {
       });
 
       const result = await getDefaultValues(defaults);
+
       expectType<Partial<TestDocument>>(result);
-      expect(result.ham instanceof Date).toBeTruthy();
+
+      ok(result.ham instanceof Date);
     });
   });
 
   describe('getIds', () => {
-    test.each([
-      ['strings', ['123456789012345678900001', '123456789012345678900002']],
-      [
-        'objectIds',
-        [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
-      ],
-      ['mixed', ['123456789012345678900001', new ObjectId('123456789012345678900002')]],
-    ])('%s', (_name, input) => {
-      const result = getIds(input);
+    for (const input of [
+      ['123456789012345678900001', '123456789012345678900002'],
+      [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
+      ['123456789012345678900001', new ObjectId('123456789012345678900002')],
+    ]) {
+      test('case', () => {
+        const result = getIds(input);
 
-      expect(result).toHaveLength(2);
-      expect(result[0] instanceof ObjectId).toBeTruthy();
-      expect(result[0].toHexString()).toBe('123456789012345678900001');
-      expect(result[1] instanceof ObjectId).toBeTruthy();
-      expect(result[1].toHexString()).toBe('123456789012345678900002');
-    });
+        equal(result.length, 2);
+        ok(result[0] instanceof ObjectId);
+        equal(result[0].toHexString(), '123456789012345678900001');
+        ok(result[1] instanceof ObjectId);
+        equal(result[1].toHexString(), '123456789012345678900002');
+      });
+    }
   });
 });

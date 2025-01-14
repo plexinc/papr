@@ -1,4 +1,5 @@
-import { describe, expect, test } from '@jest/globals';
+import { deepStrictEqual } from 'node:assert/strict';
+import { describe, test } from 'node:test';
 import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { schema } from '../schema';
@@ -18,7 +19,7 @@ describe('schema', () => {
       foo: types.boolean(),
     });
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $validationAction: 'error',
       $validationLevel: 'strict',
       additionalProperties: false,
@@ -72,7 +73,7 @@ describe('schema', () => {
       }
     );
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $defaults: { foo: true },
       $validationAction: 'error',
       $validationLevel: 'strict',
@@ -135,7 +136,7 @@ describe('schema', () => {
       }
     );
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $defaults: {
         enumConstOptional: 'ham',
         enumConstRequired: 'baz',
@@ -208,7 +209,7 @@ describe('schema', () => {
         }
       );
 
-      expect(value).toEqual({
+      deepStrictEqual(value, {
         $timestamps: true,
         $validationAction: 'error',
         $validationLevel: 'strict',
@@ -264,7 +265,7 @@ describe('schema', () => {
         }
       );
 
-      expect(value).toEqual({
+      deepStrictEqual(value, {
         $validationAction: 'error',
         $validationLevel: 'strict',
         additionalProperties: false,
@@ -312,7 +313,7 @@ describe('schema', () => {
         }
       );
 
-      expect(value).toEqual({
+      deepStrictEqual(value, {
         $timestamps: {
           createdAt: '_createdDate',
           updatedAt: '_updatedDate',
@@ -382,7 +383,7 @@ describe('schema', () => {
         }
       );
 
-      expect(value).toEqual({
+      deepStrictEqual(value, {
         $timestamps: {
           createdAt: '_createdDate',
         },
@@ -443,7 +444,7 @@ describe('schema', () => {
       foo: types.number({ required: true }),
     });
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $validationAction: 'error',
       $validationLevel: 'strict',
       additionalProperties: false,
@@ -486,7 +487,7 @@ describe('schema', () => {
       foo: types.string({ required: true }),
     });
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $validationAction: 'error',
       $validationLevel: 'strict',
       additionalProperties: false,
@@ -583,7 +584,7 @@ describe('schema', () => {
       }
     );
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $defaults: { stringOptional: 'foo' },
       $timestamps: true,
       $validationAction: 'warn',
@@ -866,7 +867,7 @@ describe('schema', () => {
       foo: types.boolean({ required: false }),
     });
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $validationAction: 'error',
       $validationLevel: 'strict',
       additionalProperties: false,
@@ -963,7 +964,7 @@ describe('schema', () => {
       }
     );
 
-    expect(value).toEqual({
+    deepStrictEqual(value, {
       $defaults: { stringOptional: 'foo' },
       $timestamps: true,
       $validationAction: 'warn',

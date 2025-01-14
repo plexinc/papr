@@ -1,4 +1,4 @@
-import { test } from '@jest/globals';
+import { test } from 'node:test';
 import { expectType, TypeEqual } from 'ts-expect';
 
 import type { TupleItems } from '../TupleItems';
@@ -33,6 +33,6 @@ expectType<TypeEqual<TupleItems<readonly ['a', 'b', 'c']>, ['a', 'b', 'c']>>(tru
 // with no properties
 expectType<TypeEqual<TupleItems<readonly []>, []>>(true);
 
-test('ignore empty test for jest', () => {
+test('ignore empty test', () => {
   // ignore
 });
