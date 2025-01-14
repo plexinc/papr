@@ -67,31 +67,98 @@ describe('utils', () => {
   });
 
   describe('PropertyType', () => {
-    test('valid types', () => {
-      expectType<PropertyType<TestDocument, 'foo'>>('any string');
-      expectType<PropertyType<TestDocument, 'bar'>>(123);
-      expectType<PropertyType<TestDocument, 'ham'>>(new Date());
-
-      // arrays
-      expectType<PropertyType<TestDocument, 'nestedList'>>([{ direct: 'foo' }]);
-      expectType<PropertyType<TestDocument, 'nestedList.0'>>({ direct: 'foo', other: 123 });
-      expectType<PropertyType<TestDocument, 'nestedList.0.direct'>>('foo');
-      expectType<PropertyType<TestDocument, 'nestedList.0.other'>>(123);
-      expectType<PropertyType<TestDocument, 'nestedList.0.other'>>(undefined);
-      expectType<PropertyType<TestDocument, 'nestedList.direct'>>('foo');
-      expectType<PropertyType<TestDocument, 'nestedList.other'>>(123);
-      expectType<PropertyType<TestDocument, 'nestedList.other'>>(undefined);
-
-      // object
-      expectType<PropertyType<TestDocument, 'nestedObject'>>({
-        deep: { deeper: 'foo' },
-        direct: true,
+    describe('valid types', () => {
+      test('top-level string', () => {
+        expectType<PropertyType<TestDocument, 'foo'>>('any string');
       });
-      expectType<PropertyType<TestDocument, 'nestedObject.deep'>>({ deeper: 'foo', other: 123 });
-      expectType<PropertyType<TestDocument, 'nestedObject.deep.deeper'>>('foo');
-      expectType<PropertyType<TestDocument, 'nestedObject.deep.other'>>(123);
-      expectType<PropertyType<TestDocument, 'nestedObject.deep.other'>>(undefined);
-      expectType<PropertyType<TestDocument, 'nestedObject.direct'>>(true);
+
+      test('top-level number', () => {
+        expectType<PropertyType<TestDocument, 'bar'>>(123);
+      });
+
+      test('top-level date', () => {
+        expectType<PropertyType<TestDocument, 'ham'>>(new Date());
+      });
+
+      describe('arrays', () => {
+        test('entire list as readonly constant', () => {
+          const value = [{ direct: 'foo' }] as const;
+          expectType<PropertyType<TestDocument, 'nestedList'>>(value);
+        });
+
+        test('entire list as inline argument without optional number property', () => {
+          expectType<PropertyType<TestDocument, 'nestedList'>>([{ direct: 'foo' }]);
+        });
+
+        test('list item at index as object with optional number property', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.0'>>({ direct: 'foo', other: 123 });
+        });
+
+        test('string value for required property of list item at index', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.0.direct'>>('foo');
+        });
+
+        test('number value for optional property of list item at index', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.0.other'>>(123);
+        });
+
+        test('undefined value for optional property of list item at index', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.0.other'>>(undefined);
+        });
+
+        test('string value for string property of list items', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.direct'>>('foo');
+        });
+
+        test('number value for optional number property of list items', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.other'>>(123);
+        });
+
+        test('undefined value for optional number property of list items', () => {
+          expectType<PropertyType<TestDocument, 'nestedList.other'>>(undefined);
+        });
+      });
+
+      describe('nested objects', () => {
+        test('entire object as readonly constant', () => {
+          const value = {
+            deep: { deeper: 'foo' },
+            direct: true,
+          } as const;
+          expectType<PropertyType<TestDocument, 'nestedObject'>>(value);
+        });
+
+        test('entire object as inline argument', () => {
+          // object
+          expectType<PropertyType<TestDocument, 'nestedObject'>>({
+            deep: { deeper: 'foo' },
+            direct: true,
+          });
+        });
+
+        test('object value for nested property of object', () => {
+          expectType<PropertyType<TestDocument, 'nestedObject.deep'>>({
+            deeper: 'foo',
+            other: 123,
+          });
+        });
+
+        test('string value for nested string property of object', () => {
+          expectType<PropertyType<TestDocument, 'nestedObject.deep.deeper'>>('foo');
+        });
+
+        test('number value for nested optional number property of object', () => {
+          expectType<PropertyType<TestDocument, 'nestedObject.deep.other'>>(123);
+        });
+
+        test('undefined value for nested optional number property of object', () => {
+          expectType<PropertyType<TestDocument, 'nestedObject.deep.other'>>(undefined);
+        });
+
+        test('boolean value for nested property of object', () => {
+          expectType<PropertyType<TestDocument, 'nestedObject.direct'>>(true);
+        });
+      });
     });
 
     test('invalid types', () => {

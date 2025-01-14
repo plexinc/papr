@@ -20,6 +20,7 @@ describe('model', () => {
       bar: Types.number({ required: true }),
       foo: Types.string({ required: true }),
       ham: Types.date(),
+      list: Types.array(Types.number()),
       nested: Types.object({
         direct: Types.string({ required: true }),
         other: Types.number(),
@@ -2466,6 +2467,20 @@ describe('model', () => {
         { foo: 'foo' },
         {
           $inc: { bar: 123 },
+        },
+        { ignoreUndefined: true }
+      );
+    });
+
+    test('simple schema, readonly array', async () => {
+      const filter = { foo: 'foo' } as const;
+      const update = { $set: { list: [456] } } as const;
+      await simpleModel.updateOne(filter, update);
+
+      expect(collection.updateOne).toHaveBeenCalledWith(
+        { foo: 'foo' },
+        {
+          $set: { list: [456] },
         },
         { ignoreUndefined: true }
       );
