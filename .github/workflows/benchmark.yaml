@@ -16,7 +16,7 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
-      - uses: supercharge/mongodb-github-action@1.11.0
+      - uses: supercharge/mongodb-github-action@1.12.0
         with:
           mongodb-version: 8.0
       - id: date
