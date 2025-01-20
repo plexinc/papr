@@ -100,7 +100,7 @@ describe('mongodb types', () => {
         expectType<PaprFilter<TestDocument>>({ dbRef: new DBRef('collection', new ObjectId()) });
         expectType<PaprFilter<TestDocument>>({ decimal: new Decimal128('123.45') });
         expectType<PaprFilter<TestDocument>>({ int32: new Int32('123') });
-        expectType<PaprFilter<TestDocument>>({ long: new Long('123', 45) });
+        expectType<PaprFilter<TestDocument>>({ long: new Long(123, 45) });
         expectType<PaprFilter<TestDocument>>({ maxKey: new MaxKey() });
         expectType<PaprFilter<TestDocument>>({ minKey: new MinKey() });
         expectType<PaprFilter<TestDocument>>({ regexp: /foo/ });
@@ -516,7 +516,7 @@ describe('mongodb types', () => {
             $set: { decimal: new Decimal128('123.45') },
           });
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { int32: new Int32('123') } });
-          expectType<PaprUpdateFilter<TestDocument>>({ $set: { long: new Long('123', 45) } });
+          expectType<PaprUpdateFilter<TestDocument>>({ $set: { long: new Long(123, 45) } });
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { maxKey: new MaxKey() } });
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { minKey: new MinKey() } });
           expectType<PaprUpdateFilter<TestDocument>>({ $set: { regexp: /foo/ } });
