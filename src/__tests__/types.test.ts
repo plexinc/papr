@@ -166,12 +166,23 @@ describe('types', () => {
         });
       });
 
-      test('options', () => {
-        types.number({
+      test('options, range and modulo', () => {
+        const options = {
           maximum: 9,
           minimum: 2,
           multipleOf: 2,
-        });
+        } as const;
+        types.number(options);
+
+        // @ts-expect-error invalid option
+        types.number({ maxLength: 1 });
+      });
+
+      test('options, enum', () => {
+        const options = {
+          enum: [1, 2, 3],
+        } as const;
+        types.number(options);
 
         // @ts-expect-error invalid option
         types.number({ maxLength: 1 });
@@ -327,11 +338,12 @@ describe('types', () => {
       });
 
       test('options', () => {
-        types.string({
+        const options = {
           enum: ['foo', 'bar'],
           maxLength: 9,
           minLength: 1,
-        });
+        } as const;
+        types.string(options);
 
         // @ts-expect-error invalid option
         types.string({ maximum: 1 });
