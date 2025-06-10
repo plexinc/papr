@@ -12,23 +12,11 @@
   ],
   "packageRules": [
     {
-      "groupName": "@babel packages",
-      "matchPackagePrefixes": [
-        "@babel/"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
-      ]
-    },
-    {
       "schedule": [
         "before 6am on Monday"
       ],
       "excludePackagePrefixes": [
-        "@types/",
-        "@babel/"
+        "@types/"
       ],
       "excludePackageNames": [
         "@types/node",
