@@ -7,48 +7,48 @@ on:
     branches: [main]
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       node:
-  #         - 18.x
-  #         - 20.x
-  #         - 22.x
-  #       mongodb:
-  #         - 6.0.19
-  #         - 7.0.15
-  #         - 8.0.3
-  #   steps:
-  #     - uses: actions/checkout@v4.2.1
-  #       with:
-  #         filter: tree:0
-  #     - uses: pnpm/action-setup@v4.1.0
-  #     - uses: actions/setup-node@v4.4.0
-  #       name: Use Node.js ${{ matrix.node }}
-  #       with:
-  #         node-version: ${{ matrix.node }}
-  #         cache: 'pnpm'
-  #     - run: node -v
-  #     - run: pnpm install --frozen-lockfile
-  #     - run: pnpm test:build
-  #       env:
-  #         MONGOMS_VERSION: ${{ matrix.mongodb }}
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 18.x
+          - 20.x
+          - 22.x
+        mongodb:
+          - 6.0.19
+          - 7.0.15
+          - 8.0.3
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.1.0
+      - uses: actions/setup-node@v4.4.0
+        name: Use Node.js ${{ matrix.node }}
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+      - run: node -v
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:build
+        env:
+          MONGOMS_VERSION: ${{ matrix.mongodb }}
 
-  # docs:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4.2.1
-  #       with:
-  #         filter: tree:0
-  #     - uses: pnpm/action-setup@v4.1.0
-  #     - uses: actions/setup-node@v4.4.0
-  #       with:
-  #         node-version-file: 'package.json'
-  #         cache: 'pnpm'
-  #     - run: pnpm install --frozen-lockfile
-  #     - run: pnpm build:docs && git diff
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.1.0
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:docs && git diff
 
   lint:
     runs-on: ubuntu-latest
@@ -64,30 +64,30 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint:ci && pnpm pretty:ci
 
-  # unit:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4.2.1
-  #       with:
-  #         filter: tree:0
-  #     - uses: pnpm/action-setup@v4.1.0
-  #     - uses: actions/setup-node@v4.4.0
-  #       with:
-  #         node-version-file: 'package.json'
-  #         cache: 'pnpm'
-  #     - run: pnpm install --frozen-lockfile
-  #     - run: pnpm test
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.1.0
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
 
-  # types:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4.2.1
-  #       with:
-  #         filter: tree:0
-  #     - uses: pnpm/action-setup@v4.1.0
-  #     - uses: actions/setup-node@v4.4.0
-  #       with:
-  #         node-version-file: 'package.json'
-  #         cache: 'pnpm'
-  #     - run: pnpm install --frozen-lockfile
-  #     - run: pnpm test:types
+  types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.1.0
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:types
