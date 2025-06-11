@@ -65,7 +65,7 @@
     "arg": "5.0.2",
     "docsify-cli": "4.4.4",
     "eslint": "9.28.0",
-    "eslint-config-prettier": "10.0.1",
+    "eslint-config-prettier": "10.1.5",
     "eslint-config-standard": "17.1.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-prettier": "5.2.3",
