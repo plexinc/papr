@@ -18,7 +18,7 @@ interface ArrayOptions extends GenericOptions {
 }
 
 interface NumberOptions extends GenericOptions {
-  enum?: number[];
+  enum?: readonly number[];
   exclusiveMaximum?: boolean;
   exclusiveMinimum?: boolean;
   maximum?: number;
@@ -35,7 +35,7 @@ interface ObjectOptions extends GenericOptions {
 }
 
 interface StringOptions extends GenericOptions {
-  enum?: string[];
+  enum?: readonly string[];
   maxLength?: number;
   minLength?: number;
   pattern?: string;
