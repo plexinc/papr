@@ -1,9 +1,16 @@
-import { deepStrictEqual, equal, ok } from 'node:assert/strict';
+import { deepStrictEqual, ok } from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
 import { DefaultsOption } from '../schema';
-import { NestedPaths, ProjectionType, getIds, PropertyType, getDefaultValues } from '../utils';
+import {
+  NestedPaths,
+  ProjectionType,
+  getIds,
+  PropertyType,
+  getDefaultValues,
+  ObjectIdConstructorParameter,
+} from '../utils';
 
 describe('utils', () => {
   interface TestDocument {
@@ -379,19 +386,88 @@ describe('utils', () => {
   });
 
   describe('getIds', () => {
-    for (const input of [
-      ['123456789012345678900001', '123456789012345678900002'],
-      [new ObjectId('123456789012345678900001'), new ObjectId('123456789012345678900002')],
-      ['123456789012345678900001', new ObjectId('123456789012345678900002')],
-    ]) {
-      test('case', () => {
-        const result = getIds(input);
+    const testCases: readonly [
+      string,
+      {
+        readonly input: readonly ObjectIdConstructorParameter[];
+        readonly expected: readonly ObjectId[];
+      },
+    ][] = [
+      [
+        'strings',
+        {
+          input: ['123456789012345678900001', '123456789012345678900002'],
+          expected: [
+            new ObjectId('123456789012345678900001'),
+            new ObjectId('123456789012345678900002'),
+          ],
+        },
+      ],
+      [
+        'ObjectIds',
+        {
+          input: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+          expected: [
+            new ObjectId('123456789012345678900099'),
+            new ObjectId('123456789012345678900022'),
+          ],
+        },
+      ],
+      [
+        'Uint8Arrays',
+        {
+          input: [
+            new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+            new Uint8Array([13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]),
+          ],
+          expected: [
+            new ObjectId('0102030405060708090a0b0c'),
+            new ObjectId('0d0e0f101112131415161718'),
+          ],
+        },
+      ],
+      [
+        'mixed',
+        {
+          input: ['123456789012345678900014', new ObjectId('123456789012345678900088')],
+          expected: [
+            new ObjectId('123456789012345678900014'),
+            new ObjectId('123456789012345678900088'),
+          ],
+        },
+      ],
+      [
+        'invalid values',
+        {
+          input: ['123', '123456789012345678900021'],
+          expected: [new ObjectId('123456789012345678900021')],
+        },
+      ],
+    ];
 
-        equal(result.length, 2);
-        ok(result[0] instanceof ObjectId);
-        equal(result[0].toHexString(), '123456789012345678900001');
-        ok(result[1] instanceof ObjectId);
-        equal(result[1].toHexString(), '123456789012345678900002');
+    for (const testCase of testCases) {
+      const [caseName, { input, expected }] = testCase;
+
+      test(`case ${caseName}`, () => {
+        // Given
+        ok(expected.length <= input.length);
+
+        // When
+        const actual = getIds(input);
+
+        // Then
+        deepStrictEqual(actual, expected);
+
+        const isEveryObjectId = actual.every((id) => id instanceof ObjectId);
+        ok(isEveryObjectId);
+
+        const isEveryHexEquivalent = actual.every(
+          (id, index) => id.toHexString() === expected[index].toHexString()
+        );
+        ok(isEveryHexEquivalent);
       });
     }
   });
