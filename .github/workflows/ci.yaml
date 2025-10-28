@@ -16,10 +16,11 @@ jobs:
           - 18.x
           - 20.x
           - 22.x
+          - 24.x
         mongodb:
-          - 6.0.19
-          - 7.0.15
-          - 8.0.3
+          - 6.0.26
+          - 7.0.25
+          - 8.0.15
     steps:
       - uses: actions/checkout@v4.2.1
         with:
@@ -29,9 +30,9 @@ jobs:
         name: Use Node.js ${{ matrix.node }}
         with:
           node-version: ${{ matrix.node }}
-          cache: 'pnpm'
+          cache: pnpm
       - run: node -v
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
       - run: pnpm test:build
         env:
           MONGOMS_VERSION: ${{ matrix.mongodb }}
@@ -45,9 +46,9 @@ jobs:
       - uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install
       - run: pnpm build:docs && git diff
 
   lint:
@@ -59,9 +60,9 @@ jobs:
       - uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install
       - run: pnpm lint:ci && pnpm pretty:ci
 
   unit:
@@ -73,9 +74,9 @@ jobs:
       - uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install
       - run: pnpm test
 
   types:
@@ -87,7 +88,7 @@ jobs:
       - uses: pnpm/action-setup@v4.1.0
       - uses: actions/setup-node@v4.4.0
         with:
-          node-version-file: 'package.json'
-          cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install
       - run: pnpm test:types
