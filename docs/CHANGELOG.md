@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [15.3.0](https://github.com/plexinc/papr/compare/v15.2.2...v15.3.0) (2025-10-28)
+
+
+### Features
+
+* bulkWrite method accepts readonly operations ([#831](https://github.com/plexinc/papr/issues/831)) ([f517739](https://github.com/plexinc/papr/commit/f517739ec2587051b03e333ae0398784961c9934))
+
 ## [15.2.2](https://github.com/plexinc/papr/compare/v15.2.1...v15.2.2) (2024-05-20)
 
 
