@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16.20.1"
+    "node": ">=20.0.0"
   },
   "type": "module",
   "types": "./esm/index.d.ts",
@@ -74,7 +74,7 @@
     "jsdoc-api": "9.3.4",
     "jsdoc-parse": "6.2.4",
     "lint-staged": "15.4.0",
-    "mongodb": "6.12.0",
+    "mongodb": "7.0.0",
     "mongodb-memory-server": "10.1.2",
     "mongoose": "8.8.1",
     "prettier": "3.4.2",
@@ -86,7 +86,7 @@
     "typescript-eslint": "8.20.0"
   },
   "peerDependencies": {
-    "mongodb": "^6.0.0"
+    "mongodb": "^7.0.0"
   },
   "commitlint": {
     "extends": [

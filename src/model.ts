@@ -75,27 +75,27 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
 
   exists: (
     filter: PaprFilter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
+    options?: Omit<FindOptions, 'limit' | 'projection' | 'skip' | 'sort'>
   ) => Promise<boolean>;
 
   find: <TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection>[]>;
 
   findById: <TProjection extends Projection<TSchema> | undefined>(
     id: TSchema['_id'] | string,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findCursor: <TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<FindCursor<ProjectionType<TSchema, TProjection>>>;
 
   findOne: <TProjection extends Projection<TSchema> | undefined>(
     filter: PaprFilter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+    options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection> | null>;
 
   findOneAndDelete: <TProjection extends Projection<TSchema> | undefined>(
@@ -531,6 +531,8 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * const ages = await User.distinct('age');
    */
   // prettier-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+  // @ts-ignore error TS2589: Type instantiation is excessively deep and possibly infinite.
   model.distinct = wrap(
     model,
     // @ts-expect-error Ignore error due to `wrap` arguments
@@ -555,7 +557,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * Performs an optimized `find` to test for the existence of any document matching the filter criteria.
    *
    * @param filter {PaprFilter<TSchema>}
-   * @param [options] {Omit<FindOptions<TSchema>, "projection" | "limit" | "sort" | "skip">}
+   * @param [options] {Omit<FindOptions, "projection" | "limit" | "sort" | "skip">}
    *
    * @returns {Promise<boolean>}
    *
@@ -568,7 +570,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   model.exists = async function exists(
     filter: PaprFilter<TSchema>,
-    options?: Omit<FindOptions<TSchema>, 'limit' | 'projection' | 'skip' | 'sort'>
+    options?: Omit<FindOptions, 'limit' | 'projection' | 'skip' | 'sort'>
   ): Promise<boolean> {
     // If there are any entries in the filter, we project out the value from
     // only one of them.  In this way, if there is an index that spans all the
@@ -605,7 +607,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
    * @param filter {PaprFilter<TSchema>}
-   * @param [options] {FindOptions<TSchema>}
+   * @param [options] {FindOptions}
    *
    * @returns {Promise<Array<TProjected>>}
    *
@@ -627,7 +629,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     model,
     async function find<TProjection extends Projection<TSchema> | undefined>(
       filter: PaprFilter<TSchema>,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+      options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection>[]> {
       return model.collection
         .find(
@@ -635,7 +637,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
           {
             ...model.defaultOptions,
             ...options,
-          } as FindOptions<TSchema>
+          } as FindOptions
         )
         .toArray() as unknown as ProjectionType<TSchema, TProjection>[];
     }
@@ -648,7 +650,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
    * @param id {string|TSchema._id}
-   * @param [options] {FindOptions<TSchema>}
+   * @param [options] {FindOptions}
    *
    * @returns {Promise<TProjected|null>}
    *
@@ -669,7 +671,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     model,
     async function findById<TProjection extends Projection<TSchema> | undefined>(
       id: TSchema['_id'] | string,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+      options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
       // @ts-expect-error We're accessing runtime properties on the schema to determine id type
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -680,7 +682,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
         {
           ...model.defaultOptions,
           ...options,
-        } as FindOptions<TSchema>
+        } as FindOptions
       ) as unknown as ProjectionType<TSchema, TProjection> | null;
     }
   );
@@ -693,7 +695,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * memory at once.
    *
    * @param filter {PaprFilter<TSchema>}
-   * @param [options] {FindOptions<TSchema>}
+   * @param [options] {FindOptions}
    *
    * @example
    * const cursor = await User.findCursor(
@@ -707,7 +709,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    */
   model.findCursor = wrap(model, async function findCursor<
     TProjection extends Projection<TSchema> | undefined,
-  >(filter: PaprFilter<TSchema>, options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }): Promise<
+  >(filter: PaprFilter<TSchema>, options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }): Promise<
     FindCursor<ProjectionType<TSchema, TProjection>>
   > {
     return model.collection.find(
@@ -715,7 +717,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
       {
         ...model.defaultOptions,
         ...options,
-      } as FindOptions<TSchema>
+      } as FindOptions
     ) as FindCursor<ProjectionType<TSchema, TProjection>>;
   });
 
@@ -726,7 +728,7 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * The result type (`TProjected`) takes into account the projection for this query and reduces the original `TSchema` type accordingly. See also [`ProjectionType`](api/utils.md#ProjectionType).
    *
    * @param filter {PaprFilter<TSchema>}
-   * @param [options] {FindOptions<TSchema>}
+   * @param [options] {FindOptions}
    *
    * @returns {Promise<TProjected | null>}
    *
@@ -747,11 +749,11 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
     model,
     async function findOne<TProjection extends Projection<TSchema> | undefined>(
       filter: PaprFilter<TSchema>,
-      options?: Omit<FindOptions<TSchema>, 'projection'> & { projection?: TProjection }
+      options?: Omit<FindOptions, 'projection'> & { projection?: TProjection }
     ): Promise<ProjectionType<TSchema, TProjection> | null> {
       return model.collection.findOne(
         filter as Filter<TSchema>,
-        options as FindOptions<TSchema>
+        options as FindOptions
       ) as unknown as ProjectionType<TSchema, TProjection> | null;
     }
   );

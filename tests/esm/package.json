@@ -2,6 +2,6 @@
   "type": "module",
   "dependencies": {
     "papr": "file:../../build/package",
-    "mongodb": "6.10.0"
+    "mongodb": "7.0.0"
   }
 }

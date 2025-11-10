@@ -181,10 +181,10 @@ Performs an optimized `find` to test for the existence of any document matching 
 
 **Parameters:**
 
-| Name      | Type                                                                        | Attribute |
-| --------- | --------------------------------------------------------------------------- | --------- |
-| `filter`  | `PaprFilter<TSchema>`                                                       | required  |
-| `options` | `Omit<FindOptions<TSchema>, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
+| Name      | Type                                                               | Attribute |
+| --------- | ------------------------------------------------------------------ | --------- |
+| `filter`  | `PaprFilter<TSchema>`                                              | required  |
+| `options` | `Omit<FindOptions, ("projection" \| "limit" \| "sort" \| "skip")>` | optional  |
 
 **Returns:**
 
@@ -208,10 +208,10 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `filter`  | `PaprFilter<TSchema>`  | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `FindOptions`         | optional  |
 
 **Returns:**
 
@@ -240,7 +240,7 @@ The result type (`TProjected`) takes into account the projection for this query 
 | Name      | Type                    | Attribute |
 | --------- | ----------------------- | --------- |
 | `id`      | `string \| TSchema._id` | required  |
-| `options` | `FindOptions<TSchema>`  | optional  |
+| `options` | `FindOptions`           | optional  |
 
 **Returns:**
 
@@ -269,10 +269,10 @@ memory at once.
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `filter`  | `PaprFilter<TSchema>`  | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `FindOptions`         | optional  |
 
 **Example:**
 
@@ -295,10 +295,10 @@ The result type (`TProjected`) takes into account the projection for this query 
 
 **Parameters:**
 
-| Name      | Type                   | Attribute |
-| --------- | ---------------------- | --------- |
-| `filter`  | `PaprFilter<TSchema>`  | required  |
-| `options` | `FindOptions<TSchema>` | optional  |
+| Name      | Type                  | Attribute |
+| --------- | --------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>` | required  |
+| `options` | `FindOptions`         | optional  |
 
 **Returns:**
 
