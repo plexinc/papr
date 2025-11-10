@@ -71,9 +71,6 @@ importers:
       mongoose:
         specifier: 8.8.1
         version: 8.8.1(socks@2.7.1)
-      pinst:
-        specifier: 3.0.0
-        version: 3.0.0
       prettier:
         specifier: 3.4.2
         version: 3.4.2
@@ -2447,11 +2444,6 @@ packages:
   pify@3.0.0:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
-
-  pinst@3.0.0:
-    resolution: {integrity: sha512-cengSmBxtCyaJqtRSvJorIIZXMXg+lJ3sIljGmtBGUVonMnMsVJbnzl6jGN1HkOWwxNuJynCJ2hXxxqCQrFDdw==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
 
   pkg-dir@4.2.0:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
@@ -5659,8 +5651,6 @@ snapshots:
   pify@2.3.0: {}
 
   pify@3.0.0: {}
-
-  pinst@3.0.0: {}
 
   pkg-dir@4.2.0:
     dependencies:
