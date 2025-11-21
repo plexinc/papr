@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [16.0.0](https://github.com/plexinc/papr/compare/v15.3.0...v16.0.0) (2025-11-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* Requires node.js >=v20.19.0
+* Requires mongodb >=v7.0.0
+
+### Features
+
+* Upgrade MongoDB v7 ([#1023](https://github.com/plexinc/papr/issues/1023)) ([36c5af9](https://github.com/plexinc/papr/commit/36c5af9aca56ffd691e94b2cd9700aec3eedaa16))
+
 ## [15.3.0](https://github.com/plexinc/papr/compare/v15.2.2...v15.3.0) (2025-10-28)
 
 
