@@ -194,8 +194,17 @@ export type RequireAtLeastOne<TObj, Keys extends keyof TObj = keyof TObj> = {
 }[Keys] &
   Pick<TObj, Exclude<keyof TObj, Keys>>;
 
-export function getIds(ids: Set<string> | readonly (ObjectId | string)[]): ObjectId[] {
-  return [...ids].map((id) => new ObjectId(id));
+export type ObjectIdConstructorParameter = ConstructorParameters<typeof ObjectId>[0];
+export function getIds(ids: Iterable<ObjectIdConstructorParameter>): ObjectId[] {
+  return Array.from(ids).flatMap((id) => {
+    try {
+      return new ObjectId(id);
+    } catch {
+      // Intentionally empty
+    }
+
+    return [];
+  });
 }
 
 /**
