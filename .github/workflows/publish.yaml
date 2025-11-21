@@ -1,0 +1,32 @@
+# https://docs.npmjs.com/trusted-publishers
+
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.0
+        with:
+          filter: tree:0
+      - uses: pnpm/action-setup@v4.2.0
+      - uses: actions/setup-node@v6.0.0
+        with:
+          node-version: 24.x
+          registry-url: "https://registry.npmjs.org"
+          cache: pnpm
+
+      - run: pnpm install
+      - run: pnpm lint:ci
+      - run: pnpm pretty:ci
+      - run: pnpm test
+      - run: npm publish
