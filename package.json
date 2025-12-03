@@ -68,7 +68,7 @@
     "husky": "9.1.4",
     "jsdoc-api": "9.3.4",
     "jsdoc-parse": "6.2.4",
-    "lint-staged": "15.4.0",
+    "lint-staged": "15.5.2",
     "mongodb": "7.0.0",
     "mongodb-memory-server": "10.1.2",
     "mongoose": "8.8.1",
