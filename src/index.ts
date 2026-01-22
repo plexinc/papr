@@ -1,8 +1,10 @@
 import { Db } from 'mongodb';
-import { abstract, build, Model } from './model';
-import { SchemaOptions } from './schema';
-import types from './types';
-import { BaseSchema, ModelOptions } from './utils';
+import { abstract, build } from './model.ts';
+import types from './types.ts';
+
+import type { Model } from './model.ts';
+import type { SchemaOptions } from './schema.ts';
+import type { BaseSchema, ModelOptions } from './utils.ts';
 
 export default class Papr {
   db?: Db;
@@ -176,8 +178,8 @@ export default class Papr {
 }
 
 export { types, types as Types };
-export * from './hooks';
-export * from './model';
-export * from './mongodbTypes';
-export * from './schema';
-export * from './utils';
+export * from './hooks.ts';
+export * from './model.ts';
+export * from './mongodbTypes.ts';
+export * from './schema.ts';
+export * from './utils.ts';

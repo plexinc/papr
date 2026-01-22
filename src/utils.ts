@@ -1,11 +1,9 @@
-/* eslint-disable no-use-before-define */
-
 import { ObjectId } from 'mongodb';
 import type { Join, KeysOfAType, OptionalId, WithId } from 'mongodb';
-import type { DeepPick } from './DeepPick';
-import type { Hooks } from './hooks';
-import type { PaprBulkWriteOperation, PaprUpdateFilter } from './mongodbTypes';
-import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema';
+import type { DeepPick } from './DeepPick.ts';
+import type { Hooks } from './hooks.ts';
+import type { PaprBulkWriteOperation, PaprUpdateFilter } from './mongodbTypes.ts';
+import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema.ts';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md

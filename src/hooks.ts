@@ -1,5 +1,6 @@
 import { inspect } from 'util';
-import { HookMethodsNames } from './model';
+
+import type { HookMethodsNames } from './model.ts';
 
 export type Log = (message: string) => void;
 

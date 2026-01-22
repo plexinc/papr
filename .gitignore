@@ -1,5 +1,4 @@
-/cjs
-/esm
+/lib
 /tmp
 node_modules
 tests/*/dist

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-use-before-define */
 
 import type {
   AlternativeType,
@@ -26,8 +25,9 @@ import type {
   UpdateOneModel,
   WithId,
 } from 'mongodb';
-import { SchemaOptions } from './schema';
-import { DocumentForInsert, NestedPaths, PropertyType } from './utils';
+
+import type { SchemaOptions } from './schema.ts';
+import type { DocumentForInsert, NestedPaths, PropertyType } from './utils.ts';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md

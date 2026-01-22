@@ -212,9 +212,8 @@ export default typescriptEslint.config(
     // prettier-ignore
     ignores: [
       'build/**',
-      'cjs/**',
       'docs/**',
-      'esm/**',
+      'lib/**',
       'tests/*/dist/**',
       'tmp/**'
     ],

@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
-    "lib": ["ES2020"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "lib": ["es2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noEmit": true,
     "noErrorTruncation": true,
     "noImplicitReturns": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
+    "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,
     "strict": true,
     "strictFunctionTypes": false,
-    "target": "ESNext",
-    "types": ["node"]
+    "target": "es2023",
+    "types": ["node"],
+    "verbatimModuleSyntax": true
   },
   "include": ["./example", "./src"]
 }

@@ -1,4 +1,3 @@
 build/
-cjs/
 docs/CHANGELOG.md
-esm/
+lib/

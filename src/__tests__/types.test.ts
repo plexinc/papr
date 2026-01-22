@@ -2,7 +2,7 @@ import { deepStrictEqual } from 'node:assert';
 import { describe, test } from 'node:test';
 import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
-import types from '../types';
+import types from '../types.ts';
 
 enum TEST_ENUM {
   FOO = 'foo',

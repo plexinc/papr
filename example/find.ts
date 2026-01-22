@@ -1,5 +1,5 @@
-import User from './User';
-import { connect, disconnect } from './papr';
+import User from './User.ts';
+import { connect, disconnect } from './papr.ts';
 
 await connect();
 

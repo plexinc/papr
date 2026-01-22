@@ -16,18 +16,13 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.12.0"
   },
   "type": "module",
-  "types": "./esm/index.d.ts",
-  "main": "./cjs/index.js",
-  "exports": {
-    "import": "./esm/index.js",
-    "require": "./cjs/index.js"
-  },
+  "types": "./lib/index.d.ts",
+  "exports": "./lib/index.js",
   "files": [
-    "cjs/*",
-    "esm/*"
+    "lib/*"
   ],
   "repository": {
     "type": "git",
@@ -38,7 +33,7 @@
     "url": "https://github.com/plexinc/papr/issues/new"
   },
   "scripts": {
-    "build": "./build.sh",
+    "build": "pnpm tsc --project ./tsconfig-build.json",
     "build:docs": "node docs/build.js",
     "docs": "pnpm build:docs && docsify serve ./docs",
     "benchmark": "pnpm build && node --experimental-specifier-resolution=node ./benchmark/run.js",

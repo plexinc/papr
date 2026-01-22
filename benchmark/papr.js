@@ -1,4 +1,4 @@
-import { schema, types } from '../esm/index.js';
+import { schema, types } from '../lib/index.js';
 import { papr, COLLECTIONS } from './setup.js';
 
 const sampleSchema = schema(

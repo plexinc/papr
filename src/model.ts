@@ -23,21 +23,24 @@ import type {
   UpdateResult,
   WithId,
 } from 'mongodb';
-import { serializeArguments } from './hooks';
-import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes';
-import { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema';
+import { serializeArguments } from './hooks.ts';
 import {
-  BaseSchema,
   cleanSetOnInsert,
-  DocumentForInsert,
   getDefaultValues,
   getTimestampProperty,
+  timestampBulkWriteOperation,
+  timestampUpdateFilter,
+} from './utils.ts';
+
+import type {
+  BaseSchema,
+  DocumentForInsert,
   ModelOptions,
   Projection,
   ProjectionType,
-  timestampBulkWriteOperation,
-  timestampUpdateFilter,
-} from './utils';
+} from './utils.ts';
+import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes.ts';
+import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema.ts';
 
 export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>> {
   collection: Collection<TSchema>;

@@ -1,6 +1,7 @@
 import { Binary, ObjectId, Decimal128 } from 'mongodb';
-import { TupleItems } from './TupleItems';
-import { Flatten } from './utils';
+
+import type { TupleItems } from './TupleItems.ts';
+import type { Flatten } from './utils.ts';
 
 // These options are based on the available keywords from:
 // https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/#json-schema

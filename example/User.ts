@@ -1,5 +1,5 @@
-import { types, schema } from '../src';
-import papr from './papr';
+import { schema, types } from '../src/index.ts';
+import papr from './papr.ts';
 
 const userSchema = schema(
   {
