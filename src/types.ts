@@ -1,7 +1,7 @@
 import { Binary, ObjectId, Decimal128 } from 'mongodb';
 
 import type { TupleItems } from './TupleItems.ts';
-import type { Flatten } from './utils.ts';
+import type { ObjectType } from './utils.ts';
 
 // These options are based on the available keywords from:
 // https://docs.mongodb.com/manual/reference/operator/query/jsonSchema/#json-schema
@@ -59,22 +59,6 @@ type GetType<Type, Options> = Options extends RequiredOptions
     ? Type
     : Type | undefined
   : Type | undefined;
-
-export type RequiredProperties<Properties> = {
-  [Prop in keyof Properties]: undefined extends Properties[Prop] ? never : Prop;
-}[keyof Properties];
-
-export type OptionalProperties<Properties> = Exclude<
-  keyof Properties,
-  RequiredProperties<Properties>
->;
-
-// We define properties which extend `undefined` as true optional properties `[Prop]?: Value`
-export type ObjectType<Properties> = Flatten<
-  Pick<Properties, NonNullable<RequiredProperties<Properties>>> & {
-    [Prop in OptionalProperties<Properties>]?: Properties[Prop];
-  }
->;
 
 /**
  * @module intro

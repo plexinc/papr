@@ -23,6 +23,22 @@ export interface BaseSchema {
   _id: ObjectId | number | string;
 }
 
+export type RequiredProperties<Properties> = {
+  [Prop in keyof Properties]: undefined extends Properties[Prop] ? never : Prop;
+}[keyof Properties];
+
+export type OptionalProperties<Properties> = Exclude<
+  keyof Properties,
+  RequiredProperties<Properties>
+>;
+
+// We define properties which extend `undefined` as true optional properties `[Prop]?: Value`
+export type ObjectType<Properties> = Flatten<
+  Pick<Properties, NonNullable<RequiredProperties<Properties>>> & {
+    [Prop in OptionalProperties<Properties>]?: Properties[Prop];
+  }
+>;
+
 type TimestampSchemaProperty<
   TProperty extends keyof Exclude<SchemaTimestampOptions, boolean>,
   TOptions extends SchemaTimestampOptions | undefined,
@@ -73,9 +89,9 @@ export type DocumentForInsert<
         Partial<TimestampSchema<TOptions['timestamps']>>
   : DocumentForInsertWithoutDefaults<TSchema, TDefaults>;
 
-export type Identity<Type> = Type;
+type Identity<Type> = Type;
 
-export type Flatten<Type extends object> = Identity<{
+type Flatten<Type extends object> = Identity<{
   [Key in keyof Type]: Type[Key];
 }>;
 

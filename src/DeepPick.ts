@@ -2,7 +2,7 @@
 
 import type { Binary, ObjectId } from 'mongodb';
 
-import type { ObjectType } from './types.ts';
+import type { ObjectType } from './utils.ts';
 
 type UnionKeyOf<Type> = Type extends infer T ? keyof T : never;
 
