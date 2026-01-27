@@ -1,7 +1,9 @@
 import { test } from 'node:test';
+
 import { expectType } from 'ts-expect';
 
 import type { TypeEqual } from 'ts-expect';
+
 import type { TupleItems } from '../TupleItems.ts';
 
 // with required properties

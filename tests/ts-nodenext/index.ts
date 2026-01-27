@@ -1,8 +1,10 @@
 import assert from 'assert';
+
 import { MongoClient, ObjectId } from 'mongodb';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { expectType } from 'ts-expect';
+// eslint-disable-next-line import/no-unresolved
 import Papr, { schema, types } from 'papr';
+import { expectType } from 'ts-expect';
 
 const COLLECTION = 'samples';
 const DB = 'ts-nodenext';

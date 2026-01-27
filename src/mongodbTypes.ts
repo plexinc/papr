@@ -3,10 +3,10 @@
 import type {
   AlternativeType,
   ArrayElement,
-  BitwiseFilter,
   BSONRegExp,
   BSONType,
   BSONTypeAlias,
+  BitwiseFilter,
   DeleteManyModel,
   DeleteOneModel,
   Document,

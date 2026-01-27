@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
 import { before, beforeEach, describe, mock, test } from 'node:test';
+
 import { Collection, Db } from 'mongodb';
+
 import { schema } from '../schema.ts';
 import types from '../types.ts';
 import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils.ts';
+
 import { expectToBeCalledOnceWith } from './assert.ts';
 
 import type { Mock } from 'node:test';
@@ -72,6 +74,7 @@ describe('index', () => {
 
       const testModel = papr.model(COLLECTION, testSchema1);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       await rejects(papr.updateSchema(testModel), /DB/);
     });
 
@@ -82,6 +85,7 @@ describe('index', () => {
 
       papr.db = db;
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return rejects(papr.updateSchema(testModel), /collection/);
     });
 

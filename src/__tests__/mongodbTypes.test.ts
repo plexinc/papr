@@ -1,7 +1,8 @@
 import { describe, test } from 'node:test';
+
 import {
-  Binary,
   BSONSymbol,
+  Binary,
   Code,
   DBRef,
   Decimal128,

@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+
 import Papr from '../src/index.ts';
 
 export let client: MongoClient;

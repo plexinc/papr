@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { strictEqual } from 'node:assert';
 import { after, before, beforeEach, describe, mock, test } from 'node:test';
+
 import { Collection, Db } from 'mongodb';
+
 import { schema } from '../schema.ts';
 import types from '../types.ts';
+
 import { expectToBeCalledOnceWith } from './assert.ts';
 
 import type { Mock } from 'node:test';

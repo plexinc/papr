@@ -1,4 +1,4 @@
-import { Binary, ObjectId, Decimal128 } from 'mongodb';
+import { Binary, Decimal128, ObjectId } from 'mongodb';
 
 import type { TupleItems } from './TupleItems.ts';
 import type { ObjectType } from './utils.ts';
