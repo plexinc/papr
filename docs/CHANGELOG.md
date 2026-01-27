@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [17.0.0](https://github.com/plexinc/papr/compare/v16.0.0...v17.0.0) (2026-01-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Published as an ESM package. Requires node.js >=22.12.0.
+
+### Code Refactoring
+
+* Convert to ESM package ([#1027](https://github.com/plexinc/papr/issues/1027)) ([097d254](https://github.com/plexinc/papr/commit/097d25456be7e22358e77af4cbc01f2cc50b9f84))
+
 ## [16.0.0](https://github.com/plexinc/papr/compare/v15.3.0...v16.0.0) (2025-11-10)
 
 
