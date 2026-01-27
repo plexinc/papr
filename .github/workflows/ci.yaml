@@ -13,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - 20.x
           - 22.x
           - 24.x
         mongodb:
