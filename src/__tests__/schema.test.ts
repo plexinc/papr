@@ -2,9 +2,9 @@ import { deepStrictEqual } from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { ObjectId, Binary, Decimal128 } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { schema } from '../schema';
-import types from '../types';
-import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
+import { schema } from '../schema.ts';
+import types from '../types.ts';
+import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils.ts';
 
 enum TEST_ENUM {
   FOO = 'foo',

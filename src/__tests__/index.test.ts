@@ -4,11 +4,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { strictEqual } from 'node:assert';
-import { after, before, beforeEach, describe, Mock, mock, test } from 'node:test';
+import { after, before, beforeEach, describe, mock, test } from 'node:test';
 import { Collection, Db } from 'mongodb';
-import { schema } from '../schema';
-import types from '../types';
-import { expectToBeCalledOnceWith } from './assert';
+import { schema } from '../schema.ts';
+import types from '../types.ts';
+import { expectToBeCalledOnceWith } from './assert.ts';
+
+import type { Mock } from 'node:test';
 
 describe('index', () => {
   let db: Omit<Db, 'collection' | 'collections' | 'command' | 'createCollection'> & {
@@ -58,8 +60,8 @@ describe('index', () => {
       });
       console.log('modelMock', modelMock);
 
-      Papr = (await import('../index')).default;
-      model = await import('../model');
+      Papr = (await import('../index.ts')).default;
+      model = await import('../model.ts');
     });
 
     after(() => {

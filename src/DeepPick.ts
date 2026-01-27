@@ -1,9 +1,8 @@
-/* eslint-disable no-use-before-define */
 // Code adapted from https://gitlab.com/soul-codes/ts-deep-pick
 
 import type { Binary, ObjectId } from 'mongodb';
 
-import { ObjectType } from './types';
+import type { ObjectType } from './utils.ts';
 
 type UnionKeyOf<Type> = Type extends infer T ? keyof T : never;
 

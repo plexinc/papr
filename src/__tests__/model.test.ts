@@ -1,14 +1,16 @@
-// import { expect } from 'expect';
 import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
-import { afterEach, beforeEach, describe, Mock, mock, test } from 'node:test';
+import { afterEach, beforeEach, describe, mock, test } from 'node:test';
 import { Collection, FindCursor, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { Hooks } from '../hooks';
-import { abstract, build, Model } from '../model';
-import { PaprBulkWriteOperation } from '../mongodbTypes';
-import { schema } from '../schema';
-import Types from '../types';
-import { expectToBeCalledOnceWith } from './assert';
+import { abstract, build } from '../model.ts';
+import { schema } from '../schema.ts';
+import Types from '../types.ts';
+import { expectToBeCalledOnceWith } from './assert.ts';
+
+import type { Model } from '../model.ts';
+import type { PaprBulkWriteOperation } from '../mongodbTypes.ts';
+import type { Hooks } from '../hooks.ts';
+import type { Mock } from 'node:test';
 
 const MOCK_DATE = new Date(1234567890000);
 

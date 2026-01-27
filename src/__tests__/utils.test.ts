@@ -2,8 +2,10 @@ import { deepStrictEqual, equal, ok } from 'node:assert/strict';
 import { describe, test } from 'node:test';
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { DefaultsOption } from '../schema';
-import { NestedPaths, ProjectionType, getIds, PropertyType, getDefaultValues } from '../utils';
+import { getIds, getDefaultValues } from '../utils.ts';
+
+import type { DefaultsOption } from '../schema.ts';
+import type { NestedPaths, ProjectionType, PropertyType } from '../utils.ts';
 
 describe('utils', () => {
   interface TestDocument {

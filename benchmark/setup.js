@@ -1,7 +1,7 @@
 import arg from 'arg';
 import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
-import Papr from '../esm/index.js';
+import Papr from '../lib/index.js';
 
 const help = `
   USAGE

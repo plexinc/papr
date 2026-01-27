@@ -1,8 +1,7 @@
 export default {
   testPathIgnorePatterns: [
     '<rootDir>/build/',
-    '<rootDir>/cjs/',
-    '<rootDir>/esm/',
+    '<rootDir>/lib/',
     '<rootDir>/node_modules/',
     '<rootDir>/tmp/',
   ],

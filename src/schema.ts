@@ -1,12 +1,8 @@
-import { WithId } from 'mongodb';
-import types, { ObjectType } from './types';
-import {
-  TimestampSchema,
-  RequireAtLeastOne,
-  VALIDATION_ACTIONS,
-  VALIDATION_LEVEL,
-  getTimestampProperty,
-} from './utils';
+import types from './types.ts';
+import { VALIDATION_ACTIONS, VALIDATION_LEVEL, getTimestampProperty } from './utils.ts';
+
+import type { WithId } from 'mongodb';
+import type { ObjectType, RequireAtLeastOne, TimestampSchema } from './utils.ts';
 
 export type SchemaTimestampOptions =
   | RequireAtLeastOne<{

@@ -13,7 +13,8 @@ import {
   ObjectId,
 } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { PaprFilter, PaprUpdateFilter } from '../mongodbTypes';
+
+import type { PaprFilter, PaprUpdateFilter } from '../mongodbTypes.ts';
 
 describe('mongodb types', () => {
   interface TestDocument {

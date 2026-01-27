@@ -4,12 +4,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
-import { before, beforeEach, describe, Mock, mock, test } from 'node:test';
+import { before, beforeEach, describe, mock, test } from 'node:test';
 import { Collection, Db } from 'mongodb';
-import { schema } from '../schema';
-import types from '../types';
-import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils';
-import { expectToBeCalledOnceWith } from './assert';
+import { schema } from '../schema.ts';
+import types from '../types.ts';
+import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils.ts';
+import { expectToBeCalledOnceWith } from './assert.ts';
+
+import type { Mock } from 'node:test';
 
 describe('index', () => {
   let db: Omit<Db, 'collection' | 'collections' | 'command' | 'createCollection'> & {
@@ -62,7 +64,7 @@ describe('index', () => {
     let Papr: any;
 
     before(async () => {
-      Papr = (await import('../index')).default;
+      Papr = (await import('../index.ts')).default;
     });
 
     test('no db', async () => {

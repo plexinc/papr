@@ -1,5 +1,6 @@
 import { deepStrictEqual, strictEqual } from 'assert/strict';
-import { Mock } from 'node:test';
+
+import type { Mock } from 'node:test';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function expectToBeCalledOnceWith<TFunction extends Function>(

@@ -1,7 +1,8 @@
-import type { ObjectId } from 'mongodb';
-import { expectType, TypeEqual } from 'ts-expect';
+import { expectType } from 'ts-expect';
 
-import type { DeepPick } from '../DeepPick';
+import type { ObjectId } from 'mongodb';
+import type { TypeEqual } from 'ts-expect';
+import type { DeepPick } from '../DeepPick.ts';
 
 expectType<TypeEqual<DeepPick<{ a: 0; b: 0 }, 'a'>, { a: 0 }>>(true);
 expectType<TypeEqual<DeepPick<{ a: 0; b: 0 }, 'b'>, { b: 0 }>>(true);
