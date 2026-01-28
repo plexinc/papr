@@ -6,11 +6,10 @@ import { COLLECTIONS } from './setup.js';
 function isValidUrl(value) {
   try {
     // native url package will throw a TypeError on invalid urls
-    // eslint-disable-next-line no-new
+
     new URL(value);
     return true;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err) {
+  } catch {
     return false;
   }
 }

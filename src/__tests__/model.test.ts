@@ -1,16 +1,20 @@
 import { deepStrictEqual, rejects, strictEqual } from 'node:assert';
 import { afterEach, beforeEach, describe, mock, test } from 'node:test';
+
 import { Collection, FindCursor, MongoError, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
+
 import { abstract, build } from '../model.ts';
 import { schema } from '../schema.ts';
 import Types from '../types.ts';
+
 import { expectToBeCalledOnceWith } from './assert.ts';
 
+import type { Mock } from 'node:test';
+
+import type { Hooks } from '../hooks.ts';
 import type { Model } from '../model.ts';
 import type { PaprBulkWriteOperation } from '../mongodbTypes.ts';
-import type { Hooks } from '../hooks.ts';
-import type { Mock } from 'node:test';
 
 const MOCK_DATE = new Date(1234567890000);
 
@@ -1209,7 +1213,7 @@ describe('model', () => {
         return input;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       results = testProjected(results);
     });
   });

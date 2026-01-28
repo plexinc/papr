@@ -1,7 +1,9 @@
 import { deepStrictEqual } from 'node:assert/strict';
 import { describe, test } from 'node:test';
-import { ObjectId, Binary, Decimal128 } from 'mongodb';
+
+import { Binary, Decimal128, ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
+
 import { schema } from '../schema.ts';
 import types from '../types.ts';
 import { VALIDATION_ACTIONS, VALIDATION_LEVEL } from '../utils.ts';
@@ -527,7 +529,9 @@ describe('schema', () => {
   test('full', () => {
     const value = schema(
       {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         anyOptional: types.any(),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         anyRequired: types.any({ required: true }),
         arrayOfObjects: types.array(
           types.object({
@@ -913,7 +917,9 @@ describe('schema', () => {
   test('explicit optional - full', () => {
     const value = schema(
       {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         anyOptional: types.any({ required: false }),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         anyRequired: types.any({ required: true }),
         arrayOfObjects: types.array(
           types.object({

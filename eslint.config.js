@@ -1,35 +1,40 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import eslintJS from '@eslint/js';
-// import importPlugin from 'eslint-plugin-import';
+import { defineConfig } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import promisePlugin from 'eslint-plugin-promise';
 import globals from 'globals';
-import typescriptEslint from 'typescript-eslint';
+import tseslint from 'typescript-eslint';
 
-const compat = new FlatCompat();
-
-export default typescriptEslint.config(
+export default defineConfig(
   eslintJS.configs.recommended,
 
   // TypeScript rules
-  ...typescriptEslint.configs.recommendedTypeChecked,
+  // Breaking this config up because the `typescript-eslint/recommended` config is applied without a `files` filter.
+  tseslint.configs.recommended.find((config) => config.name === 'typescript-eslint/base') || {},
+  tseslint.configs.recommended.find(
+    (config) => config.name === 'typescript-eslint/eslint-recommended'
+  ) || {},
   {
     files: ['**/*.js'],
-    ...typescriptEslint.configs.disableTypeChecked,
+    ...tseslint.configs.disableTypeChecked,
   },
   {
     files: ['**/*.ts'],
     languageOptions: {
-      ecmaVersion: 2022,
       parserOptions: {
         project: [
           './tsconfig.json',
           './tests/ts/tsconfig.json',
           './tests/ts-nodenext/tsconfig.json',
         ],
-        tsconfigRootDir: '.',
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
+      ...tseslint.configs.recommended.find(
+        (config) => config.name === 'typescript-eslint/recommended'
+      )?.rules,
       '@typescript-eslint/array-type': [
         'error',
         {
@@ -44,13 +49,6 @@ export default typescriptEslint.config(
           'ts-expect-error': 'allow-with-description',
           'ts-ignore': true,
           'ts-nocheck': false,
-        },
-      ],
-      '@typescript-eslint/brace-style': [
-        'error',
-        '1tbs',
-        {
-          allowSingleLine: true,
         },
       ],
       '@typescript-eslint/consistent-indexed-object-style': ['error'],
@@ -76,7 +74,6 @@ export default typescriptEslint.config(
         },
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'warn',
-      '@typescript-eslint/member-delimiter-style': 'warn',
       '@typescript-eslint/member-ordering': 'error',
       '@typescript-eslint/method-signature-style': 'error',
       '@typescript-eslint/naming-convention': [
@@ -92,8 +89,6 @@ export default typescriptEslint.config(
       ],
       '@typescript-eslint/no-dynamic-delete': 'warn',
       '@typescript-eslint/no-empty-interface': 'off',
-      '@typescript-eslint/no-extra-parens': ['error', 'functions'],
-      '@typescript-eslint/no-extra-semi': 'error',
       '@typescript-eslint/no-extraneous-class': 'error',
       '@typescript-eslint/no-restricted-types': 'warn',
       '@typescript-eslint/no-unnecessary-type-arguments': 'error',
@@ -112,7 +107,6 @@ export default typescriptEslint.config(
         },
       ],
       '@typescript-eslint/no-useless-constructor': 'warn',
-      '@typescript-eslint/object-curly-spacing': ['error', 'always'],
       '@typescript-eslint/parameter-properties': 'error',
       '@typescript-eslint/prefer-for-of': 'error',
       '@typescript-eslint/prefer-includes': 'error',
@@ -120,61 +114,57 @@ export default typescriptEslint.config(
       '@typescript-eslint/prefer-regexp-exec': 'error',
       '@typescript-eslint/prefer-string-starts-ends-with': 'error',
       '@typescript-eslint/prefer-ts-expect-error': 'error',
-      '@typescript-eslint/quotes': [
-        'error',
-        'single',
-        {
-          allowTemplateLiterals: true,
-        },
-      ],
       '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/semi': 'error',
       '@typescript-eslint/sort-type-constituents': 'error',
-      '@typescript-eslint/type-annotation-spacing': 'error',
       '@typescript-eslint/unified-signatures': 'error',
     },
   },
 
-  // This config does not support the flat config yet
-  // https://github.com/standard/eslint-config-standard/issues/411
-  ...compat.extends('eslint-config-standard'),
-
-  // This plugin does not support the flat config yet
-  // https://github.com/import-js/eslint-plugin-import/issues/2556
-  // https://github.com/import-js/eslint-plugin-import/issues/2948
-  // {
-  //   files: ['**/*.js', '**/*.mjs', '**/*.ts'],
-  //   languageOptions: {
-  //     parser: typescriptEslint.parser
-  //   },
-  //   plugins: {
-  //     import: importPlugin,
-  //   },
-  //   rules: {
-  //     ...importPlugin.configs.recommended.rules,
-  //     'import/no-named-as-default': 'off',
-  //     'import/no-named-as-default-member': 'off',
-  //     'import/order': [
-  //       'error',
-  //       {
-  //         alphabetize: {
-  //           'order': 'asc'
-  //         }
-  //       }
-  //     ],
-  //   }
-  // },
+  {
+    extends: [importPlugin.flatConfigs.recommended, importPlugin.flatConfigs.typescript],
+    files: ['**/*.ts'],
+    rules: {
+      'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
+      'import/default': 'off',
+      'import/extensions': ['error', 'always', { checkTypeImports: true }],
+      'import/first': 'error',
+      'import/named': 'off',
+      'import/namespace': 'off',
+      'import/newline-after-import': 'error',
+      'import/no-absolute-path': 'error',
+      'import/no-commonjs': 'off',
+      'import/no-duplicates': 'error',
+      'import/no-dynamic-require': 'error',
+      'import/no-named-as-default': 'warn',
+      'import/no-named-as-default-member': 'off',
+      'import/no-relative-parent-imports': 'error',
+      'import/no-self-import': 'error',
+      'import/no-unresolved': ['error'],
+      'import/no-useless-path-segments': 'error',
+      'import/order': [
+        'error',
+        {
+          alphabetize: { order: 'asc' },
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
+          named: true,
+          'newlines-between': 'always',
+          pathGroupsExcludedImportTypes: ['builtin'],
+          sortTypesGroup: true,
+        },
+      ],
+    },
+  },
 
   {
-    files: ['**/*.js', '**/*.mjs', '**/*.ts'],
+    files: ['**/*.js', '**/*.ts'],
     ...promisePlugin.configs['flat/recommended'],
   },
 
-  ...compat.extends('eslint-config-prettier'),
+  eslintConfigPrettier,
 
   // All files
   {
-    files: ['**/*.js', '**/*.mjs', '**/*.ts'],
+    files: ['**/*.js', '**/*.ts'],
     languageOptions: {
       ecmaVersion: 2024,
       globals: {
@@ -183,8 +173,15 @@ export default typescriptEslint.config(
       sourceType: 'module',
     },
     rules: {
-      'no-use-before-define': 'warn',
       'sort-keys': 'warn',
+    },
+  },
+
+  // Example files
+  {
+    files: ['example/**/*.ts'],
+    rules: {
+      'import/no-relative-parent-imports': 'off',
     },
   },
 
@@ -195,6 +192,7 @@ export default typescriptEslint.config(
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/unbound-method': 'off',
+      'import/no-relative-parent-imports': 'off',
       'no-unused-expressions': 'off',
     },
   },

@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { deepStrictEqual, equal, ok } from 'node:assert/strict';
 import { describe, test } from 'node:test';
+
 import { ObjectId } from 'mongodb';
 import { expectType } from 'ts-expect';
-import { getIds, getDefaultValues } from '../utils.ts';
+
+import { getDefaultValues, getIds } from '../utils.ts';
 
 import type { DefaultsOption } from '../schema.ts';
 import type { NestedPaths, ProjectionType, PropertyType } from '../utils.ts';

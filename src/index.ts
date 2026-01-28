@@ -1,4 +1,5 @@
 import { Db } from 'mongodb';
+
 import { abstract, build } from './model.ts';
 import types from './types.ts';
 

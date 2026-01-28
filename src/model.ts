@@ -1,4 +1,14 @@
 import { MongoError, ObjectId } from 'mongodb';
+
+import { serializeArguments } from './hooks.ts';
+import {
+  cleanSetOnInsert,
+  getDefaultValues,
+  getTimestampProperty,
+  timestampBulkWriteOperation,
+  timestampUpdateFilter,
+} from './utils.ts';
+
 import type {
   AggregateOptions,
   AnyBulkWriteOperation,
@@ -23,15 +33,9 @@ import type {
   UpdateResult,
   WithId,
 } from 'mongodb';
-import { serializeArguments } from './hooks.ts';
-import {
-  cleanSetOnInsert,
-  getDefaultValues,
-  getTimestampProperty,
-  timestampBulkWriteOperation,
-  timestampUpdateFilter,
-} from './utils.ts';
 
+import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes.ts';
+import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema.ts';
 import type {
   BaseSchema,
   DocumentForInsert,
@@ -39,8 +43,6 @@ import type {
   Projection,
   ProjectionType,
 } from './utils.ts';
-import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes.ts';
-import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema.ts';
 
 export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOptions<TSchema>> {
   collection: Collection<TSchema>;
