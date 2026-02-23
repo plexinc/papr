@@ -609,7 +609,7 @@ export default {
    * schema({
    *   optionalString: types.string(),
    *   requiredString: types.string({ required: true }),
-   *   stringWithAllOptions: types.number({
+   *   stringWithAllOptions: types.string({
    *     enum: ['foo', 'bar'],
    *     maxLength: 3,
    *     minLength: 1,
