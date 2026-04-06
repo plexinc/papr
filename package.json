@@ -54,7 +54,7 @@
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@eslint/js": "9.39.2",
-    "@types/node": "24.9.1",
+    "@types/node": "24.12.0",
     "arg": "5.0.2",
     "docsify-cli": "4.4.4",
     "eslint": "9.39.2",
@@ -110,7 +110,7 @@
     "trailingComma": "es5"
   },
   "volta": {
-    "node": "24.10.0"
+    "node": "24.14.1"
   },
   "packageManager": "pnpm@10.28.1"
 }
