@@ -59,7 +59,7 @@ export default class Papr {
       return;
     }
 
-    if (typeof db.client.appendMetadata === 'function') {
+    if (typeof db.client?.appendMetadata === 'function') {
       db.client.appendMetadata({ name: 'Papr', version });
     }
 
