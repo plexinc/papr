@@ -16,6 +16,7 @@
     "strictFunctionTypes": false,
     "target": "es2023",
     "types": ["node"],
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true
   },
   "include": ["./example", "./src"]
