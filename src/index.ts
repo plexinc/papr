@@ -1,4 +1,5 @@
 import { Db } from 'mongodb';
+import { version } from '../package.json' with { type: 'json' };
 
 import { abstract, build } from './model.ts';
 import types from './types.ts';
@@ -56,6 +57,10 @@ export default class Papr {
   initialize(db: Db): void {
     if (this.db) {
       return;
+    }
+
+    if (typeof db.client?.appendMetadata === 'function') {
+      db.client.appendMetadata({ name: 'Papr', version });
     }
 
     this.db = db;
