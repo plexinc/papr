@@ -75,7 +75,7 @@
     "ts-node": "10.9.2",
     "tsx": "4.21.0",
     "typescript": "5.7.3",
-    "typescript-eslint": "8.54.0"
+    "typescript-eslint": "8.58.1"
   },
   "peerDependencies": {
     "mongodb": "^7.0.0"
