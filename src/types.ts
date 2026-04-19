@@ -200,7 +200,6 @@ export function oneOf<Types extends any[], Options extends GenericOptions>(
 ): GetType<Exclude<Types[number], undefined>, Options> {
   const { required } = options || {};
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...(required ? { $required: true } : {}),
     oneOf: required

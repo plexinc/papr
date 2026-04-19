@@ -122,7 +122,6 @@ Reviewers should use the following questions to evaluate the implementation for 
      - easier to maintain (easier to change, harder to accidentally break)
 
 - Housekeeping
-
   1. Does the title and description of the PR reference the correct issue and does it use the correct conventional commit type (e.g., fix, feat, test, breaking change etc)?
   1. If there are new TODOs, has a related issue been created?
   1. Should any documentation be updated?

@@ -445,7 +445,7 @@ describe('utils', () => {
       [
         'invalid values',
         {
-          input: ['123', '123456789012345678900021'],
+          input: ['123', '123456789012345678900021', undefined],
           expected: [new ObjectId('123456789012345678900021')],
         },
       ],
@@ -455,9 +455,6 @@ describe('utils', () => {
       const [caseName, { input, expected }] = testCase;
 
       test(`case ${caseName}`, () => {
-        // Given
-        ok(expected.length <= input.length);
-
         // When
         const actual = getIds(input);
 
