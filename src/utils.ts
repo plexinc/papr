@@ -127,7 +127,7 @@ export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 
     ? []
     : Type extends readonly (infer ArrayType)[]
       ? // This returns the non-indexed dot-notation path: e.g. `foo.bar`
-        | [...NestedPaths<ArrayType, [...Depth, 1]>]
+          | [...NestedPaths<ArrayType, [...Depth, 1]>]
           // This returns the array parent itself: e.g. `foo`
           | []
           // This returns the indexed dot-notation path: e.g. `foo.0.bar`
