@@ -79,3 +79,8 @@ enum VALIDATION_LEVEL {
   STRICT = 'strict',
 }
 ```
+
+## `getIds`
+
+Converts an iterable of ObjectId-constructable values into an array of ObjectId instances.
+Values that cannot be converted to a valid ObjectId are silently filtered out.
