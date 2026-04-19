@@ -51,8 +51,8 @@
     "watch:types": "tsc --watch"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cli": "20.5.0",
+    "@commitlint/config-conventional": "20.5.0",
     "@eslint/js": "9.39.2",
     "@types/node": "24.12.0",
     "arg": "5.0.2",
