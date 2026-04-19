@@ -108,7 +108,6 @@ This repository follows [semver](https://semver.org/) versioning. The metadata f
 Reviewers should use the following questions to evaluate the implementation for correctness/completeness and ensure all housekeeping items have been addressed prior to merging the code.
 
 - Correctness/completeness
-
   1. Do you fully understand the implementation? (Would you be comfortable explaining how this code works to someone else?)
   1. Is the intention of the code captured in relevant tests?
      - Does the description of each test accurately represent the assertions?
@@ -122,7 +121,6 @@ Reviewers should use the following questions to evaluate the implementation for 
      - easier to maintain (easier to change, harder to accidentally break)
 
 - Housekeeping
-
   1. Does the title and description of the PR reference the correct issue and does it use the correct conventional commit type (e.g., fix, feat, test, breaking change etc)?
   1. If there are new TODOs, has a related issue been created?
   1. Should any documentation be updated?
