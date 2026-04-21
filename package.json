@@ -21,6 +21,9 @@
   "type": "module",
   "types": "./lib/index.d.ts",
   "exports": "./lib/index.js",
+  "imports": {
+    "#package.json": "./package.json"
+  },
   "files": [
     "lib/*"
   ],

@@ -1,5 +1,4 @@
 import { Db } from 'mongodb';
-import pkg from '../package.json' with { type: 'json' };
 
 import { abstract, build } from './model.ts';
 import types from './types.ts';
@@ -7,6 +6,8 @@ import types from './types.ts';
 import type { Model } from './model.ts';
 import type { SchemaOptions } from './schema.ts';
 import type { BaseSchema, ModelOptions } from './utils.ts';
+
+import pkg from '#package.json' with { type: 'json' };
 
 export default class Papr {
   db?: Db;

@@ -139,7 +139,7 @@ export default defineConfig(
       'import/no-named-as-default-member': 'off',
       'import/no-relative-parent-imports': 'error',
       'import/no-self-import': 'error',
-      'import/no-unresolved': ['error'],
+      'import/no-unresolved': ['error', { ignore: ['^#'] }],
       'import/no-useless-path-segments': 'error',
       'import/order': [
         'error',
