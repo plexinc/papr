@@ -61,7 +61,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-promise": "7.2.1",
-    "globals": "15.15.0",
+    "globals": "17.5.0",
     "husky": "9.1.4",
     "jsdoc-api": "9.3.4",
     "jsdoc-parse": "6.2.4",
