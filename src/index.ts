@@ -1,3 +1,5 @@
+import { createRequire } from 'node:module';
+
 import { Db } from 'mongodb';
 
 import { abstract, build } from './model.ts';
@@ -7,7 +9,8 @@ import type { Model } from './model.ts';
 import type { SchemaOptions } from './schema.ts';
 import type { BaseSchema, ModelOptions } from './utils.ts';
 
-import pkg from '#package.json' with { type: 'json' };
+const require = createRequire(import.meta.url);
+const pkg = require('../package.json') as { version: string };
 
 export default class Papr {
   db?: Db;

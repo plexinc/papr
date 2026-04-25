@@ -78,6 +78,22 @@ describe('index', () => {
       strictEqual(model.build.mock.callCount(), 0);
     });
 
+    test('initialize calls appendMetadata when available', () => {
+      const appendMetadata = mock.fn();
+      const dbWithClient = {
+        ...db,
+        client: { appendMetadata },
+      };
+
+      const papr = new Papr();
+      papr.initialize(dbWithClient as any);
+
+      strictEqual(appendMetadata.mock.callCount(), 1);
+      const args = appendMetadata.mock.calls[0].arguments[0];
+      strictEqual(args.name, 'Papr');
+      strictEqual(typeof args.version, 'string');
+    });
+
     test('define model without db', async () => {
       const papr = new Papr();
 
