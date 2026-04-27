@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [17.1.0](https://github.com/plexinc/papr/compare/v17.0.0...v17.1.0) (2026-04-27)
+
+
+### Features
+
+* Include Papr version details in MongoDB handshake ([#1040](https://github.com/plexinc/papr/issues/1040)) ([6212189](https://github.com/plexinc/papr/commit/6212189975b79cee0fa6b4b798d4dddbf0302882))
+
+
+### Bug Fixes
+
+* Filter invalid values in getIds ([#979](https://github.com/plexinc/papr/issues/979)) ([7cd98a1](https://github.com/plexinc/papr/commit/7cd98a16e237fa5ffee8fecd2e5dd772dee6c278))
+
 ## [17.0.0](https://github.com/plexinc/papr/compare/v16.0.0...v17.0.0) (2026-01-27)
 
 
