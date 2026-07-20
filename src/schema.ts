@@ -13,9 +13,7 @@ export type SchemaTimestampOptions =
   | boolean;
 
 export type DefaultsOption<TProperties> =
-  | Partial<TProperties>
-  | (() => Partial<TProperties>)
-  | (() => Promise<Partial<TProperties>>);
+  Partial<TProperties> | (() => Partial<TProperties>) | (() => Promise<Partial<TProperties>>);
 
 export interface SchemaOptions<TProperties> {
   defaults?: DefaultsOption<TProperties>;

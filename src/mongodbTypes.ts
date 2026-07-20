@@ -102,8 +102,7 @@ export interface PaprRootFilterOperators<TSchema> {
 }
 
 export type PaprCondition<Type> =
-  | AlternativeType<Type>
-  | PaprFilterOperators<AlternativeType<Type>>;
+  AlternativeType<Type> | PaprFilterOperators<AlternativeType<Type>>;
 
 export interface PaprFilterOperators<TValue> {
   $eq?: TValue;
@@ -171,11 +170,9 @@ export type PaprAllProperties<TSchema> = {
  * }
  */
 export type PaprArrayElementsProperties<TSchema> = {
-  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${
-    | ''
-    | `[${string}]`}`]?: ArrayElement<
-    PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>
-  >;
+  [
+    Property in `${KeysOfAType<PaprAllProperties<TSchema>, any[]>}.$${'' | `[${string}]`}`
+  ]?: ArrayElement<PropertyType<TSchema, Property extends `${infer Key}.$${string}` ? Key : never>>;
 };
 
 /**
@@ -194,9 +191,10 @@ export type PaprArrayElementsProperties<TSchema> = {
  */
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export type PaprArrayNestedProperties<TSchema> = {
-  [Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
-    | ''
-    | `[${string}]`}.${string}`]?: any;
+  [
+    Property in `${KeysOfAType<PaprAllProperties<TSchema>, Record<string, any>[]>}.$${
+      '' | `[${string}]`}.${string}`
+  ]?: any;
 };
 
 // We want the most common case (`PaprAllProperties`) to be the first member in this union,
