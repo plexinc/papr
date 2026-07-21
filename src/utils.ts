@@ -127,13 +127,13 @@ export type NestedPaths<Type, Depth extends number[]> = Depth['length'] extends 
     ? []
     : Type extends readonly (infer ArrayType)[]
       ? // This returns the non-indexed dot-notation path: e.g. `foo.bar`
-          | [...NestedPaths<ArrayType, [...Depth, 1]>]
-          // This returns the array parent itself: e.g. `foo`
-          | []
-          // This returns the indexed dot-notation path: e.g. `foo.0.bar`
-          | [number, ...NestedPaths<ArrayType, [...Depth, 1]>]
-          // This returns the indexed element path: e.g. `foo.0`
-          | [number]
+        | [...NestedPaths<ArrayType, [...Depth, 1]>]
+        // This returns the array parent itself: e.g. `foo`
+        | []
+        // This returns the indexed dot-notation path: e.g. `foo.0.bar`
+        | [number, ...NestedPaths<ArrayType, [...Depth, 1]>]
+        // This returns the indexed element path: e.g. `foo.0`
+        | [number]
       : // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Type extends Map<string, any>
         ? [string]
@@ -151,8 +151,7 @@ type FilterProperties<TObject, TValue> = Pick<TObject, KeysOfAType<TObject, TVal
 export type ProjectionType<
   TSchema extends BaseSchema,
   Projection extends
-    | Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>>
-    | undefined,
+    Partial<Record<Join<NestedPaths<WithId<TSchema>, []>, '.'>, number>> | undefined,
 > = undefined extends Projection
   ? WithId<TSchema>
   : keyof FilterProperties<Projection, 0 | 1> extends never
