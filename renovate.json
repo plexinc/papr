@@ -9,9 +9,8 @@
   "packageRules": [
     {
       "schedule": ["before 6am on Monday"],
-      "excludePackagePrefixes": ["@types/"],
-      "excludePackageNames": ["@types/node", "node"],
-      "matchUpdateTypes": ["patch"]
+      "matchUpdateTypes": ["patch"],
+      "matchPackageNames": ["!@types/{/,}**", "!@types/node", "!node"]
     },
     {
       "extends": ["schedule:monthly"],
@@ -42,7 +41,7 @@
   "prNotPendingHours": 240,
   "rebaseWhen": "conflicted",
   "reviewers": ["nunomarks", "randhawk"],
-  "stabilityDays": 7,
+  "minimumReleaseAge": "7 days",
   "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
     "labels": ["security"]
