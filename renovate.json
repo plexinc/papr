@@ -3,88 +3,48 @@
   "commitMessageAction": "Upgrade",
   "commitMessagePrefix": "chore:",
   "commitMessageTopic": "{{depName}}",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:best-practices"],
   "internalChecksAsSuccess": true,
-  "labels": [
-    "dependencies"
-  ],
+  "labels": ["dependencies"],
   "packageRules": [
     {
-      "schedule": [
-        "before 6am on Monday"
-      ],
-      "excludePackagePrefixes": [
-        "@types/"
-      ],
-      "excludePackageNames": [
-        "@types/node",
-        "node"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ]
+      "schedule": ["before 6am on Monday"],
+      "excludePackagePrefixes": ["@types/"],
+      "excludePackageNames": ["@types/node", "node"],
+      "matchUpdateTypes": ["patch"]
     },
     {
-      "extends": [
-        "schedule:monthly"
-      ],
-      "matchPackageNames": [
-        "@types/node"
-      ]
+      "extends": ["schedule:monthly"],
+      "matchPackageNames": ["@types/node"]
     },
     {
-      "extends": [
-        "schedule:monthly"
-      ],
-      "matchPackageNames": [
-        "mongoose"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ]
+      "extends": ["schedule:monthly"],
+      "matchPackageNames": ["mongoose"],
+      "matchUpdateTypes": ["major"]
     },
     {
       "enabled": false,
       "groupName": "Skip major Node.js versions",
-      "matchPackageNames": [
-        "@types/node",
-        "node"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ]
+      "matchPackageNames": ["@types/node", "node"],
+      "matchUpdateTypes": ["major"]
     },
     {
       "enabled": false,
       "groupName": "Skip non-major Mongoose versions",
-      "matchPackageNames": [
-        "mongoose"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
+      "matchPackageNames": ["mongoose"],
+      "matchUpdateTypes": ["minor", "patch"]
     }
   ],
-  "postUpdateOptions": [
-    "pnpmDedupe"
-  ],
+  "postUpdateOptions": ["pnpmDedupe"],
   "prCreation": "not-pending",
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "prNotPendingHours": 240,
   "rebaseWhen": "conflicted",
-  "reviewers": [
-    "avaly",
-    "ejmartin504"
-  ],
+  "reviewers": ["nunomarks", "randhawk"],
   "stabilityDays": 7,
   "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
-    "labels": [
-      "security"
-    ]
+    "labels": ["security"]
   }
 }
