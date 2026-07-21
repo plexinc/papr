@@ -49,7 +49,7 @@ jobs:
           branch: docs/benchmark-${{ steps.date.outputs.date }}
           commit-message: 'docs: Benchmark results ${{ steps.date.outputs.date }}'
           delete-branch: true
-          reviewers: avaly
+          reviewers: nunomarks
           title: 'docs: Benchmark results ${{ steps.date.outputs.date }}'
       - if: ${{ steps.create-pr.outputs.pull-request-number }}
         run: |
