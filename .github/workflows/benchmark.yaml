@@ -13,15 +13,15 @@ jobs:
   benchmark:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           filter: tree:0
-      - uses: pnpm/action-setup@v4.4.0
-      - uses: actions/setup-node@v6.3.0
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: 'package.json'
           cache: 'pnpm'
-      - uses: supercharge/mongodb-github-action@1.12.0
+      - uses: supercharge/mongodb-github-action@90004df786821b6308fb02299e5835d0dae05d0d # 1.12.0
         with:
           mongodb-version: 8.0
       - id: date
@@ -30,13 +30,13 @@ jobs:
       - run: node -v
       - run: pnpm install --frozen-lockfile
       - run: pnpm benchmark
-      - uses: actions/github-script@v7.1.0
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         id: results
         with:
           script: |
             core.setOutput('results', require('./docs/data.json').benchmark.results);
       - id: create-pr
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           add-paths: docs/data.json
           base: main
