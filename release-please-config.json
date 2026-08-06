@@ -3,6 +3,13 @@
   "packages": {
     ".": {
       "changelog-path": "docs/CHANGELOG.md",
+      "extra-files": [
+        {
+          "jsonpath": "$.version",
+          "path": "src/version.json",
+          "type": "json"
+        }
+      ],
       "include-component-in-tag": false,
       "release-type": "node"
     }

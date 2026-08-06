@@ -94,6 +94,13 @@ describe('index', () => {
       strictEqual(typeof args.version, 'string');
     });
 
+    test('version matches package.json', async () => {
+      const { default: pkg } = await import('../../package.json', { with: { type: 'json' } });
+      const { default: version } = await import('../version.json', { with: { type: 'json' } });
+
+      strictEqual(version.version, pkg.version);
+    });
+
     test('define model without db', async () => {
       const papr = new Papr();
 
