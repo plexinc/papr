@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 
+## [17.1.1](https://github.com/plexinc/papr/compare/v17.1.0...v17.1.1) (2026-08-06)
+
+
+### Bug Fixes
+
+* Add version.json to parse Papr version ([#1077](https://github.com/plexinc/papr/issues/1077)) ([7e47f18](https://github.com/plexinc/papr/commit/7e47f18fac27549ee62676ad16934e07aeb51d77))
+
 ## [17.1.0](https://github.com/plexinc/papr/compare/v17.0.0...v17.1.0) (2026-04-27)
 
 
