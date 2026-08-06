@@ -1205,7 +1205,7 @@ describe('model', () => {
     });
 
     test('with projection, re-assignable to Pick type', async () => {
-      let results = await simpleModel.find({}, { projection });
+      const results = await simpleModel.find({}, { projection });
 
       type Projected = Pick<SimpleDocument, '_id' | 'foo' | 'ham'>;
 
@@ -1213,8 +1213,7 @@ describe('model', () => {
         return input;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      results = testProjected(results);
+      expectType<typeof results>(testProjected(results));
     });
   });
 
