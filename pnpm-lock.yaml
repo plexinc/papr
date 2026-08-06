@@ -60,8 +60,8 @@ importers:
         specifier: 11.2.0
         version: 11.2.0
       mongoose:
-        specifier: 8.22.1
-        version: 8.22.1
+        specifier: 8.24.1
+        version: 8.24.1
       prettier:
         specifier: 3.9.5
         version: 3.9.5
@@ -434,6 +434,9 @@ packages:
 
   '@mongodb-js/saslprep@1.4.11':
     resolution: {integrity: sha512-o9rAHc0IpIjuPSxRutWpE1F62x7n+4mVS4rCNHkzhIUMQcc18bb6xEq5wd2NdN0WjepIyXIppRshYI2kQDOZVA==}
+
+  '@mongodb-js/saslprep@1.4.13':
+    resolution: {integrity: sha512-E3Sv4eCYAlKYUTx8S3ioQcDUscOif+8zZ5OnW1IzJ+Tt+EO+ke8mn+Y3FX6N1H79picwbdOavVOb1jPi2EOyrg==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2234,8 +2237,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.22.1:
-    resolution: {integrity: sha512-c0bzt7ElI1CwWiyFSgg9bfhlFcblAoPwr+gmDcLCryClyKaeixWhP9KDGnr13kRPE8KPAuUN3ZZ3jSDxSPvoTg==}
+  mongoose@8.24.1:
+    resolution: {integrity: sha512-UpHBA0l5kHyKJQFjmBaFYQFo5sgz1DK0TRqDkOyBLYbqiIbKKhIvBpHWBXqeo0rgW4kGI1UhhAw+kTQZoj1BdA==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -3518,6 +3521,10 @@ snapshots:
       lodash: 4.17.21
 
   '@mongodb-js/saslprep@1.4.11':
+    dependencies:
+      sparse-bitfield: 3.0.3
+
+  '@mongodb-js/saslprep@1.4.13':
     dependencies:
       sparse-bitfield: 3.0.3
 
@@ -5468,7 +5475,7 @@ snapshots:
 
   mongodb@6.20.0:
     dependencies:
-      '@mongodb-js/saslprep': 1.4.11
+      '@mongodb-js/saslprep': 1.4.13
       bson: 6.10.4
       mongodb-connection-string-url: 3.0.2
 
@@ -5478,7 +5485,7 @@ snapshots:
       bson: 7.2.0
       mongodb-connection-string-url: 7.0.2
 
-  mongoose@8.22.1:
+  mongoose@8.24.1:
     dependencies:
       bson: 6.10.4
       kareem: 2.6.3
