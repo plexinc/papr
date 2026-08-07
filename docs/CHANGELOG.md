@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [release-please](https://github.com/googleapis/release-please#how-should-i-write-my-commits) for commit guidelines.
 
 
 ## [17.1.1](https://github.com/plexinc/papr/compare/v17.1.0...v17.1.1) (2026-08-06)
