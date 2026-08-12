@@ -2,7 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "noEmit": false,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "rootDir": "./src"
   },
   "extends": "./tsconfig.json",
   "include": ["./src"],
