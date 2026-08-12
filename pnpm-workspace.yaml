@@ -1,0 +1,17 @@
+# https://pnpm.io/settings
+
+# These packages' build scripts also did not run on pnpm 10 (ignored with a warning):
+# mongodb-memory-server downloads mongod at runtime and esbuild ships platform
+# binaries via optionalDependencies, so denying them keeps the previous behavior.
+allowBuilds:
+  docsify: false
+  esbuild: false
+  mongodb-memory-server: false
+
+preferSymlinkedExecutables: true
+saveExact: true
+savePrefix: ''
+
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
