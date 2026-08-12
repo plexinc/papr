@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "esModuleInterop": true,
     "lib": ["es2023"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -12,12 +11,11 @@
     "noUnusedParameters": false,
     "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,
-    "strict": true,
     "strictFunctionTypes": false,
     "target": "es2023",
     "types": ["node"],
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
   },
-  "include": ["./example", "./src"]
+  "include": ["./example", "./src"],
 }
