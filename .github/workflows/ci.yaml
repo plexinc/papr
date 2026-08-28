@@ -17,8 +17,8 @@ jobs:
           - 24.x
         mongodb:
           - 6.0.29
-          - 7.0.37
-          - 8.0.26
+          - 7.0.40
+          - 8.0.29
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
