@@ -15,7 +15,10 @@ import {
 } from 'mongodb';
 import { expectType } from 'ts-expect';
 
-import type { PaprFilter, PaprUpdateFilter } from '../mongodbTypes.ts';
+import type { TypeEqual } from 'ts-expect';
+
+import type { PaprFilter, PaprUpdateFilter, PaprUpsertUpdateFilter } from '../mongodbTypes.ts';
+import type { SchemaOptions } from '../schema.ts';
 
 describe('mongodb types', () => {
   interface TestDocument {
@@ -1042,6 +1045,180 @@ describe('mongodb types', () => {
           // expectType<PaprUpdateFilter<TestDocument>>({ $set: { 'list.$[].direct': 123 } });
         });
       });
+    });
+  });
+
+  describe('PaprUpsertUpdateFilter', () => {
+    interface UpsertTestDocument {
+      _id: ObjectId;
+      counter: number;
+      name: string;
+      seenAt: Date;
+      tags: string[];
+      nestedObject: { deep: string };
+      optional?: string;
+    }
+    type UpsertTestOptions = SchemaOptions<UpsertTestDocument>;
+
+    type Check<
+      TFilter extends PaprFilter<UpsertTestDocument>,
+      TUpdate extends PaprUpdateFilter<UpsertTestDocument>,
+      TOptions extends SchemaOptions<UpsertTestDocument> = UpsertTestOptions,
+    > = PaprUpsertUpdateFilter<UpsertTestDocument, TOptions, TFilter, TUpdate>;
+
+    // The check resolves to `unknown` when all required properties are provided on insert
+    type Provided<TCheck> = TypeEqual<TCheck, unknown>;
+
+    // This needs to be a type instead of an interface, because interfaces do not receive
+    // the implicit index signatures required for `PaprMatchKeysAndValues` assignability
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    type FullSet = {
+      counter: number;
+      name: string;
+      seenAt: Date;
+      tags: string[];
+      nestedObject: { deep: string };
+    };
+
+    test('update operators which create missing fields provide properties', () => {
+      expectType<Provided<Check<Record<never, never>, { $set: FullSet }>>>(true);
+      expectType<Provided<Check<Record<never, never>, { $setOnInsert: FullSet }>>>(true);
+
+      // multiple update operators provide properties together
+      expectType<
+        Provided<
+          Check<
+            Record<never, never>,
+            {
+              $currentDate: { seenAt: true };
+              $inc: { counter: number };
+              $push: { tags: string };
+              $set: { name: string };
+              $setOnInsert: { nestedObject: { deep: string } };
+            }
+          >
+        >
+      >(true);
+
+      expectType<
+        Provided<
+          Check<Record<never, never>, { $addToSet: { tags: string }; $set: Omit<FullSet, 'tags'> }>
+        >
+      >(true);
+      expectType<
+        Provided<
+          Check<Record<never, never>, { $min: { counter: number }; $set: Omit<FullSet, 'counter'> }>
+        >
+      >(true);
+      expectType<
+        Provided<
+          Check<Record<never, never>, { $max: { counter: number }; $set: Omit<FullSet, 'counter'> }>
+        >
+      >(true);
+      expectType<
+        Provided<
+          Check<Record<never, never>, { $mul: { counter: number }; $set: Omit<FullSet, 'counter'> }>
+        >
+      >(true);
+      expectType<
+        Provided<
+          Check<
+            Record<never, never>,
+            { $bit: { counter: { and: number } }; $set: Omit<FullSet, 'counter'> }
+          >
+        >
+      >(true);
+
+      // dot-notation keys provide their root property
+      expectType<
+        Provided<
+          Check<
+            Record<never, never>,
+            { $set: Omit<FullSet, 'nestedObject'> & { 'nestedObject.deep': string } }
+          >
+        >
+      >(true);
+    });
+
+    test('update operators which do not create missing fields do not provide properties', () => {
+      expectType<
+        Provided<
+          Check<Record<never, never>, { $pull: { tags: string }; $set: Omit<FullSet, 'tags'> }>
+        >
+      >(false);
+      expectType<
+        Provided<Check<Record<never, never>, { $unset: { tags: 1 }; $set: Omit<FullSet, 'tags'> }>>
+      >(false);
+    });
+
+    test('filter equality fields provide properties', () => {
+      expectType<Provided<Check<{ counter: number }, { $set: Omit<FullSet, 'counter'> }>>>(true);
+
+      // dot-notation keys provide their root property
+      expectType<
+        Provided<Check<{ 'nestedObject.deep': string }, { $set: Omit<FullSet, 'nestedObject'> }>>
+      >(true);
+
+      // fields inside `$and` clauses provide properties
+      expectType<
+        Provided<
+          Check<
+            { $and: [{ counter: number }, { name: string }] },
+            { $set: Omit<FullSet, 'counter' | 'name'> }
+          >
+        >
+      >(true);
+
+      // fields using comparison operators are treated as provided properties
+      // (they cannot be reliably told apart from direct equality values)
+      expectType<Provided<Check<{ counter: { $gt: number } }, { $set: Omit<FullSet, 'counter'> }>>>(
+        true
+      );
+
+      // fields inside `$or` clauses do not provide properties
+      expectType<
+        Provided<Check<{ $or: [{ counter: number }] }, { $set: Omit<FullSet, 'counter'> }>>
+      >(false);
+    });
+
+    test('schema defaults provide properties', () => {
+      expectType<
+        Provided<
+          Check<
+            Record<never, never>,
+            { $set: Omit<FullSet, 'counter'> },
+            { defaults: { counter: number } }
+          >
+        >
+      >(true);
+
+      expectType<
+        Provided<
+          Check<
+            Record<never, never>,
+            { $set: Omit<FullSet, 'counter'> },
+            { defaults: () => { counter: number } }
+          >
+        >
+      >(true);
+    });
+
+    test('missing required properties are required in $setOnInsert', () => {
+      expectType<Provided<Check<Record<never, never>, { $set: Omit<FullSet, 'name'> }>>>(false);
+
+      expectType<
+        TypeEqual<
+          Check<Record<never, never>, { $set: Omit<FullSet, 'name'> }>,
+          { $setOnInsert: { name: string } }
+        >
+      >(true);
+    });
+
+    test('non-literal filters and updates provide all properties', () => {
+      expectType<Provided<Check<PaprFilter<UpsertTestDocument>, { $set: Record<never, never> }>>>(
+        true
+      );
+      expectType<Provided<Check<Record<never, never>, PaprUpdateFilter<UpsertTestDocument>>>>(true);
     });
   });
 });
