@@ -68,7 +68,7 @@
     "lint-staged": "17.3.0",
     "mongodb": "7.5.0",
     "mongodb-memory-server": "11.2.0",
-    "mongoose": "8.24.1",
+    "mongoose": "9.9.4",
     "prettier": "3.9.5",
     "ts-expect": "1.3.0",
     "ts-node": "10.9.2",
