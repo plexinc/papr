@@ -1,0 +1,5 @@
+# Marks this test package as its own workspace root. Without it, pnpm 12 treats
+# this directory as a member of the repository's root workspace (even with
+# `--ignore-workspace`), installs nothing here and rewrites the root lockfile.
+packages:
+  - .
