@@ -100,6 +100,37 @@ async function run(): Promise<void> {
       updatedAt: Date;
     }[]
   >(docs);
+
+  // upserting documents
+
+  const doc3 = await Sample.upsert(
+    { firstName: 'Jane' },
+    { $set: { age: 20 }, $setOnInsert: { lastName: 'Doe' } }
+  );
+  assert.strictEqual(typeof doc3, 'object');
+  assert.strictEqual(doc3.firstName, 'Jane');
+  assert.strictEqual(doc3.lastName, 'Doe');
+  assert.strictEqual(doc3.age, 20);
+
+  expectType<{
+    _id: ObjectId;
+    age?: number;
+    city?: string;
+    createdAt: Date;
+    firstName: string;
+    lastName: string;
+    updatedAt: Date;
+  }>(doc3);
+
+  // upserting a document missing required properties on insert fails
+  // both the TypeScript check and the MongoDB JSON schema validation
+  await assert.rejects(
+    Sample.upsert(
+      { firstName: 'Judy' },
+      // @ts-expect-error `lastName` is required on insert and not provided by the filter or update
+      { $set: { age: 30 } }
+    )
+  );
 }
 
 async function teardown(): Promise<void> {

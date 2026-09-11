@@ -34,7 +34,12 @@ import type {
   WithId,
 } from 'mongodb';
 
-import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from './mongodbTypes.ts';
+import type {
+  PaprBulkWriteOperation,
+  PaprFilter,
+  PaprUpdateFilter,
+  PaprUpsertUpdateFilter,
+} from './mongodbTypes.ts';
 import type { DefaultsOption, SchemaOptions, SchemaTimestampOptions } from './schema.ts';
 import type {
   BaseSchema,
@@ -136,9 +141,13 @@ export interface Model<TSchema extends BaseSchema, TOptions extends SchemaOption
     options?: UpdateOptions
   ) => Promise<UpdateResult>;
 
-  upsert: <TProjection extends Projection<TSchema> | undefined>(
-    filter: PaprFilter<TSchema>,
-    update: PaprUpdateFilter<TSchema>,
+  upsert: <
+    TProjection extends Projection<TSchema> | undefined,
+    TFilter extends PaprFilter<TSchema> = PaprFilter<TSchema>,
+    TUpdate extends PaprUpdateFilter<TSchema> = PaprUpdateFilter<TSchema>,
+  >(
+    filter: TFilter,
+    update: PaprUpsertUpdateFilter<TSchema, TOptions, TFilter, TUpdate> & TUpdate,
     options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }
   ) => Promise<ProjectionType<TSchema, TProjection>>;
 }
@@ -1043,8 +1052,14 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * @description
    * Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
    *
+   * When no document matches the filter, MongoDB inserts a new document built from the filter
+   * equality fields and the update operator fields (plus the schema defaults and timestamps).
+   * The `update` argument is type-checked so that all the required properties in the schema
+   * are provided by one of these sources, otherwise the missing properties must be present
+   * in the `$setOnInsert` operator.
+   *
    * @param filter {PaprFilter<TSchema>}
-   * @param update {PaprUpdateFilter<TSchema>}
+   * @param update {PaprUpsertUpdateFilter<TSchema>}
    * @param [options] {FindOneAndUpdateOptions}
    *
    * @returns {Promise<TSchema>}
@@ -1062,10 +1077,21 @@ export function build<TSchema extends BaseSchema, TOptions extends SchemaOptions
    * );
    * userProjected.firstName; // TypeScript error
    * userProjected.lastName; // valid
+   *
+   * await User.upsert(
+   *   { firstName: 'John' },
+   *   // TypeScript error: `lastName` is required on insert
+   *   // and is not provided by the filter or the update
+   *   { $set: { age: 40 } }
+   * );
    */
-  model.upsert = async function upsert<TProjection extends Projection<TSchema> | undefined>(
-    filter: PaprFilter<TSchema>,
-    update: PaprUpdateFilter<TSchema>,
+  model.upsert = async function upsert<
+    TProjection extends Projection<TSchema> | undefined,
+    TFilter extends PaprFilter<TSchema> = PaprFilter<TSchema>,
+    TUpdate extends PaprUpdateFilter<TSchema> = PaprUpdateFilter<TSchema>,
+  >(
+    filter: TFilter,
+    update: PaprUpsertUpdateFilter<TSchema, TOptions, TFilter, TUpdate> & TUpdate,
     options?: Omit<FindOneAndUpdateOptions, 'projection' | 'upsert'> & { projection?: TProjection }
   ): Promise<ProjectionType<TSchema, TProjection>> {
     const item = await model.findOneAndUpdate(filter, update, {
