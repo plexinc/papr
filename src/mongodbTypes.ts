@@ -27,7 +27,7 @@ import type {
 } from 'mongodb';
 
 import type { SchemaOptions } from './schema.ts';
-import type { DocumentForInsert, NestedPaths, PropertyType } from './utils.ts';
+import type { DocumentForInsert, NestedPaths, PropertyType, RequiredProperties } from './utils.ts';
 
 // Some of the types are adapted from originals at: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/src/mongo_types.ts
 // licensed under Apache License 2.0: https://github.com/mongodb/node-mongodb-native/blob/v5.0.1/LICENSE.md
@@ -202,6 +202,103 @@ export type PaprArrayNestedProperties<TSchema> = {
 export type PaprMatchKeysAndValues<TSchema> = PaprAllProperties<TSchema> &
   PaprArrayElementsProperties<TSchema> &
   PaprArrayNestedProperties<TSchema>;
+
+/**
+ * Extracts the root property name from a (possibly dot-notation) key.
+ *
+ * @example
+ * 'nestedObject.direct' -> 'nestedObject'
+ * 'foo' -> 'foo'
+ */
+type RootProperty<Property> = Property extends `${infer Root}.${string}` ? Root : Property;
+
+/**
+ * Returns the root properties of the top-level equality fields in a filter,
+ * including the fields inside top-level `$and` clauses (one level deep).
+ *
+ * During an upsert operation these fields are included in the newly inserted document:
+ * https://www.mongodb.com/docs/manual/reference/method/db.collection.update/#upsert-behavior
+ *
+ * Note: Fields using comparison operators (e.g. `{ foo: { $gt: 1 } }`) are not equality fields
+ * and are not included in the inserted document, but they are intentionally treated here
+ * as provided properties, because telling them apart from direct object values is unreliable.
+ */
+type PaprFilterProvidedProperties<TFilter> =
+  | Exclude<RootProperty<string & keyof TFilter>, `$${string}`>
+  | (TFilter extends { $and: readonly (infer TClause)[] }
+      ? TClause extends unknown
+        ? Exclude<RootProperty<string & keyof TClause>, `$${string}`>
+        : never
+      : never);
+
+/**
+ * Returns the root properties referenced by an update operator's fields.
+ */
+type PaprUpdateOperatorProperties<TOperator> = TOperator extends object
+  ? RootProperty<string & keyof TOperator>
+  : never;
+
+/**
+ * Returns the root properties created on the inserted document during an upsert operation
+ * by the update operators which create missing fields.
+ *
+ * https://www.mongodb.com/docs/manual/reference/operator/update/#fields
+ */
+type PaprUpdateProvidedProperties<TSchema, TUpdate extends PaprUpdateFilter<TSchema>> =
+  | PaprUpdateOperatorProperties<TUpdate['$addToSet']>
+  | PaprUpdateOperatorProperties<TUpdate['$bit']>
+  | PaprUpdateOperatorProperties<TUpdate['$currentDate']>
+  | PaprUpdateOperatorProperties<TUpdate['$inc']>
+  | PaprUpdateOperatorProperties<TUpdate['$max']>
+  | PaprUpdateOperatorProperties<TUpdate['$min']>
+  | PaprUpdateOperatorProperties<TUpdate['$mul']>
+  | PaprUpdateOperatorProperties<TUpdate['$push']>
+  | PaprUpdateOperatorProperties<TUpdate['$set']>
+  | PaprUpdateOperatorProperties<TUpdate['$setOnInsert']>;
+
+/**
+ * Returns the required properties in the schema which are not provided by any of the sources
+ * contributing to the document created by the insert branch of an upsert operation:
+ *
+ * - the filter equality fields;
+ * - the update operator fields;
+ * - the schema defaults and timestamps (via `DocumentForInsert`).
+ */
+type PaprUpsertMissingProperties<
+  TSchema,
+  TOptions extends SchemaOptions<TSchema>,
+  TFilter extends PaprFilter<TSchema>,
+  TUpdate extends PaprUpdateFilter<TSchema>,
+> = Exclude<
+  NonNullable<RequiredProperties<DocumentForInsert<TSchema, TOptions>>> & string,
+  PaprFilterProvidedProperties<TFilter> | PaprUpdateProvidedProperties<TSchema, TUpdate>
+>;
+
+/**
+ * Checks that the document created by the insert branch of an upsert operation
+ * contains all the required properties in the schema.
+ *
+ * Resolves to `unknown` when all required properties are provided by the filter equality fields,
+ * the update operators, the schema defaults or the timestamps.
+ * Otherwise, it requires the missing properties in the `$setOnInsert` operator.
+ *
+ * Non-literal filter or update types (e.g. `PaprFilter<TSchema>`) provide all their properties,
+ * so they skip this check.
+ */
+export type PaprUpsertUpdateFilter<
+  TSchema,
+  TOptions extends SchemaOptions<TSchema>,
+  TFilter extends PaprFilter<TSchema>,
+  TUpdate extends PaprUpdateFilter<TSchema>,
+> = [PaprUpsertMissingProperties<TSchema, TOptions, TFilter, TUpdate>] extends [never]
+  ? unknown
+  : {
+      $setOnInsert: {
+        [
+          Property in PaprUpsertMissingProperties<TSchema, TOptions, TFilter, TUpdate>
+        ]: PropertyType<TSchema, Property>;
+      };
+    };
 
 export interface PaprUpdateFilter<TSchema> {
   $currentDate?: OnlyFieldsOfType<
