@@ -209,8 +209,8 @@ importers:
         specifier: 9.3.4
         version: 9.3.4
       jsdoc-parse:
-        specifier: 6.2.4
-        version: 6.2.4
+        specifier: 6.2.5
+        version: 6.2.5
       lint-staged:
         specifier: 17.5.0
         version: 17.5.0
@@ -1953,8 +1953,8 @@ packages:
       '@75lb/nature':
         optional: true
 
-  jsdoc-parse@6.2.4:
-    resolution: {integrity: sha512-MQA+lCe3ioZd0uGbyB3nDCDZcKgKC7m/Ivt0LgKZdUoOlMJxUWJQ3WI6GeyHp9ouznKaCjlp7CU9sw5k46yZTw==}
+  jsdoc-parse@6.2.5:
+    resolution: {integrity: sha512-8JaSNjPLr2IuEY4Das1KM6Z4oLHZYUnjRrr27hKSa78Cj0i5Lur3DzNnCkz+DfrKBDoljGMoWOiBVQbtUZJBPw==}
     engines: {node: '>=12'}
 
   jsdoc@4.0.4:
@@ -2034,10 +2034,6 @@ packages:
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
-
-  lodash.omit@4.5.0:
-    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
-    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -4689,11 +4685,10 @@ snapshots:
       object-to-spawn-args: 2.0.1
       walk-back: 5.1.1
 
-  jsdoc-parse@6.2.4:
+  jsdoc-parse@6.2.5:
     dependencies:
       array-back: 6.2.2
       find-replace: 5.0.2
-      lodash.omit: 4.5.0
       sort-array: 5.0.0
     transitivePeerDependencies:
       - '@75lb/nature'
@@ -4792,8 +4787,6 @@ snapshots:
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
-
-  lodash.omit@4.5.0: {}
 
   lodash@4.17.21: {}
 
