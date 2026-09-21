@@ -63,7 +63,7 @@
     "eslint-plugin-promise": "7.3.0",
     "globals": "15.15.0",
     "husky": "9.1.7",
-    "jsdoc-api": "9.3.4",
+    "jsdoc-api": "9.3.6",
     "jsdoc-parse": "6.2.4",
     "lint-staged": "17.5.0",
     "mongodb": "7.6.0",
