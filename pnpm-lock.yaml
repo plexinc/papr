@@ -206,8 +206,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       jsdoc-api:
-        specifier: 9.3.4
-        version: 9.3.4
+        specifier: 9.3.6
+        version: 9.3.6
       jsdoc-parse:
         specifier: 6.2.4
         version: 6.2.4
@@ -931,8 +931,8 @@ packages:
     resolution: {integrity: sha512-DhBpBfXL4SS2uC0N922MMajKR3CdrTG0u2or1PNYgXMsrSzViJrbtvT0nCLlLGUI0plam/ZZCs7aAauHtW9thw==}
     engines: {node: '>=22'}
 
-  array-back@6.2.2:
-    resolution: {integrity: sha512-gUAZ7HPyb4SJczXAMUXMGAvI976JoK3qEx9v1FTmeYuJj0IBiaKttG1ydtGKdkfqWkIkouke7nG8ufGy77+Cvw==}
+  array-back@6.2.3:
+    resolution: {integrity: sha512-SGDvmg6QTYiTxCBkYVmThcoa67uLl35pyzRHdpCGBOcqFy6BtwnphoFPk7LhJshD+Yk1Kt35WGWeZPTgwR4Fhw==}
     engines: {node: '>=12.17'}
 
   array-buffer-byte-length@1.0.2:
@@ -1051,11 +1051,11 @@ packages:
     resolution: {integrity: sha512-YCEo7KjMlbNlyHhz7zAZNDpIpQbd+wOEHJYezv0nMYTn4x31eIUM2yomNNubclAt63dObUzKHWsBLJ9QcZNSnQ==}
     engines: {node: '>=20.19.0'}
 
-  cache-point@3.0.0:
-    resolution: {integrity: sha512-LDGNWYv/tqRWAAZxMy75PIYynaIuhcyoyjJtwA7X5uMZjdzvGm+XmTey/GXUy2EJ+lwc2eBFzFYxjvNYyE/0Iw==}
+  cache-point@3.0.1:
+    resolution: {integrity: sha512-itTIMLEKbh6Dw5DruXbxAgcyLnh/oPGVLBfTPqBOftASxHe8bAeXy7JkO4F0LvHqht7XqP5O/09h5UcHS2w0FA==}
     engines: {node: '>=12.17'}
     peerDependencies:
-      '@75lb/nature': ^0.1.1
+      '@75lb/nature': latest
     peerDependenciesMeta:
       '@75lb/nature':
         optional: true
@@ -1204,8 +1204,8 @@ packages:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
     engines: {node: '>=8'}
 
-  current-module-paths@1.1.2:
-    resolution: {integrity: sha512-H4s4arcLx/ugbu1XkkgSvcUZax0L6tXUqnppGniQb8l5VjUKGHoayXE5RiriiPhYDd+kjZnaok1Uig13PKtKYQ==}
+  current-module-paths@1.1.3:
+    resolution: {integrity: sha512-7AH+ZTRKikdK4s1RmY0l6067UD/NZc7p3zZVZxvmnH80G31kr0y0W0E6ibYM4IS01MEm8DiC5FnTcgcgkbFHoA==}
     engines: {node: '>=12.17'}
 
   data-view-buffer@1.0.2:
@@ -1536,8 +1536,8 @@ packages:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
 
-  file-set@5.2.2:
-    resolution: {integrity: sha512-/KgJI1V/QaDK4enOk/E2xMFk1cTWJghEr7UmWiRZfZ6upt6gQCfMn4jJ7aOm64OKurj4TaVnSSgSDqv5ZKYA3A==}
+  file-set@5.3.0:
+    resolution: {integrity: sha512-FKCxdjLX0J6zqTWdT0RXIxNF/n7MyXXnsSUp0syLEOCKdexvPZ02lNNv2a+gpK9E3hzUYF3+eFZe32ci7goNUg==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@75lb/nature': latest
@@ -1944,8 +1944,8 @@ packages:
   js2xmlparser@4.0.2:
     resolution: {integrity: sha512-6n4D8gLlLf1n5mNLQPRfViYzu9RATblzPEtm1SthMX1Pjao0r9YI9nw7ZIfRxQMERS87mcswrg+r/OYrPRX6jA==}
 
-  jsdoc-api@9.3.4:
-    resolution: {integrity: sha512-di8lggLACEttpyAZ6WjKKafUP4wC4prAGjt40nMl7quDpp2nD7GmLt6/WxhRu9Q6IYoAAySsNeidBXYVAMwlqg==}
+  jsdoc-api@9.3.6:
+    resolution: {integrity: sha512-8JW0532+rXVw8LoZ1LIAeKofsV8QQZhnY3chxMHV9hQdsuDTshsajwk0b4EMxCqen2vZ2op/r/qeEsqZxsEQyg==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@75lb/nature': latest
@@ -1957,8 +1957,8 @@ packages:
     resolution: {integrity: sha512-MQA+lCe3ioZd0uGbyB3nDCDZcKgKC7m/Ivt0LgKZdUoOlMJxUWJQ3WI6GeyHp9ouznKaCjlp7CU9sw5k46yZTw==}
     engines: {node: '>=12'}
 
-  jsdoc@4.0.4:
-    resolution: {integrity: sha512-zeFezwyXeG4syyYHbvh1A967IAqq/67yXtXvuL5wnqCkFZe8I0vKfm+EO+YEvLguo6w9CDUbrAXVtJSHh2E8rw==}
+  jsdoc@4.0.5:
+    resolution: {integrity: sha512-P4C6MWP9yIlMiK8nwoZvxN84vb6MsnXcHuy7XzVOvQoCizWX5JFCBsWIIWKXBltpoRZXddUOVQmCTOZt9yDj9g==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -2840,9 +2840,14 @@ packages:
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
-  walk-back@5.1.1:
-    resolution: {integrity: sha512-e/FRLDVdZQWFrAzU6Hdvpm7D7m2ina833gIKLptQykRK49mmCYHLHq7UqjPDbxbKLZkTkW1rFqbengdE3sLfdw==}
+  walk-back@5.1.2:
+    resolution: {integrity: sha512-uCgzIY1U7fyXvJm+mesY0xjf2HXu7mtTnptONwVQ11ur1JhMrUyQJn2fDje1CGFQDnTFTo1Slr1vRuvUS9PYoQ==}
     engines: {node: '>=12.17'}
+    peerDependencies:
+      '@75lb/nature': latest
+    peerDependenciesMeta:
+      '@75lb/nature':
+        optional: true
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -3542,7 +3547,7 @@ snapshots:
 
   argue-cli@3.1.0: {}
 
-  array-back@6.2.2: {}
+  array-back@6.2.3: {}
 
   array-buffer-byte-length@1.0.2:
     dependencies:
@@ -3671,9 +3676,9 @@ snapshots:
 
   bson@7.2.0: {}
 
-  cache-point@3.0.0:
+  cache-point@3.0.1:
     dependencies:
-      array-back: 6.2.2
+      array-back: 6.2.3
 
   cacheable-request@6.1.0:
     dependencies:
@@ -3847,7 +3852,7 @@ snapshots:
 
   crypto-random-string@2.0.0: {}
 
-  current-module-paths@1.1.2: {}
+  current-module-paths@1.1.3: {}
 
   data-view-buffer@1.0.2:
     dependencies:
@@ -4287,9 +4292,9 @@ snapshots:
     dependencies:
       flat-cache: 4.0.1
 
-  file-set@5.2.2:
+  file-set@5.3.0:
     dependencies:
-      array-back: 6.2.2
+      array-back: 6.2.3
       fast-glob: 3.3.2
 
   fill-range@7.1.1:
@@ -4679,26 +4684,26 @@ snapshots:
     dependencies:
       xmlcreate: 2.0.4
 
-  jsdoc-api@9.3.4:
+  jsdoc-api@9.3.6:
     dependencies:
-      array-back: 6.2.2
-      cache-point: 3.0.0
-      current-module-paths: 1.1.2
-      file-set: 5.2.2
-      jsdoc: 4.0.4
+      array-back: 6.2.3
+      cache-point: 3.0.1
+      current-module-paths: 1.1.3
+      file-set: 5.3.0
+      jsdoc: 4.0.5
       object-to-spawn-args: 2.0.1
-      walk-back: 5.1.1
+      walk-back: 5.1.2
 
   jsdoc-parse@6.2.4:
     dependencies:
-      array-back: 6.2.2
+      array-back: 6.2.3
       find-replace: 5.0.2
       lodash.omit: 4.5.0
       sort-array: 5.0.0
     transitivePeerDependencies:
       - '@75lb/nature'
 
-  jsdoc@4.0.4:
+  jsdoc@4.0.5:
     dependencies:
       '@babel/parser': 7.27.0
       '@jsdoc/salty': 0.2.5
@@ -5333,7 +5338,7 @@ snapshots:
 
   sort-array@5.0.0:
     dependencies:
-      array-back: 6.2.2
+      array-back: 6.2.3
       typical: 7.2.0
 
   sparse-bitfield@3.0.3:
@@ -5644,7 +5649,7 @@ snapshots:
 
   v8-compile-cache-lib@3.0.1: {}
 
-  walk-back@5.1.1: {}
+  walk-back@5.1.2: {}
 
   webidl-conversions@3.0.1: {}
 
