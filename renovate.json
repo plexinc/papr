@@ -32,6 +32,10 @@
       "groupName": "Skip non-major Mongoose versions",
       "matchPackageNames": ["mongoose"],
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "minimumReleaseAge": "7 days"
     }
   ],
   "postUpdateOptions": ["pnpmDedupe"],
@@ -41,7 +45,6 @@
   "prNotPendingHours": 240,
   "rebaseWhen": "conflicted",
   "reviewers": ["nunomarks", "randhawk"],
-  "minimumReleaseAge": "7 days",
   "timezone": "Etc/UTC",
   "vulnerabilityAlerts": {
     "labels": ["security"]
