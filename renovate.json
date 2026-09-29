@@ -34,7 +34,7 @@
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest", "pinDigest"],
       "minimumReleaseAge": "7 days"
     }
   ],
