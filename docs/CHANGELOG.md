@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [release-please](https://github.com/googleapis/release-please#how-should-i-write-my-commits) for commit guidelines.
 
 
+## [17.1.2](https://github.com/plexinc/papr/compare/v17.1.1...v17.1.2) (2026-09-30)
+
+
+### Bug Fixes
+
+* **deps:** Override preset npm minimumReleaseAge ([#1121](https://github.com/plexinc/papr/issues/1121)) ([7523b24](https://github.com/plexinc/papr/commit/7523b248ad216057d90f016b77d5fbbd42b7c7d5))
+
 ## [17.1.1](https://github.com/plexinc/papr/compare/v17.1.0...v17.1.1) (2026-08-06)
 
 
