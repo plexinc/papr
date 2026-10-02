@@ -14,7 +14,7 @@ import type { Mock } from 'node:test';
 
 import type { Hooks } from '../hooks.ts';
 import type { Model } from '../model.ts';
-import type { PaprBulkWriteOperation } from '../mongodbTypes.ts';
+import type { PaprBulkWriteOperation, PaprFilter, PaprUpdateFilter } from '../mongodbTypes.ts';
 
 const MOCK_DATE = new Date(1234567890000);
 
@@ -140,6 +140,13 @@ describe('model', () => {
     }
   );
 
+  // Schema without any options, used for testing the required properties check in `upsert`
+  // https://github.com/plexinc/papr/issues/1019
+  const noOptionsSchema = schema({
+    name: Types.string({ required: true }),
+    website: Types.string({ required: true }),
+  });
+
   type SimpleDocument = (typeof simpleSchema)[0];
   type SimpleOptions = (typeof simpleSchema)[1];
   type TimestampsDocument = (typeof timestampsSchema)[0];
@@ -150,12 +157,15 @@ describe('model', () => {
   type NumericIdOptions = (typeof numericIdSchema)[1];
   type DynamicDefaultsDocument = (typeof dynamicDefaultsSchema)[0];
   type DynamicDefaultsOptions = (typeof dynamicDefaultsSchema)[1];
+  type NoOptionsDocument = (typeof noOptionsSchema)[0];
+  type NoOptionsOptions = (typeof noOptionsSchema)[1];
 
   let simpleModel: Model<SimpleDocument, SimpleOptions>;
   let timestampsModel: Model<TimestampsDocument, TimestampsOptions>;
   let timestampConfigModel: Model<TimestampConfigDocument, TimestampConfigOptions>;
   let numericIdModel: Model<NumericIdDocument, NumericIdOptions>;
   let dynamicDefaultsModel: Model<DynamicDefaultsDocument, DynamicDefaultsOptions>;
+  let noOptionsModel: Model<NoOptionsDocument, NoOptionsOptions>;
 
   let doc: SimpleDocument;
   let docs: SimpleDocument[];
@@ -249,6 +259,11 @@ describe('model', () => {
     dynamicDefaultsModel = abstract(dynamicDefaultsSchema);
     // @ts-expect-error Ignore schema types
     build(dynamicDefaultsSchema, dynamicDefaultsModel, collection);
+
+    // @ts-expect-error Ignore abstract assignment
+    noOptionsModel = abstract(noOptionsSchema);
+    // @ts-expect-error Ignore schema types
+    build(noOptionsSchema, noOptionsModel, collection);
 
     mock.timers.enable({
       apis: ['Date'],
@@ -2715,6 +2730,69 @@ describe('model', () => {
       collection.findOneAndUpdate = mock.fn(() => {
         throw new Error('findOneAndUpdate failed');
       });
+    });
+
+    test('enforces required properties on insert', async () => {
+      const date = new Date();
+
+      // https://github.com/plexinc/papr/issues/1019
+      await noOptionsModel.upsert(
+        { website: 'example.com' },
+        // @ts-expect-error `name` is required on insert and not provided by the filter or update
+        { $set: {}, $setOnInsert: {} }
+      );
+
+      // @ts-expect-error `foo` is required on insert and not provided by the filter or update
+      await simpleModel.upsert({ bar: 123 }, { $set: { ham: date } });
+
+      // timestamps properties are not required on insert, but other required properties still are
+      // @ts-expect-error `foo` is required on insert and not provided by the filter or update
+      await timestampsModel.upsert({}, { $setOnInsert: { bar: 123 } });
+
+      // fields inside `$or` clauses do not contribute to the inserted document
+      await noOptionsModel.upsert(
+        { $or: [{ name: 'foo' }] },
+        // @ts-expect-error `name` is required on insert and not provided by the filter or update
+        { $set: { website: 'example.com' } }
+      );
+    });
+
+    test('allows required properties on insert from multiple sources', async () => {
+      const date = new Date();
+
+      // required properties provided via `$set`
+      await noOptionsModel.upsert({}, { $set: { name: 'foo', website: 'example.com' } });
+
+      // required properties provided via `$setOnInsert`
+      await noOptionsModel.upsert(
+        { website: 'example.com' },
+        { $set: {}, $setOnInsert: { name: 'foo' } }
+      );
+
+      // required properties provided via filter equality fields
+      await noOptionsModel.upsert({ name: 'foo', website: 'example.com' }, { $set: {} });
+
+      // required properties provided via `$and` filter clauses
+      await noOptionsModel.upsert(
+        { $and: [{ name: 'foo' }, { website: 'example.com' }] },
+        { $set: {} }
+      );
+
+      // properties with defaults (`bar`) and optional properties (`ham`, `nested`) are not required
+      await simpleModel.upsert({}, { $set: { foo: 'foo' } });
+      await dynamicDefaultsModel.upsert({}, { $setOnInsert: { foo: 'foo' } });
+
+      // timestamps properties are not required on insert
+      await timestampsModel.upsert({ foo: 'foo' }, { $set: { ham: date } });
+      await timestampConfigModel.upsert({ foo: 'foo' }, { $set: { ham: date } });
+
+      // dot-notation keys provide their root property (`nested`)
+      await simpleModel.upsert({ foo: 'foo' }, { $set: { 'nested.direct': 'foo' } });
+
+      // non-literal filters and updates are not checked
+      const filter: PaprFilter<SimpleDocument> = {};
+      const update: PaprUpdateFilter<SimpleDocument> = {};
+      await simpleModel.upsert(filter, update);
     });
   });
 });
