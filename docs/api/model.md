@@ -469,13 +469,19 @@ const result = await User.updateOne({ firstName: 'John' }, { $set: { age: 40 } }
 
 Calls the MongoDB [`findOneAndUpdate()`](https://mongodb.github.io/node-mongodb-native/5.0/classes/Collection.html#findOneAndUpdate) method with the `upsert` option enabled.
 
+When no document matches the filter, MongoDB inserts a new document built from the filter
+equality fields and the update operator fields (plus the schema defaults and timestamps).
+The `update` argument is type-checked so that all the required properties in the schema
+are provided by one of these sources, otherwise the missing properties must be present
+in the `$setOnInsert` operator.
+
 **Parameters:**
 
-| Name      | Type                        | Attribute |
-| --------- | --------------------------- | --------- |
-| `filter`  | `PaprFilter<TSchema>`       | required  |
-| `update`  | `PaprUpdateFilter<TSchema>` | required  |
-| `options` | `FindOneAndUpdateOptions`   | optional  |
+| Name      | Type                              | Attribute |
+| --------- | --------------------------------- | --------- |
+| `filter`  | `PaprFilter<TSchema>`             | required  |
+| `update`  | `PaprUpsertUpdateFilter<TSchema>` | required  |
+| `options` | `FindOneAndUpdateOptions`         | optional  |
 
 **Returns:**
 
@@ -493,4 +499,11 @@ const userProjected = await User.upsert(
 );
 userProjected.firstName; // TypeScript error
 userProjected.lastName; // valid
+
+await User.upsert(
+  { firstName: 'John' },
+  // TypeScript error: `lastName` is required on insert
+  // and is not provided by the filter or the update
+  { $set: { age: 40 } }
+);
 ```
