@@ -215,8 +215,8 @@ importers:
         specifier: 17.6.0
         version: 17.6.0
       mongodb:
-        specifier: 7.8.0
-        version: 7.8.0
+        specifier: 7.9.0
+        version: 7.9.0
       mongodb-memory-server:
         specifier: 11.3.0
         version: 11.3.0(supports-color@7.2.0)
@@ -2216,8 +2216,8 @@ packages:
       socks:
         optional: true
 
-  mongodb@7.8.0:
-    resolution: {integrity: sha512-p2NKagbQ41+daACG/ZSvhTzeAo+DoEyWE9Cmpf/SyP3pTC43+X0mwKE/44PpKtCxp5wOxnXz+t2pXEZRSkt9Yg==}
+  mongodb@7.9.0:
+    resolution: {integrity: sha512-HfpNb8qmfmNxno+Ml5JgHn/nyshK+8xF4ESLCXedRKuGLGRyAvkjcpjk19T2Q+rqC6/FlnZKll4if21R6xs/Tg==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.806.0
@@ -5013,7 +5013,7 @@ snapshots:
       bson: 7.3.3
       mongodb-connection-string-url: 7.0.2
 
-  mongodb@7.8.0:
+  mongodb@7.9.0:
     dependencies:
       '@mongodb-js/saslprep': 1.6.0
       bson: 7.3.3
