@@ -9,7 +9,7 @@ on:
 
 jobs:
   notify-plex:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
     if: ${{ !contains(github.head_ref, 'renovate') }}
     steps:
       - uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
